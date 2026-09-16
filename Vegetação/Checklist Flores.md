@@ -18,9 +18,9 @@ https://www.figma.com/design/myZvjufcmMPyBad3vSZoDx/Desenhos---Ophelia?node-id=0
 ### Outono
 
 - [ ] Camélias
-- [ ] Amor-perfeito
+- [x] Amor-perfeito
 - [ ] Flor-de-maio
-- [ ] Açafrão-bravo
+- [x] Açafrão-bravo
 - [ ] Campainhas-de-outono
 
 ### Inverno
