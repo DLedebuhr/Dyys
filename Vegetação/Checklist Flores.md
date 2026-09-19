@@ -1,35 +1,32 @@
-Link para o figma:
-
-https://www.figma.com/design/myZvjufcmMPyBad3vSZoDx/Desenhos---Ophelia?node-id=0-1&t=9oCh4l3Awd1U6SIt-1
-
-
 # Checklist de flores — Ophelia
+
+[Abrir os desenhos no Figma](https://www.figma.com/design/myZvjufcmMPyBad3vSZoDx/Desenhos---Ophelia?node-id=0-1&t=9oCh4l3Awd1U6SIt-1)
 
 ## Desenho base
 
 ### Verão
 
-- [ ] Cosmos
-- [ ] Girassol
+- [x] Copo-de-leite
 - [ ] Lavanda
-- [ ] Orquídea
+- [x] Cosmos
 - [ ] Celósia
+- [ ] Lírio
 
 ### Outono
 
-- [ ] Camélias
 - [x] Amor-perfeito
-- [ ] Flor-de-maio
 - [x] Açafrão-bravo
-- [ ] Campainhas-de-outono
+- [ ] Campainha-de-outono
+- [ ] Nerine
+- [x] Dália
 
 ### Inverno
 
 - [ ] Heléboro-negro
 - [ ] Ciclame
-- [ ] Copo-de-leite
+- [ ] Camélia
 - [ ] Prímula
-- [ ] Cabeleira-de-velho
+- [x] Floco-de-neve
 
 ### Primavera
 
@@ -43,27 +40,27 @@ https://www.figma.com/design/myZvjufcmMPyBad3vSZoDx/Desenhos---Ophelia?node-id=0
 
 ### Verão
 
-- [ ] Cosmos
-- [ ] Girassol
-- [ ] Lavanda
-- [ ] Orquídea
-- [ ] Celósia
+- [ ] Copo-de-leite — branco
+- [ ] Lavanda — roxo
+- [ ] Cosmos — rosa
+- [ ] Celósia — vermelho ou coral
+- [ ] Lírio-asiático — amarelo
 
 ### Outono
 
-- [ ] Camélias
 - [ ] Amor-perfeito
-- [ ] Flor-de-maio
 - [ ] Açafrão-bravo
-- [ ] Campainhas-de-outono
+- [ ] Campainha-de-outono
+- [ ] Nerine
+- [ ] Dália
 
 ### Inverno
 
 - [ ] Heléboro-negro
 - [ ] Ciclame
-- [ ] Copo-de-leite
+- [ ] Camélia
 - [ ] Prímula
-- [ ] Cabeleira-de-velho
+- [ ] Floco-de-neve
 
 ### Primavera
 
@@ -77,27 +74,27 @@ https://www.figma.com/design/myZvjufcmMPyBad3vSZoDx/Desenhos---Ophelia?node-id=0
 
 ### Verão
 
-- [ ] Cosmos
-- [ ] Girassol
+- [ ] Copo-de-leite
 - [ ] Lavanda
-- [ ] Orquídea
+- [ ] Cosmos
 - [ ] Celósia
+- [ ] Lírio-asiático
 
 ### Outono
 
-- [ ] Camélias
 - [ ] Amor-perfeito
-- [ ] Flor-de-maio
 - [ ] Açafrão-bravo
-- [ ] Campainhas-de-outono
+- [ ] Campainha-de-outono
+- [ ] Nerine
+- [ ] Dália
 
 ### Inverno
 
 - [ ] Heléboro-negro
 - [ ] Ciclame
-- [ ] Copo-de-leite
+- [ ] Camélia
 - [ ] Prímula
-- [ ] Cabeleira-de-velho
+- [ ] Floco-de-neve
 
 ### Primavera
 
@@ -116,27 +113,27 @@ https://www.figma.com/design/myZvjufcmMPyBad3vSZoDx/Desenhos---Ophelia?node-id=0
 
 ### Verão
 
-- [ ] Cosmos
-- [ ] Girassol
+- [ ] Copo-de-leite
 - [ ] Lavanda
-- [ ] Orquídea
+- [ ] Cosmos
 - [ ] Celósia
+- [ ] Lírio-asiático
 
 ### Outono
 
-- [ ] Camélias
 - [ ] Amor-perfeito
-- [ ] Flor-de-maio
 - [ ] Açafrão-bravo
-- [ ] Campainhas-de-outono
+- [ ] Campainha-de-outono
+- [ ] Nerine
+- [ ] Dália
 
 ### Inverno
 
 - [ ] Heléboro-negro
 - [ ] Ciclame
-- [ ] Copo-de-leite
+- [ ] Camélia
 - [ ] Prímula
-- [ ] Cabeleira-de-velho
+- [ ] Floco-de-neve
 
 ### Primavera
 
@@ -145,5 +142,3 @@ https://www.figma.com/design/myZvjufcmMPyBad3vSZoDx/Desenhos---Ophelia?node-id=0
 - [ ] Íris
 - [ ] Narciso
 - [ ] Flor-de-cerejeira
-
-
