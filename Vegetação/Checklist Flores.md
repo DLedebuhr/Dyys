@@ -7,10 +7,10 @@
 ### Verão
 
 - [x] Copo-de-leite
-- [ ] Lavanda
+- [x] Lavanda
 - [x] Cosmos
 - [ ] Celósia
-- [ ] Lírio
+- [x] Lírio
 
 ### Outono
 

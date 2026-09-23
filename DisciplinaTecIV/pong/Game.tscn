@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://da8nnse7hu2wu"]
+
+[ext_resource type="Script" uid="uid://dxl7cj2afxctt" path="res://Game.gd" id="1_u44n3"]
+[ext_resource type="PackedScene" uid="uid://bx8j7svrtatrd" path="res://player.tscn" id="1_wbfu4"]
+[ext_resource type="PackedScene" uid="uid://de78u6sepvyir" path="res://ball.tscn" id="2_xkndl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ludo5"]
+size = Vector2(1152, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ivfkq"]
+size = Vector2(24, 648)
+
+[sub_resource type="SystemFont" id="SystemFont_ludo5"]
+font_names = PackedStringArray("TT Milks Casual Pie Line")
+
+[node name="Node2D" type="Node2D" unique_id=1011914169]
+script = ExtResource("1_u44n3")
+
+[node name="Top" type="Area2D" parent="." unique_id=1741835931]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Top" unique_id=401488710]
+position = Vector2(576, 12)
+shape = SubResource("RectangleShape2D_ludo5")
+
+[node name="Bottom" type="Area2D" parent="." unique_id=1120742905]
+position = Vector2(-11, 635)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bottom" unique_id=872925793]
+position = Vector2(587, 1)
+shape = SubResource("RectangleShape2D_ludo5")
+
+[node name="Left" type="Area2D" parent="." unique_id=1306557213]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left" unique_id=970910645]
+position = Vector2(12, 324)
+shape = SubResource("RectangleShape2D_ivfkq")
+
+[node name="Right" type="Area2D" parent="." unique_id=1303399433]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Right" unique_id=2036570614]
+position = Vector2(1140, 324)
+shape = SubResource("RectangleShape2D_ivfkq")
+
+[node name="Player" parent="." unique_id=1230070106 instance=ExtResource("1_wbfu4")]
+position = Vector2(132, 329)
+
+[node name="Player2" parent="." unique_id=784583004 instance=ExtResource("1_wbfu4")]
+position = Vector2(1020, 329)
+side = "p2"
+
+[node name="Ball" parent="." unique_id=82985791 instance=ExtResource("2_xkndl")]
+position = Vector2(576, 320)
+
+[node name="Label" type="Label" parent="." unique_id=937097400]
+offset_left = 256.0
+offset_top = 65.0
+offset_right = 384.0
+offset_bottom = 125.0
+theme_override_fonts/font = SubResource("SystemFont_ludo5")
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=1212029854]
+offset_left = 768.0
+offset_top = 64.0
+offset_right = 896.0
+offset_bottom = 124.0
+theme_override_fonts/font = SubResource("SystemFont_ludo5")
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 1
+
+[connection signal="body_entered" from="Top" to="." method="_on_top_body_entered"]
+[connection signal="body_entered" from="Bottom" to="." method="_on_bottom_body_entered"]
+[connection signal="body_entered" from="Left" to="." method="_on_left_body_entered"]
+[connection signal="body_entered" from="Right" to="." method="_on_right_body_entered"]

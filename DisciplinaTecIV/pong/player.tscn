@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://bx8j7svrtatrd"]
+
+[ext_resource type="Script" uid="uid://bv8waeum5xdab" path="res://Player.gd" id="1_4flbx"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_wbfu4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4flbx"]
+size = Vector2(24, 192)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ludo5"]
+size = Vector2(24, 192)
+
+[node name="Player" type="CharacterBody2D" unique_id=1230070106]
+script = ExtResource("1_4flbx")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=603940580]
+position = Vector2(-9.536743e-07, 0)
+scale = Vector2(-24.021833, 192.10556)
+texture = SubResource("PlaceholderTexture2D_wbfu4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=335955096]
+shape = SubResource("RectangleShape2D_4flbx")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1321637140]
+position = Vector2(-1, 1)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=590471792]
+position = Vector2(1, -1)
+shape = SubResource("RectangleShape2D_ludo5")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
