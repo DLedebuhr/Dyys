@@ -6,26 +6,26 @@
 
 ### Verão
 
-- [x] Copo-de-leite
+- [x] Calla
 - [x] Lavanda
 - [x] Cosmos
-- [ ] Celósia
+- [x] Lótus
 - [x] Lírio
 
 ### Outono
 
 - [x] Amor-perfeito
 - [x] Açafrão-bravo
-- [ ] Campainha-de-outono
-- [ ] Nerine
+- [x] Princesa
+- [x] Azaleia
 - [x] Dália
 
 ### Inverno
 
-- [ ] Heléboro-negro
-- [ ] Ciclame
-- [ ] Camélia
-- [ ] Prímula
+- [x] Heléboro-negro
+- [x] Ciclame
+- [x] Camélia
+- [x] Prímula
 - [x] Floco-de-neve
 
 ### Primavera
@@ -34,58 +34,58 @@
 - [x] Lírio-do-vale
 - [x] Íris
 - [x] Narciso
-- [ ] Flor-de-cerejeira
+- [x] Flor-de-cerejeira
 
 ## Cor
 
 ### Verão
 
-- [ ] Copo-de-leite — branco
-- [ ] Lavanda — roxo
-- [ ] Cosmos — rosa
-- [ ] Celósia — vermelho ou coral
-- [ ] Lírio-asiático — amarelo
+- [x] Calla 
+- [x] Lavanda
+- [x] Cosmos 
+- [x] Lótus 
+- [x] Lírio
 
 ### Outono
 
-- [ ] Amor-perfeito
-- [ ] Açafrão-bravo
-- [ ] Campainha-de-outono
-- [ ] Nerine
-- [ ] Dália
+- [x] Viola
+- [x] Cólquico
+- [x] Princesa
+- [x] Azaleia
+- [x] Dália
 
 ### Inverno
 
-- [ ] Heléboro-negro
-- [ ] Ciclame
-- [ ] Camélia
-- [ ] Prímula
-- [ ] Floco-de-neve
+- [x] Heléboro
+- [x] Ciclame
+- [x] Camélia
+- [x] Prímula
+- [x] FlocoNeve
 
 ### Primavera
 
-- [ ] Tulipa
-- [ ] Lírio-do-vale
-- [ ] Íris
-- [ ] Narciso
-- [ ] Flor-de-cerejeira
+- [x] Tulipa
+- [x] Muguet
+- [x] Íris
+- [x] Narciso
+- [x] Sakura
 
 ## Selos
 
 ### Verão
 
-- [ ] Copo-de-leite
+- [ ] Calla
 - [ ] Lavanda
 - [ ] Cosmos
-- [ ] Celósia
+- [ ] Lótus
 - [ ] Lírio-asiático
 
 ### Outono
 
 - [ ] Amor-perfeito
 - [ ] Açafrão-bravo
-- [ ] Campainha-de-outono
-- [ ] Nerine
+- [ ] Princesa
+- [ ] Azaleia
 - [ ] Dália
 
 ### Inverno
@@ -107,38 +107,38 @@
 ## Cápsula
 
 - [ ] Vegetação
-- [ ] Cápsula em si
+- [x] Cápsula em si
 
 ## Flores encapsuladas
 
 ### Verão
 
-- [ ] Copo-de-leite
-- [ ] Lavanda
-- [ ] Cosmos
-- [ ] Celósia
-- [ ] Lírio-asiático
+- [x] Calla 
+- [x] Lavanda
+- [x] Cosmos 
+- [x] Lótus 
+- [x] Lírio
 
 ### Outono
 
-- [ ] Amor-perfeito
-- [ ] Açafrão-bravo
-- [ ] Campainha-de-outono
-- [ ] Nerine
-- [ ] Dália
+- [x] Viola
+- [x] Cólquico
+- [x] Princesa
+- [x] Azaleia
+- [x] Dália
 
 ### Inverno
 
-- [ ] Heléboro-negro
-- [ ] Ciclame
-- [ ] Camélia
-- [ ] Prímula
-- [ ] Floco-de-neve
+- [x] Heléboro
+- [x] Ciclame
+- [x] Camélia
+- [x] Prímula
+- [x] FlocoNeve
 
 ### Primavera
 
-- [ ] Tulipa
-- [ ] Lírio-do-vale
-- [ ] Íris
-- [ ] Narciso
-- [ ] Flor-de-cerejeira
+- [x] Tulipa
+- [x] Muguet
+- [x] Íris
+- [x] Narciso
+- [x] Sakura
