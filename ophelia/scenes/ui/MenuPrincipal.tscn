@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://ch6wdpexclpnt"]
+
+[ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://assets/fonts/tt-milks-casual-pie-line.ttf" id="1_pagko"]
+[ext_resource type="PackedScene" uid="uid://dgi2kuhnnrr52" path="res://scenes/ui/FundoParticulas.tscn" id="1_slok0"]
+[ext_resource type="PackedScene" uid="uid://cnc7rfn115syt" path="res://scenes/ui/BotaoPrincipal.tscn" id="2_yjva2"]
+[ext_resource type="Texture2D" uid="uid://hj2gwyec7agj" path="res://assets/textures/ui/Elemento1.png" id="4_m3x72"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ivfkq"]
+font = ExtResource("1_pagko")
+font_size = 150
+
+[node name="Control" type="Control" unique_id=1771883679]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FundoParticulas" parent="." unique_id=1316474068 instance=ExtResource("1_slok0")]
+
+[node name="Label" type="Label" parent="." unique_id=1078311457]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -342.0
+offset_top = -90.0
+offset_right = 342.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "OPHELIA"
+label_settings = SubResource("LabelSettings_ivfkq")
+
+[node name="Button3" parent="." unique_id=1038038144 instance=ExtResource("2_yjva2")]
+layout_mode = 0
+offset_left = 1240.0
+offset_top = 658.0
+offset_right = 1335.0
+offset_bottom = 829.0
+
+[node name="Button4" parent="." unique_id=774885151 instance=ExtResource("2_yjva2")]
+layout_mode = 0
+offset_left = 915.0
+offset_top = 667.0
+offset_right = 1072.0
+offset_bottom = 838.0
+text = "AJUSTES"
+
+[node name="Button5" parent="." unique_id=1698638478 instance=ExtResource("2_yjva2")]
+layout_mode = 0
+offset_left = 616.0
+offset_top = 652.0
+offset_right = 777.0
+offset_bottom = 823.0
+text = "INICIAR"
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1062321784]
+layout_mode = 0
+offset_left = 489.0
+offset_top = 117.0
+offset_right = 1447.0
+offset_bottom = 423.0
+texture = ExtResource("4_m3x72")
+
+[node name="Line2D" type="Line2D" parent="." unique_id=218401529]
+position = Vector2(494, 453.00003)
+scale = Vector2(1, 1.573)
+points = PackedVector2Array(0, 108, 1060, 108)
+width = 1.0
+sharp_limit = 0.0

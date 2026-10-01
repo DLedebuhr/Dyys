@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cnc7rfn115syt"]
+
+[ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://assets/fonts/tt-milks-casual-pie-line.ttf" id="1_prkmj"]
+[ext_resource type="Texture2D" uid="uid://csik3quc7fsmr" path="res://assets/textures/ui/Frame 14.png" id="2_iayl4"]
+
+[node name="Button3" type="Button" unique_id=1038038144]
+offset_top = 4.0
+offset_right = 95.0
+offset_bottom = 175.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_prkmj")
+theme_override_font_sizes/font_size = 36
+text = "SAIR"
+icon = ExtResource("2_iayl4")
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 2
