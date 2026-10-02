@@ -1,12 +1,78 @@
 [gd_scene format=3 uid="uid://cnc7rfn115syt"]
 
 [ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://assets/fonts/tt-milks-casual-pie-line.ttf" id="1_prkmj"]
-[ext_resource type="Texture2D" uid="uid://csik3quc7fsmr" path="res://assets/textures/ui/Frame 14.png" id="2_iayl4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mqaic"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rf03b"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5jc3w"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dm4bl"]
+
+[sub_resource type="GDScript" id="GDScript_prkmj"]
+script/source = "extends Button
+
+# Configurações de escala e tempo de transição
+@export var hover_scale := Vector2(1.1, 1.1)  # Tamanho ao passar o mouse
+@export var normal_scale := Vector2(1.0, 1.0) # Tamanho padrão
+@export var pressed_scale := Vector2(0.85, 0.85) # Tamanho ao clicar
+
+var scale_tween: Tween
+var click_tween: Tween
+
+func _ready() -> void:
+	# Define o ponto de rotação/escala para o centro do botão
+	pivot_offset = size / 2.0
+	
+	# Garante que o Pivot continue no centro caso o layout mude
+	item_rect_changed.connect(func(): pivot_offset = size / 2.0)
+	
+	# Conecta os sinais de mouse
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
+	pressed.connect(_on_pressed)
+
+func _on_mouse_entered() -> void:
+	# Anima o aumento de tamanho de forma fluida
+	if scale_tween and scale_tween.is_running():
+		scale_tween.kill()
+		
+	scale_tween = create_tween()
+	scale_tween.tween_property(self, \"scale\", hover_scale, 0.15)\\
+		.set_trans(Tween.TRANS_BACK)\\
+		.set_ease(Tween.EASE_OUT)
+
+func _on_mouse_exited() -> void:
+	# Retorna ao tamanho original ao tirar o mouse
+	if scale_tween and scale_tween.is_running():
+		scale_tween.kill()
+		
+	scale_tween = create_tween()
+	scale_tween.tween_property(self, \"scale\", normal_scale, 0.15)\\
+		.set_trans(Tween.TRANS_SINE)\\
+		.set_ease(Tween.EASE_OUT)
+
+func _on_pressed() -> void:
+	
+	if scale_tween and scale_tween.is_running():
+		scale_tween.kill()
+
+	# Transição paralela: diminui e faz fade out
+	click_tween = create_tween().set_parallel(true)
+	
+	# 1. Encolhe
+	click_tween.tween_property(self, \"scale\", pressed_scale, 0.2)\\
+		.set_trans(Tween.TRANS_QUAD)\\
+		.set_ease(Tween.EASE_IN)
+			
+"
 
 [node name="Button3" type="Button" unique_id=1038038144]
-offset_top = 4.0
-offset_right = 95.0
-offset_bottom = 175.0
+offset_top = 2.0
+offset_right = 160.0
+offset_bottom = 152.0
+pivot_offset = Vector2(80, 75)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_colors/icon_normal_color = Color(1, 1, 1, 0)
@@ -14,8 +80,11 @@ theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("1_prkmj")
 theme_override_font_sizes/font_size = 36
-text = "SAIR"
-icon = ExtResource("2_iayl4")
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxEmpty_mqaic")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_rf03b")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_5jc3w")
+theme_override_styles/focus = SubResource("StyleBoxTexture_dm4bl")
+text = "INICIAR"
 icon_alignment = 1
 vertical_icon_alignment = 2
+script = SubResource("GDScript_prkmj")

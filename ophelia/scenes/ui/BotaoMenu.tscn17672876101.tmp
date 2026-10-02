@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://qy7pvwyup5qr"]
+
+[ext_resource type="Texture2D" path="res://assets/textures/ui/Frame 5.png" id="1_uydqs"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/Frame 4p.png" id="2_ychww"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/Frame 3m.png" id="3_av3e0"]
+[ext_resource type="Script" uid="uid://30kpqxmimq8t" path="res://scenes/ui/texture_button.gd" id="4_n02wn"]
+
+[node name="TextureButton" type="TextureButton" unique_id=2136383047]
+offset_right = 200.0
+offset_bottom = 130.0
+texture_normal = ExtResource("1_uydqs")
+texture_pressed = ExtResource("2_ychww")
+texture_hover = ExtResource("3_av3e0")
+script = ExtResource("4_n02wn")
+
+[node name="SoundClick" type="AudioStreamPlayer" parent="." unique_id=223934831]
+
+[node name="SoundHover" type="AudioStreamPlayer" parent="." unique_id=696530915]
+volume_db = -2.0

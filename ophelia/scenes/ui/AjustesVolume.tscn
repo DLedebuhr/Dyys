@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://c64gslq67fqj4"]
+
+[ext_resource type="Texture2D" uid="uid://blgvkj1tc3yrp" path="res://assets/textures/ui/MenuElemento4.png" id="1_yqr40"]
+[ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://assets/fonts/tt-milks-casual-pie-line.ttf" id="2_p0a7t"]
+[ext_resource type="Texture2D" uid="uid://le2qat71tyhf" path="res://assets/textures/ui/MenuLine2.png" id="3_0ef37"]
+[ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://scenes/ui/BotaoMenu.tscn" id="4_7h046"]
+[ext_resource type="Texture2D" uid="uid://dog7r6hsm6s7q" path="res://assets/textures/ui/GERAL.png" id="4_kidyr"]
+[ext_resource type="PackedScene" uid="uid://c2pwnqpdwrkcr" path="res://scenes/ui/BarraVolume.tscn" id="5_8mt7r"]
+[ext_resource type="Texture2D" uid="uid://bu8ojqyg5fvfi" path="res://assets/textures/ui/MUSICA.png" id="6_oew7h"]
+[ext_resource type="Texture2D" uid="uid://bdlfiaew0tyl2" path="res://assets/textures/ui/EFEITOS.png" id="7_yqr40"]
+[ext_resource type="Texture2D" uid="uid://hijmtf35mu42" path="res://assets/textures/ui/VOLTAR1.png" id="11_nbjcx"]
+[ext_resource type="Texture2D" uid="uid://cj86i22dabmjh" path="res://assets/textures/ui/VOLTAR2.png" id="12_x6l72"]
+[ext_resource type="Texture2D" uid="uid://dyrcdaf5vjsxd" path="res://assets/textures/ui/VOLTAR3.png" id="13_p5csb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vvgl"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_top = 18
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xntfj"]
+font = ExtResource("2_p0a7t")
+font_size = 64
+shadow_size = 0
+
+[node name="Control" type="Control" unique_id=1801529178]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1742452997]
+layout_mode = 0
+offset_left = 545.0
+offset_right = 1375.0
+offset_bottom = 890.0
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=2102870774]
+layout_mode = 2
+texture = ExtResource("1_yqr40")
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1386590667]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_8vvgl")
+text = "VOLUME"
+label_settings = SubResource("LabelSettings_xntfj")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer" unique_id=1497523850]
+layout_mode = 2
+texture = ExtResource("3_0ef37")
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer" unique_id=1273311370]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer3" unique_id=1867912477]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer3/HBoxContainer" unique_id=237631258]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_kidyr")
+
+[node name="ShaderBarra" parent="VBoxContainer/VBoxContainer3/HBoxContainer" unique_id=492824844 instance=ExtResource("5_8mt7r")]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer3" unique_id=617141070]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer3/HBoxContainer2" unique_id=1787813784]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("6_oew7h")
+
+[node name="ShaderBarra" parent="VBoxContainer/VBoxContainer3/HBoxContainer2" unique_id=2056746500 instance=ExtResource("5_8mt7r")]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_vertical = 4
+bus_name = "Music"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer3" unique_id=1234755519]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer3/HBoxContainer3" unique_id=763700576]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_yqr40")
+
+[node name="ShaderBarra" parent="VBoxContainer/VBoxContainer3/HBoxContainer3" unique_id=998405076 instance=ExtResource("5_8mt7r")]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_vertical = 4
+bus_name = "SFX"
+
+[node name="Voltar" parent="." unique_id=1768869475 instance=ExtResource("4_7h046")]
+layout_mode = 0
+offset_left = 820.0
+offset_top = 912.0
+offset_right = 1100.0
+offset_bottom = 976.0
+imagem_normal = ExtResource("11_nbjcx")
+imagem_hover = ExtResource("12_x6l72")
+imagem_pressed = ExtResource("13_p5csb")

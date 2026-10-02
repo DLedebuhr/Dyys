@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://daq40x8lsa1f7"]
+
+[ext_resource type="Texture2D" uid="uid://blgvkj1tc3yrp" path="res://assets/textures/ui/MenuElemento4.png" id="1_j0hve"]
+[ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://assets/fonts/tt-milks-casual-pie-line.ttf" id="2_xdcgj"]
+[ext_resource type="Texture2D" uid="uid://le2qat71tyhf" path="res://assets/textures/ui/MenuLine2.png" id="3_aox1r"]
+[ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://scenes/ui/BotaoMenu.tscn" id="4_bw27g"]
+[ext_resource type="Texture2D" uid="uid://ideoeq1p11sd" path="res://assets/textures/ui/SIM1.png" id="5_80p36"]
+[ext_resource type="Texture2D" uid="uid://bwdi44eolfodo" path="res://assets/textures/ui/SIM2.png" id="6_lwei1"]
+[ext_resource type="Texture2D" uid="uid://coa6obk5xneg6" path="res://assets/textures/ui/SIM3.png" id="7_te32j"]
+[ext_resource type="Texture2D" uid="uid://bsafqrceo2fjf" path="res://assets/textures/ui/NÃO1.png" id="8_7xgyy"]
+[ext_resource type="Texture2D" uid="uid://djhi13c0520em" path="res://assets/textures/ui/NÃO2.png" id="9_gpikf"]
+[ext_resource type="Texture2D" uid="uid://djn0vdaf778lv" path="res://assets/textures/ui/NÃO3.png" id="10_didyt"]
+[ext_resource type="Texture2D" uid="uid://hijmtf35mu42" path="res://assets/textures/ui/VOLTAR1.png" id="11_fmevp"]
+[ext_resource type="Texture2D" uid="uid://cj86i22dabmjh" path="res://assets/textures/ui/VOLTAR2.png" id="12_updbk"]
+[ext_resource type="Texture2D" uid="uid://dyrcdaf5vjsxd" path="res://assets/textures/ui/VOLTAR3.png" id="13_y5pn0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nqc22"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_top = 18
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fk5r6"]
+font = ExtResource("2_xdcgj")
+font_size = 64
+shadow_size = 0
+
+[node name="Control" type="Control" unique_id=864116156]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1598347831]
+layout_mode = 0
+offset_left = 545.0
+offset_right = 1375.0
+offset_bottom = 1080.0
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=624756037]
+layout_mode = 2
+texture = ExtResource("1_j0hve")
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1639302508]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_nqc22")
+text = "DESEJA SAIR?"
+label_settings = SubResource("LabelSettings_fk5r6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer" unique_id=1124516687]
+layout_mode = 2
+texture = ExtResource("3_aox1r")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=641469763]
+layout_mode = 2
+theme_override_constants/separation = 120
+alignment = 1
+
+[node name="Sim" parent="VBoxContainer/HBoxContainer" unique_id=2136383047 instance=ExtResource("4_bw27g")]
+layout_mode = 2
+imagem_normal = ExtResource("5_80p36")
+imagem_hover = ExtResource("6_lwei1")
+imagem_pressed = ExtResource("7_te32j")
+
+[node name="Nao" parent="VBoxContainer/HBoxContainer" unique_id=1444690169 instance=ExtResource("4_bw27g")]
+layout_mode = 2
+imagem_normal = ExtResource("8_7xgyy")
+imagem_hover = ExtResource("9_gpikf")
+imagem_pressed = ExtResource("10_didyt")
+
+[node name="Voltar" parent="." unique_id=1508329445 instance=ExtResource("4_bw27g")]
+layout_mode = 0
+offset_left = 820.0
+offset_top = 912.0
+offset_right = 1100.0
+offset_bottom = 976.0
+imagem_normal = ExtResource("11_fmevp")
+imagem_hover = ExtResource("12_updbk")
+imagem_pressed = ExtResource("13_y5pn0")

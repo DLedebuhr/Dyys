@@ -14,6 +14,10 @@ config/name="Ophelia"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+FundoParticulas="*uid://b1mfwjlapwre6"
+
 [display]
 
 window/size/viewport_width=1920

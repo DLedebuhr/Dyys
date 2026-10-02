@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://qy7pvwyup5qr"]
+
+[ext_resource type="Script" uid="uid://30kpqxmimq8t" path="res://scenes/ui/texture_button.gd" id="4_n02wn"]
+[ext_resource type="AudioStream" uid="uid://dq8dleuqoau1c" path="res://assets/audio/sfx/benkirb-shine-1-268902.mp3" id="5_ychww"]
+
+[node name="TextureButton" type="TextureButton" unique_id=2136383047]
+offset_right = 200.0
+offset_bottom = 71.0
+script = ExtResource("4_n02wn")
+
+[node name="SoundClick" type="AudioStreamPlayer" parent="." unique_id=223934831]
+stream = ExtResource("5_ychww")
+
+[node name="SoundHover" type="AudioStreamPlayer" parent="." unique_id=696530915]
+volume_db = -2.0
