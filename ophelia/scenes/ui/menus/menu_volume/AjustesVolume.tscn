@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://le2qat71tyhf" path="res://assets/textures/ui/MenuLine2.png" id="3_0ef37"]
 [ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://scenes/ui/BotaoMenu.tscn" id="4_7h046"]
 [ext_resource type="Texture2D" uid="uid://dog7r6hsm6s7q" path="res://assets/textures/ui/GERAL.png" id="4_kidyr"]
-[ext_resource type="PackedScene" uid="uid://c2pwnqpdwrkcr" path="res://scenes/ui/BarraVolume.tscn" id="5_8mt7r"]
+[ext_resource type="PackedScene" uid="uid://c2pwnqpdwrkcr" path="res://scenes/ui/menus/menu_volume/BarraVolume.tscn" id="5_8mt7r"]
 [ext_resource type="Texture2D" uid="uid://bu8ojqyg5fvfi" path="res://assets/textures/ui/MUSICA.png" id="6_oew7h"]
 [ext_resource type="Texture2D" uid="uid://bdlfiaew0tyl2" path="res://assets/textures/ui/EFEITOS.png" id="7_yqr40"]
 [ext_resource type="Texture2D" uid="uid://hijmtf35mu42" path="res://assets/textures/ui/VOLTAR1.png" id="11_nbjcx"]

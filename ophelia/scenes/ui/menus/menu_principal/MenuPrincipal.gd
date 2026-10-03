@@ -1,6 +1,6 @@
 extends Control
 
-const CENA_AJUSTES := "res://scenes/ui/MenuAjustes.tscn" # Confirme o seu caminho
+const CENA_AJUSTES := "res://scenes/ui/menus/menu_ajustes/MenuAjustes.tscn" # Confirme o seu caminho
 
 @onready var botao_ajustes: TextureButton = $VBoxContainer/HBoxContainer/Ajustes # Confirme a hierarquia
 

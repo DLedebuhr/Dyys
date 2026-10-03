@@ -1,7 +1,7 @@
 extends Control
 
 # Altere para o caminho exato da sua cena de Menu Principal
-const CENA_MENU_PRINCIPAL := "res://scenes/ui/MenuPrincipal.tscn"
+const CENA_MENU_PRINCIPAL := "res://scenes/ui/menus/menu_principal/MenuPrincipal.tscn"
 
 # Substitua pelo caminho do seu botão de voltar na árvore de nós
 @onready var botao_voltar: TextureButton = $Voltar

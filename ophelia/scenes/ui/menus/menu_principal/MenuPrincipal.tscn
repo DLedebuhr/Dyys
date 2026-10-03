@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ch6wdpexclpnt"]
 
 [ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://assets/fonts/tt-milks-casual-pie-line.ttf" id="1_pagko"]
-[ext_resource type="Script" uid="uid://bj1kncpy1y16v" path="res://scenes/ui/MenuPrincipal.gd" id="1_rng8x"]
+[ext_resource type="Script" uid="uid://bj1kncpy1y16v" path="res://scenes/ui/menus/menu_principal/MenuPrincipal.gd" id="1_rng8x"]
 [ext_resource type="PackedScene" uid="uid://dgi2kuhnnrr52" path="res://scenes/ui/FundoParticulasEx.tscn" id="1_slok0"]
 [ext_resource type="Texture2D" uid="uid://do36h36kes6oo" path="res://assets/textures/ui/MenuElemento1.png" id="2_3cnec"]
 [ext_resource type="Texture2D" uid="uid://cj00srj7l4dou" path="res://assets/textures/ui/MenuLine.png" id="4_3cnec"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://drnxbv8j0prc3" path="res://assets/textures/ui/SAIR1.png" id="12_8g8xb"]
 [ext_resource type="Texture2D" uid="uid://cgfthsrebfu14" path="res://assets/textures/ui/SAIR2.png" id="13_w6y67"]
 [ext_resource type="Texture2D" uid="uid://ch2dtpwsdujea" path="res://assets/textures/ui/SAIR3.png" id="14_veqml"]
+[ext_resource type="Texture2D" uid="uid://cqy6so5um4ak7" path="res://assets/textures/ui/LogoDyys.png" id="16_8neic"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_smqre"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -26,6 +27,11 @@ border_color = Color(0.8, 0.8, 0.8, 0)
 font = ExtResource("1_pagko")
 font_size = 150
 shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_ludo5"]
+font = ExtResource("1_pagko")
+font_size = 24
+outline_size = 1
 
 [node name="Control" type="Control" unique_id=1771883679]
 layout_mode = 3
@@ -88,3 +94,22 @@ layout_mode = 2
 imagem_normal = ExtResource("12_8g8xb")
 imagem_hover = ExtResource("13_w6y67")
 imagem_pressed = ExtResource("14_veqml")
+
+[node name="Logo" type="TextureRect" parent="." unique_id=1519859337]
+layout_mode = 0
+offset_left = 1708.0
+offset_top = 912.0
+offset_right = 1841.0
+offset_bottom = 1000.0
+texture = ExtResource("16_8neic")
+
+[node name="DYYS" type="Label" parent="." unique_id=107542021]
+layout_mode = 0
+offset_left = 1742.0
+offset_top = 995.0
+offset_right = 1804.0
+offset_bottom = 1035.0
+text = "DYYS"
+label_settings = SubResource("LabelSettings_ludo5")
+horizontal_alignment = 1
+vertical_alignment = 1
