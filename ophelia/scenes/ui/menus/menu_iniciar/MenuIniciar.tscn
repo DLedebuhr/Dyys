@@ -1,9 +1,109 @@
 [gd_scene format=3 uid="uid://kbaidlqrxrxy"]
 
-[node name="Control" type="Control" unique_id=192176389]
+[ext_resource type="Script" uid="uid://x531h8rcqd3n" path="res://scenes/ui/menus/menu_iniciar/TelaSelecaoSave.gd" id="1_dkudt"]
+[ext_resource type="Texture2D" uid="uid://dcihgecoo00d2" path="res://assets/textures/ui/ElementoEsquerda.png" id="2_g4u1v"]
+[ext_resource type="PackedScene" uid="uid://crggkaj7l2xhf" path="res://scenes/ui/menus/menu_iniciar/SlotSave.tscn" id="2_y8bqx"]
+[ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://assets/fonts/tt-milks-casual-pie-line.ttf" id="3_fmlh6"]
+[ext_resource type="Texture2D" uid="uid://ckqst7m4hl3o1" path="res://assets/textures/ui/save/V00.png" id="4_3lgak"]
+[ext_resource type="Texture2D" uid="uid://8o7vrtifi5re" path="res://assets/textures/ui/ElementoDireito.png" id="4_buv11"]
+[ext_resource type="Texture2D" uid="uid://fn2dbq8jwd0d" path="res://assets/textures/ui/save/V01.png" id="5_e7ugh"]
+[ext_resource type="Texture2D" uid="uid://dccxkbko2i24m" path="res://assets/textures/ui/save/V02.png" id="6_ft30g"]
+[ext_resource type="Texture2D" uid="uid://baxblohxm3lld" path="res://assets/textures/ui/save/V03.png" id="7_g7sa0"]
+[ext_resource type="Texture2D" uid="uid://brt40qgbemu3l" path="res://assets/textures/ui/save/V04.png" id="8_uo0ay"]
+[ext_resource type="Texture2D" uid="uid://sq4lhdeacuds" path="res://assets/textures/ui/save/V05.png" id="9_k7evb"]
+[ext_resource type="Texture2D" uid="uid://cwyw7tbmnxy7d" path="res://assets/textures/ui/save/V06.png" id="10_e7ugh"]
+[ext_resource type="Texture2D" uid="uid://dxmlg23l0npk8" path="res://assets/textures/ui/save/V10.png" id="11_cyr84"]
+[ext_resource type="Texture2D" uid="uid://behj8dbondpxu" path="res://assets/textures/ui/save/V11.png" id="12_8nqvm"]
+[ext_resource type="Texture2D" uid="uid://bfrwexwrgtukg" path="res://assets/textures/ui/save/V12.png" id="13_pcv3l"]
+[ext_resource type="Texture2D" uid="uid://bf4iqb3xbog0t" path="res://assets/textures/ui/save/V13.png" id="14_g4u1v"]
+[ext_resource type="Texture2D" uid="uid://cek5vleok7s5c" path="res://assets/textures/ui/save/V14.png" id="15_fmlh6"]
+[ext_resource type="Texture2D" uid="uid://hdx132mbpyef" path="res://assets/textures/ui/save/V15.png" id="16_buv11"]
+[ext_resource type="Texture2D" uid="uid://bj0wyqqjqu0j8" path="res://assets/textures/ui/save/V16.png" id="17_8sl4p"]
+[ext_resource type="Texture2D" uid="uid://dwnvel7aeqsrj" path="res://assets/textures/ui/save/V20.png" id="18_ttqvv"]
+[ext_resource type="Texture2D" uid="uid://b6dxs0cdsk7em" path="res://assets/textures/ui/save/V21.png" id="19_6muqq"]
+[ext_resource type="Texture2D" uid="uid://dr6sldt5036cu" path="res://assets/textures/ui/save/V22.png" id="20_vqt3m"]
+[ext_resource type="Texture2D" uid="uid://8217kkww1uis" path="res://assets/textures/ui/save/V23.png" id="21_1dxng"]
+[ext_resource type="Texture2D" uid="uid://b266ut0203qxf" path="res://assets/textures/ui/save/V24.png" id="22_jw7k2"]
+[ext_resource type="Texture2D" uid="uid://2h3g74aq1y14" path="res://assets/textures/ui/save/V25.png" id="23_81x6g"]
+[ext_resource type="Texture2D" uid="uid://cc0ahkgnlijjd" path="res://assets/textures/ui/save/V26.png" id="24_1g1vc"]
+[ext_resource type="Texture2D" uid="uid://eu1mv61x66tq" path="res://assets/textures/ui/save/V30.png" id="25_w4fl0"]
+[ext_resource type="Texture2D" uid="uid://man8jk5fx0go" path="res://assets/textures/ui/save/V31.png" id="26_ojydm"]
+[ext_resource type="Texture2D" uid="uid://b3v5l1lwb4ss8" path="res://assets/textures/ui/save/V32.png" id="27_xn8xq"]
+[ext_resource type="Texture2D" uid="uid://cbkdcjjcm5c0k" path="res://assets/textures/ui/save/V33.png" id="28_0yk8b"]
+[ext_resource type="Texture2D" uid="uid://8m7fgwh52y8j" path="res://assets/textures/ui/save/V34.png" id="29_nuj51"]
+[ext_resource type="Texture2D" uid="uid://cj6jkxqxkwtbp" path="res://assets/textures/ui/save/V35.png" id="30_qmavx"]
+[ext_resource type="Texture2D" uid="uid://7gvmhxl0s08a" path="res://assets/textures/ui/save/V36.png" id="31_cqfyu"]
+[ext_resource type="Texture2D" uid="uid://bvxqcopn71q5a" path="res://assets/textures/ui/SaveLine.png" id="34_8sl4p"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ke884"]
+font = ExtResource("3_fmlh6")
+font_size = 64
+
+[node name="TelaSelecaoSave" type="Control" unique_id=192176389 node_paths=PackedStringArray("slots")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_dkudt")
+slots = [NodePath("HBoxContainer/SlotSave"), NodePath("HBoxContainer/SlotSave2"), NodePath("HBoxContainer/SlotSave3"), NodePath("HBoxContainer/SlotSave4")]
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1569911096]
+layout_mode = 0
+offset_top = 181.0
+offset_right = 1920.0
+offset_bottom = 259.0
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="EnfeiteEsquerda" type="TextureButton" parent="HBoxContainer2" unique_id=7931763]
+layout_mode = 2
+texture_normal = ExtResource("2_g4u1v")
+
+[node name="Titulo" type="Label" parent="HBoxContainer2" unique_id=1366247031]
+layout_mode = 2
+text = "ESCOLHA UM MUNDO"
+label_settings = SubResource("LabelSettings_ke884")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnfeiteDireita" type="TextureButton" parent="HBoxContainer2" unique_id=1780207100]
+layout_mode = 2
+texture_normal = ExtResource("4_buv11")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1717798549]
+custom_minimum_size = Vector2(400, 700)
+layout_mode = 0
+offset_left = 156.0
+offset_top = 357.0
+offset_right = 1356.0
+offset_bottom = 1057.0
+theme_override_constants/separation = 400
+
+[node name="SlotSave" parent="HBoxContainer" unique_id=355676428 instance=ExtResource("2_y8bqx")]
+layout_mode = 2
+texturas_progresso = Array[Texture2D]([ExtResource("4_3lgak"), ExtResource("5_e7ugh"), ExtResource("6_ft30g"), ExtResource("7_g7sa0"), ExtResource("8_uo0ay"), ExtResource("9_k7evb"), ExtResource("10_e7ugh")])
+
+[node name="SlotSave2" parent="HBoxContainer" unique_id=239339942 instance=ExtResource("2_y8bqx")]
+layout_mode = 2
+slot_index = 1
+texturas_progresso = Array[Texture2D]([ExtResource("11_cyr84"), ExtResource("12_8nqvm"), ExtResource("13_pcv3l"), ExtResource("14_g4u1v"), ExtResource("15_fmlh6"), ExtResource("16_buv11"), ExtResource("17_8sl4p")])
+
+[node name="SlotSave3" parent="HBoxContainer" unique_id=1277479867 instance=ExtResource("2_y8bqx")]
+layout_mode = 2
+slot_index = 2
+texturas_progresso = Array[Texture2D]([ExtResource("18_ttqvv"), ExtResource("19_6muqq"), ExtResource("20_vqt3m"), ExtResource("21_1dxng"), ExtResource("22_jw7k2"), ExtResource("23_81x6g"), ExtResource("24_1g1vc")])
+
+[node name="SlotSave4" parent="HBoxContainer" unique_id=1206434086 instance=ExtResource("2_y8bqx")]
+layout_mode = 2
+slot_index = 3
+texturas_progresso = Array[Texture2D]([ExtResource("25_w4fl0"), ExtResource("26_ojydm"), ExtResource("27_xn8xq"), ExtResource("28_0yk8b"), ExtResource("29_nuj51"), ExtResource("30_qmavx"), ExtResource("31_cqfyu")])
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=592901525]
+layout_mode = 0
+offset_left = 145.0
+offset_top = 939.0
+offset_right = 1775.0
+offset_bottom = 979.0
+texture = ExtResource("34_8sl4p")

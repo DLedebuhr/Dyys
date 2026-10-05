@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://crggkaj7l2xhf"]
+
+[ext_resource type="Texture2D" uid="uid://dxmlg23l0npk8" path="res://assets/textures/ui/save/V10.png" id="1_bek23"]
+[ext_resource type="Script" uid="uid://cm828ge4jq01v" path="res://scenes/ui/menus/menu_iniciar/SlotSave.gd" id="1_savns"]
+[ext_resource type="Texture2D" uid="uid://jukfx30tp7j4" path="res://assets/textures/ui/Ponteiro.png" id="2_savns"]
+
+[node name="SlotSave" type="Control" unique_id=355676428]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_savns")
+
+[node name="BotaoSlot" type="TextureButton" parent="." unique_id=219985002]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 350.0
+offset_right = 275.0
+offset_bottom = 600.0
+
+[node name="ImagemProgresso" type="TextureRect" parent="BotaoSlot" unique_id=1970579192]
+layout_mode = 0
+offset_left = -125.0
+offset_top = -350.0
+offset_right = 275.0
+offset_bottom = 250.0
+texture = ExtResource("1_bek23")
+
+[node name="Ponteiro" type="TextureRect" parent="BotaoSlot" unique_id=966850554]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 275.0
+offset_right = 98.0
+offset_bottom = 323.0
+texture = ExtResource("2_savns")

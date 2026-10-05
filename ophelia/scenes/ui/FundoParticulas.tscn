@@ -6,19 +6,28 @@
 [ext_resource type="Texture2D" uid="uid://b8lscxgpuxm70" path="res://assets/textures/ui/ParticulaD.png" id="4_1hvak"]
 [ext_resource type="Texture2D" uid="uid://bfb6o0i371h80" path="res://assets/textures/ui/ring_a.png" id="5_ti15c"]
 
-[sub_resource type="Gradient" id="Gradient_1nkc8"]
-colors = PackedColorArray(0.67058825, 0.827451, 0.78431374, 0.78039217, 0.67058825, 0.827451, 0.78431374, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ioiom"]
-gradient = SubResource("Gradient_1nkc8")
-fill = 1
-
 [sub_resource type="Gradient" id="Gradient_18mvf"]
 offsets = PackedFloat32Array(0, 0.50721157, 1)
-colors = PackedColorArray(0.2, 0.22352941, 0.31764707, 1, 0.2, 0.22352941, 0.31764707, 0.40784314, 0.2, 0.22352941, 0.31764707, 1)
+colors = PackedColorArray(0.105882354, 0.5686275, 0.5058824, 1, 0.105882354, 0.5686275, 0.5058824, 0.10980392, 0.105882354, 0.5686275, 0.5058824, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_l3hey"]
 gradient = SubResource("Gradient_18mvf")
+
+[sub_resource type="Gradient" id="Gradient_ti15c"]
+colors = PackedColorArray(0.67058825, 0.827451, 0.78431374, 1, 0.67058825, 0.827451, 0.78431374, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5758x"]
+gradient = SubResource("Gradient_ti15c")
+fill = 1
+fill_from = Vector2(0, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_83pip"]
+colors = PackedColorArray(0.8509804, 0.42745098, 0.41960785, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_d3508"]
+gradient = SubResource("Gradient_83pip")
+fill = 1
+fill_from = Vector2(0.5, 1)
 
 [sub_resource type="Curve" id="Curve_s4tha"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25268817, 1), 0.0, 0.0, 0, 0, Vector2(0.74731183, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -48,9 +57,9 @@ angular_velocity_min = -30.000015
 angular_velocity_max = 29.999983
 gravity = Vector3(0, 0, 0)
 scale_min = 0.25
-scale_max = 0.75
+scale_max = 0.5
 scale_curve = SubResource("CurveTexture_jo4ry")
-color = Color(0.8627451, 0.8784314, 0.9137255, 0.49411765)
+color = Color(1, 1, 1, 0.5803922)
 alpha_curve = SubResource("CurveTexture_d3508")
 
 [sub_resource type="Curve" id="Curve_1fsyh"]
@@ -81,8 +90,9 @@ angular_velocity_min = -40.000015
 angular_velocity_max = 39.999985
 gravity = Vector3(0, 0, 0)
 scale_min = 0.5
+scale_max = 0.75
 scale_curve = SubResource("CurveTexture_ivfkq")
-color = Color(0.8627451, 0.8784314, 0.9137255, 0.75686276)
+color = Color(1, 1, 1, 0.6117647)
 alpha_curve = SubResource("CurveTexture_gw3ca")
 
 [sub_resource type="Curve" id="Curve_pfcfb"]
@@ -115,7 +125,7 @@ gravity = Vector3(0, 0, 0)
 scale_min = 1.25
 scale_max = 1.5
 scale_curve = SubResource("CurveTexture_83pip")
-color = Color(0.8627451, 0.8784314, 0.9137255, 1)
+color = Color(1, 1, 1, 0.78431374)
 alpha_curve = SubResource("CurveTexture_inwcd")
 
 [sub_resource type="Curve" id="Curve_qicfh"]
@@ -182,20 +192,25 @@ layer = -1
 [node name="Fundo" type="ColorRect" parent="." unique_id=749551870]
 offset_right = 1920.0
 offset_bottom = 1080.0
-color = Color(0.44705883, 0.4509804, 0.6901961, 1)
+color = Color(0.40784314, 0.6901961, 0.6117647, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=197997154]
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = SubResource("GradientTexture2D_l3hey")
 
 [node name="Degrade" type="TextureRect" parent="." unique_id=1429848875]
 offset_top = 1080.0
 offset_right = 1080.0
 offset_bottom = 3000.0
 rotation = -1.5707964
-texture = SubResource("GradientTexture2D_ioiom")
+texture = SubResource("GradientTexture2D_5758x")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=197997154]
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=170712113]
 visible = false
 offset_right = 1920.0
 offset_bottom = 1080.0
-texture = SubResource("GradientTexture2D_l3hey")
+texture = SubResource("GradientTexture2D_d3508")
 
 [node name="FloresFundo" type="GPUParticles2D" parent="." unique_id=174406649]
 position = Vector2(960, 1080)
@@ -208,14 +223,14 @@ process_material = SubResource("ParticleProcessMaterial_yxwlh")
 
 [node name="FloresMeio" type="GPUParticles2D" parent="." unique_id=927151423]
 position = Vector2(960, 1080)
-amount = 13
+amount = 10
 texture = ExtResource("2_ti15c")
 lifetime = 25.0
 process_material = SubResource("ParticleProcessMaterial_07ewd")
 
 [node name="FloresFrente" type="GPUParticles2D" parent="." unique_id=455787887]
 position = Vector2(960, 1080)
-amount = 10
+amount = 7
 texture = ExtResource("3_83pip")
 lifetime = 20.0
 process_material = SubResource("ParticleProcessMaterial_1ccmv")

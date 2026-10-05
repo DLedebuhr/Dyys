@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://cu8qe3vfh586q"]
+
+[ext_resource type="Texture2D" uid="uid://c4yc0x3au4bo2" path="res://assets/textures/ui/inventory/BordaInventario.png" id="1_p7wpn"]
+[ext_resource type="Texture2D" uid="uid://d1ilq2gvoe0xy" path="res://assets/textures/ui/inventory/SetaEsquerda.png" id="2_4dwrr"]
+[ext_resource type="Texture2D" uid="uid://7gv18frym1si" path="res://assets/textures/ui/inventory/SetaEsquerdaX.png" id="3_jsf8h"]
+[ext_resource type="Texture2D" uid="uid://babp8n6e1bxrf" path="res://assets/textures/ui/inventory/SetaDireita.png" id="4_35ah5"]
+[ext_resource type="Texture2D" uid="uid://di68ugf352h7f" path="res://assets/textures/ui/inventory/SetaDireitaX.png" id="5_iey2v"]
+
+[node name="TelaInventario" type="Control" unique_id=136744539]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ImagemFundo" type="TextureRect" parent="." unique_id=1951894882]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_p7wpn")
+
+[node name="BotoesNavegacao" type="HBoxContainer" parent="." unique_id=792327436]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 470.0
+offset_right = 1905.0
+offset_bottom = 610.0
+theme_override_constants/separation = 1630
+
+[node name="SetaEsquerda" type="TextureButton" parent="BotoesNavegacao" unique_id=253878349]
+layout_mode = 2
+texture_normal = ExtResource("2_4dwrr")
+texture_pressed = ExtResource("3_jsf8h")
+texture_hover = ExtResource("3_jsf8h")
+
+[node name="SetaDireita" type="TextureButton" parent="BotoesNavegacao" unique_id=383947014]
+layout_mode = 2
+texture_normal = ExtResource("4_35ah5")
+texture_pressed = ExtResource("5_iey2v")
+texture_hover = ExtResource("5_iey2v")
+
+[node name="Campo1_GradeInventario" type="Control" parent="." unique_id=551848860]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
