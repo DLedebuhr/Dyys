@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://c18bttaviwwdn"]
+
+[ext_resource type="PackedScene" uid="uid://cq4wbxgtdmr7s" path="res://scenes/ui/menus/inventario/Jogador.tscn" id="1_sea2x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lioav"]
+size = Vector2(848, 17)
+
+[sub_resource type="Gradient" id="Gradient_sea2x"]
+offsets = PackedFloat32Array(0.99759614, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ludo5"]
+gradient = SubResource("Gradient_sea2x")
+
+[node name="Node2D" type="Node2D" unique_id=1901627504]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2054619413]
+position = Vector2(0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=238484398]
+position = Vector2(853, 892)
+shape = SubResource("RectangleShape2D_lioav")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=1468400028]
+position = Vector2(0, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=524403534]
+position = Vector2(1525, 718.5)
+shape = SubResource("RectangleShape2D_lioav")
+
+[node name="TextureRect" type="TextureRect" parent="StaticBody2D2" unique_id=597438112]
+offset_left = 428.0
+offset_top = 886.0
+offset_right = 1250.0
+offset_bottom = 926.0
+texture = SubResource("GradientTexture2D_ludo5")
+
+[node name="CharacterBody2D" parent="." unique_id=1731535235 instance=ExtResource("1_sea2x")]
+position = Vector2(901, 151)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=278533852]
+offset_left = 1080.0
+offset_top = 716.0
+offset_right = 1902.0
+offset_bottom = 780.0
+texture = SubResource("GradientTexture2D_ludo5")

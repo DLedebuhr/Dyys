@@ -188,6 +188,7 @@ alpha_curve = SubResource("CurveTexture_fe45k")
 
 [node name="FundoParticulas" type="CanvasLayer" unique_id=1120445920]
 layer = -1
+visible = false
 
 [node name="Fundo" type="ColorRect" parent="." unique_id=749551870]
 offset_right = 1920.0
