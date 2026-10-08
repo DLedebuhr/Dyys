@@ -34,6 +34,10 @@
 [ext_resource type="Texture2D" uid="uid://cj6jkxqxkwtbp" path="res://assets/textures/ui/save/V35.png" id="30_qmavx"]
 [ext_resource type="Texture2D" uid="uid://7gvmhxl0s08a" path="res://assets/textures/ui/save/V36.png" id="31_cqfyu"]
 [ext_resource type="Texture2D" uid="uid://bvxqcopn71q5a" path="res://assets/textures/ui/SaveLine.png" id="34_8sl4p"]
+[ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://scenes/ui/BotaoMenu.tscn" id="35_ttqvv"]
+[ext_resource type="Texture2D" uid="uid://hijmtf35mu42" path="res://assets/textures/ui/VOLTAR1.png" id="36_6muqq"]
+[ext_resource type="Texture2D" uid="uid://cj86i22dabmjh" path="res://assets/textures/ui/VOLTAR2.png" id="37_vqt3m"]
+[ext_resource type="Texture2D" uid="uid://dyrcdaf5vjsxd" path="res://assets/textures/ui/VOLTAR3.png" id="38_1dxng"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ke884"]
 font = ExtResource("3_fmlh6")
@@ -51,9 +55,9 @@ slots = [NodePath("HBoxContainer/SlotSave"), NodePath("HBoxContainer/SlotSave2")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1569911096]
 layout_mode = 0
-offset_top = 181.0
+offset_top = 126.0
 offset_right = 1920.0
-offset_bottom = 259.0
+offset_bottom = 204.0
 theme_override_constants/separation = 100
 alignment = 1
 
@@ -107,3 +111,20 @@ offset_top = 939.0
 offset_right = 1775.0
 offset_bottom = 979.0
 texture = ExtResource("34_8sl4p")
+
+[node name="Voltar" parent="." unique_id=2136383047 instance=ExtResource("35_ttqvv")]
+layout_mode = 0
+offset_left = 827.0
+offset_top = 289.0
+offset_right = 1107.0
+offset_bottom = 353.0
+imagem_normal = ExtResource("36_6muqq")
+imagem_hover = ExtResource("37_vqt3m")
+imagem_pressed = ExtResource("38_1dxng")
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=871505128]
+layout_mode = 0
+offset_left = 435.0
+offset_top = 227.0
+offset_right = 1467.0
+offset_bottom = 257.0

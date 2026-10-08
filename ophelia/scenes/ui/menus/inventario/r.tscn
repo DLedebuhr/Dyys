@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://c18bttaviwwdn"]
 
 [ext_resource type="PackedScene" uid="uid://cq4wbxgtdmr7s" path="res://scenes/ui/menus/inventario/Jogador.tscn" id="1_sea2x"]
+[ext_resource type="PackedScene" uid="uid://fh4f6q1gcsn2" path="res://scenes/actors/player.tscn" id="2_ngqxo"]
+[ext_resource type="Texture2D" uid="uid://b8lscxgpuxm70" path="res://assets/textures/ui/ParticulaD.png" id="3_yqoya"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lioav"]
-size = Vector2(848, 17)
+size = Vector2(810, 59.3407)
 
 [sub_resource type="Gradient" id="Gradient_sea2x"]
 offsets = PackedFloat32Array(0.99759614, 1)
@@ -11,35 +13,86 @@ offsets = PackedFloat32Array(0.99759614, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ludo5"]
 gradient = SubResource("Gradient_sea2x")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ludo5"]
+radius = 25.079872
+
 [node name="Node2D" type="Node2D" unique_id=1901627504]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2054619413]
 position = Vector2(0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=238484398]
-position = Vector2(853, 892)
+position = Vector2(842, 916.32965)
 shape = SubResource("RectangleShape2D_lioav")
+
+[node name="TextureRect" type="TextureRect" parent="StaticBody2D" unique_id=597438112]
+offset_left = 428.0
+offset_top = 887.0
+offset_right = 1250.0
+offset_bottom = 951.0
+texture = SubResource("GradientTexture2D_ludo5")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=1468400028]
 position = Vector2(0, 2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=524403534]
-position = Vector2(1525, 718.5)
+position = Vector2(1506, 744)
 shape = SubResource("RectangleShape2D_lioav")
 
-[node name="TextureRect" type="TextureRect" parent="StaticBody2D2" unique_id=597438112]
-offset_left = 428.0
-offset_top = 886.0
-offset_right = 1250.0
-offset_bottom = 926.0
+[node name="TextureRect" type="TextureRect" parent="StaticBody2D2" unique_id=278533852]
+offset_left = 1100.0
+offset_top = 711.0
+offset_right = 1922.0
+offset_bottom = 775.0
 texture = SubResource("GradientTexture2D_ludo5")
 
-[node name="CharacterBody2D" parent="." unique_id=1731535235 instance=ExtResource("1_sea2x")]
-position = Vector2(901, 151)
+[node name="StaticBody2D3" type="StaticBody2D" parent="." unique_id=2128884383]
+position = Vector2(0, 2)
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=278533852]
-offset_left = 1080.0
-offset_top = 716.0
-offset_right = 1902.0
-offset_bottom = 780.0
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3" unique_id=1853610816]
+position = Vector2(664, 433)
+shape = SubResource("RectangleShape2D_lioav")
+
+[node name="TextureRect" type="TextureRect" parent="StaticBody2D3" unique_id=301242918]
+offset_left = 261.0
+offset_top = 401.0
+offset_right = 1073.0
+offset_bottom = 465.0
 texture = SubResource("GradientTexture2D_ludo5")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="." unique_id=1278862030]
+position = Vector2(0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4" unique_id=106662676]
+position = Vector2(1786, 350)
+rotation = -1.5896074
+shape = SubResource("RectangleShape2D_lioav")
+
+[node name="TextureRect2" type="TextureRect" parent="StaticBody2D4" unique_id=1099446250]
+offset_left = 1754.0
+offset_top = 737.00006
+offset_right = 2566.0
+offset_bottom = 801.00006
+rotation = -1.5767722
+texture = SubResource("GradientTexture2D_ludo5")
+
+[node name="Player" parent="." unique_id=1697615843 instance=ExtResource("2_ngqxo")]
+position = Vector2(551, 308)
+
+[node name="Jogador" parent="." unique_id=1731535235 instance=ExtResource("1_sea2x")]
+visible = false
+position = Vector2(794, 161)
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="." unique_id=474029396]
+position = Vector2(1037, 75)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D5" unique_id=1155236012]
+shape = SubResource("CircleShape2D_ludo5")
+
+[node name="TextureRect" type="TextureRect" parent="StaticBody2D5" unique_id=1357899154]
+offset_left = -29.999998
+offset_top = -31.999994
+offset_right = 600.0
+offset_bottom = 617.9999
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_yqoya")

@@ -1,0 +1,193 @@
+[gd_scene format=3 uid="uid://fh4f6q1gcsn2"]
+
+[ext_resource type="Script" uid="uid://chggk17p7ndyf" path="res://Player.gd" id="1_15tap"]
+[ext_resource type="Texture2D" uid="uid://cje2jvcxcfo8n" path="res://assets/textures/ui/Frame 40.png" id="2_8y416"]
+[ext_resource type="Texture2D" uid="uid://i06kkqiye3y0" path="res://assets/textures/ui/Frame 41.png" id="3_7860b"]
+[ext_resource type="Texture2D" uid="uid://vdntcasqg4q3" path="res://assets/textures/ui/Frame 39.png" id="4_xx81n"]
+[ext_resource type="Texture2D" uid="uid://muhwuh4u2ghv" path="res://assets/textures/ui/andar/Frame 26.png" id="5_ypltb"]
+[ext_resource type="Texture2D" uid="uid://foju3hjyweec" path="res://assets/textures/ui/andar/Frame 27.png" id="6_nmlhc"]
+[ext_resource type="Texture2D" uid="uid://58evyjffqh7" path="res://assets/textures/ui/andar/Frame 28.png" id="7_h5w3c"]
+[ext_resource type="Texture2D" uid="uid://bv7e4xjkyapnu" path="res://assets/textures/ui/andar/Frame 29.png" id="8_0878f"]
+[ext_resource type="Texture2D" uid="uid://b6ionhkdxplt4" path="res://assets/textures/ui/andar/Frame 30.png" id="9_dferu"]
+[ext_resource type="Texture2D" uid="uid://dy6g23a3epu2i" path="res://assets/textures/ui/r/Frame 46.png" id="10_642so"]
+[ext_resource type="Texture2D" uid="uid://cgxacsml32a6q" path="res://assets/textures/ui/andar/Frame 31.png" id="10_t62v4"]
+[ext_resource type="Texture2D" uid="uid://bnlfmb0jostos" path="res://assets/textures/ui/r/Frame 47.png" id="11_afsss"]
+[ext_resource type="Texture2D" uid="uid://du8l5i3bte5c4" path="res://assets/textures/ui/andar/Frame 32.png" id="11_uqfkb"]
+[ext_resource type="Texture2D" uid="uid://cx11kj251k571" path="res://assets/textures/ui/r/Frame 48.png" id="12_6a6mx"]
+[ext_resource type="Texture2D" uid="uid://c7p0ymaucn7e8" path="res://assets/textures/ui/andar/Frame 33.png" id="12_642so"]
+[ext_resource type="Texture2D" uid="uid://c8r8ft373oku7" path="res://assets/textures/ui/Frame 34.png" id="13_afsss"]
+[ext_resource type="Texture2D" uid="uid://ewle1u82vya" path="res://assets/textures/ui/r/Frame 49.png" id="13_j3wsw"]
+[ext_resource type="Script" uid="uid://cl633b3fhngej" path="res://scenes/actors/PontoOrigem.gd" id="15_0878f"]
+[ext_resource type="Texture2D" uid="uid://b262vmsjnbvq5" path="res://assets/textures/ui/ponta.png" id="16_0878f"]
+[ext_resource type="Texture2D" uid="uid://dbe6vkdurb552" path="res://assets/textures/ui/as/Frame 45.png" id="16_t62v4"]
+
+[sub_resource type="Gradient" id="Gradient_0878f"]
+colors = PackedColorArray(0.8352941, 0.40392157, 0.39607844, 1, 0.90588236, 0.53333336, 0.52156866, 1)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ktjr4"]
+radius = 25.0
+height = 132.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6a6mx"]
+atlas = ExtResource("13_afsss")
+region = Rect2(0, 0, 400, 500)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_15tap"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_ypltb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_nmlhc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_h5w3c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_0878f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_dferu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_t62v4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_uqfkb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_642so")
+}],
+"loop": 1,
+"name": &"andar",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_642so")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_afsss")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_6a6mx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_j3wsw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_642so")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_afsss")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_6a6mx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_j3wsw")
+}],
+"loop": 1,
+"name": &"correr",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_xx81n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_7860b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_8y416")
+}],
+"loop": 0,
+"name": &"levantar",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6a6mx")
+}],
+"loop": 1,
+"name": &"parado",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_t62v4")
+}],
+"loop": 1,
+"name": &"pular",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8y416")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_7860b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_xx81n")
+}],
+"loop": 0,
+"name": &"sentar",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_dferu"]
+colors = PackedColorArray(0.8352941, 0.40392157, 0.39607844, 1, 0.90588236, 0.53333336, 0.52156866, 1)
+
+[node name="Player" type="CharacterBody2D" unique_id=1697615843]
+script = ExtResource("1_15tap")
+
+[node name="FitaTras" type="Line2D" parent="." unique_id=673813148]
+position = Vector2(-0.42520142, 0)
+scale = Vector2(1.1417323, 1)
+points = PackedVector2Array(0, 21, -32, 15, -64, 24, -95, 24, -121, 36)
+width = 3.0
+gradient = SubResource("Gradient_0878f")
+texture_mode = 2
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1157091660]
+position = Vector2(0, 21)
+shape = SubResource("CapsuleShape2D_ktjr4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=361013752]
+scale = Vector2(0.35, 0.35)
+sprite_frames = SubResource("SpriteFrames_15tap")
+animation = &"correr"
+frame_progress = 0.40904075
+
+[node name="FitaFrente" type="Line2D" parent="." unique_id=69705890]
+position = Vector2(-0.7857208, 0)
+scale = Vector2(1.2619047, 1)
+points = PackedVector2Array(0, 21, -33, 22, -60, 35, -90, 33, -120, 46)
+width = 3.0
+gradient = SubResource("Gradient_dferu")
+texture_mode = 2
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="PontoOrigem" type="Node2D" parent="." unique_id=1584686335]
+position = Vector2(0, 21)
+script = ExtResource("15_0878f")
+textura_ponta = ExtResource("16_0878f")
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=303263591]
+target_position = Vector2(-10, -15)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=367237268]
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
+
+[node name="RaioAlcance" type="RayCast2D" parent="." unique_id=665008718]
+position = Vector2(0, 48)
+target_position = Vector2(380, 0)
