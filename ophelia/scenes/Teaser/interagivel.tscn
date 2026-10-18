@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://b30hs68rcoa7"]
 
-[ext_resource type="Script" uid="uid://cmtcrrdorxp8w" path="res://Interagivel.gd" id="1_uw1tv"]
-[ext_resource type="Texture2D" uid="uid://cwyw7tbmnxy7d" path="res://assets/textures/ui/save/V06.png" id="2_y1jnv"]
-[ext_resource type="Texture2D" uid="uid://sq4lhdeacuds" path="res://assets/textures/ui/save/V05.png" id="3_1lmx4"]
-[ext_resource type="Texture2D" uid="uid://b56pgraf3a0u3" path="res://assets/textures/ui/aaaa.png" id="4_k741s"]
-[ext_resource type="Texture2D" uid="uid://bi8tu5mktm5x4" path="res://assets/textures/ui/aaa.png" id="5_meg5a"]
+[ext_resource type="Script" uid="uid://cmtcrrdorxp8w" path="res://scenes/Teaser/Interagivel.gd" id="1_uw1tv"]
+[ext_resource type="Texture2D" uid="uid://cwyw7tbmnxy7d" path="res://assets/textures/UI/TelaSave/V06.png" id="2_y1jnv"]
+[ext_resource type="Texture2D" uid="uid://sq4lhdeacuds" path="res://assets/textures/UI/TelaSave/V05.png" id="3_1lmx4"]
+[ext_resource type="Texture2D" uid="uid://b56pgraf3a0u3" path="res://assets/textures/UI/aaaa.png" id="4_k741s"]
+[ext_resource type="Texture2D" uid="uid://bi8tu5mktm5x4" path="res://assets/textures/UI/aaa.png" id="5_meg5a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtc15"]
 size = Vector2(260, 299)
@@ -36,7 +36,6 @@ texture = ExtResource("4_k741s")
 position = Vector2(116, 89)
 
 [node name="ZonaProximidade" type="Area2D" parent="." unique_id=1770273877]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaProximidade" unique_id=645384166]
 position = Vector2(132, 150.5)

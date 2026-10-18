@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://cu8qe3vfh586q"]
 
-[ext_resource type="Texture2D" uid="uid://c4yc0x3au4bo2" path="res://assets/textures/ui/inventory/BordaInventario.png" id="1_p7wpn"]
-[ext_resource type="Texture2D" uid="uid://d1ilq2gvoe0xy" path="res://assets/textures/ui/inventory/SetaEsquerda.png" id="2_4dwrr"]
-[ext_resource type="Texture2D" uid="uid://7gv18frym1si" path="res://assets/textures/ui/inventory/SetaEsquerdaX.png" id="3_jsf8h"]
-[ext_resource type="Texture2D" uid="uid://babp8n6e1bxrf" path="res://assets/textures/ui/inventory/SetaDireita.png" id="4_35ah5"]
-[ext_resource type="Texture2D" uid="uid://di68ugf352h7f" path="res://assets/textures/ui/inventory/SetaDireitaX.png" id="5_iey2v"]
+[ext_resource type="Texture2D" uid="uid://c4yc0x3au4bo2" path="res://assets/textures/UI/Inventario/BordaInventario.png" id="1_p7wpn"]
+[ext_resource type="Texture2D" uid="uid://d1ilq2gvoe0xy" path="res://assets/textures/UI/Inventario/SetaEsquerda.png" id="2_4dwrr"]
+[ext_resource type="Texture2D" uid="uid://7gv18frym1si" path="res://assets/textures/UI/Inventario/SetaEsquerdaX.png" id="3_jsf8h"]
+[ext_resource type="Texture2D" uid="uid://babp8n6e1bxrf" path="res://assets/textures/UI/Inventario/SetaDireita.png" id="4_35ah5"]
+[ext_resource type="Texture2D" uid="uid://di68ugf352h7f" path="res://assets/textures/UI/Inventario/SetaDireitaX.png" id="5_iey2v"]
 
 [node name="TelaInventario" type="Control" unique_id=136744539]
 layout_mode = 3

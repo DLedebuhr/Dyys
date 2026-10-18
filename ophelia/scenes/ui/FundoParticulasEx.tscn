@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://dgi2kuhnnrr52"]
 
-[ext_resource type="Texture2D" uid="uid://c0wkb542m1me1" path="res://assets/textures/ui/ParticulaA.png" id="1_mqaic"]
-[ext_resource type="Texture2D" uid="uid://cgx8enddvbkis" path="res://assets/textures/ui/ParticulaB.png" id="2_ti15c"]
-[ext_resource type="Texture2D" uid="uid://pv21so2wsp71" path="res://assets/textures/ui/ParticulaC.png" id="3_83pip"]
-[ext_resource type="Texture2D" uid="uid://b8lscxgpuxm70" path="res://assets/textures/ui/ParticulaD.png" id="4_1hvak"]
-[ext_resource type="Texture2D" uid="uid://bfb6o0i371h80" path="res://assets/textures/ui/ring_a.png" id="5_ti15c"]
+[ext_resource type="Texture2D" uid="uid://c0wkb542m1me1" path="res://assets/textures/UI/TelaFundo/ParticulaA.png" id="1_mqaic"]
+[ext_resource type="Texture2D" uid="uid://cgx8enddvbkis" path="res://assets/textures/UI/TelaFundo/ParticulaB.png" id="2_ti15c"]
+[ext_resource type="Texture2D" uid="uid://pv21so2wsp71" path="res://assets/textures/UI/TelaFundo/ParticulaC.png" id="3_83pip"]
+[ext_resource type="Texture2D" uid="uid://b8lscxgpuxm70" path="res://assets/textures/UI/TelaFundo/ParticulaD.png" id="4_1hvak"]
+[ext_resource type="Texture2D" uid="uid://bfb6o0i371h80" path="res://assets/textures/UI/TelaFundo/ParticulaE.png" id="5_ti15c"]
 
 [sub_resource type="Gradient" id="Gradient_ti15c"]
 offsets = PackedFloat32Array(0, 0.50721157, 1)

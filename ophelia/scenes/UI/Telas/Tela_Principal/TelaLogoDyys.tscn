@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://tf2buucm75au"]
 
-[ext_resource type="Texture2D" uid="uid://cs72s4itmwwgq" path="res://assets/textures/ui/ElementoLogoDyys.png" id="1_qqtqi"]
+[ext_resource type="Texture2D" uid="uid://cs72s4itmwwgq" path="res://assets/textures/UI/ElementoLogoDyys.png" id="1_qqtqi"]
 [ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://assets/fonts/tt-milks-casual-pie-line.ttf" id="2_jrynv"]
 
 [sub_resource type="Gradient" id="Gradient_18mvf"]

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://csiheuo5err8o"]
+
+[ext_resource type="Script" uid="uid://drm0trskm41qc" path="res://scripts/ConfJanela.gd" id="1_cx3n1"]
+
+[node name="Node" type="Node" unique_id=1889289333]
+script = ExtResource("1_cx3n1")

@@ -2,11 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://d2ubsvy3y2ami" path="res://assets/textures/Cenario/P/Frame 39.png" id="1_xfod4"]
 [ext_resource type="PackedScene" uid="uid://b1mfwjlapwre6" path="res://scenes/UI/FundoParticulas.tscn" id="2_2dutp"]
-[ext_resource type="Texture2D" uid="uid://do36h36kes6oo" path="res://assets/textures/ui/MenuElemento1.png" id="3_1hbqu"]
+[ext_resource type="Texture2D" uid="uid://do36h36kes6oo" path="res://assets/textures/UI/MenuElemento1.png" id="3_1hbqu"]
 [ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://assets/fonts/tt-milks-casual-pie-line.ttf" id="4_df3yr"]
-[ext_resource type="Texture2D" uid="uid://cj00srj7l4dou" path="res://assets/textures/ui/MenuLine.png" id="5_x5mp6"]
+[ext_resource type="Texture2D" uid="uid://cj00srj7l4dou" path="res://assets/textures/UI/MenuLine.png" id="5_x5mp6"]
 [ext_resource type="PackedScene" uid="uid://fh4f6q1gcsn2" path="res://scenes/actors/Player.tscn" id="7_jkmps"]
-[ext_resource type="Script" uid="uid://d3woytjnikbuq" path="res://scenes/Teaser/camera_2d.gd" id="7_xfod4"]
+[ext_resource type="Script" uid="uid://d3woytjnikbuq" path="res://scenes/Teaser/TeaserCamera.gd" id="7_xfod4"]
 
 [sub_resource type="Gradient" id="Gradient_xfod4"]
 colors = PackedColorArray(0.015957251, 0.017598316, 0.04656169, 1, 0.1254902, 0.12941177, 0.23137255, 1)

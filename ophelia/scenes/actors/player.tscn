@@ -1,129 +1,331 @@
 [gd_scene format=3 uid="uid://fh4f6q1gcsn2"]
 
 [ext_resource type="Script" uid="uid://chggk17p7ndyf" path="res://scenes/actors/Player.gd" id="1_15tap"]
-[ext_resource type="Texture2D" uid="uid://cje2jvcxcfo8n" path="res://assets/textures/ui/Frame 40.png" id="2_8y416"]
-[ext_resource type="Texture2D" uid="uid://brwsm2fov0ujr" path="res://assets/textures/ui/andar/Frame 5.png" id="2_v5rh2"]
-[ext_resource type="Texture2D" uid="uid://i06kkqiye3y0" path="res://assets/textures/ui/Frame 41.png" id="3_7860b"]
-[ext_resource type="Texture2D" uid="uid://vdntcasqg4q3" path="res://assets/textures/ui/Frame 39.png" id="4_xx81n"]
-[ext_resource type="Texture2D" uid="uid://bycm04i188low" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 58.png" id="10_8aa1x"]
-[ext_resource type="Texture2D" uid="uid://dkqmrxmbq8dxi" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 60.png" id="12_3alav"]
-[ext_resource type="Texture2D" uid="uid://d3p6u4xmsdg1u" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 65.png" id="13_86qbt"]
-[ext_resource type="Texture2D" uid="uid://c64u7vqp12obv" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 66.png" id="14_7aup0"]
-[ext_resource type="Texture2D" uid="uid://b6m5jmi1gwhg0" path="res://assets/textures/ui/andar/Frame 3.png" id="14_70adr"]
+[ext_resource type="Texture2D" uid="uid://dxpx6bf0h4gee" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 94.png" id="2_4v6c0"]
+[ext_resource type="Texture2D" uid="uid://cqyrww25yhgsi" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 95.png" id="3_slex7"]
+[ext_resource type="Texture2D" uid="uid://i7dgih47aswx" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 89.png" id="4_ecpok"]
+[ext_resource type="Texture2D" uid="uid://bid3yjs6bdfgi" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 90.png" id="5_a3das"]
+[ext_resource type="Texture2D" uid="uid://dpt0vxkfiexsc" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 42.png" id="6_wv28t"]
+[ext_resource type="Texture2D" uid="uid://b6j4aroa3vwgm" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 44.png" id="7_d550d"]
+[ext_resource type="Texture2D" uid="uid://ckynwtghc6yus" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 46.png" id="8_ubeei"]
+[ext_resource type="Texture2D" uid="uid://dmskcx3yaqpbp" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 48.png" id="9_5pj4a"]
+[ext_resource type="Texture2D" uid="uid://dj7064cdfhmxd" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 43.png" id="10_r1w6k"]
+[ext_resource type="Texture2D" uid="uid://q7q1abubufgj" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 45.png" id="11_4r5kv"]
+[ext_resource type="Texture2D" uid="uid://jci6k4bqc0q1" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 47.png" id="12_prd6s"]
+[ext_resource type="Texture2D" uid="uid://c7sujvikpqwui" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 65.png" id="13_86qbt"]
+[ext_resource type="Texture2D" uid="uid://dugqxofuncb3q" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 49.png" id="13_b6a6p"]
+[ext_resource type="Texture2D" uid="uid://bg4wrgp86hrjh" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 34.png" id="14_p1nmw"]
 [ext_resource type="Script" uid="uid://cl633b3fhngej" path="res://scenes/actors/PontoOrigem.gd" id="15_0878f"]
-[ext_resource type="Texture2D" uid="uid://bmhdkdc0xyh0t" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 67.png" id="15_ob6ma"]
-[ext_resource type="Texture2D" uid="uid://b262vmsjnbvq5" path="res://assets/textures/ui/ponta.png" id="16_0878f"]
-[ext_resource type="Texture2D" uid="uid://o38n254jb8t7" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 68.png" id="16_bglc2"]
-[ext_resource type="Texture2D" uid="uid://dbe6vkdurb552" path="res://assets/textures/ui/as/Frame 45.png" id="16_t62v4"]
+[ext_resource type="Texture2D" uid="uid://bqssxy1voyocq" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 35.png" id="15_xfa3y"]
+[ext_resource type="Texture2D" uid="uid://c4n3h55fliyg" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 36.png" id="16_f2cih"]
+[ext_resource type="Texture2D" uid="uid://cveqkjeyns7w3" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 37.png" id="17_8e1sf"]
+[ext_resource type="Texture2D" uid="uid://bvnqig0nd3nre" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 38.png" id="18_eju0y"]
+[ext_resource type="Texture2D" uid="uid://cwpvlish4ihug" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 39.png" id="19_bu1dh"]
+[ext_resource type="Texture2D" uid="uid://cwt72l14m55b2" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 40.png" id="20_elyx0"]
 [ext_resource type="Script" uid="uid://dmysnk4jkr0im" path="res://scenes/actors/VooFada.gd" id="21_70adr"]
-[ext_resource type="Texture2D" uid="uid://bkro08gnugtkg" path="res://assets/textures/ui/Frame 57.png" id="22_ukqpb"]
+[ext_resource type="Texture2D" uid="uid://djv4tirffrum7" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 41.png" id="21_mnub1"]
+[ext_resource type="Texture2D" uid="uid://ebft0kh3ltpo" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 80.png" id="22_5gu6m"]
 [ext_resource type="Script" uid="uid://c66lb17bbm3fh" path="res://scenes/actors/Asas.gd" id="22_y7lai"]
+[ext_resource type="Texture2D" uid="uid://cw0g1jdc1uwdk" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 81.png" id="23_ppnd3"]
+[ext_resource type="Texture2D" uid="uid://dkrctfx0xvw65" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 82.png" id="24_ckiec"]
+[ext_resource type="Texture2D" uid="uid://dxvv0xrail833" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 83.png" id="25_xb7vp"]
+[ext_resource type="Texture2D" uid="uid://cc35lbg1vckhu" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 84.png" id="26_by1dq"]
+[ext_resource type="Texture2D" uid="uid://vi0npsyl31kx" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 85.png" id="27_7o1mk"]
+[ext_resource type="Texture2D" uid="uid://bfdwa2ts7khfp" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 86.png" id="28_0i1qq"]
+[ext_resource type="Texture2D" uid="uid://cltf6gonxe41k" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 87.png" id="29_v02sl"]
+[ext_resource type="Texture2D" uid="uid://dtt1hlx5drjgk" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 64.png" id="30_v3rux"]
+[ext_resource type="Texture2D" uid="uid://djom3eihf17er" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 74.png" id="32_l8sbm"]
+[ext_resource type="Texture2D" uid="uid://e7ngf4328qvj" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 75.png" id="33_j52hg"]
+[ext_resource type="Texture2D" uid="uid://c1lckwqrnre0s" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 76.png" id="34_7dx3t"]
+[ext_resource type="Texture2D" uid="uid://qtvulxm7fksp" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 77.png" id="35_mpv8j"]
+[ext_resource type="Texture2D" uid="uid://u1ht0ap4kaud" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 78.png" id="36_q5r5x"]
+[ext_resource type="Texture2D" uid="uid://d3xpftepwqyv3" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 79.png" id="37_0tnix"]
+[ext_resource type="Texture2D" uid="uid://ot5m808lipar" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 96.png" id="38_64knu"]
+[ext_resource type="Texture2D" uid="uid://bw4nhbf08xctx" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 97.png" id="39_uyq14"]
+[ext_resource type="Texture2D" uid="uid://cfh4gboqdboce" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 92.png" id="40_e3mx1"]
+[ext_resource type="Texture2D" uid="uid://bw4go8goxewie" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 93.png" id="41_0qkkq"]
+[ext_resource type="Texture2D" uid="uid://bqofxsg4iygo3" path="res://assets/textures/Characters/Ophelia/SpritesSentarLevantar/Frame 60.png" id="42_ldmh7"]
+[ext_resource type="Texture2D" uid="uid://dp2p050sv04ye" path="res://assets/textures/Characters/Ophelia/SpritesSentarLevantar/Frame 59.png" id="43_44cmt"]
+[ext_resource type="Texture2D" uid="uid://pof2jdb6d85a" path="res://assets/textures/Characters/Ophelia/SpritesSentarLevantar/Frame 58.png" id="44_flhmn"]
+[ext_resource type="Texture2D" uid="uid://d3xr0iycunug3" path="res://assets/textures/Characters/Ophelia/SpritesSentarLevantar/Frame 57.png" id="45_a3h3b"]
+[ext_resource type="Texture2D" uid="uid://hv63evcsj7qr" path="res://assets/textures/Characters/Ophelia/SpritesSentarLevantar/Frame 56.png" id="46_r2kta"]
+[ext_resource type="Texture2D" uid="uid://ctl7d56kkbwp0" path="res://assets/textures/Characters/Ophelia/SpritesSentarLevantar/Frame 55.png" id="47_7ejlc"]
+[ext_resource type="Texture2D" uid="uid://drp6cubqnex8y" path="res://assets/textures/Characters/Ophelia/SpritesPular/Frame 63.png" id="48_dgpon"]
+[ext_resource type="Texture2D" uid="uid://dvu46vicl2g31" path="res://assets/textures/Characters/Ophelia/SpritesParada/Frame 5.png" id="48_r517o"]
+[ext_resource type="Texture2D" uid="uid://dd78h3dt4oaku" path="res://assets/textures/Characters/Ophelia/SpritesPular/Frame 61.png" id="49_5nrgq"]
+[ext_resource type="Texture2D" uid="uid://c0n7h0ynktih" path="res://assets/textures/Characters/Ophelia/SpritesParada/Frame 3.png" id="49_y0ntn"]
+[ext_resource type="Texture2D" uid="uid://cxae46oihrvj1" path="res://assets/textures/Characters/Ophelia/SpritesPlanar/Frame 99.png" id="52_y0ntn"]
+[ext_resource type="Texture2D" uid="uid://bvbuo1vxrur7n" path="res://assets/textures/Characters/Ophelia/PontaFita.png" id="54_jybf5"]
 
 [sub_resource type="Gradient" id="Gradient_0878f"]
 offsets = PackedFloat32Array(0.0073891627, 1)
 colors = PackedColorArray(0.07058824, 0.07058824, 0.13333334, 1, 0.21176471, 0.21568628, 0.38039216, 1)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ktjr4"]
-radius = 25.0
-height = 132.0
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_15tap"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_v5rh2")
+"texture": ExtResource("2_4v6c0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_slex7")
 }],
 "loop": 1,
-"name": &"andar",
+"name": &"AgradecerBase",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ecpok")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_a3das")
+}],
+"loop": 1,
+"name": &"AgradecerChapeu",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_wv28t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_d550d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ubeei")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_5pj4a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_r1w6k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_4r5kv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_prd6s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_b6a6p")
+}],
+"loop": 1,
+"name": &"AndarBase",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("10_8aa1x")
+"texture": ExtResource("14_p1nmw")
 }, {
 "duration": 1.0,
-"texture": ExtResource("12_3alav")
+"texture": ExtResource("15_xfa3y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_f2cih")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_8e1sf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_eju0y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_bu1dh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_elyx0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_mnub1")
+}],
+"loop": 1,
+"name": &"AndarChapeu",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("22_5gu6m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_ppnd3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_ckiec")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_xb7vp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_by1dq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_7o1mk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_0i1qq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_v02sl")
+}],
+"loop": 1,
+"name": &"CorrerBase",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("30_v3rux")
 }, {
 "duration": 1.0,
 "texture": ExtResource("13_86qbt")
 }, {
 "duration": 1.0,
-"texture": ExtResource("14_7aup0")
+"texture": ExtResource("32_l8sbm")
 }, {
 "duration": 1.0,
-"texture": ExtResource("15_ob6ma")
+"texture": ExtResource("33_j52hg")
 }, {
 "duration": 1.0,
-"texture": ExtResource("16_bglc2")
+"texture": ExtResource("34_7dx3t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_mpv8j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_q5r5x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_0tnix")
 }],
 "loop": 1,
-"name": &"correr",
-"speed": 6.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_xx81n")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_7860b")
-}, {
-"duration": 1.0,
-"texture": ExtResource("2_8y416")
-}],
-"loop": 0,
-"name": &"levantar",
+"name": &"CorrerChapeu",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("14_70adr")
+"texture": ExtResource("38_64knu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_uyq14")
 }],
 "loop": 1,
-"name": &"parado",
+"name": &"IrritadaBase",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("40_e3mx1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_0qkkq")
+}],
+"loop": 1,
+"name": &"IrritadaChapeu",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("42_ldmh7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_44cmt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_flhmn")
+}],
+"loop": 0,
+"name": &"LevantarBase",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("16_t62v4")
+"texture": ExtResource("45_a3h3b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_r2kta")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_7ejlc")
 }],
-"loop": 1,
-"name": &"pular",
-"speed": 1.0
+"loop": 0,
+"name": &"LevantarChapeu",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_8y416")
+"texture": ExtResource("48_r517o")
+}],
+"loop": 1,
+"name": &"ParadoBase",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("49_y0ntn")
+}],
+"loop": 1,
+"name": &"ParadoChapeu",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("48_dgpon")
+}],
+"loop": 1,
+"name": &"PularBase",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("49_5nrgq")
+}],
+"loop": 1,
+"name": &"PularChapeu",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("44_flhmn")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_7860b")
+"texture": ExtResource("43_44cmt")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_xx81n")
+"texture": ExtResource("42_ldmh7")
 }],
 "loop": 0,
-"name": &"sentar",
-"speed": 7.0
+"name": &"SentarBase",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("47_7ejlc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_r2kta")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_a3h3b")
+}],
+"loop": 0,
+"name": &"SentarChapeu",
+"speed": 5.0
 }]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jak6m"]
-atlas = ExtResource("22_ukqpb")
-region = Rect2(0, 0, 400, 500)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y7lai"]
 animations = [{
-"frames": [],
-"loop": 1,
-"name": &"new_animation",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jak6m")
+"texture": ExtResource("52_y0ntn")
 }],
 "loop": 1,
 "name": &"planar",
 "speed": 5.0
 }]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ktjr4"]
+radius = 23.0
+height = 124.0
 
 [sub_resource type="Gradient" id="Gradient_dferu"]
 colors = PackedColorArray(0.07058824, 0.07058824, 0.13333334, 1, 0.21176471, 0.21568628, 0.38039216, 1)
@@ -147,26 +349,28 @@ joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1157091660]
-position = Vector2(0, 21)
-shape = SubResource("CapsuleShape2D_ktjr4")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=361013752]
 position = Vector2(0, -18)
 scale = Vector2(0.35, 0.35)
 sprite_frames = SubResource("SpriteFrames_15tap")
-animation = &"correr"
+animation = &"LevantarBase"
+frame = 2
+frame_progress = 1.0
 
 [node name="Asas" type="AnimatedSprite2D" parent="." unique_id=223967372 node_paths=PackedStringArray("jogador", "sprite_principal")]
 z_index = 1
+position = Vector2(0, -18)
 scale = Vector2(0.35, 0.35)
 sprite_frames = SubResource("SpriteFrames_y7lai")
 animation = &"planar"
-frame_progress = 0.49100134
 script = ExtResource("22_y7lai")
 jogador = NodePath("..")
 sprite_principal = NodePath("../AnimatedSprite2D")
 cor_brilho = Color(1, 1, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1157091660]
+position = Vector2(0, 25)
+shape = SubResource("CapsuleShape2D_ktjr4")
 
 [node name="FitaFrente" type="Line2D" parent="." unique_id=69705890]
 position = Vector2(-1, 0)
@@ -186,10 +390,10 @@ alcance_ataque = 200.0
 alcance_defesa = 200.0
 alcance_gancho = 700.0
 cor_alcance = Color(1, 1, 1, 1)
-textura_ponta = ExtResource("16_0878f")
+textura_ponta = ExtResource("54_jybf5")
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=303263591]
-target_position = Vector2(-10, -15)
+target_position = Vector2(0, -19)
 
 [node name="RaioAlcance" type="RayCast2D" parent="." unique_id=665008718]
 position = Vector2(0, 48)

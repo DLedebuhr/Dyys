@@ -87,7 +87,7 @@ func _processar_inputs_estado() -> void:
 				esta_agachado = false
 				esta_levantando = true
 				if sprite and sprite.sprite_frames.has_animation("levantar"):
-					sprite.play("levantar")
+					sprite.play("LevantarBase")
 		else:
 			esta_agachado = true
 			esta_levantando = false
@@ -211,8 +211,8 @@ func _atualizar_animacoes() -> void:
 
 		if _em_gancho() and sprite.sprite_frames.has_animation("balancar"):
 			sprite.play("balancar")
-		elif sprite.sprite_frames.has_animation("pular"):
-			sprite.play("pular")
+		elif sprite.sprite_frames.has_animation("PularBase"):
+			sprite.play("PularBase")
 		return
 
 	# Espera a animação 'aterrissar' terminar (depois de planar)
@@ -224,25 +224,25 @@ func _atualizar_animacoes() -> void:
 
 	# Espera a animação 'levantar' terminar (e não trava se ela não existir)
 	if esta_levantando:
-		if sprite.animation != "levantar" or not sprite.is_playing():
+		if sprite.animation != "LevantarBase" or not sprite.is_playing():
 			esta_levantando = false
 		else:
 			return
 
 	if esta_agachado:
 		# Só toca 'sentar' se ainda não estiver tocando (evita reiniciar o frame 1)
-		if sprite.sprite_frames.has_animation("sentar") and sprite.animation != "sentar":
-			sprite.play("sentar")
+		if sprite.sprite_frames.has_animation("SentarBase") and sprite.animation != "SentarBase":
+			sprite.play("SentarBase")
 
 	elif absf(velocity.x) > 10.0:
-		if esta_correndo and sprite.sprite_frames.has_animation("correr"):
-			sprite.play("correr")
-		elif sprite.sprite_frames.has_animation("andar"):
-			sprite.play("andar")
+		if esta_correndo and sprite.sprite_frames.has_animation("CorrerBase"):
+			sprite.play("CorrerBase")
+		elif sprite.sprite_frames.has_animation("AndarBase"):
+			sprite.play("AndarBase")
 
 	else:
-		if sprite.sprite_frames.has_animation("parado"):
-			sprite.play("parado")
+		if sprite.sprite_frames.has_animation("ParadoBase"):
+			sprite.play("ParadoBase")
 
 # Ativação ("planar_inicio") -> padrão em loop ("planar") enquanto durar a planagem
 func _animar_planar() -> void:
@@ -253,6 +253,6 @@ func _animar_planar() -> void:
 			return
 
 	# Se ainda não existir a animação 'planar', usa 'pular' como reserva
-	var anim := "planar" if sprite.sprite_frames.has_animation("planar") else "pular"
+	var anim := "planar" if sprite.sprite_frames.has_animation("planar") else "PularBase"
 	if sprite.sprite_frames.has_animation(anim) and sprite.animation != anim:
 		sprite.play(anim)
