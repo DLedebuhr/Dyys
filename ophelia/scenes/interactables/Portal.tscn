@@ -1,0 +1,162 @@
+[gd_scene format=3 uid="uid://cp1hn5qtbwfwr"]
+
+[ext_resource type="Script" uid="uid://rscpk6hll1ex" path="res://scenes/interactables/Portal.gd" id="1_2m1tr"]
+[ext_resource type="Texture2D" uid="uid://bo373o7ppp07d" path="res://assets/textures/Cenario/P/Frame 23.png" id="2_phr1x"]
+[ext_resource type="Texture2D" uid="uid://tvall6bl3wuv" path="res://assets/textures/Cenario/P/Frame 22.png" id="3_phr1x"]
+[ext_resource type="Texture2D" uid="uid://d182ubkwow7i1" path="res://assets/textures/Cenario/P/Frame 27.png" id="4_rexrw"]
+[ext_resource type="Texture2D" uid="uid://dpa28ef8mrd4w" path="res://assets/textures/Cenario/P/Frame 29.png" id="5_sjadf"]
+[ext_resource type="Texture2D" uid="uid://c7xw2xoldlubh" path="res://assets/textures/Cenario/P/Frame 21.png" id="6_vfeuy"]
+[ext_resource type="Texture2D" uid="uid://c3ft4g0s6at7g" path="res://assets/textures/Cenario/P/Frame 20.png" id="7_bdmtu"]
+[ext_resource type="Texture2D" uid="uid://b00ycqh1mhymt" path="res://assets/textures/Cenario/P/Frame 25.png" id="8_f2yoi"]
+[ext_resource type="Texture2D" uid="uid://c71uyqv114y6d" path="res://assets/textures/Cenario/P/Frame 24.png" id="9_8mx57"]
+
+[sub_resource type="Gradient" id="Gradient_bdmtu"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ludo5"]
+gradient = SubResource("Gradient_bdmtu")
+width = 380
+height = 950
+fill = 1
+fill_from = Vector2(0.5, 1)
+
+[sub_resource type="Gradient" id="grad_luz"]
+offsets = PackedFloat32Array(0.007211566, 1)
+colors = PackedColorArray(0.083911635, 0.08391168, 0.08391165, 1, 1, 0.97, 0.88, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2m1tr"]
+gradient = SubResource("grad_luz")
+width = 370
+height = 935
+fill_from = Vector2(0.5, 1)
+fill_to = Vector2(0.5131676, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2yoi"]
+size = Vector2(881.2756, 476.3877)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8mx57"]
+size = Vector2(136.46484, 234.99998)
+
+[node name="Portal" type="Node2D" unique_id=1448505995]
+script = ExtResource("1_2m1tr")
+deslize_px = 130.0
+escala_aberta = 0.3
+cor_clarao = Color(0.05882353, 0.0627451, 0.13725491, 0.80784315)
+
+[node name="Fundo" type="Node2D" parent="." unique_id=1959902859]
+
+[node name="Fundo" type="TextureRect" parent="Fundo" unique_id=562153526]
+offset_left = -332.0
+offset_top = -1200.0
+offset_right = 319.0
+texture = ExtResource("2_phr1x")
+
+[node name="ColorRect" type="ColorRect" parent="Fundo" unique_id=573687841]
+offset_left = -454.0
+offset_top = -25.0
+offset_right = 452.0
+color = Color(0.8117647, 0.8117647, 0.8117647, 1)
+
+[node name="Interior" type="Node2D" parent="." unique_id=500977733]
+
+[node name="TextureRect" type="TextureRect" parent="Interior" unique_id=1124074362]
+offset_left = -190.0
+offset_top = -1060.0
+offset_right = 190.0
+texture = ExtResource("3_phr1x")
+
+[node name="Luza" type="Sprite2D" parent="Interior" unique_id=1876260301]
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(0, -475)
+texture = SubResource("GradientTexture2D_ludo5")
+
+[node name="Luzv" type="Sprite2D" parent="Interior" unique_id=1685238263]
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(0, -475)
+texture = SubResource("GradientTexture2D_ludo5")
+
+[node name="Luz" type="Sprite2D" parent="Interior" unique_id=1305387036]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(0, -466.25)
+scale = Vector2(1, 0.9973262)
+texture = SubResource("GradientTexture2D_2m1tr")
+
+[node name="Gambiarra" type="Node2D" parent="." unique_id=1243219226]
+
+[node name="Fundo2" type="TextureRect" parent="Gambiarra" unique_id=257629508]
+offset_left = 349.0
+offset_top = -931.0
+offset_right = 1000.0
+offset_bottom = 269.0
+scale = Vector2(-0.30668297, 0.7754588)
+texture = ExtResource("4_rexrw")
+
+[node name="Fundo" type="TextureRect" parent="Gambiarra" unique_id=514559755]
+offset_left = -132.0
+offset_top = -931.00006
+offset_right = 519.0
+offset_bottom = 268.99994
+scale = Vector2(-0.30668297, 0.7754588)
+texture = ExtResource("4_rexrw")
+
+[node name="MascaraPortas" type="TextureRect" parent="." unique_id=1488349035]
+clip_children = 1
+offset_left = -190.0
+offset_top = -1060.0
+offset_right = 190.0
+texture = ExtResource("5_sjadf")
+
+[node name="PortaEsquerda" type="Node2D" parent="MascaraPortas" unique_id=2136833049]
+position = Vector2(185, 940)
+
+[node name="PortaEsq" type="TextureRect" parent="MascaraPortas/PortaEsquerda" unique_id=1257887418]
+offset_left = -185.0
+offset_top = -940.0
+offset_right = 5.0
+offset_bottom = 10.0
+texture = ExtResource("6_vfeuy")
+
+[node name="PortaDireita" type="Node2D" parent="MascaraPortas" unique_id=1372806979]
+position = Vector2(185, 940)
+
+[node name="PortaDir" type="TextureRect" parent="MascaraPortas/PortaDireita" unique_id=1125190313]
+offset_left = 5.0
+offset_top = -940.0
+offset_right = 195.0
+offset_bottom = 120.0
+texture = ExtResource("7_bdmtu")
+
+[node name="Adorno" type="Node2D" parent="." unique_id=406265211]
+
+[node name="A" type="TextureRect" parent="Adorno" unique_id=1595298085]
+offset_top = -1300.0
+offset_right = 459.0
+texture = ExtResource("8_f2yoi")
+
+[node name="B" type="TextureRect" parent="Adorno" unique_id=1343940061]
+offset_left = -459.0
+offset_top = -1300.0
+texture = ExtResource("9_8mx57")
+
+[node name="PontoEntrada" type="Marker2D" parent="Adorno" unique_id=1390892353]
+position = Vector2(0, -156)
+
+[node name="ZonaAbrir" type="Area2D" parent="." unique_id=888624028]
+position = Vector2(0, -30)
+scale = Vector2(1.3923002, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaAbrir" unique_id=1861178112]
+position = Vector2(-0.71823597, -206)
+scale = Vector2(0.99999994, 1)
+shape = SubResource("RectangleShape2D_f2yoi")
+
+[node name="ZonaEntrada" type="Area2D" parent="." unique_id=2015966356]
+position = Vector2(0, -54)
+scale = Vector2(1.3923002, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaEntrada" unique_id=1056314502]
+position = Vector2(68.232414, -64.5)
+scale = Vector2(1, 1.0000001)
+shape = SubResource("RectangleShape2D_8mx57")

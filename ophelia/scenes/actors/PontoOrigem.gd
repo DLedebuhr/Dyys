@@ -1,3 +1,4 @@
+# ===== SCRIPT DO NÓ "PontoOrigem" (filho do Player). NÃO colar no Player.gd =====
 extends Node2D
 
 enum EstadoLenco { REPOUSO, ATAQUE_Q, DEFESA_E, GANCHO }
@@ -5,7 +6,7 @@ var estado_atual: EstadoLenco = EstadoLenco.REPOUSO
 
 # --- COMPRIMENTOS E ALCANCES INDEPENDENTES ---
 @export var comprimento_maximo: float = 100.0  # Comprimento visual no repouso
-@export var alcance_ataque: float = 280.0      # Alcance do ataque (Q) esticado
+@export var alcance_ataque: float = 180.0      # Alcance do ataque (Q) esticado
 @export var alcance_defesa: float = 160.0      # Alcance da defesa (E)
 @export var alcance_gancho: float = 350.0      # Alcance máximo do gancho
 
@@ -28,8 +29,26 @@ var estado_atual: EstadoLenco = EstadoLenco.REPOUSO
 }
 @export var suavidade_offset_gola: float = 20.0 # Maior = acompanha mais rápido
 
-@onready var fita_tras: Line2D = $"../FitaTras"
-@onready var fita_frente: Line2D = $"../FitaFrente"
+# --- SUAVIDADE DO ATAQUE / DEFESA ---
+# Ataque (Q) e defesa (E): UM aperto dispara a ação inteira na direção do mouse e ela volta sozinha
+@export var duracao_formacao_ataque: float = 0.22 # Tempo (s) da ponta até a posição final (Q)
+@export var tempo_ativo_ataque: float = 0.12      # Tempo (s) com o ataque esticado (causa dano)
+@export var duracao_formacao_defesa: float = 0.2  # Tempo (s) da ponta até a posição final (E)
+@export var tempo_ativo_defesa: float = 0.3       # Tempo (s) com a defesa levantada
+@export var recarga_acao: float = 0.15            # Pausa (s) ao terminar, antes de poder usar de novo
+@export var duracao_retorno: float = 0.4    # Tempo (s) para o lenço voltar ao repouso solto
+@export var subdivisoes_curva: int = 4      # Arredondamento das curvas (1 = sem arredondar)
+
+# --- INDICADOR DE ALCANCE DO GANCHO ---
+# Botão: crie a ação "mostrar_alcance" no Mapa de Entrada (se não existir, usa a tecla Tab).
+@export var indicador_alcance_ativo: bool = true
+@export var alcance_alternar: bool = false      # false: mostra enquanto segura | true: liga/desliga a cada aperto
+@export var duracao_aviso_alcance: float = 1.2  # Segundos visível ao clicar sem ter onde prender
+@export var cor_alcance: Color = Color(0.55, 0.85, 1.0)
+const ACAO_ALCANCE: String = "mostrar_alcance"
+
+@onready var fita_tras: Line2D = _achar_fita("FitaTras")
+@onready var fita_frente: Line2D = _achar_fita("FitaFrente")
 @onready var raio_alcance: RayCast2D = $"../RaioAlcance"
 @onready var jogador: CharacterBody2D = $".."
 
@@ -62,12 +81,40 @@ var origem_anterior: Vector2 = Vector2.ZERO
 var origem_inicializada: bool = false
 var offset_gola_atual: Vector2 = Vector2.ZERO
 
+# Transições de estado (formação do ataque/defesa e retorno ao repouso)
+var estado_anterior: EstadoLenco = EstadoLenco.REPOUSO
+var tempo_estado: float = 0.0
+var tempo_retorno: float = 999.0
+var pontos_inicio_tras: Array[Vector2] = []
+var pontos_inicio_frente: Array[Vector2] = []
+
+# Ação rápida (Q/E)
+var dir_acao: Vector2 = Vector2.RIGHT              # Direção travada no mouse no momento do aperto
+var tempo_recarga: float = 0.0
+var acao_pendente: EstadoLenco = EstadoLenco.REPOUSO # Aperto guardado por um instante (REPOUSO = nenhum)
+var tempo_acao_pendente: float = 0.0
+
+# Indicador de alcance
+var origem_alcance: Vector2 = Vector2.ZERO
+var tempo_aviso_alcance: float = 0.0
+var alcance_visivel: float = 0.0     # 0 a 1 (fade)
+var alcance_alternado: bool = false
+var pulso_alcance: float = 1.0       # 0 a 1: anel que se expande ao aparecer (1 = parado)
+var tempo_visual_alcance: float = 0.0
+var mostrando_alcance_antes: bool = false
+
 func _ready() -> void:
+	_garantir_acao_alcance()
+
 	pontos_tras.clear()
 	pontos_frente.clear()
+	pontos_inicio_tras.clear()
+	pontos_inicio_frente.clear()
 	for i in range(pontos_por_fita):
 		pontos_tras.append(global_position)
 		pontos_frente.append(global_position)
+		pontos_inicio_tras.append(global_position)
+		pontos_inicio_frente.append(global_position)
 
 	if jogador:
 		sprite_jogador = jogador.find_child("AnimatedSprite2D", true, false)
@@ -76,6 +123,9 @@ func _ready() -> void:
 		ponto_gola = jogador.get_node_or_null("AnimatedSprite2D/PontoGola") as Node2D
 		if not ponto_gola:
 			ponto_gola = jogador.get_node_or_null("Sprite/PontoGola") as Node2D
+
+	if not fita_tras or not fita_frente:
+		push_warning("PontoOrigem: não achei o Line2D 'FitaTras' e/ou 'FitaFrente'. Confira os nomes na cena (devem estar dentro do jogador).")
 
 	if fita_tras:
 		fita_tras.joint_mode = Line2D.LINE_JOINT_ROUND
@@ -99,24 +149,31 @@ func _physics_process(delta: float) -> void:
 
 	# Faz a fita inteira acompanhar o deslocamento da origem (a base nunca fica para trás)
 	_acompanhar_origem(pos_origem)
+	_atualizar_indicador_alcance(pos_origem, delta)
 
 	var pos_mouse := get_global_mouse_position()
 
 	# --- LEITURA DE ENTRADAS ---
+	# Q / E: um aperto dispara a ação inteira (direção travada no mouse) e ela volta sozinha
 	if Input.is_action_just_pressed("ataque_q"):
-		estado_atual = EstadoLenco.ATAQUE_Q
+		_pedir_acao(EstadoLenco.ATAQUE_Q)
 	elif Input.is_action_just_pressed("defesa_e"):
-		estado_atual = EstadoLenco.DEFESA_E
+		_pedir_acao(EstadoLenco.DEFESA_E)
 	elif Input.is_action_just_pressed("clique_esquerdo"):
 		_tentar_disparar_gancho(pos_origem, pos_mouse)
 
-	if Input.is_action_just_released("ataque_q") or Input.is_action_just_released("defesa_e"):
-		if estado_atual != EstadoLenco.GANCHO:
-			estado_atual = EstadoLenco.REPOUSO
-			_desativar_colisores()
+	tempo_recarga = maxf(tempo_recarga - delta, 0.0)
+	_checar_fim_acao()
+	_executar_acao_pendente(pos_origem, pos_mouse, delta)
 
 	if Input.is_action_just_released("clique_esquerdo") and estado_atual == EstadoLenco.GANCHO:
 		estado_atual = EstadoLenco.REPOUSO
+
+	# Detecta troca de estado (guarda a pose atual para a transição suave)
+	if estado_atual != estado_anterior:
+		_ao_mudar_estado(estado_anterior, estado_atual)
+		estado_anterior = estado_atual
+	tempo_estado += delta
 
 	# Fora do gancho a corda nunca está esticada
 	if estado_atual != EstadoLenco.GANCHO:
@@ -127,9 +184,9 @@ func _physics_process(delta: float) -> void:
 		EstadoLenco.REPOUSO:
 			_atualizar_repouso_firme(pos_origem, delta)
 		EstadoLenco.ATAQUE_Q:
-			_atualizar_ataque_q(pos_origem, pos_mouse, delta)
+			_atualizar_ataque_q(pos_origem, delta)
 		EstadoLenco.DEFESA_E:
-			_atualizar_defesa_e(pos_origem, pos_mouse, delta)
+			_atualizar_defesa_e(pos_origem, delta)
 		EstadoLenco.GANCHO:
 			_atualizar_gancho_pendulo(pos_origem, delta)
 
@@ -164,6 +221,8 @@ func _acompanhar_origem(origem: Vector2) -> void:
 		for i in range(pontos_por_fita):
 			pontos_tras[i] = origem
 			pontos_frente[i] = origem
+			pontos_inicio_tras[i] = origem
+			pontos_inicio_frente[i] = origem
 		return
 
 	var deslocamento := origem - origem_anterior
@@ -174,17 +233,235 @@ func _acompanhar_origem(origem: Vector2) -> void:
 		var fator := lerpf(1.0, 0.5, t) # a ponta mantém um pouco de inércia
 		pontos_tras[i] += deslocamento * fator
 		pontos_frente[i] += deslocamento * fator
+		pontos_inicio_tras[i] += deslocamento * fator
+		pontos_inicio_frente[i] += deslocamento * fator
 
 # Peso de lerp mais rápido na base e mais lento na ponta
 func _peso_ponto(t: float, taxa_base: float, taxa_ponta: float, delta: float) -> float:
 	return 1.0 - exp(-lerpf(taxa_base, taxa_ponta, t) * delta)
 
-# Ondulação de uma fita (primária + secundária + tremulação leve), com fase própria
-func _onda_fita(t: float, fase: float, amp: float, fator_ponta: float) -> float:
-	var primaria := sin(tempo_balanco - (t * 4.5) + fase) * amp
-	var secundaria := cos((tempo_balanco * 1.7) - (t * 6.0) + fase) * (amp * 0.3)
-	var micro := sin((tempo_balanco * 3.1) - (t * 8.0) + fase) * (1.5 + 2.5 * vel_suave)
-	return (primaria + secundaria + micro) * fator_ponta
+# Movimento do lenço parado / andando / correndo, com a forma do código antigo:
+# a fita de trás ondula em seno, a da frente em cosseno com outro comprimento de onda,
+# e uma onda secundária empurra as duas em sentidos opostos.
+# Retorna (deslocamento da fita de trás, deslocamento da fita da frente).
+# A intensidade vem de 'amp' (a atual), então os valores não mudaram.
+func _ondas_repouso(t: float, amp: float, fator_ponta: float) -> Vector2:
+	var onda_tras := sin(tempo_balanco - (t * 3.0)) * (amp * 0.92 * fator_ponta)
+	var onda_frente := cos(tempo_balanco - (t * 2.6)) * (amp * 1.08 * fator_ponta)
+	var onda_sec := sin((tempo_balanco * 1.5) - (t * 5.0)) * (amp * 0.23 * fator_ponta)
+	return Vector2(onda_tras + onda_sec, -onda_frente - onda_sec)
+
+# --- TRANSIÇÕES E CURVAS SUAVES ---
+
+# Procura o Line2D: primeiro como irmão deste nó, depois em qualquer lugar do jogador,
+# depois entre os filhos deste nó e por fim na cena inteira.
+func _achar_fita(nome: String) -> Line2D:
+	var no := get_node_or_null("../" + nome) as Line2D
+	if no:
+		return no
+	var pai := get_parent()
+	if pai:
+		no = pai.find_child(nome, true, false) as Line2D
+		if no:
+			return no
+	no = find_child(nome, true, false) as Line2D
+	if no:
+		return no
+	var cena := get_tree().current_scene
+	if cena:
+		no = cena.find_child(nome, true, false) as Line2D
+	return no
+
+func _ao_mudar_estado(anterior: EstadoLenco, novo: EstadoLenco) -> void:
+	tempo_estado = 0.0
+	# Guarda a pose atual: a formação do ataque/defesa parte dela
+	for i in range(pontos_por_fita):
+		pontos_inicio_tras[i] = pontos_tras[i]
+		pontos_inicio_frente[i] = pontos_frente[i]
+	# Saiu do ataque/defesa (por qualquer motivo): desliga as áreas de dano/defesa
+	if anterior == EstadoLenco.ATAQUE_Q or anterior == EstadoLenco.DEFESA_E:
+		_desativar_colisores()
+	# Saiu do ataque/defesa para o repouso: inicia o retorno lento
+	if (anterior == EstadoLenco.ATAQUE_Q or anterior == EstadoLenco.DEFESA_E) and novo == EstadoLenco.REPOUSO:
+		tempo_retorno = 0.0
+
+# Lê uma lista de pontos como uma curva suave (Catmull-Rom) em vez de linhas retas.
+# 'pos' é fracionário: 2.5 = metade do caminho entre o ponto 2 e o 3.
+func _amostrar_caminho(offsets: Array[Vector2], pos: float) -> Vector2:
+	var ultimo := offsets.size() - 1
+	var i1 := clampi(int(floor(pos)), 0, ultimo)
+	var i2 := mini(i1 + 1, ultimo)
+	var i0 := maxi(i1 - 1, 0)
+	var i3 := mini(i2 + 1, ultimo)
+	return offsets[i1].cubic_interpolate(offsets[i2], offsets[i0], offsets[i3], pos - float(i1))
+
+# Forma do ataque/defesa: a figura é "desenhada" pela fita. O ponto 8 (ponta) percorre as posições
+# finais dos pontos 1, 2, 3... até chegar na sua; o ponto 7 faz o mesmo até a posição dele, e assim
+# por diante. Todos percorrem o MESMO caminho (a própria figura), cada um parando na sua posição.
+func _aplicar_forma(origem: Vector2, dir: Vector2, alcance: float,
+		offsets_verde: Array[Vector2], offsets_vermelho: Array[Vector2], delta: float, duracao: float) -> void:
+	# Posição final de cada ponto da figura (índice 0 = origem)
+	var final_verde: Array[Vector2] = []
+	var final_vermelho: Array[Vector2] = []
+	for k in range(pontos_por_fita):
+		var tk := float(k) / float(pontos_por_fita - 1)
+		var eixo := origem + (dir * (alcance * tk))
+		final_verde.append(eixo + _amostrar_caminho(offsets_verde, tk * 4.0))
+		final_vermelho.append(eixo + _amostrar_caminho(offsets_vermelho, tk * 4.0))
+
+	var linear := clampf(tempo_estado / maxf(duracao, 0.01), 0.0, 1.0)
+	var u := smoothstep(0.0, 1.0, linear) # 0 = tudo na origem, 1 = figura completa
+	# No começo, mistura a pose em que o lenço estava para não dar um salto
+	var mistura_inicio := 1.0 - smoothstep(0.0, 0.25, linear)
+
+	for i in range(1, pontos_por_fita):
+		var t := float(i) / float(pontos_por_fita - 1)
+
+		# O ponto i anda de 0 até i (em "unidades de ponto") sobre o caminho da figura:
+		# quando u = 1/8 a ponta está na posição final do ponto 1, em 2/8 na do ponto 2, etc.
+		var s_caminho := float(i) * u
+		var alvo_verde := _amostrar_caminho(final_verde, s_caminho)
+		var alvo_vermelho := _amostrar_caminho(final_vermelho, s_caminho)
+
+		alvo_verde = alvo_verde.lerp(pontos_inicio_frente[i], mistura_inicio)
+		alvo_vermelho = alvo_vermelho.lerp(pontos_inicio_tras[i], mistura_inicio)
+
+		# Suavização leve (a ponta segue o caminho de perto)
+		var peso_lerp := _peso_ponto(t, 30.0, 45.0, delta)
+		pontos_frente[i] = pontos_frente[i].lerp(alvo_verde, peso_lerp)
+		pontos_tras[i] = pontos_tras[i].lerp(alvo_vermelho, peso_lerp)
+
+# Arredonda a fita desenhada (spline passando pelos pontos), sem alterar a simulação
+func _suavizar_curva(pts: Array[Vector2]) -> PackedVector2Array:
+	var saida := PackedVector2Array()
+	var n := pts.size()
+	var sub := maxi(subdivisoes_curva, 1)
+	for i in range(n - 1):
+		var p0 := pts[maxi(i - 1, 0)]
+		var p1 := pts[i]
+		var p2 := pts[i + 1]
+		var p3 := pts[mini(i + 2, n - 1)]
+		for s in range(sub):
+			saida.append(p1.cubic_interpolate(p2, p0, p3, float(s) / float(sub)))
+	saida.append(pts[n - 1])
+	return saida
+
+# --- AÇÃO RÁPIDA (Q / E) ---
+
+# Guarda o aperto por um instante: se cair no meio de outra ação ou da recarga, dispara assim que liberar
+func _pedir_acao(novo: EstadoLenco) -> void:
+	acao_pendente = novo
+	tempo_acao_pendente = 0.2
+
+func _executar_acao_pendente(origem: Vector2, alvo_mouse: Vector2, delta: float) -> void:
+	if acao_pendente == EstadoLenco.REPOUSO:
+		return
+
+	tempo_acao_pendente -= delta
+	if tempo_acao_pendente < 0.0:
+		acao_pendente = EstadoLenco.REPOUSO
+		return
+
+	# Ainda ocupado (outra ação rolando ou em recarga): espera
+	if estado_atual == EstadoLenco.ATAQUE_Q or estado_atual == EstadoLenco.DEFESA_E or tempo_recarga > 0.0:
+		return
+
+	# Trava a direção do mouse neste instante (sem mouse válido, usa para onde o personagem olha)
+	var vetor := alvo_mouse - origem
+	if vetor.length() > 1.0:
+		dir_acao = vetor.normalized()
+	else:
+		var olhando_esquerda: bool = sprite_jogador != null and "flip_h" in sprite_jogador and sprite_jogador.flip_h
+		dir_acao = Vector2.LEFT if olhando_esquerda else Vector2.RIGHT
+
+	estado_atual = acao_pendente
+	acao_pendente = EstadoLenco.REPOUSO
+
+# Termina o ataque/defesa depois da formação + tempo ativo e volta para o repouso
+func _checar_fim_acao() -> void:
+	var total := 0.0
+	match estado_atual:
+		EstadoLenco.ATAQUE_Q:
+			total = duracao_formacao_ataque + tempo_ativo_ataque
+		EstadoLenco.DEFESA_E:
+			total = duracao_formacao_defesa + tempo_ativo_defesa
+		_:
+			return
+
+	if tempo_estado >= total:
+		estado_atual = EstadoLenco.REPOUSO
+		_desativar_colisores()
+		tempo_recarga = recarga_acao
+
+# --- INDICADOR DE ALCANCE ---
+
+# Se a ação "mostrar_alcance" não existir no Mapa de Entrada, cria uma com a tecla Tab
+func _garantir_acao_alcance() -> void:
+	if InputMap.has_action(ACAO_ALCANCE):
+		return
+	InputMap.add_action(ACAO_ALCANCE)
+	var evento := InputEventKey.new()
+	evento.physical_keycode = KEY_TAB
+	InputMap.action_add_event(ACAO_ALCANCE, evento)
+
+func _atualizar_indicador_alcance(origem: Vector2, delta: float) -> void:
+	origem_alcance = origem
+
+	if not indicador_alcance_ativo:
+		alcance_visivel = 0.0
+		return
+
+	# Botão (segurar ou alternar)
+	var botao := false
+	if alcance_alternar:
+		if Input.is_action_just_pressed(ACAO_ALCANCE):
+			alcance_alternado = not alcance_alternado
+		botao = alcance_alternado
+	else:
+		botao = Input.is_action_pressed(ACAO_ALCANCE)
+
+	# Aviso temporário (clicou sem ter onde prender)
+	tempo_aviso_alcance = maxf(tempo_aviso_alcance - delta, 0.0)
+	var mostrando := botao or tempo_aviso_alcance > 0.0
+
+	# Ao começar a mostrar, dispara o anel que se expande a partir do personagem
+	if mostrando and not mostrando_alcance_antes:
+		pulso_alcance = 0.0
+	mostrando_alcance_antes = mostrando
+	pulso_alcance = minf(pulso_alcance + delta / 0.35, 1.0)
+
+	# Aparece rápido e some devagar
+	var alvo := 1.0 if mostrando else 0.0
+	alcance_visivel = move_toward(alcance_visivel, alvo, delta * (6.0 if mostrando else 3.0))
+	tempo_visual_alcance += delta
+
+# Círculo ao redor do personagem com o raio do alcance do gancho
+func _desenhar_alcance() -> void:
+	if alcance_visivel <= 0.01:
+		return
+
+	var centro := to_local(origem_alcance)
+	var raio := alcance_gancho
+	var a := alcance_visivel
+
+	# Preenchimento suave
+	draw_circle(centro, raio, Color(cor_alcance, 0.07 * a))
+
+	# Anel contínuo fino
+	draw_arc(centro, raio, 0.0, TAU, 128, Color(cor_alcance, 0.35 * a), 1.5, true)
+
+	# Anel tracejado girando devagar
+	var tracos := 48
+	var passo := TAU / float(tracos)
+	var giro := tempo_visual_alcance * 0.15
+	for k in range(0, tracos, 2):
+		var inicio := giro + float(k) * passo
+		draw_arc(centro, raio, inicio, inicio + passo * 0.8, 6, Color(cor_alcance, 0.85 * a), 3.0, true)
+
+	# Anel que se expande ao aparecer
+	if pulso_alcance < 1.0:
+		var e := 1.0 - pow(1.0 - pulso_alcance, 3.0)
+		draw_arc(centro, raio * e, 0.0, TAU, 96, Color(cor_alcance, (1.0 - pulso_alcance) * 0.6 * a), 2.5, true)
 
 # --- 1. REPOUSO ESVOAÇANTE (PARADO / CAMINHAR / CORRER + INÉRCIA NO PULO) ---
 func _atualizar_repouso_firme(origem: Vector2, delta: float) -> void:
@@ -219,14 +496,20 @@ func _atualizar_repouso_firme(origem: Vector2, delta: float) -> void:
 	# Arrasto horizontal: o lenço fica "para trás" do movimento
 	var arrasto_h := clampf(-vel_x * 0.05, -30.0, 30.0)
 
+	# Logo após soltar Q/E o lenço volta devagar e vai ganhando agilidade até o normal
+	tempo_retorno += delta
+	var k_retorno := smoothstep(0.0, 1.0, clampf(tempo_retorno / maxf(duracao_retorno, 0.01), 0.0, 1.0))
+	var agilidade := lerpf(0.3, 1.0, k_retorno)
+
 	for i in range(1, pontos_por_fita):
 		var t := float(i) / float(pontos_por_fita - 1)
 		var dist_segmento := comprimento_maximo * t
-		var fator_ponta := pow(t, 1.1)
+		var fator_ponta := pow(t, 1.2)
 
-		# Mesma fórmula nas duas fitas, só com fase diferente: amplitude igual, movimento não idêntico
-		var onda_tras := _onda_fita(t, 0.0, amp_vento, fator_ponta)
-		var onda_frente := _onda_fita(t, PI * 0.85, amp_vento, fator_ponta)
+		# Forma do movimento do código antigo, com a intensidade atual
+		var ondas := _ondas_repouso(t, amp_vento, fator_ponta)
+		var onda_tras := ondas.x
+		var onda_frente := ondas.y
 
 		var offset_inercia := Vector2(arrasto_h * fator_ponta, arrasto_v * fator_ponta)
 		var pos_base := origem + (dir_caimento * dist_segmento) + offset_inercia
@@ -234,21 +517,21 @@ func _atualizar_repouso_firme(origem: Vector2, delta: float) -> void:
 		var pos_alvo_tras := pos_base + (perp_caimento * onda_tras)
 		var pos_alvo_frente := pos_base + (perp_caimento * onda_frente)
 
-		# Base firme (30) -> ponta solta (7): efeito de atraso do tecido sem dobrar o começo
-		var peso_lerp := _peso_ponto(t, 30.0, 7.0, delta)
+		# Base firme (30) -> ponta solta: mais frouxa parado (5) e mais ágil ao correr (11), como no código antigo
+		var peso_lerp := _peso_ponto(t, 30.0 * agilidade, (5.0 + 6.0 * vel_suave) * agilidade, delta)
 		pontos_tras[i] = pontos_tras[i].lerp(pos_alvo_tras, peso_lerp)
 		pontos_frente[i] = pontos_frente[i].lerp(pos_alvo_frente, peso_lerp)
 
 # --- 2. ATAQUE Q ---
-func _atualizar_ataque_q(origem: Vector2, alvo_mouse: Vector2, delta: float) -> void:
+func _atualizar_ataque_q(origem: Vector2, delta: float) -> void:
 	pontos_tras[0] = origem
 	pontos_frente[0] = origem
 
-	var dir := (alvo_mouse - origem).normalized()
+	var dir := dir_acao
 	var perp := Vector2(-dir.y, dir.x)
 
-	var abertura_losango_1: float = 14.0
-	var abertura_losango_2: float = 28.0
+	var abertura_losango_1: float = 15.0
+	var abertura_losango_2: float = 10.0
 
 	var offsets_verde: Array[Vector2] = [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]
 	var offsets_vermelho: Array[Vector2] = [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]
@@ -262,48 +545,24 @@ func _atualizar_ataque_q(origem: Vector2, alvo_mouse: Vector2, delta: float) -> 
 	offsets_verde[4] = Vector2.ZERO
 	offsets_vermelho[4] = Vector2.ZERO
 
-	var taxa_ponta := velocidade_transicao * 2.5
-
-	for i in range(1, pontos_por_fita):
-		var t := float(i) / float(pontos_por_fita - 1)
-		var pos_eixo := origem + (dir * (alcance_ataque * t))
-
-		var offset_verde := Vector2.ZERO
-		var offset_vermelho := Vector2.ZERO
-
-		if i % 2 == 0:
-			var idx_base := int(float(i) * 0.5)
-			offset_verde = offsets_verde[idx_base]
-			offset_vermelho = offsets_vermelho[idx_base]
-		else:
-			var idx_ant := int(float(i - 1) * 0.5)
-			var idx_prox := int(float(i + 1) * 0.5)
-			offset_verde = offsets_verde[idx_ant].lerp(offsets_verde[idx_prox], 0.5)
-			offset_vermelho = offsets_vermelho[idx_ant].lerp(offsets_vermelho[idx_prox], 0.5)
-
-		var pos_alvo_verde := pos_eixo + offset_verde
-		var pos_alvo_vermelho := pos_eixo + offset_vermelho
-
-		var peso_lerp := _peso_ponto(t, taxa_ponta * 2.0, taxa_ponta, delta)
-		pontos_frente[i] = pontos_frente[i].lerp(pos_alvo_verde, peso_lerp)
-		pontos_tras[i] = pontos_tras[i].lerp(pos_alvo_vermelho, peso_lerp)
+	_aplicar_forma(origem, dir, alcance_ataque, offsets_verde, offsets_vermelho, delta, duracao_formacao_ataque)
 
 	if area_ataque:
-		area_ataque.monitoring = true
+		area_ataque.monitoring = tempo_estado >= duracao_formacao_ataque * 0.6 # ativa quando a ponta está quase lá
 		area_ataque.global_position = origem + (dir * (alcance_ataque * 0.7))
 		area_ataque.rotation = dir.angle()
 
 # --- 3. DEFESA E ---
-func _atualizar_defesa_e(origem: Vector2, alvo_mouse: Vector2, delta: float) -> void:
+func _atualizar_defesa_e(origem: Vector2, delta: float) -> void:
 	pontos_tras[0] = origem
 	pontos_frente[0] = origem
 
-	var dir := (alvo_mouse - origem).normalized()
+	var dir := dir_acao
 	var perp := Vector2(-dir.y, dir.x)
 
-	var altura_arco_1: float = 18.0
-	var altura_cotovelo: float = 32.0
-	var recuo_ponta: float = 30.0
+	var altura_arco_1: float = 15.0
+	var altura_cotovelo: float = 10.0
+	var recuo_ponta: float = 40.0
 
 	var offsets_verde: Array[Vector2] = [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]
 	var offsets_vermelho: Array[Vector2] = [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]
@@ -314,37 +573,13 @@ func _atualizar_defesa_e(origem: Vector2, alvo_mouse: Vector2, delta: float) -> 
 	offsets_vermelho[2] = Vector2.ZERO
 	offsets_verde[3] = -perp * altura_cotovelo
 	offsets_vermelho[3] = perp * altura_cotovelo
-	offsets_verde[4] = (-perp * (altura_cotovelo + 20.0)) - (dir * recuo_ponta)
-	offsets_vermelho[4] = (perp * (altura_cotovelo + 20.0)) - (dir * recuo_ponta)
+	offsets_verde[4] = (-perp * (altura_cotovelo + 35.0)) - (dir * recuo_ponta)
+	offsets_vermelho[4] = (perp * (altura_cotovelo + 35.0)) - (dir * recuo_ponta)
 
-	var taxa_ponta := velocidade_transicao * 2.5
-
-	for i in range(1, pontos_por_fita):
-		var t := float(i) / float(pontos_por_fita - 1)
-		var pos_eixo := origem + (dir * (alcance_defesa * t))
-
-		var offset_verde := Vector2.ZERO
-		var offset_vermelho := Vector2.ZERO
-
-		if i % 2 == 0:
-			var idx_base := int(float(i) * 0.5)
-			offset_verde = offsets_verde[idx_base]
-			offset_vermelho = offsets_vermelho[idx_base]
-		else:
-			var idx_ant := int(float(i - 1) * 0.5)
-			var idx_prox := int(float(i + 1) * 0.5)
-			offset_verde = offsets_verde[idx_ant].lerp(offsets_verde[idx_prox], 0.5)
-			offset_vermelho = offsets_vermelho[idx_ant].lerp(offsets_vermelho[idx_prox], 0.5)
-
-		var pos_alvo_verde := pos_eixo + offset_verde
-		var pos_alvo_vermelho := pos_eixo + offset_vermelho
-
-		var peso_lerp := _peso_ponto(t, taxa_ponta * 2.0, taxa_ponta, delta)
-		pontos_frente[i] = pontos_frente[i].lerp(pos_alvo_verde, peso_lerp)
-		pontos_tras[i] = pontos_tras[i].lerp(pos_alvo_vermelho, peso_lerp)
+	_aplicar_forma(origem, dir, alcance_defesa, offsets_verde, offsets_vermelho, delta, duracao_formacao_defesa)
 
 	if area_defesa:
-		area_defesa.monitoring = true
+		area_defesa.monitoring = tempo_estado >= duracao_formacao_defesa * 0.3
 		area_defesa.global_position = origem + (dir * (alcance_defesa * 0.4))
 		area_defesa.rotation = dir.angle()
 
@@ -364,6 +599,9 @@ func _tentar_disparar_gancho(origem: Vector2, alvo_mouse: Vector2) -> void:
 		# No ar: balança com a distância atual.
 		distancia_corda = maxf(alcance_gancho, dist) if jogador.is_on_floor() else dist
 		estado_atual = EstadoLenco.GANCHO
+	else:
+		# Nada para prender: mostra o círculo de alcance
+		tempo_aviso_alcance = duracao_aviso_alcance
 
 func _atualizar_gancho_pendulo(origem: Vector2, delta: float) -> void:
 	pontos_tras[0] = origem
@@ -425,15 +663,20 @@ func _desativar_colisores() -> void:
 	if area_defesa: area_defesa.monitoring = false
 
 func _redesenhar_line2d() -> void:
+	if not fita_tras or not fita_frente:
+		return
+
 	fita_tras.clear_points()
 	fita_frente.clear_points()
 
-	for pt in pontos_tras:
+	for pt in _suavizar_curva(pontos_tras):
 		fita_tras.add_point(fita_tras.to_local(pt))
-	for pt in pontos_frente:
+	for pt in _suavizar_curva(pontos_frente):
 		fita_frente.add_point(fita_frente.to_local(pt))
 
 func _draw() -> void:
+	_desenhar_alcance()
+
 	if not textura_ponta: return
 
 	if pontos_tras.size() >= pontos_por_fita:

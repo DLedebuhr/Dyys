@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://qy7pvwyup5qr"]
 
-[ext_resource type="Script" uid="uid://30kpqxmimq8t" path="res://scenes/ui/texture_button.gd" id="4_n02wn"]
+[ext_resource type="Script" uid="uid://30kpqxmimq8t" path="res://scenes/UI/texture_button.gd" id="4_n02wn"]
 [ext_resource type="AudioStream" uid="uid://dq8dleuqoau1c" path="res://assets/audio/sfx/benkirb-shine-1-268902.mp3" id="5_ychww"]
 
 [node name="TextureButton" type="TextureButton" unique_id=2136383047]

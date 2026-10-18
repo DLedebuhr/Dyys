@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://rv5855w2sxeh"]
+
+[ext_resource type="Script" uid="uid://3jgoa2kua05d" path="res://scenes/UI/Telas/Tela_Ajustes/TelaAjustes.gd" id="1_ljuwp"]
+[ext_resource type="PackedScene" uid="uid://dgi2kuhnnrr52" path="res://scenes/UI/FundoParticulasEx.tscn" id="2_d20ws"]
+[ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://scenes/UI/BotaoMenu.tscn" id="3_mdiao"]
+[ext_resource type="Texture2D" uid="uid://hijmtf35mu42" path="res://assets/textures/ui/VOLTAR1.png" id="4_7q5t6"]
+[ext_resource type="Texture2D" uid="uid://cj86i22dabmjh" path="res://assets/textures/ui/VOLTAR2.png" id="5_6lvab"]
+[ext_resource type="Texture2D" uid="uid://dyrcdaf5vjsxd" path="res://assets/textures/ui/VOLTAR3.png" id="6_kkam0"]
+[ext_resource type="Texture2D" uid="uid://blgvkj1tc3yrp" path="res://assets/textures/ui/MenuElemento4.png" id="7_fgk47"]
+[ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://assets/fonts/tt-milks-casual-pie-line.ttf" id="8_2hc3g"]
+[ext_resource type="Texture2D" uid="uid://le2qat71tyhf" path="res://assets/textures/ui/MenuLine2.png" id="9_yt0dq"]
+[ext_resource type="Texture2D" uid="uid://djvwcaoognkko" path="res://assets/textures/ui/VOLUME1.png" id="10_tusdt"]
+[ext_resource type="Texture2D" uid="uid://ceqcu5x5hf4xw" path="res://assets/textures/ui/VOLUME2.png" id="11_8njn1"]
+[ext_resource type="Texture2D" uid="uid://db7k0nf44eyx1" path="res://assets/textures/ui/VOLUME3.png" id="12_q2w20"]
+[ext_resource type="Texture2D" uid="uid://dpbum3pn7bw07" path="res://assets/textures/ui/CONTROLES1.png" id="13_3rqyv"]
+[ext_resource type="Texture2D" uid="uid://betj81v8ga6t5" path="res://assets/textures/ui/CONTROLES2.png" id="14_t6i87"]
+[ext_resource type="Texture2D" uid="uid://cg54ncyd3wgbv" path="res://assets/textures/ui/CONTROLES3.png" id="15_s5ao0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwyfe"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_top = 18
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vu3ja"]
+font = ExtResource("8_2hc3g")
+font_size = 64
+shadow_size = 0
+
+[node name="Control" type="Control" unique_id=2122652597]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ljuwp")
+
+[node name="FundoParticulas" parent="." unique_id=1316474068 instance=ExtResource("2_d20ws")]
+visible = false
+
+[node name="TextureButton" parent="." unique_id=2027265381 instance=ExtResource("3_mdiao")]
+visible = false
+layout_mode = 0
+offset_left = 609.0
+offset_top = 755.0
+offset_right = 1439.0
+offset_bottom = 755.0
+imagem_normal = ExtResource("4_7q5t6")
+imagem_hover = ExtResource("5_6lvab")
+imagem_pressed = ExtResource("6_kkam0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2141507071]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.019000001
+anchor_top = 0.046000004
+anchor_right = -0.019000001
+anchor_bottom = 0.046000004
+offset_left = 581.48
+offset_top = -49.680004
+offset_right = 1411.48
+offset_bottom = 1030.32
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=1932366484]
+layout_mode = 2
+texture = ExtResource("7_fgk47")
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1178428004]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_wwyfe")
+text = "AJUSTES"
+label_settings = SubResource("LabelSettings_vu3ja")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer" unique_id=1214997713]
+layout_mode = 2
+texture = ExtResource("9_yt0dq")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1614707353]
+layout_mode = 2
+theme_override_constants/separation = 150
+alignment = 1
+
+[node name="Volume" parent="VBoxContainer/HBoxContainer" unique_id=2136383047 instance=ExtResource("3_mdiao")]
+layout_mode = 2
+imagem_normal = ExtResource("10_tusdt")
+imagem_hover = ExtResource("11_8njn1")
+imagem_pressed = ExtResource("12_q2w20")
+
+[node name="Controles" parent="VBoxContainer/HBoxContainer" unique_id=18203898 instance=ExtResource("3_mdiao")]
+layout_mode = 2
+imagem_normal = ExtResource("13_3rqyv")
+imagem_hover = ExtResource("14_t6i87")
+imagem_pressed = ExtResource("15_s5ao0")
+
+[node name="Voltar" parent="." unique_id=560113018 instance=ExtResource("3_mdiao")]
+layout_mode = 0
+offset_left = 820.0
+offset_top = 912.0
+offset_right = 1100.0
+offset_bottom = 976.0
+imagem_normal = ExtResource("4_7q5t6")
+imagem_hover = ExtResource("5_6lvab")
+imagem_pressed = ExtResource("6_kkam0")

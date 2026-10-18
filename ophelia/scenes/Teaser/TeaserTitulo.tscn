@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://cxylai4u3omp3"]
+
+[ext_resource type="Texture2D" uid="uid://d2ubsvy3y2ami" path="res://assets/textures/Cenario/P/Frame 39.png" id="1_xfod4"]
+[ext_resource type="PackedScene" uid="uid://b1mfwjlapwre6" path="res://scenes/UI/FundoParticulas.tscn" id="2_2dutp"]
+[ext_resource type="Texture2D" uid="uid://do36h36kes6oo" path="res://assets/textures/ui/MenuElemento1.png" id="3_1hbqu"]
+[ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://assets/fonts/tt-milks-casual-pie-line.ttf" id="4_df3yr"]
+[ext_resource type="Texture2D" uid="uid://cj00srj7l4dou" path="res://assets/textures/ui/MenuLine.png" id="5_x5mp6"]
+[ext_resource type="PackedScene" uid="uid://fh4f6q1gcsn2" path="res://scenes/actors/Player.tscn" id="7_jkmps"]
+[ext_resource type="Script" uid="uid://d3woytjnikbuq" path="res://scenes/Teaser/camera_2d.gd" id="7_xfod4"]
+
+[sub_resource type="Gradient" id="Gradient_xfod4"]
+colors = PackedColorArray(0.015957251, 0.017598316, 0.04656169, 1, 0.1254902, 0.12941177, 0.23137255, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ludo5"]
+gradient = SubResource("Gradient_xfod4")
+fill = 1
+fill_from = Vector2(0, 0.5)
+fill_to = Vector2(0.35243055, 0.34895834)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_luuy3"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_top = 18
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_2qokd"]
+font = ExtResource("4_df3yr")
+font_size = 150
+shadow_size = 0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ludo5"]
+size = Vector2(1012, 2)
+
+[node name="TeaserTitulo" type="Node2D" unique_id=669028710]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1674471423]
+offset_left = -300.0
+offset_top = -2985.0
+offset_right = 3106.0
+offset_bottom = 2723.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_xfod4")
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=1436832212]
+visible = false
+offset_left = -1022.0
+offset_top = 1213.0
+offset_right = 2085.9185
+offset_bottom = 5252.0093
+rotation = -1.5707964
+texture = SubResource("GradientTexture2D_ludo5")
+
+[node name="FundoParticulas" parent="." unique_id=1120445920 instance=ExtResource("2_2dutp")]
+layer = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1349751015]
+offset_left = 461.0
+offset_top = 234.0
+offset_right = 1493.0
+offset_bottom = 788.0
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=1036474824]
+layout_mode = 2
+texture = ExtResource("3_1hbqu")
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=381522620]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_luuy3")
+text = "OPHELIA"
+label_settings = SubResource("LabelSettings_2qokd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer" unique_id=1229094466]
+layout_mode = 2
+texture = ExtResource("5_x5mp6")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="VBoxContainer/TextureRect2" unique_id=513231207]
+position = Vector2(18, 15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VBoxContainer/TextureRect2/StaticBody2D" unique_id=1892184219]
+position = Vector2(504, 0)
+shape = SubResource("RectangleShape2D_ludo5")
+
+[node name="Player" parent="." unique_id=1697615843 instance=ExtResource("7_jkmps")]
+z_index = 2
+position = Vector2(-176, -210)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=79195378]
+position = Vector2(960, -1300)
+script = ExtResource("7_xfod4")
+posicao_inicial = Vector2(960, -1300)
+posicao_final = Vector2(960, 540)
+
+[node name="TextureRect3" type="TextureRect" parent="." unique_id=1946473821]
+offset_left = -1107.0
+offset_top = -89.0
+offset_right = -75.0
+offset_bottom = -59.0
+texture = ExtResource("5_x5mp6")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="TextureRect3" unique_id=1027690558]
+position = Vector2(18, 15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TextureRect3/StaticBody2D" unique_id=1626700914]
+position = Vector2(504, 0)
+shape = SubResource("RectangleShape2D_ludo5")

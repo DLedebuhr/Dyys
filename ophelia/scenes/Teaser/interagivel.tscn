@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://b30hs68rcoa7"]
+
+[ext_resource type="Script" uid="uid://cmtcrrdorxp8w" path="res://Interagivel.gd" id="1_uw1tv"]
+[ext_resource type="Texture2D" uid="uid://cwyw7tbmnxy7d" path="res://assets/textures/ui/save/V06.png" id="2_y1jnv"]
+[ext_resource type="Texture2D" uid="uid://sq4lhdeacuds" path="res://assets/textures/ui/save/V05.png" id="3_1lmx4"]
+[ext_resource type="Texture2D" uid="uid://b56pgraf3a0u3" path="res://assets/textures/ui/aaaa.png" id="4_k741s"]
+[ext_resource type="Texture2D" uid="uid://bi8tu5mktm5x4" path="res://assets/textures/ui/aaa.png" id="5_meg5a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wtc15"]
+size = Vector2(260, 299)
+
+[node name="Interagivel" type="Node2D" unique_id=998603785]
+script = ExtResource("1_uw1tv")
+textura_imagem_normal = ExtResource("2_y1jnv")
+textura_imagem_ativa = ExtResource("3_1lmx4")
+textura_botao_normal = ExtResource("4_k741s")
+textura_botao_pressionado = ExtResource("5_meg5a")
+cor_brilho = Color(0.99215686, 0.6745098, 0.38431373, 1)
+alcance_brilho = 150.0
+duracao_brilho = 1.0
+
+[node name="Imagem" type="TextureRect" parent="." unique_id=2043811849]
+offset_left = 2.0
+offset_right = 402.0
+offset_bottom = 600.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_y1jnv")
+
+[node name="Botao" type="TextureRect" parent="." unique_id=187434638]
+offset_left = -12.0
+offset_top = -64.0
+offset_right = 215.0
+texture = ExtResource("4_k741s")
+
+[node name="PontoBrilho" type="Marker2D" parent="." unique_id=673918661]
+position = Vector2(116, 89)
+
+[node name="ZonaProximidade" type="Area2D" parent="." unique_id=1770273877]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaProximidade" unique_id=645384166]
+position = Vector2(132, 150.5)
+shape = SubResource("RectangleShape2D_wtc15")

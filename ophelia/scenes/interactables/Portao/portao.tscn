@@ -1,0 +1,134 @@
+[gd_scene format=3 uid="uid://1a275fbbt8mf"]
+
+[ext_resource type="Script" uid="uid://b0h10753vtu2u" path="res://scenes/interactables/Portao/portao.gd" id="1_ebd7f"]
+[ext_resource type="Texture2D" uid="uid://6avwlegff2pi" path="res://assets/textures/Cenario/Frame 2.png" id="2_fuhgf"]
+[ext_resource type="Texture2D" uid="uid://gxpauiiqnmlf" path="res://assets/textures/Cenario/Frame 3.png" id="3_wgheg"]
+[ext_resource type="Texture2D" uid="uid://cb8uort4i4iqc" path="res://assets/textures/Cenario/Frame 4.png" id="4_p57lf"]
+[ext_resource type="Texture2D" uid="uid://bsjq66pxlq36o" path="res://assets/textures/Cenario/Frame 1.png" id="5_0qo8n"]
+[ext_resource type="Texture2D" uid="uid://c1qr6ssky3fpc" path="res://assets/textures/Cenario/Frame 5.png" id="6_yvgnx"]
+
+[sub_resource type="Gradient" id="grad_luz"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(1, 0.97, 0.88, 1, 1, 0.97, 0.88, 1, 1, 0.97, 0.88, 0)
+
+[sub_resource type="GradientTexture2D" id="tex_luz"]
+gradient = SubResource("grad_luz")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="grad_penumbra"]
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.95)
+
+[sub_resource type="GradientTexture2D" id="tex_penumbra"]
+gradient = SubResource("grad_penumbra")
+width = 96
+height = 128
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="RectangleShape2D" id="forma_abrir"]
+size = Vector2(280, 140)
+
+[sub_resource type="RectangleShape2D" id="forma_entrada"]
+size = Vector2(74.743355, 116.20424)
+
+[node name="Portao" type="Node2D" unique_id=765257463]
+scale = Vector2(1.42748, 2.7222176)
+script = ExtResource("1_ebd7f")
+
+[node name="Fundo" type="Node2D" parent="." unique_id=1939417081]
+
+[node name="TextureRect" type="TextureRect" parent="Fundo" unique_id=1584144536]
+offset_left = -96.67387
+offset_top = -231.42894
+offset_right = 554.3261
+offset_bottom = 1302.571
+scale = Vector2(0.292, 0.152)
+texture = ExtResource("2_fuhgf")
+
+[node name="Interior" type="Node2D" parent="." unique_id=753568955]
+
+[node name="Placeholder" type="Polygon2D" parent="Interior" unique_id=501003713]
+visible = false
+position = Vector2(0.5187292, 0.73472476)
+scale = Vector2(1.2735077, 1.5583572)
+color = Color(0.05, 0.04, 0.06, 1)
+polygon = PackedVector2Array(-48, -128, 48.399994, -130.4, 48, 0, -48, 0)
+
+[node name="Luz" type="Sprite2D" parent="Interior" unique_id=1914676647]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(-3.5026627, -98.62061)
+scale = Vector2(0.4870908, 0.77066404)
+texture = SubResource("tex_luz")
+
+[node name="Penumbra" type="Sprite2D" parent="." unique_id=748609595]
+visible = false
+position = Vector2(-1.5828629, 0.3673713)
+scale = Vector2(1.3026959, 1.5440079)
+texture = SubResource("tex_penumbra")
+centered = false
+offset = Vector2(-48, -128)
+
+[node name="PortaEsquerda" type="Node2D" parent="." unique_id=146099669]
+position = Vector2(-48, 0)
+
+[node name="PortaEsq" type="TextureRect" parent="PortaEsquerda" unique_id=446490657]
+offset_left = -15.748727
+offset_top = -198.36772
+offset_right = 196.25127
+offset_bottom = 1118.6323
+scale = Vector2(0.292, 0.152)
+texture = ExtResource("3_wgheg")
+metadata/_edit_use_anchors_ = true
+
+[node name="PortaDireita" type="Node2D" parent="." unique_id=1093946113]
+position = Vector2(47.999996, -0.3673401)
+
+[node name="PortaDir" type="TextureRect" parent="PortaDireita" unique_id=1641434632]
+offset_left = -49.400826
+offset_top = -198.36723
+offset_right = 162.59918
+offset_bottom = 1118.6328
+scale = Vector2(0.292, 0.152)
+texture = ExtResource("4_p57lf")
+
+[node name="Adorno" type="Node2D" parent="." unique_id=970509438]
+
+[node name="BatenteEsq" type="TextureRect" parent="Adorno" unique_id=1445991449]
+offset_left = -177.23541
+offset_top = -255.6739
+offset_right = 429.7646
+offset_bottom = 1445.326
+scale = Vector2(0.29161465, 0.15163973)
+texture = ExtResource("5_0qo8n")
+
+[node name="BatenteDir" type="TextureRect" parent="Adorno" unique_id=1466011172]
+offset_left = -7.705888
+offset_top = -256.4086
+offset_right = 599.2941
+offset_bottom = 1444.5914
+scale = Vector2(0.292, 0.152)
+texture = ExtResource("6_yvgnx")
+
+[node name="PontoEntrada" type="Marker2D" parent="." unique_id=870538014]
+position = Vector2(0, -96)
+
+[node name="ZonaAbrir" type="Area2D" parent="." unique_id=666780035]
+position = Vector2(0, -30)
+scale = Vector2(1.3923002, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaAbrir" unique_id=373994764]
+position = Vector2(-2.1016057, -12.612316)
+scale = Vector2(0.99999994, 1)
+shape = SubResource("forma_abrir")
+
+[node name="ZonaEntrada" type="Area2D" parent="." unique_id=578253114]
+position = Vector2(0, -24)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaEntrada" unique_id=837247625]
+position = Vector2(39.930508, -32.938873)
+scale = Vector2(1, 1.0000001)
+shape = SubResource("forma_entrada")
