@@ -4,7 +4,6 @@ extends CharacterBody2D
 @export_group("Velocidade")
 @export var velocidade_andar: float = 160.0
 @export var velocidade_correr: float = 500.0
-@export var velocidade_agachado: float = 80.0
 @export var aceleracao: float = 1800.0
 @export var atrito: float = 2000.0
 
@@ -28,14 +27,16 @@ extends CharacterBody2D
 @onready var lenco = find_child("PontoOrigem", true, false) # Guardado uma vez só
 
 # --- VARIÁVEIS DE ESTADO INTERNO ---
+# Correr: CapsLock ligado = corre | desligado = caminha (alterna a cada toque)
 var esta_correndo: bool = false
-var esta_agachado: bool = false
+var esta_sentada: bool = false
 var esta_levantando: bool = false
 
-# Estado do planar
+# Estado do planar (a animação continua sendo a de pulo; quem anima é o nó Asas)
 var planando: bool = false
-var planar_ativando: bool = false     # Tocando a animação de ativação
-var esta_aterrissando: bool = false   # Tocando a animação de aterrissar
+
+# false = animações "...Base" (sem chapéu) | true = animações "...Chapeu"
+var usando_chapeu: bool = false
 
 # Contadores dos assistentes de pulo
 var tempo_coyote: float = 0.0
@@ -68,52 +69,50 @@ func _atualizar_temporizadores(delta: float) -> void:
 		tempo_coyote -= delta
 
 	# Jump Buffer: guarda a intenção de pulo pouco antes de tocar o chão
-	if Input.is_action_just_pressed("pular"):
+	if Input.is_action_just_pressed("ControlePular"):
 		tempo_jump_buffer = jump_buffer_limite
 	else:
 		tempo_jump_buffer -= delta
 
 # --- LÓGICA DE ESTADOS (Correr em toggle / Sentar e Levantar em toggle) ---
 func _processar_inputs_estado() -> void:
-	if Input.is_action_just_pressed("correr"):
+	if Input.is_action_just_pressed("ControleCorrer"):
 		esta_correndo = !esta_correndo
 
-	if Input.is_action_just_pressed("agachar") and is_on_floor():
+	if Input.is_action_just_pressed("ControleSentarLevantar") and is_on_floor():
 		var tem_teto_acima := raycast_teto.is_colliding() if raycast_teto else false
 
-		if esta_agachado:
+		if esta_sentada:
 			# Só levanta se não houver teto no caminho
 			if not tem_teto_acima:
-				esta_agachado = false
+				esta_sentada = false
 				esta_levantando = true
-				if sprite and sprite.sprite_frames.has_animation("levantar"):
-					sprite.play("LevantarBase")
+				_tocar("Levantar", true)
 		else:
-			esta_agachado = true
+			esta_sentada = true
 			esta_levantando = false
-			if sprite and sprite.sprite_frames.has_animation("sentar"):
-				sprite.play("sentar")
+			_tocar("Sentar", true)
 
-func _definir_estado_agachado(agachar: bool) -> void:
-	esta_agachado = agachar
+func _definir_estado_sentada(sentar: bool) -> void:
+	esta_sentada = sentar
 
 # --- PLANAR ---
-# Aperta "pular" de novo no ar (sem estar preso ao gancho) para começar a planar.
+# Aperta "ControlePular" de novo no ar (sem estar preso ao gancho) para começar a planar.
 func _processar_planar() -> void:
 	if planando:
 		if is_on_floor():
-			_encerrar_planar(true)  # Pousou: toca a animação de aterrissar
+			_encerrar_planar()  # Pousou
 		elif _em_gancho():
-			_encerrar_planar(false) # Prendeu o gancho: cancela
-		elif planar_segurando_tecla and not Input.is_action_pressed("pular"):
-			_encerrar_planar(false) # Soltou a tecla: volta a cair normalmente
-		elif not planar_segurando_tecla and Input.is_action_just_pressed("pular"):
-			_encerrar_planar(false) # Modo toggle: apertou de novo para cancelar
+			_encerrar_planar()  # Prendeu o gancho: cancela
+		elif planar_segurando_tecla and not Input.is_action_pressed("ControlePular"):
+			_encerrar_planar()  # Soltou a tecla: volta a cair normalmente
+		elif not planar_segurando_tecla and Input.is_action_just_pressed("ControlePular"):
+			_encerrar_planar()  # Modo toggle: apertou de novo para cancelar
 			tempo_jump_buffer = 0.0
 		return
 
 	# Só começa fora do chão, depois do coyote time (senão seria um pulo normal) e sem gancho
-	if Input.is_action_just_pressed("pular") \
+	if Input.is_action_just_pressed("ControlePular") \
 			and not is_on_floor() \
 			and tempo_coyote <= 0.0 \
 			and not _em_gancho():
@@ -124,20 +123,9 @@ func _iniciar_planar() -> void:
 	tempo_jump_buffer = 0.0 # Não deixa o pulo "guardado" disparar ao pousar
 	velocity.y = maxf(velocity.y, 0.0) # Se estava subindo, começa a planar do topo
 	esta_levantando = false
-	esta_aterrissando = false
 
-	planar_ativando = sprite != null and sprite.sprite_frames != null \
-			and sprite.sprite_frames.has_animation("planar_inicio")
-	if planar_ativando:
-		sprite.play("planar_inicio")
-
-func _encerrar_planar(pousou: bool) -> void:
+func _encerrar_planar() -> void:
 	planando = false
-	planar_ativando = false
-
-	if pousou and sprite and sprite.sprite_frames and sprite.sprite_frames.has_animation("aterrissar"):
-		esta_aterrissando = true
-		sprite.play("aterrissar")
 
 # --- GRAVIDADE E PULO ---
 func _aplicar_gravidade(delta: float) -> void:
@@ -162,22 +150,22 @@ func _processar_pulo() -> void:
 		tempo_jump_buffer = 0.0 # Consome o buffer
 		tempo_coyote = 0.0      # Consome o coyote
 
-		# Cancela o estado de agachar/sentar ao pular
-		if esta_agachado and not (raycast_teto and raycast_teto.is_colliding()):
-			_definir_estado_agachado(false)
+		# Cancela o estado de sentada ao pular
+		if esta_sentada and not (raycast_teto and raycast_teto.is_colliding()):
+			_definir_estado_sentada(false)
 
 	# Pulo variável: corta a altura se soltar a tecla no ar
-	if Input.is_action_just_released("pular") and velocity.y < 0.0:
+	if Input.is_action_just_released("ControlePular") and velocity.y < 0.0:
 		velocity.y *= 0.5
 
 # --- MOVIMENTO HORIZONTAL ---
 func _processar_movimento_horizontal(delta: float) -> void:
-	# Sentado no chão: só desacelera
-	if esta_agachado and is_on_floor():
+	# Sentada no chão: só desacelera
+	if esta_sentada and is_on_floor():
 		velocity.x = move_toward(velocity.x, 0.0, atrito * delta)
 		return
 
-	var direcao := Input.get_axis("mover_esquerda", "mover_direita")
+	var direcao := Input.get_axis("ControleAndarEsquerda", "ControleAndarDireita")
 
 	# Balançando na corda esticada: sem atrito nem aceleração própria,
 	# o lenço cuida do embalo. Só vira o sprite.
@@ -195,64 +183,59 @@ func _processar_movimento_horizontal(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, atrito * delta)
 
+# --- CHAPÉU E NOMES DE ANIMAÇÃO ---
+func definir_chapeu(usar: bool) -> void:
+	usando_chapeu = usar
+
+# "Andar" -> "AndarBase" ou "AndarChapeu", conforme o chapéu
+func _nome_anim(nome: String) -> String:
+	return nome + ("Chapeu" if usando_chapeu else "Base")
+
+func _tem_anim(nome: String) -> bool:
+	return sprite != null and sprite.sprite_frames != null and sprite.sprite_frames.has_animation(nome)
+
+# Toca a animação na versão certa. reiniciar = true recomeça mesmo se já estiver tocando.
+func _tocar(nome: String, reiniciar: bool = false) -> void:
+	var alvo := _nome_anim(nome)
+	if not _tem_anim(alvo):
+		return
+	if sprite.animation == alvo and not reiniciar:
+		return
+	# Trocou só o chapéu (mesma animação, outra versão)? Mantém o frame em vez de recomeçar.
+	var mesma_animacao := not reiniciar and String(sprite.animation).begins_with(nome)
+	var frame_antes := sprite.frame
+	sprite.play(alvo)
+	if mesma_animacao:
+		var ultimo := sprite.sprite_frames.get_frame_count(alvo) - 1
+		sprite.set_frame_and_progress(mini(frame_antes, ultimo), 0.0)
+
 # --- ANIMAÇÕES ---
 func _atualizar_animacoes() -> void:
 	if not sprite or not sprite.sprite_frames:
 		return
 
-	# NO AR: planar, balançar (gancho) ou pular. Uma única decisão, sem sobrescrever.
+	# NO AR: pular, planar e balançar usam a mesma animação de pulo
+	# (o planar ganha o efeito das asas pelo nó Asas)
 	if not is_on_floor():
 		esta_levantando = false
-		esta_aterrissando = false
-
-		if planando:
-			_animar_planar()
-			return
-
-		if _em_gancho() and sprite.sprite_frames.has_animation("balancar"):
-			sprite.play("balancar")
-		elif sprite.sprite_frames.has_animation("PularBase"):
-			sprite.play("PularBase")
+		_tocar("Pular")
 		return
 
-	# Espera a animação 'aterrissar' terminar (depois de planar)
-	if esta_aterrissando:
-		if sprite.animation != "aterrissar" or not sprite.is_playing():
-			esta_aterrissando = false
-		else:
-			return
-
-	# Espera a animação 'levantar' terminar (e não trava se ela não existir)
+	# Espera a animação 'Levantar' terminar
 	if esta_levantando:
-		if sprite.animation != "LevantarBase" or not sprite.is_playing():
+		if sprite.animation != _nome_anim("Levantar") or not sprite.is_playing():
 			esta_levantando = false
 		else:
 			return
 
-	if esta_agachado:
-		# Só toca 'sentar' se ainda não estiver tocando (evita reiniciar o frame 1)
-		if sprite.sprite_frames.has_animation("SentarBase") and sprite.animation != "SentarBase":
-			sprite.play("SentarBase")
-
+	if esta_sentada:
+		_tocar("Sentar")
 	elif absf(velocity.x) > 10.0:
-		if esta_correndo and sprite.sprite_frames.has_animation("CorrerBase"):
-			sprite.play("CorrerBase")
-		elif sprite.sprite_frames.has_animation("AndarBase"):
-			sprite.play("AndarBase")
-
+		_tocar("Correr" if esta_correndo else "Andar")
 	else:
-		if sprite.sprite_frames.has_animation("ParadoBase"):
-			sprite.play("ParadoBase")
+		_tocar("Parado")
 
-# Ativação ("planar_inicio") -> padrão em loop ("planar") enquanto durar a planagem
-func _animar_planar() -> void:
-	if planar_ativando:
-		if sprite.animation != "planar_inicio" or not sprite.is_playing():
-			planar_ativando = false
-		else:
-			return
-
-	# Se ainda não existir a animação 'planar', usa 'pular' como reserva
-	var anim := "planar" if sprite.sprite_frames.has_animation("planar") else "PularBase"
-	if sprite.sprite_frames.has_animation(anim) and sprite.animation != anim:
-		sprite.play(anim)
+# TEMPORÁRIO: H alterna o chapéu para testar. Remover quando o chapéu for ligado ao jogo.
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_H:
+		definir_chapeu(not usando_chapeu)

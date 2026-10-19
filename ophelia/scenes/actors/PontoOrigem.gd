@@ -17,15 +17,19 @@ var estado_atual: EstadoLenco = EstadoLenco.REPOUSO
 # --- CONFIGURAÇÕES DO GANCHO ---
 @export var forca_embalo_ar: float = 500.0   # Aceleração horizontal ao balançar com a corda esticada
 
-# --- AJUSTE DA GOLA POR ANIMAÇÃO ---
-# Quanto o ponto de origem desce (+Y) / desloca (X) em cada FRAME da animação,
-# em relação à posição normal do PontoGola (y=21 em pé).
+# --- ORIGEM DAS FITAS POR ANIMAÇÃO ---
+# A gola já está no desenho; aqui a ORIGEM DAS FITAS é que acompanha a gola desenhada.
+# Quanto a origem desce (+Y) / desloca (X) em cada FRAME da animação,
+# em relação à posição normal (y=21 em pé). As chaves são os nomes reais das animações
+# (Base e Chapeu).
 # sentar: y=32, 39, 48  ->  offsets 11, 18, 27
 # Se a lista tiver menos itens que a animação, o último valor é mantido.
 # X é espelhado automaticamente quando o sprite está virado (flip_h).
 @export var offset_gola_por_animacao: Dictionary = {
-	"sentar": [Vector2(0, 11), Vector2(0, 18), Vector2(0, 27)],
-	"levantar": [Vector2(0, 27), Vector2(0, 18), Vector2(0, 11)],
+	"SentarBase": [Vector2(0, 11), Vector2(0, 18), Vector2(0, 27)],
+	"SentarChapeu": [Vector2(0, 11), Vector2(0, 18), Vector2(0, 27)],
+	"LevantarBase": [Vector2(0, 27), Vector2(0, 18), Vector2(0, 11)],
+	"LevantarChapeu": [Vector2(0, 27), Vector2(0, 18), Vector2(0, 11)],
 }
 @export var suavidade_offset_gola: float = 20.0 # Maior = acompanha mais rápido
 
@@ -40,12 +44,12 @@ var estado_atual: EstadoLenco = EstadoLenco.REPOUSO
 @export var subdivisoes_curva: int = 4      # Arredondamento das curvas (1 = sem arredondar)
 
 # --- INDICADOR DE ALCANCE DO GANCHO ---
-# Botão: crie a ação "mostrar_alcance" no Mapa de Entrada (se não existir, usa a tecla Tab).
+# Botão: crie a ação "ControleMostrarAlcance" no Mapa de Entrada (se não existir, usa a tecla Tab).
 @export var indicador_alcance_ativo: bool = true
 @export var alcance_alternar: bool = false      # false: mostra enquanto segura | true: liga/desliga a cada aperto
 @export var duracao_aviso_alcance: float = 1.2  # Segundos visível ao clicar sem ter onde prender
 @export var cor_alcance: Color = Color(0.55, 0.85, 1.0)
-const ACAO_ALCANCE: String = "mostrar_alcance"
+const ACAO_ALCANCE: String = "ControleMostrarAlcance"
 
 @onready var fita_tras: Line2D = _achar_fita("FitaTras")
 @onready var fita_frente: Line2D = _achar_fita("FitaFrente")
@@ -155,18 +159,18 @@ func _physics_process(delta: float) -> void:
 
 	# --- LEITURA DE ENTRADAS ---
 	# Q / E: um aperto dispara a ação inteira (direção travada no mouse) e ela volta sozinha
-	if Input.is_action_just_pressed("ataque_q"):
+	if Input.is_action_just_pressed("ControleAtaqueLenco"):
 		_pedir_acao(EstadoLenco.ATAQUE_Q)
-	elif Input.is_action_just_pressed("defesa_e"):
+	elif Input.is_action_just_pressed("ControleDefesaLenco"):
 		_pedir_acao(EstadoLenco.DEFESA_E)
-	elif Input.is_action_just_pressed("clique_esquerdo"):
+	elif Input.is_action_just_pressed("ControleFixarLenco"):
 		_tentar_disparar_gancho(pos_origem, pos_mouse)
 
 	tempo_recarga = maxf(tempo_recarga - delta, 0.0)
 	_checar_fim_acao()
 	_executar_acao_pendente(pos_origem, pos_mouse, delta)
 
-	if Input.is_action_just_released("clique_esquerdo") and estado_atual == EstadoLenco.GANCHO:
+	if Input.is_action_just_released("ControleFixarLenco") and estado_atual == EstadoLenco.GANCHO:
 		estado_atual = EstadoLenco.REPOUSO
 
 	# Detecta troca de estado (guarda a pose atual para a transição suave)
@@ -395,7 +399,7 @@ func _checar_fim_acao() -> void:
 
 # --- INDICADOR DE ALCANCE ---
 
-# Se a ação "mostrar_alcance" não existir no Mapa de Entrada, cria uma com a tecla Tab
+# Se a ação "ControleMostrarAlcance" não existir no Mapa de Entrada, cria uma com a tecla Tab
 func _garantir_acao_alcance() -> void:
 	if InputMap.has_action(ACAO_ALCANCE):
 		return
@@ -619,7 +623,7 @@ func _atualizar_gancho_pendulo(origem: Vector2, delta: float) -> void:
 		return
 
 	# BOTÃO DIREITO: impulso
-	if Input.is_action_pressed("clique_direito"):
+	if Input.is_action_pressed("ControleImpulsoLenco"):
 		var dir_puxao := (ponto_ancora_gancho - origem).normalized()
 		jogador.velocity = dir_puxao * 650.0
 		corda_esticada = false
@@ -651,7 +655,7 @@ func _atualizar_gancho_pendulo(origem: Vector2, delta: float) -> void:
 
 	# Embalo no ar usando as setas/A-D
 	if not jogador.is_on_floor():
-		var input_h := Input.get_axis("mover_esquerda", "mover_direita")
+		var input_h := Input.get_axis("ControleAndarEsquerda", "ControleAndarDireita")
 		if input_h != 0.0:
 			var tang := Vector2(-dir_corda.y, dir_corda.x)
 			if tang.x * input_h < 0.0:

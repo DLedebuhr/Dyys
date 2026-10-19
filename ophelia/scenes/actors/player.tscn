@@ -235,7 +235,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"LevantarBase",
-"speed": 5.0
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -249,7 +249,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"LevantarChapeu",
-"speed": 5.0
+"speed": 3.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -353,9 +353,7 @@ end_cap_mode = 2
 position = Vector2(0, -18)
 scale = Vector2(0.35, 0.35)
 sprite_frames = SubResource("SpriteFrames_15tap")
-animation = &"LevantarBase"
-frame = 2
-frame_progress = 1.0
+animation = &"ParadoBase"
 
 [node name="Asas" type="AnimatedSprite2D" parent="." unique_id=223967372 node_paths=PackedStringArray("jogador", "sprite_principal")]
 z_index = 1
@@ -367,8 +365,16 @@ script = ExtResource("22_y7lai")
 jogador = NodePath("..")
 sprite_principal = NodePath("../AnimatedSprite2D")
 cor_brilho = Color(1, 1, 1, 1)
+debug = false
+
+[node name="OrigemAsa" type="Marker2D" parent="Asas" unique_id=1170909224]
+position = Vector2(-22.857141, 119.99999)
+
+[node name="PontaAsa" type="Marker2D" parent="Asas" unique_id=1063324161]
+position = Vector2(-142.85713, 268.5714)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1157091660]
+visible = false
 position = Vector2(0, 25)
 shape = SubResource("CapsuleShape2D_ktjr4")
 

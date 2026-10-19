@@ -76,8 +76,9 @@ offset_bottom = 801.00006
 rotation = -1.5767722
 texture = SubResource("GradientTexture2D_ludo5")
 
-[node name="Portal" parent="." unique_id=1448505995 instance=ExtResource("1_lf5ra")]
+[node name="Portal" parent="." unique_id=1448505995 node_paths=PackedStringArray("jogador") instance=ExtResource("1_lf5ra")]
 position = Vector2(749, 405)
+jogador = NodePath("../Player")
 cor_clarao = Color(0.05882353, 0.0627451, 0.13725491, 1)
 
 [node name="Player" parent="." unique_id=1697615843 instance=ExtResource("2_kisf1")]
