@@ -1,7 +1,7 @@
 # ===== COMPONENTE "VooFada" — nó filho do Player =====
 # Tecla V liga/desliga o voo livre como luz. Não altera jogador.gd nem ponto_origem.gd:
 # enquanto voa, só pausa esses scripts e depois devolve tudo como estava.
-# Para o jogo final: desmarque "habilitado" (ou apague este nó).
+# Ferramenta de desenvolvimento: só funciona com o modo debug (666) ligado. Jogadores não têm acesso.
 extends Node
 
 signal voo_iniciado
@@ -9,7 +9,7 @@ signal voo_encerrado
 
 enum Forma { NORMAL, ENTRANDO, VOANDO, SAINDO }
 
-const ACAO_VOO: String = "voar_fada"
+const ACAO_VOO: String = "ControleVooDebug"
 const TAM_TEXTURA: int = 128
 
 @export var habilitado: bool = true:
@@ -95,7 +95,7 @@ func _exit_tree() -> void:
 	if esconder_cursor_no_voo:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
-# Se a ação "voar_fada" não existir no Mapa de Entrada, cria uma com a tecla V
+# Se a ação "ControleVooDebug" não existir no Mapa de Entrada, cria uma com a tecla V
 func _garantir_acao() -> void:
 	if InputMap.has_action(ACAO_VOO):
 		return
@@ -109,12 +109,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		controle_mouse = true
 
 # --- LOOP ---
+# O voo só existe com o modo debug (666) ligado
+func _debug_ligado() -> bool:
+	return jogador != null and jogador.has_method("em_modo_debug") and jogador.em_modo_debug()
+
 func _physics_process(delta: float) -> void:
-	if not habilitado and forma == Forma.NORMAL:
+	var permitido := habilitado and _debug_ligado()
+	# Desligou o modo debug no meio do voo: pousa
+	if not permitido and forma == Forma.VOANDO:
+		_encerrar_voo(true)
+	if not permitido and forma == Forma.NORMAL:
 		return
 	tempo += delta
 
-	if habilitado and Input.is_action_just_pressed(ACAO_VOO):
+	if permitido and Input.is_action_just_pressed(ACAO_VOO):
 		if forma == Forma.NORMAL:
 			_iniciar_voo()
 		elif forma == Forma.VOANDO:
@@ -153,11 +161,11 @@ func _mover_corpo(mov: Vector2) -> void:
 		jogador.global_position += mov
 
 func _eixo_teclado() -> Vector2:
-	var esq: String = "mover_esquerda" if InputMap.has_action("mover_esquerda") else "ui_left"
-	var dir: String = "mover_direita" if InputMap.has_action("mover_direita") else "ui_right"
+	var esq: String = "ControleAndarEsquerda" if InputMap.has_action("ControleAndarEsquerda") else "ui_left"
+	var dir: String = "ControleAndarDireita" if InputMap.has_action("ControleAndarDireita") else "ui_right"
 	var h: float = Input.get_axis(esq, dir) + Input.get_axis("ui_left", "ui_right")
 	var v: float = Input.get_axis("ui_up", "ui_down")
-	if InputMap.has_action("pular") and Input.is_action_pressed("pular"):
+	if InputMap.has_action("ControlePular") and Input.is_action_pressed("ControlePular"):
 		v -= 1.0
 	return Vector2(clampf(h, -1.0, 1.0), clampf(v, -1.0, 1.0))
 
@@ -208,9 +216,11 @@ func _iniciar_voo() -> void:
 func _desligar_boneca() -> void:
 	jogador.set_physics_process(false)
 	jogador.velocity = Vector2.ZERO
-	for nome in ["planando", "planar_ativando", "esta_aterrissando", "esta_levantando", "esta_agachado"]:
+	for nome in ["planando", "esta_levantando", "esta_sentada"]:
 		if nome in jogador:
 			jogador.set(nome, false)
+	if jogador.has_method("cancelar_reacao"):
+		jogador.cancelar_reacao()
 
 	if lenco != null:
 		if lenco.has_method("_desativar_colisores"):

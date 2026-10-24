@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bw4go8goxewie"
-path="res://.godot/imported/Frame 93.png-0236b2df26e3b2883b870cbead839454.ctex"
+uid="uid://bypau0783bg8f"
+path="res://.godot/imported/Frame 119.png-f8a66beec81936629375385fd47a4dd8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 93.png"
-dest_files=["res://.godot/imported/Frame 93.png-0236b2df26e3b2883b870cbead839454.ctex"]
+source_file="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 119.png"
+dest_files=["res://.godot/imported/Frame 119.png-f8a66beec81936629375385fd47a4dd8.ctex"]
 
 [params]
 

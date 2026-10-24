@@ -63,6 +63,34 @@ const ACAO_ALCANCE: String = "ControleMostrarAlcance"
 @export var textura_ponta: Texture2D
 @export var tamanho_ponta: Vector2 = Vector2(24, 24)
 
+# --- IMPULSO E AGARRAR OBJETO (habilidade aprendida na Primavera) ---
+# Valores PROVISÓRIOS, ainda não aprovados: ajuste no Inspetor.
+@export_group("Impulso e agarrar objeto")
+@export var velocidade_impulso: float = 650.0          # Impulso da personagem rumo a um ponto firme (antes fixo no código)
+@export var velocidade_impulso_objeto: float = 650.0   # Impulso que lança um objeto leve rumo à personagem
+@export var limite_forca_lenco: float = 5.0            # Maior "força necessária" (massa) que o lenço consegue puxar
+@export var leves_exigem_habilidade: bool = true       # true: objetos leves só prendem o lenço depois de aprender AgarrarObjeto
+@export var soltar_alem_do_alcance: float = 1.3        # Solta o objeto leve se passar de (alcance_gancho x isto)
+
+# --- LENÇO DE FRENTE (Irritada / Agradecer) ---
+# De lado, as duas fitas saem do mesmo ponto (cada uma de um lado do pescoço, vistas de perfil).
+# Quando ela olha para o jogador, as duas continuam uma de cada lado do pescoço: as origens se afastam
+# para os lados e cada fita cai para o seu lado (a de trás é a que atravessa). Ao terminar, voltam juntas à posição normal.
+@export_group("Lenço de frente")
+@export var animacoes_de_frente: Array[String] = ["Transicao", "Irritada", "Agradecer", "Esperar"]  # Começo do nome das animações em que ela olha para o jogador
+@export var duracao_virar_frente: float = 0.35     # Segundos para as pontas irem cada uma para um lado
+@export var duracao_voltar_frente: float = 0.5     # Segundos para voltarem à posição normal
+@export var angulo_caimento_frente: float = 55.0   # Graus abaixo da horizontal de cada ponta (90 = reta para baixo)
+@export var inverter_lados_frente: bool = false    # Troca qual fita vai para qual lado
+@export var separacao_pescoco_frente: float = 10.0 # De frente: distância (px) de cada fita até o centro do pescoço
+# Origem de CADA fita, somada à origem comum (mesmo formato do offset_gola_por_animacao: um Vector2 por quadro).
+# Vazio = as duas saem do mesmo ponto. Exemplo: "IrritadaBase": [Vector2(-12, 0), Vector2(-12, 0)]
+@export var offset_fita_tras_por_animacao: Dictionary = {}
+@export var offset_fita_frente_por_animacao: Dictionary = {}
+
+@export_group("Calibração (modo debug)")
+@export var mostrar_origens_debug: bool = true     # Com o modo debug ligado, desenha as origens das fitas e o quadro atual
+
 var pontos_tras: Array[Vector2] = []
 var pontos_frente: Array[Vector2] = []
 
@@ -72,6 +100,14 @@ var vel_y_suave: float = 0.0
 
 var ponto_ancora_gancho: Vector2 = Vector2.ZERO
 var distancia_corda: float = 0.0
+
+# Âncora presa a um objeto/plataforma móvel: o ponto acompanha o alvo
+var alvo_gancho: Node2D = null
+var ancora_local: Vector2 = Vector2.ZERO
+var ancora_segue: bool = false
+var ancora_leve: bool = false   # true: a âncora é um objeto leve (o impulso o lança até a personagem)
+
+var efeitos: EfeitosLenco = null   # Efeitos especiais do ataque e da defesa (rastro de luz, faíscas, explosão)
 
 # Lido pelo script do jogador: true quando a corda está tensa (balanço)
 var corda_esticada: bool = false
@@ -84,6 +120,9 @@ var ponto_gola: Node2D = null
 var origem_anterior: Vector2 = Vector2.ZERO
 var origem_inicializada: bool = false
 var offset_gola_atual: Vector2 = Vector2.ZERO
+var offset_tras_atual: Vector2 = Vector2.ZERO    # Origem extra da fita de trás (suavizada)
+var offset_frente_atual: Vector2 = Vector2.ZERO  # Origem extra da fita da frente (suavizada)
+var frontal: float = 0.0                         # 0 = de lado | 1 = de frente (uma ponta para cada lado)
 
 # Transições de estado (formação do ataque/defesa e retorno ao repouso)
 var estado_anterior: EstadoLenco = EstadoLenco.REPOUSO
@@ -145,11 +184,21 @@ func _ready() -> void:
 
 	_desativar_colisores()
 
+	# Efeitos especiais: usa o nó "EfeitosLenco" da cena, se existir; senão cria um com os valores padrão
+	efeitos = get_node_or_null("EfeitosLenco") as EfeitosLenco
+	if efeitos == null:
+		efeitos = EfeitosLenco.new()
+		efeitos.name = "EfeitosLenco"
+		add_child(efeitos)
+	efeitos.configurar_cor(_cor_do_lenco())
+
 func _physics_process(delta: float) -> void:
 	var pos_origem := global_position
 	if ponto_gola:
 		pos_origem = ponto_gola.global_position
 	pos_origem += _calcular_offset_gola(delta)
+	_calcular_offsets_fitas(delta)
+	_atualizar_frontal(delta)
 
 	# Faz a fita inteira acompanhar o deslocamento da origem (a base nunca fica para trás)
 	_acompanhar_origem(pos_origem)
@@ -160,9 +209,11 @@ func _physics_process(delta: float) -> void:
 	# --- LEITURA DE ENTRADAS ---
 	# Q / E: um aperto dispara a ação inteira (direção travada no mouse) e ela volta sozinha
 	if Input.is_action_just_pressed("ControleAtaqueLenco"):
-		_pedir_acao(EstadoLenco.ATAQUE_Q)
+		if _pode_usar(Habilidades.ATAQUE_LENCO):
+			_pedir_acao(EstadoLenco.ATAQUE_Q)
 	elif Input.is_action_just_pressed("ControleDefesaLenco"):
-		_pedir_acao(EstadoLenco.DEFESA_E)
+		if _pode_usar(Habilidades.DEFESA_LENCO):
+			_pedir_acao(EstadoLenco.DEFESA_E)
 	elif Input.is_action_just_pressed("ControleFixarLenco"):
 		_tentar_disparar_gancho(pos_origem, pos_mouse)
 
@@ -194,6 +245,7 @@ func _physics_process(delta: float) -> void:
 		EstadoLenco.GANCHO:
 			_atualizar_gancho_pendulo(pos_origem, delta)
 
+	_atualizar_efeitos(delta)
 	_redesenhar_line2d()
 	queue_redraw()
 
@@ -201,20 +253,55 @@ func _physics_process(delta: float) -> void:
 
 # Offset da gola conforme a animação atual (sentar abaixa a gola, etc.), suavizado
 func _calcular_offset_gola(delta: float) -> Vector2:
+	var alvo := _offset_do_dicionario(offset_gola_por_animacao)
+	offset_gola_atual = offset_gola_atual.lerp(alvo, 1.0 - exp(-suavidade_offset_gola * delta))
+	return offset_gola_atual
+
+# Offset-alvo da animação/quadro atual em um dicionário (mesmo formato do offset_gola_por_animacao).
+# X é espelhado quando o sprite está virado (flip_h).
+func _offset_do_dicionario(dic: Dictionary) -> Vector2:
 	var alvo := Vector2.ZERO
 	var anim := sprite_jogador as AnimatedSprite2D
 	if anim:
 		var nome := String(anim.animation)
-		if offset_gola_por_animacao.has(nome):
-			var dado = offset_gola_por_animacao[nome]
+		if dic.has(nome):
+			var dado = dic[nome]
 			if dado is Array and not dado.is_empty():
 				alvo = dado[clampi(anim.frame, 0, dado.size() - 1)]
 			elif dado is Vector2:
 				alvo = dado
 			if anim.flip_h:
 				alvo.x = -alvo.x
-	offset_gola_atual = offset_gola_atual.lerp(alvo, 1.0 - exp(-suavidade_offset_gola * delta))
-	return offset_gola_atual
+	return alvo
+
+# Origem extra de cada fita (só usada no repouso), suavizada como a da gola
+func _calcular_offsets_fitas(delta: float) -> void:
+	var k := 1.0 - exp(-suavidade_offset_gola * delta)
+	offset_tras_atual = offset_tras_atual.lerp(_offset_do_dicionario(offset_fita_tras_por_animacao), k)
+	offset_frente_atual = offset_frente_atual.lerp(_offset_do_dicionario(offset_fita_frente_por_animacao), k)
+
+# Quanto o lenço está "de frente" (0 a 1): sobe ao entrar numa animação de frente e desce ao sair
+func _atualizar_frontal(delta: float) -> void:
+	var alvo := 1.0 if _animacao_de_frente() else 0.0
+	var duracao := duracao_virar_frente if alvo > frontal else duracao_voltar_frente
+	frontal = move_toward(frontal, alvo, delta / maxf(duracao, 0.01))
+
+# Para onde ela olha. Vem do Player: nas animações de frente o sprite não espelha,
+# mas ela continua "olhando" para o lado de antes.
+func _olhando_esquerda() -> bool:
+	if jogador and "olhando_esquerda" in jogador:
+		return jogador.olhando_esquerda
+	return sprite_jogador != null and "flip_h" in sprite_jogador and sprite_jogador.flip_h
+
+func _animacao_de_frente() -> bool:
+	var anim := sprite_jogador as AnimatedSprite2D
+	if anim == null:
+		return false
+	var nome := String(anim.animation)
+	for prefixo in animacoes_de_frente:
+		if nome.begins_with(prefixo):
+			return true
+	return false
 
 # Move os pontos junto com a origem. O lerp depois só ajusta a FORMA da fita,
 # então os primeiros pontos não ficam atrasados em relação à base (era isso que dobrava a curva).
@@ -285,6 +372,9 @@ func _ao_mudar_estado(anterior: EstadoLenco, novo: EstadoLenco) -> void:
 	# Saiu do ataque/defesa (por qualquer motivo): desliga as áreas de dano/defesa
 	if anterior == EstadoLenco.ATAQUE_Q or anterior == EstadoLenco.DEFESA_E:
 		_desativar_colisores()
+	# Saiu do gancho: esquece o alvo preso (um objeto solto segue com a velocidade que tinha)
+	if novo != EstadoLenco.GANCHO:
+		_limpar_ancora()
 	# Saiu do ataque/defesa para o repouso: inicia o retorno lento
 	if (anterior == EstadoLenco.ATAQUE_Q or anterior == EstadoLenco.DEFESA_E) and novo == EstadoLenco.REPOUSO:
 		tempo_retorno = 0.0
@@ -375,7 +465,7 @@ func _executar_acao_pendente(origem: Vector2, alvo_mouse: Vector2, delta: float)
 	if vetor.length() > 1.0:
 		dir_acao = vetor.normalized()
 	else:
-		var olhando_esquerda: bool = sprite_jogador != null and "flip_h" in sprite_jogador and sprite_jogador.flip_h
+		var olhando_esquerda: bool = _olhando_esquerda()
 		dir_acao = Vector2.LEFT if olhando_esquerda else Vector2.RIGHT
 
 	estado_atual = acao_pendente
@@ -469,12 +559,8 @@ func _desenhar_alcance() -> void:
 
 # --- 1. REPOUSO ESVOAÇANTE (PARADO / CAMINHAR / CORRER + INÉRCIA NO PULO) ---
 func _atualizar_repouso_firme(origem: Vector2, delta: float) -> void:
-	pontos_tras[0] = origem
-	pontos_frente[0] = origem
 
-	var dir_costas := -1.0
-	if sprite_jogador and "flip_h" in sprite_jogador and sprite_jogador.flip_h:
-		dir_costas = 1.0
+	var dir_costas := 1.0 if _olhando_esquerda() else -1.0
 
 	var vel_x: float = jogador.velocity.x if jogador else 0.0
 	var vel_normalizada: float = clampf(absf(vel_x) / 320.0, 0.0, 1.0)
@@ -490,7 +576,25 @@ func _atualizar_repouso_firme(origem: Vector2, delta: float) -> void:
 	# Ângulo de caimento: 40° (parado, mais elevado) -> ~15° (andar) -> -10° (correr)
 	var angulo_caimento := lerpf(deg_to_rad(40.0), deg_to_rad(-10.0), vel_suave)
 	var dir_caimento := Vector2(dir_costas * cos(angulo_caimento), sin(angulo_caimento))
-	var perp_caimento := Vector2(-dir_caimento.y, dir_caimento.x)
+
+	# De frente: cada fita cai para o seu lado do pescoço. A da frente fica no lado em que já estava e a
+	# de TRÁS é a que atravessa (por trás do corpo). Com 'frontal' = 0 as duas caem juntas, como sempre foi.
+	var f := smoothstep(0.0, 1.0, frontal)
+	var lado_tras := -dir_costas
+	if inverter_lados_frente:
+		lado_tras = -lado_tras
+	var ang_frente := deg_to_rad(angulo_caimento_frente)
+	var dir_tras := dir_caimento.lerp(Vector2(lado_tras * cos(ang_frente), sin(ang_frente)), f).normalized()
+	var dir_frente := dir_caimento.lerp(Vector2(-lado_tras * cos(ang_frente), sin(ang_frente)), f).normalized()
+	var perp_tras := Vector2(-dir_tras.y, dir_tras.x)
+	var perp_frente := Vector2(-dir_frente.y, dir_frente.x)
+
+	# Origem de cada fita: a mesma de lado; de frente, uma de cada lado do pescoço
+	var separacao := Vector2(lado_tras * separacao_pescoco_frente * f, 0.0)
+	var origem_tras := origem + offset_tras_atual + separacao
+	var origem_frente := origem + offset_frente_atual - separacao
+	pontos_tras[0] = origem_tras
+	pontos_frente[0] = origem_frente
 
 	# Arrasto vertical suavizado (pulo/queda): sobe -> lenço desce, cai -> lenço sobe
 	var vel_y: float = jogador.velocity.y if jogador else 0.0
@@ -516,10 +620,11 @@ func _atualizar_repouso_firme(origem: Vector2, delta: float) -> void:
 		var onda_frente := ondas.y
 
 		var offset_inercia := Vector2(arrasto_h * fator_ponta, arrasto_v * fator_ponta)
-		var pos_base := origem + (dir_caimento * dist_segmento) + offset_inercia
+		var pos_base_tras := origem_tras + (dir_tras * dist_segmento) + offset_inercia
+		var pos_base_frente := origem_frente + (dir_frente * dist_segmento) + offset_inercia
 
-		var pos_alvo_tras := pos_base + (perp_caimento * onda_tras)
-		var pos_alvo_frente := pos_base + (perp_caimento * onda_frente)
+		var pos_alvo_tras := pos_base_tras + (perp_tras * onda_tras)
+		var pos_alvo_frente := pos_base_frente + (perp_frente * onda_frente)
 
 		# Base firme (30) -> ponta solta: mais frouxa parado (5) e mais ágil ao correr (11), como no código antigo
 		var peso_lerp := _peso_ponto(t, 30.0 * agilidade, (5.0 + 6.0 * vel_suave) * agilidade, delta)
@@ -596,20 +701,52 @@ func _tentar_disparar_gancho(origem: Vector2, alvo_mouse: Vector2) -> void:
 	raio_alcance.target_position = raio_alcance.to_local(origem + (alvo_mouse - origem).normalized() * alcance_gancho)
 	raio_alcance.force_raycast_update()
 
-	if raio_alcance.is_colliding():
-		ponto_ancora_gancho = raio_alcance.get_collision_point()
-		var dist := jogador.global_position.distance_to(ponto_ancora_gancho)
-		# No chão: corda com todo o alcance (anda e pula livremente).
-		# No ar: balança com a distância atual.
-		distancia_corda = maxf(alcance_gancho, dist) if jogador.is_on_floor() else dist
-		estado_atual = EstadoLenco.GANCHO
-	else:
+	if not raio_alcance.is_colliding():
 		# Nada para prender: mostra o círculo de alcance
 		tempo_aviso_alcance = duracao_aviso_alcance
+		return
+
+	var colisor := raio_alcance.get_collider()
+	var ponto := raio_alcance.get_collision_point()
+
+	# Objeto móvel (empurrável pela física): leve ou pesado, conforme o limite de força
+	var leve := false
+	if colisor is RigidBody2D:
+		leve = _forca_necessaria(colisor) <= limite_forca_lenco
+		# Um objeto leve só prende o lenço depois de aprender AgarrarObjeto
+		if leve and leves_exigem_habilidade and not _pode_usar(Habilidades.AGARRAR_OBJETO):
+			tempo_aviso_alcance = duracao_aviso_alcance
+			return
+
+	# O mouse esquerdo prende em tudo. O que o impulso (botão direito) faz depende do alvo:
+	#   parede, chão ou objeto pesado -> a personagem vai até o ponto
+	#   objeto leve                   -> o objeto é lançado até a personagem
+	_limpar_ancora()
+	ponto_ancora_gancho = ponto
+	if colisor is RigidBody2D or colisor is AnimatableBody2D:
+		# O ponto acompanha o objeto/plataforma se ele se mover
+		alvo_gancho = colisor as Node2D
+		ancora_local = alvo_gancho.to_local(ponto)
+		ancora_segue = true
+	ancora_leve = leve
+
+	var dist := jogador.global_position.distance_to(ponto_ancora_gancho)
+	# No chão: corda com todo o alcance (anda e pula livremente).
+	# No ar: balança com a distância atual.
+	distancia_corda = maxf(alcance_gancho, dist) if jogador.is_on_floor() else dist
+	estado_atual = EstadoLenco.GANCHO
 
 func _atualizar_gancho_pendulo(origem: Vector2, delta: float) -> void:
 	pontos_tras[0] = origem
 	pontos_frente[0] = origem
+
+	# Âncora presa a um objeto/plataforma móvel: o ponto acompanha o alvo
+	if ancora_segue:
+		if is_instance_valid(alvo_gancho):
+			ponto_ancora_gancho = alvo_gancho.to_global(ancora_local)
+		else:
+			estado_atual = EstadoLenco.REPOUSO
+			return
 
 	for i in range(1, pontos_por_fita):
 		var t := float(i) / float(pontos_por_fita - 1)
@@ -622,10 +759,16 @@ func _atualizar_gancho_pendulo(origem: Vector2, delta: float) -> void:
 	if not jogador:
 		return
 
-	# BOTÃO DIREITO: impulso
+	# Objeto leve: o impulso lança o OBJETO até a personagem (a corda não segura nem puxa a personagem)
+	if ancora_leve:
+		corda_esticada = false
+		_atualizar_gancho_leve(origem)
+		return
+
+	# BOTÃO DIREITO: impulso da personagem até o ponto firme
 	if Input.is_action_pressed("ControleImpulsoLenco"):
 		var dir_puxao := (ponto_ancora_gancho - origem).normalized()
-		jogador.velocity = dir_puxao * 650.0
+		jogador.velocity = dir_puxao * velocidade_impulso
 		corda_esticada = false
 		estado_atual = EstadoLenco.REPOUSO
 		return
@@ -662,6 +805,82 @@ func _atualizar_gancho_pendulo(origem: Vector2, delta: float) -> void:
 				tang = -tang
 			jogador.velocity += tang * forca_embalo_ar * delta
 
+# --- 5. OBJETO LEVE PRESO AO LENÇO ---
+# Enquanto o botão esquerdo segura, a fita acompanha o objeto. O botão direito dá um IMPULSO nele,
+# rumo à personagem: ele sai voando com essa velocidade e a física faz o resto (não gruda do nada).
+func _atualizar_gancho_leve(origem: Vector2) -> void:
+	var objeto := alvo_gancho as RigidBody2D
+
+	# Perdeu o objeto, a permissão (ex.: modo debug desligado) ou ele foi longe demais: solta
+	if not is_instance_valid(objeto) \
+			or (leves_exigem_habilidade and not _pode_usar(Habilidades.AGARRAR_OBJETO)) \
+			or origem.distance_to(objeto.global_position) > alcance_gancho * soltar_alem_do_alcance:
+		estado_atual = EstadoLenco.REPOUSO
+		return
+
+	if Input.is_action_pressed("ControleImpulsoLenco"):
+		var dir := (origem - objeto.global_position).normalized()
+		objeto.sleeping = false
+		objeto.linear_velocity = dir * velocidade_impulso_objeto
+		estado_atual = EstadoLenco.REPOUSO   # O impulso gasta o gancho, como o impulso da personagem
+
+# "Força necessária" para agarrar: o metadado 'forca_necessaria' do objeto (se existir) ou a massa dele
+func _forca_necessaria(corpo: Object) -> float:
+	if corpo.has_meta("forca_necessaria"):
+		return float(corpo.get_meta("forca_necessaria"))
+	var rigido := corpo as RigidBody2D
+	if rigido != null:
+		return rigido.mass
+	return INF
+
+# Solta o gancho e cancela qualquer ação do lenço; a fita recomeça junto da gola (usado ao teletransportar)
+func soltar_tudo() -> void:
+	estado_atual = EstadoLenco.REPOUSO
+	acao_pendente = EstadoLenco.REPOUSO
+	tempo_acao_pendente = 0.0
+	corda_esticada = false
+	origem_inicializada = false   # Os pontos da fita voltam a nascer na gola, sem esticar pelo mapa
+	if efeitos:
+		efeitos.parar()
+	_limpar_ancora()
+	_desativar_colisores()
+
+func _limpar_ancora() -> void:
+	alvo_gancho = null
+	ancora_segue = false
+	ancora_leve = false
+
+# Pergunta ao Player se a habilidade está liberada (sem Player ou sem o método, libera)
+func _pode_usar(id: StringName) -> bool:
+	if jogador and jogador.has_method("pode_usar"):
+		return jogador.pode_usar(id)
+	return true
+
+# Efeitos do ataque e da defesa: o feixe segue as pontas das fitas e explode quando a figura fica completa
+func _atualizar_efeitos(delta: float) -> void:
+	if efeitos == null:
+		return
+	var tipo := EfeitosLenco.Tipo.NENHUM
+	var progresso := 1.0
+	match estado_atual:
+		EstadoLenco.ATAQUE_Q:
+			tipo = EfeitosLenco.Tipo.ATAQUE
+			progresso = clampf(tempo_estado / maxf(duracao_formacao_ataque, 0.01), 0.0, 1.0)
+		EstadoLenco.DEFESA_E:
+			tipo = EfeitosLenco.Tipo.DEFESA
+			progresso = clampf(tempo_estado / maxf(duracao_formacao_defesa, 0.01), 0.0, 1.0)
+	efeitos.atualizar(delta, tipo, dir_acao, progresso,
+			pontos_tras[pontos_por_fita - 1], pontos_frente[pontos_por_fita - 1])
+
+# Cor das fitas (o fim do degradê), usada de base para os efeitos
+func _cor_do_lenco() -> Color:
+	if fita_tras:
+		var g := fita_tras.gradient
+		if g != null and g.get_point_count() > 0:
+			return g.get_color(g.get_point_count() - 1)
+		return fita_tras.default_color
+	return Color(0.125, 0.0, 0.402, 1.0)
+
 func _desativar_colisores() -> void:
 	if area_ataque: area_ataque.monitoring = false
 	if area_defesa: area_defesa.monitoring = false
@@ -680,6 +899,7 @@ func _redesenhar_line2d() -> void:
 
 func _draw() -> void:
 	_desenhar_alcance()
+	_desenhar_origens_debug()
 
 	if not textura_ponta: return
 
@@ -688,6 +908,22 @@ func _draw() -> void:
 
 	if pontos_frente.size() >= pontos_por_fita:
 		_desenhar_ponta_no_ponto(pontos_frente[pontos_por_fita - 2], pontos_frente[pontos_por_fita - 1])
+
+# Calibração (só com o modo debug ligado): mostra de onde saem as fitas e o quadro da animação atual.
+# Azul = origem comum | rosa = fita de trás | amarelo = fita da frente
+func _desenhar_origens_debug() -> void:
+	if not mostrar_origens_debug or jogador == null or not jogador.has_method("em_modo_debug"):
+		return
+	if not jogador.em_modo_debug():
+		return
+	var centro := to_local(origem_anterior)
+	draw_circle(centro, 3.0, Color(0.2, 0.9, 1.0))
+	draw_circle(to_local(origem_anterior + offset_tras_atual), 2.0, Color(1.0, 0.3, 0.9))
+	draw_circle(to_local(origem_anterior + offset_frente_atual), 2.0, Color(1.0, 0.9, 0.2))
+	var anim := sprite_jogador as AnimatedSprite2D
+	if anim:
+		var texto := "%s  quadro %d  off=(%.0f, %.0f)" % [anim.animation, anim.frame, offset_gola_atual.x, offset_gola_atual.y]
+		draw_string(ThemeDB.fallback_font, centro + Vector2(10.0, -6.0), texto, HORIZONTAL_ALIGNMENT_LEFT, -1.0, 12, Color(1, 1, 1))
 
 func _desenhar_ponta_no_ponto(ponto_anterior: Vector2, ponto_final: Vector2) -> void:
 	var pos_local := to_local(ponto_final)

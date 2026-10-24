@@ -15,7 +15,6 @@
 [ext_resource type="Script" uid="uid://bs1tifxemmdel" path="res://scenes/Teaser/TeaserCamera2.gd" id="9_d2jv4"]
 [ext_resource type="Texture2D" uid="uid://cwyw7tbmnxy7d" path="res://assets/textures/UI/TelaSave/V06.png" id="10_7ft30"]
 [ext_resource type="PackedScene" uid="uid://b30hs68rcoa7" path="res://scenes/Teaser/Interagivel.tscn" id="16_5iujl"]
-[ext_resource type="Texture2D" uid="uid://cqy6so5um4ak7" path="res://assets/textures/UI/LogoDyys.png" id="16_cxb75"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2kq6q"]
 radius = 50.0
@@ -343,7 +342,6 @@ offset_left = -5699.0
 offset_top = 1191.0
 offset_right = -5436.0
 offset_bottom = 1417.0
-texture = ExtResource("16_cxb75")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=1921353710]
 position = Vector2(-14000, 25)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bid3yjs6bdfgi"
-path="res://.godot/imported/Frame 90.png-4276ed41f443f7c3994fd8e2704b4382.ctex"
+uid="uid://yux3c4f6ik35"
+path="res://.godot/imported/Frame 112.png-23e8f883f08956434b38ee253cc6ee32.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 90.png"
-dest_files=["res://.godot/imported/Frame 90.png-4276ed41f443f7c3994fd8e2704b4382.ctex"]
+source_file="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 112.png"
+dest_files=["res://.godot/imported/Frame 112.png-23e8f883f08956434b38ee253cc6ee32.ctex"]
 
 [params]
 

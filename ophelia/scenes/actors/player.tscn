@@ -1,12 +1,15 @@
 [gd_scene format=3 uid="uid://fh4f6q1gcsn2"]
 
 [ext_resource type="Script" uid="uid://chggk17p7ndyf" path="res://scenes/actors/Player.gd" id="1_15tap"]
-[ext_resource type="Texture2D" uid="uid://dxpx6bf0h4gee" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 94.png" id="2_4v6c0"]
-[ext_resource type="Texture2D" uid="uid://cqyrww25yhgsi" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 95.png" id="3_slex7"]
-[ext_resource type="Texture2D" uid="uid://i7dgih47aswx" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 89.png" id="4_ecpok"]
-[ext_resource type="Texture2D" uid="uid://bid3yjs6bdfgi" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 90.png" id="5_a3das"]
+[ext_resource type="Texture2D" uid="uid://cqkrpjsdpjlpp" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 94.png" id="2_4v6c0"]
+[ext_resource type="Script" uid="uid://cfcfdygeijcge" path="res://scenes/actors/Sombra.gd" id="2_yks8x"]
+[ext_resource type="Texture2D" uid="uid://fef531cp4lrs" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 101.png" id="3_ecpok"]
+[ext_resource type="Texture2D" uid="uid://dgxx2nganyive" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 95.png" id="3_slex7"]
+[ext_resource type="Texture2D" uid="uid://yux3c4f6ik35" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 112.png" id="6_a3das"]
 [ext_resource type="Texture2D" uid="uid://dpt0vxkfiexsc" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 42.png" id="6_wv28t"]
 [ext_resource type="Texture2D" uid="uid://b6j4aroa3vwgm" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 44.png" id="7_d550d"]
+[ext_resource type="Texture2D" uid="uid://dnsnariqikl1h" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 113.png" id="7_wv28t"]
+[ext_resource type="Texture2D" uid="uid://cs0040l5o5sqf" path="res://assets/textures/Characters/Ophelia/SpritesAgradecer/Frame 114.png" id="8_d550d"]
 [ext_resource type="Texture2D" uid="uid://ckynwtghc6yus" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 46.png" id="8_ubeei"]
 [ext_resource type="Texture2D" uid="uid://dmskcx3yaqpbp" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 48.png" id="9_5pj4a"]
 [ext_resource type="Texture2D" uid="uid://dj7064cdfhmxd" path="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 43.png" id="10_r1w6k"]
@@ -40,22 +43,32 @@
 [ext_resource type="Texture2D" uid="uid://qtvulxm7fksp" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 77.png" id="35_mpv8j"]
 [ext_resource type="Texture2D" uid="uid://u1ht0ap4kaud" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 78.png" id="36_q5r5x"]
 [ext_resource type="Texture2D" uid="uid://d3xpftepwqyv3" path="res://assets/textures/Characters/Ophelia/SpritesCorrer/Frame 79.png" id="37_0tnix"]
-[ext_resource type="Texture2D" uid="uid://ot5m808lipar" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 96.png" id="38_64knu"]
-[ext_resource type="Texture2D" uid="uid://bw4nhbf08xctx" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 97.png" id="39_uyq14"]
-[ext_resource type="Texture2D" uid="uid://cfh4gboqdboce" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 92.png" id="40_e3mx1"]
-[ext_resource type="Texture2D" uid="uid://bw4go8goxewie" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 93.png" id="41_0qkkq"]
+[ext_resource type="Texture2D" uid="uid://df4vuqp6rtrak" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 96.png" id="38_64knu"]
+[ext_resource type="Texture2D" uid="uid://bsl684crq5be8" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 97.png" id="39_uyq14"]
+[ext_resource type="Texture2D" uid="uid://c3axfnco6rqfa" path="res://assets/textures/Characters/Ophelia/SpritesEsperar/Frame 104.png" id="39_yhaq0"]
+[ext_resource type="Texture2D" uid="uid://gwp1igl2jd25" path="res://assets/textures/Characters/Ophelia/SpritesEsperar/Frame 105.png" id="40_ltfb0"]
+[ext_resource type="Texture2D" uid="uid://b8tlahe2grjhv" path="res://assets/textures/Characters/Ophelia/SpritesEsperar/Frame 106.png" id="41_wouny"]
 [ext_resource type="Texture2D" uid="uid://bqofxsg4iygo3" path="res://assets/textures/Characters/Ophelia/SpritesSentarLevantar/Frame 60.png" id="42_ldmh7"]
 [ext_resource type="Texture2D" uid="uid://dp2p050sv04ye" path="res://assets/textures/Characters/Ophelia/SpritesSentarLevantar/Frame 59.png" id="43_44cmt"]
 [ext_resource type="Texture2D" uid="uid://pof2jdb6d85a" path="res://assets/textures/Characters/Ophelia/SpritesSentarLevantar/Frame 58.png" id="44_flhmn"]
+[ext_resource type="Texture2D" uid="uid://dghfiv8i72kfi" path="res://assets/textures/Characters/Ophelia/SpritesEsperar/Frame 122.png" id="44_ubeei"]
+[ext_resource type="Texture2D" uid="uid://175sx12gt0or" path="res://assets/textures/Characters/Ophelia/SpritesEsperar/Frame 121.png" id="45_5pj4a"]
 [ext_resource type="Texture2D" uid="uid://d3xr0iycunug3" path="res://assets/textures/Characters/Ophelia/SpritesSentarLevantar/Frame 57.png" id="45_a3h3b"]
+[ext_resource type="Texture2D" uid="uid://cd0jdysy873le" path="res://assets/textures/Characters/Ophelia/SpritesEsperar/Frame 123.png" id="46_r1w6k"]
 [ext_resource type="Texture2D" uid="uid://hv63evcsj7qr" path="res://assets/textures/Characters/Ophelia/SpritesSentarLevantar/Frame 56.png" id="46_r2kta"]
+[ext_resource type="Texture2D" uid="uid://be0f4hvak71v4" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 103.png" id="47_4r5kv"]
 [ext_resource type="Texture2D" uid="uid://ctl7d56kkbwp0" path="res://assets/textures/Characters/Ophelia/SpritesSentarLevantar/Frame 55.png" id="47_7ejlc"]
 [ext_resource type="Texture2D" uid="uid://drp6cubqnex8y" path="res://assets/textures/Characters/Ophelia/SpritesPular/Frame 63.png" id="48_dgpon"]
 [ext_resource type="Texture2D" uid="uid://dvu46vicl2g31" path="res://assets/textures/Characters/Ophelia/SpritesParada/Frame 5.png" id="48_r517o"]
 [ext_resource type="Texture2D" uid="uid://dd78h3dt4oaku" path="res://assets/textures/Characters/Ophelia/SpritesPular/Frame 61.png" id="49_5nrgq"]
 [ext_resource type="Texture2D" uid="uid://c0n7h0ynktih" path="res://assets/textures/Characters/Ophelia/SpritesParada/Frame 3.png" id="49_y0ntn"]
+[ext_resource type="Texture2D" uid="uid://chmdnc3jdapt0" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 120.png" id="50_prd6s"]
+[ext_resource type="Texture2D" uid="uid://rq2cda1kj16a" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 118.png" id="51_b6a6p"]
+[ext_resource type="Texture2D" uid="uid://bypau0783bg8f" path="res://assets/textures/Characters/Ophelia/SpritesIrritada/Frame 119.png" id="52_p1nmw"]
 [ext_resource type="Texture2D" uid="uid://cxae46oihrvj1" path="res://assets/textures/Characters/Ophelia/SpritesPlanar/Frame 99.png" id="52_y0ntn"]
 [ext_resource type="Texture2D" uid="uid://bvbuo1vxrur7n" path="res://assets/textures/Characters/Ophelia/PontaFita.png" id="54_jybf5"]
+[ext_resource type="Script" uid="uid://d2tsomjfc2bmu" path="res://scenes/actors/Habilidades.gd" id="57_jybf5"]
+[ext_resource type="Script" uid="uid://c4aymq7utidt" path="res://scenes/actors/EfeitosLenco.gd" id="69_ecpok"]
 
 [sub_resource type="Gradient" id="Gradient_0878f"]
 offsets = PackedFloat32Array(0.0073891627, 1)
@@ -65,25 +78,31 @@ colors = PackedColorArray(0.07058824, 0.07058824, 0.13333334, 1, 0.21176471, 0.2
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("3_ecpok")
+}, {
+"duration": 1.0,
 "texture": ExtResource("2_4v6c0")
 }, {
 "duration": 1.0,
 "texture": ExtResource("3_slex7")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"AgradecerBase",
-"speed": 2.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_ecpok")
+"texture": ExtResource("6_a3das")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_a3das")
+"texture": ExtResource("7_wv28t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_d550d")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"AgradecerChapeu",
-"speed": 2.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -203,23 +222,57 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("39_yhaq0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_ltfb0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_wouny")
+}],
+"loop": 2,
+"name": &"EsperarBase",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("44_ubeei")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_5pj4a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_r1w6k")
+}],
+"loop": 2,
+"name": &"EsperarChapeu",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("47_4r5kv")
+}, {
+"duration": 1.0,
 "texture": ExtResource("38_64knu")
 }, {
 "duration": 1.0,
 "texture": ExtResource("39_uyq14")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"IrritadaBase",
 "speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("40_e3mx1")
+"texture": ExtResource("50_prd6s")
 }, {
 "duration": 1.0,
-"texture": ExtResource("41_0qkkq")
+"texture": ExtResource("51_b6a6p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_p1nmw")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"IrritadaChapeu",
 "speed": 2.0
 }, {
@@ -338,6 +391,9 @@ forca_pulo = -690.0
 planar_gravidade = 0.5
 velocidade_queda_planando = 100.0
 
+[node name="Sombra" type="Sprite2D" parent="." unique_id=730976708]
+script = ExtResource("2_yks8x")
+
 [node name="FitaTras" type="Line2D" parent="." unique_id=673813148]
 position = Vector2(-0.42520142, 0)
 scale = Vector2(1.1417323, 1)
@@ -353,7 +409,8 @@ end_cap_mode = 2
 position = Vector2(0, -18)
 scale = Vector2(0.35, 0.35)
 sprite_frames = SubResource("SpriteFrames_15tap")
-animation = &"ParadoBase"
+animation = &"EsperarChapeu"
+frame_progress = 0.9024978
 
 [node name="Asas" type="AnimatedSprite2D" parent="." unique_id=223967372 node_paths=PackedStringArray("jogador", "sprite_principal")]
 z_index = 1
@@ -408,3 +465,9 @@ target_position = Vector2(380, 0)
 [node name="VooFada" type="Node" parent="." unique_id=1944307523]
 script = ExtResource("21_70adr")
 cor_brilho = Color(1, 1, 1, 1)
+
+[node name="Habilidades" type="Node" parent="." unique_id=133228420]
+script = ExtResource("57_jybf5")
+
+[node name="EfeitosLenco" type="Node2D" parent="." unique_id=2093524829]
+script = ExtResource("69_ecpok")

@@ -1,54 +1,131 @@
-extends Node2D
+extends Sprite2D
+# Sombra da personagem. Nó "Sombra" (Sprite2D), filho direto do Player e PRIMEIRO filho da lista
+# (assim é desenhado atrás do sprite). Não precisa de textura: se o campo Texture ficar vazio,
+# o script gera uma mancha suave sozinho. Se você tiver uma arte de sombra, coloque em Texture.
 
-@export var largura: float = 28.0
-@export var altura: float = 8.0
-@export var cor: Color = Color(0.0, 0.0, 0.0, 0.45)
-@export var altura_max_visivel: float = 160.0
-@export var distancia_raio: float = 400.0
-@export var escala_minima: float = 0.4
-@export var recuo_raio: float = 10.0   # Quanto acima da origem o raio começa
+@export var jogador: CharacterBody2D   # Se vazio, usa o pai
 
-var jogador: CharacterBody2D
-var forca: float = 1.0
+@export_group("Aparência")
+@export var cor: Color = Color(0.04, 0.04, 0.10)    # Cor da sombra (o alfa vem de 'opacidade')
+@export_range(0.0, 1.0) var opacidade: float = 0.35  # Força da sombra com a personagem no chão
+@export var largura: float = 56.0                    # Largura (px) com a personagem no chão
+@export_range(0.1, 1.0) var proporcao_altura: float = 0.28  # Altura = largura x isto (achata a elipse)
+@export var deslocamento: Vector2 = Vector2.ZERO     # Ajuste fino da posição em relação ao ponto do chão
+
+@export_group("Chão")
+@export_flags_2d_physics var mascara_chao: int = 1   # Camadas de física que contam como chão
+@export var alcance_busca: float = 800.0             # Até onde (px) procura chão abaixo dos pés
+@export var alinhar_ao_chao: bool = false            # true: inclina a sombra conforme a rampa
+
+@export_group("Altura (pulo)")
+@export var altura_maxima: float = 300.0             # Distância do chão em que a sombra chega ao mínimo
+@export_range(0.1, 1.0) var escala_minima: float = 0.5      # Tamanho na altura máxima (fração)
+@export_range(0.0, 1.0) var opacidade_minima: float = 0.3   # Força na altura máxima (fração)
+@export var velocidade_fade: float = 6.0             # Rapidez de aparecer/sumir (maior = mais rápido)
+
+var _pes_local: Vector2 = Vector2.ZERO   # Ponto dos pés, em coordenadas do Player
+var _tam_textura: Vector2 = Vector2(128.0, 128.0)
+var _fade: float = 0.0                   # 0 = invisível | 1 = visível
+var voo: Node = null                     # VooFada (a sombra some enquanto ela é luz)
 
 func _ready() -> void:
-	jogador = get_parent() as CharacterBody2D
+	if jogador == null:
+		jogador = get_parent() as CharacterBody2D
 	if jogador == null:
 		push_warning("Sombra: precisa ser filha direta do Player (CharacterBody2D).")
-	# Sem top_level e sem z_index próprio: usa a mesma camada do Player
-	top_level = false
-	z_as_relative = true
-	z_index = 0
-	show_behind_parent = true   # Desenha atrás do Player, na mesma camada dele
-
-func _physics_process(_delta: float) -> void:
-	if jogador == null:
-		return
-
-	var origem := jogador.global_position
-	var inicio := origem - Vector2(0, recuo_raio)
-	var consulta := PhysicsRayQueryParameters2D.create(inicio, inicio + Vector2(0, distancia_raio))
-	consulta.exclude = [jogador.get_rid()]
-	var resultado := get_world_2d().direct_space_state.intersect_ray(consulta)
-
-	if resultado.is_empty():
+		set_physics_process(false)
 		visible = false
 		return
 
-	visible = true
-	var y_chao: float = resultado.position.y
-	global_position = Vector2(origem.x, y_chao)   # Funciona mesmo sem top_level
-	global_rotation = 0.0                         # Sombra sempre reta no chão
+	if texture == null:
+		texture = _criar_textura()
+		texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	_tam_textura = Vector2(texture.get_width(), texture.get_height())
 
-	var dist := y_chao - origem.y
-	forca = clampf(1.0 - (dist / altura_max_visivel), 0.0, 1.0)
-	scale = Vector2.ONE * lerpf(escala_minima, 1.0, forca)
-	queue_redraw()
+	centered = true
+	offset = Vector2.ZERO
+	voo = jogador.get_node_or_null("VooFada")
 
-func _draw() -> void:
-	var c := Color(cor, cor.a * forca)
-	var pontos := PackedVector2Array()
-	for i in range(24):
-		var a := TAU * float(i) / 24.0
-		pontos.append(Vector2(cos(a) * largura * 0.5, sin(a) * altura * 0.5))
-	draw_colored_polygon(pontos, c)
+	_medir_pes()
+	modulate = Color(cor.r, cor.g, cor.b, 0.0)
+	visible = false
+
+# Os pés ficam na base da cápsula de colisão do Player
+func _medir_pes() -> void:
+	_pes_local = Vector2.ZERO
+	var cs := jogador.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if cs == null or cs.shape == null:
+		push_warning("Sombra: não achei o CollisionShape2D do Player; usando a origem dele como pés.")
+		return
+
+	var meia_altura := 0.0
+	var capsula := cs.shape as CapsuleShape2D
+	var circulo := cs.shape as CircleShape2D
+	var retangulo := cs.shape as RectangleShape2D
+	if capsula != null:
+		meia_altura = capsula.height * 0.5
+	elif circulo != null:
+		meia_altura = circulo.radius
+	elif retangulo != null:
+		meia_altura = retangulo.size.y * 0.5
+	_pes_local = cs.position + Vector2(0.0, meia_altura * cs.scale.y)
+
+# Roda DEPOIS do Player (filhos processam depois do pai), então vê a posição já atualizada
+func _physics_process(delta: float) -> void:
+	var quer_visivel := not _voo_escondendo()
+	var altura_f := 0.0
+
+	if quer_visivel:
+		var pes := jogador.to_global(_pes_local)
+		# O raio começa um pouco acima dos pés (dentro do corpo, que é ignorado) e desce
+		var de := pes + Vector2(0.0, -8.0)
+		var ate := pes + Vector2(0.0, alcance_busca)
+		var consulta := PhysicsRayQueryParameters2D.create(de, ate, mascara_chao, [jogador.get_rid()])
+		var resultado := get_world_2d().direct_space_state.intersect_ray(consulta)
+
+		if resultado.is_empty():
+			quer_visivel = false   # Sem chão embaixo: a sombra some
+		else:
+			var ponto: Vector2 = resultado["position"]
+			global_position = ponto + deslocamento
+			if alinhar_ao_chao:
+				var normal: Vector2 = resultado["normal"]
+				global_rotation = normal.angle() + PI * 0.5
+			else:
+				global_rotation = 0.0
+			var altura := maxf(ponto.y - pes.y, 0.0)
+			altura_f = clampf(altura / maxf(altura_maxima, 1.0), 0.0, 1.0)
+
+	_fade = move_toward(_fade, 1.0 if quer_visivel else 0.0, delta * velocidade_fade)
+	visible = _fade > 0.01
+
+	# Quanto mais alto, menor e mais fraca
+	var k := lerpf(1.0, escala_minima, altura_f)
+	scale = Vector2(largura / _tam_textura.x, largura * proporcao_altura / _tam_textura.y) * k
+	var alfa := opacidade * _fade * lerpf(1.0, opacidade_minima, altura_f)
+	modulate = Color(cor.r, cor.g, cor.b, alfa)
+
+# A sombra some durante o voo de teste (V), enquanto a boneca vira luz
+func _voo_escondendo() -> bool:
+	if voo == null or not ("forma" in voo):
+		return false
+	var forma_atual = voo.forma
+	return forma_atual == voo.Forma.ENTRANDO or forma_atual == voo.Forma.VOANDO
+
+# Mancha redonda e macia: centro forte, borda transparente
+func _criar_textura() -> GradientTexture2D:
+	var grad := Gradient.new()
+	grad.offsets = PackedFloat32Array([0.0, 0.5, 1.0])
+	grad.colors = PackedColorArray([
+		Color(1.0, 1.0, 1.0, 1.0),
+		Color(1.0, 1.0, 1.0, 0.55),
+		Color(1.0, 1.0, 1.0, 0.0),
+	])
+	var tex := GradientTexture2D.new()
+	tex.gradient = grad
+	tex.fill = GradientTexture2D.FILL_RADIAL
+	tex.fill_from = Vector2(0.5, 0.5)
+	tex.fill_to = Vector2(1.0, 0.5)
+	tex.width = 128
+	tex.height = 128
+	return tex

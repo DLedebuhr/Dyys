@@ -8,13 +8,20 @@
 size = Vector2(810, 61.67035)
 
 [sub_resource type="Gradient" id="Gradient_sea2x"]
-offsets = PackedFloat32Array(0.99759614, 1)
+offsets = PackedFloat32Array(0, 0.99759614, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ludo5"]
 gradient = SubResource("Gradient_sea2x")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ludo5"]
 radius = 25.079872
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ludo5"]
+size = Vector2(80, 79)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ivfkq"]
+size = Vector2(279, 258)
 
 [node name="Node2D" type="Node2D" unique_id=1901627504]
 
@@ -111,3 +118,25 @@ offset_top = 401.0
 offset_right = 1073.0
 offset_bottom = 465.0
 texture = SubResource("GradientTexture2D_ludo5")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="." unique_id=2094003849]
+position = Vector2(-5, 619)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D" unique_id=87067063]
+position = Vector2(1, 29.5)
+shape = SubResource("RectangleShape2D_ludo5")
+
+[node name="TextureRect" type="TextureRect" parent="RigidBody2D" unique_id=1276274592]
+offset_left = -50.0
+offset_top = -17.999998
+offset_right = 462.0
+offset_bottom = 494.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_i4grq")
+
+[node name="AreaPrePortal" type="Area2D" parent="." unique_id=364205292]
+position = Vector2(1559, 593)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaPrePortal" unique_id=1097883143]
+position = Vector2(70.5, -6)
+shape = SubResource("RectangleShape2D_ivfkq")
