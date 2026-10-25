@@ -1,13 +1,13 @@
 # ===== SCRIPT DO NÓ "PontoOrigem" (filho do Player). NÃO colar no Player.gd =====
 extends Node2D
 
-enum EstadoLenco { REPOUSO, ATAQUE_Q, DEFESA_E, GANCHO }
+enum EstadoLenco { REPOUSO, ATAQUE, PROPULSOR, DEFESA, GANCHO }
 var estado_atual: EstadoLenco = EstadoLenco.REPOUSO
 
 # --- COMPRIMENTOS E ALCANCES INDEPENDENTES ---
 @export var comprimento_maximo: float = 100.0  # Comprimento visual no repouso
 @export var alcance_ataque: float = 180.0      # Alcance do ataque (Q) esticado
-@export var alcance_defesa: float = 160.0      # Alcance da defesa (E)
+@export var alcance_propulsor: float = 200.0   # Alcance do propulsor (E): quanto as fitas esticam
 @export var alcance_gancho: float = 350.0      # Alcance máximo do gancho
 
 @export var pontos_por_fita: int = 9          # 5 nós base + 4 interpolações
@@ -37,8 +37,8 @@ var estado_atual: EstadoLenco = EstadoLenco.REPOUSO
 # Ataque (Q) e defesa (E): UM aperto dispara a ação inteira na direção do mouse e ela volta sozinha
 @export var duracao_formacao_ataque: float = 0.22 # Tempo (s) da ponta até a posição final (Q)
 @export var tempo_ativo_ataque: float = 0.12      # Tempo (s) com o ataque esticado (causa dano)
-@export var duracao_formacao_defesa: float = 0.2  # Tempo (s) da ponta até a posição final (E)
-@export var tempo_ativo_defesa: float = 0.3       # Tempo (s) com a defesa levantada
+@export var duracao_formacao_defesa: float = 0.4  # Tempo (s) das fitas desenharem a redoma até fechar (E)
+@export var tempo_ativo_defesa: float = 0.45      # Tempo (s) com a redoma fechada
 @export var recarga_acao: float = 0.15            # Pausa (s) ao terminar, antes de poder usar de novo
 @export var duracao_retorno: float = 0.4    # Tempo (s) para o lenço voltar ao repouso solto
 @export var subdivisoes_curva: int = 4      # Arredondamento das curvas (1 = sem arredondar)
@@ -50,6 +50,10 @@ var estado_atual: EstadoLenco = EstadoLenco.REPOUSO
 @export var duracao_aviso_alcance: float = 1.2  # Segundos visível ao clicar sem ter onde prender
 @export var cor_alcance: Color = Color(0.55, 0.85, 1.0)
 const ACAO_ALCANCE: String = "ControleMostrarAlcance"
+const ACAO_TROCAR_ATAQUE: String = "ControleTrocarAtaque"
+
+# O ataque à distância acertou algo que o ataque machuca (ligue aqui o dano, se o seu inimigo não reagir sozinho)
+signal projetil_acertou(alvo: Node)
 
 @onready var fita_tras: Line2D = _achar_fita("FitaTras")
 @onready var fita_frente: Line2D = _achar_fita("FitaFrente")
@@ -91,6 +95,46 @@ const ACAO_ALCANCE: String = "ControleMostrarAlcance"
 @export_group("Calibração (modo debug)")
 @export var mostrar_origens_debug: bool = true     # Com o modo debug ligado, desenha as origens das fitas e o quadro atual
 
+@export_group("Defesa (círculo)")
+# Um único raio mantém a mesma medida na horizontal e na vertical.
+@export_range(20.0, 500.0, 1.0) var raio_defesa: float = 92.0
+@export_range(0.0, 45.0, 1.0) var sobreposicao_arcos_defesa: float = 0.0
+@export var redoma_deslocamento: Vector2 = Vector2.ZERO
+var _arco_defesa_frente: Array[Vector2] = []
+var _arco_defesa_tras: Array[Vector2] = []
+
+@export_group("Teclas")
+# true: o código garante E na defesa e S no propulsor (tira as outras teclas de TECLADO dessas duas ações).
+# Quando o Mapa de Entrada do projeto já estiver com E e S, pode desmarcar.
+@export var aplicar_teclas_pelo_codigo: bool = true
+
+# --- ATAQUE À DISTÂNCIA (Shift troca a forma do ataque) ---
+# Valores PROVISÓRIOS, ainda não aprovados: ajuste no Inspetor.
+# Com o modo ligado, Q lança um projétil independente sem esconder as pontas do lenço.
+@export_group("Ataque à distância (Shift)")
+@export var trocar_ataque_segurando: bool = false   # false: Shift liga/desliga o modo | true: vale só enquanto segura
+@export var textura_projetil: Texture2D
+@export var tamanho_projetil: Vector2 = Vector2(24, 24)
+@export var raio_apoio_projetil: float = 20.0
+@export var dano_ataque_normal: int = 10
+@export var dano_projetil: int = 5
+@export_flags_2d_physics var mascara_dano: int = 1
+@export var velocidade_projetil: float = 700.0      # Velocidade da ponta indo
+@export var alcance_projetil: float = 420.0         # Distância máxima que a ponta voa
+@export var velocidade_volta_projetil: float = 950.0   # Velocidade da ponta voltando
+@export var tempo_recarga_projetil: float = 5.0 # Espera no ponto de impacto antes de retornar
+@export var raio_projetil: float = 10.0             # Tamanho do brilho e do acerto da ponta
+
+# --- PROPULSOR (tecla S, só no ar) --- valores PROVISÓRIOS, ainda não aprovados
+# S também é a tecla de sentar, mas sentar só vale no chão e o propulsor só vale no ar: nunca se cruzam.
+@export_group("Propulsor (no ar)")
+@export var forca_propulsor: float = 680.0         # Velocidade do impulso no sentido contrário ao mouse
+@export var usos_propulsor_no_ar: int = 1          # Quantos usos por salto (zera ao tocar o chão)
+@export var embalo_propulsor: float = 0.12          # Segundos em que o impulso não é freado pelo atrito do ar
+@export var velocidade_max_propulsor: float = 700.0  # Limite da velocidade depois do impulso
+@export var duracao_formacao_propulsor: float = 0.12  # Tempo (s) das fitas até a posição final
+@export var tempo_ativo_propulsor: float = 0.2     # Tempo (s) com as fitas esticadas
+
 var pontos_tras: Array[Vector2] = []
 var pontos_frente: Array[Vector2] = []
 
@@ -123,6 +167,15 @@ var offset_gola_atual: Vector2 = Vector2.ZERO
 var offset_tras_atual: Vector2 = Vector2.ZERO    # Origem extra da fita de trás (suavizada)
 var offset_frente_atual: Vector2 = Vector2.ZERO  # Origem extra da fita da frente (suavizada)
 var frontal: float = 0.0                         # 0 = de lado | 1 = de frente (uma ponta para cada lado)
+var frente_defesa: float = 1.0                   # Lado para onde ela olhava ao começar a defesa (+1 direita | -1 esquerda)
+var vertices_redoma: Array[Vector2] = []         # Contorno circular neste quadro (mundo)
+var impulso_propulsor_pendente: bool = false     # O impulso sai só quando a animação chega ao auge
+var modo_distancia: bool = false                 # Shift: false = golpe curto | true = ponta lançada
+var ataque_a_distancia: bool = false             # Modo travado no instante em que o ataque começou
+var _alvos_atingidos: Array[int] = []
+var projeteis: Array[ProjetilLenco] = []         # Cada projétil ocupa uma das duas cargas
+var projetil_lancado: bool = false               # O ataque atual já lançou a ponta?
+var usos_propulsor: int = 0                      # Usos do propulsor neste salto
 
 # Transições de estado (formação do ataque/defesa e retorno ao repouso)
 var estado_anterior: EstadoLenco = EstadoLenco.REPOUSO
@@ -148,6 +201,8 @@ var mostrando_alcance_antes: bool = false
 
 func _ready() -> void:
 	_garantir_acao_alcance()
+	_ajustar_teclas()
+	_garantir_acao_trocar_ataque()
 
 	pontos_tras.clear()
 	pontos_frente.clear()
@@ -182,6 +237,7 @@ func _ready() -> void:
 	if raio_alcance:
 		raio_alcance.target_position = Vector2(alcance_gancho, 0)
 
+	_configurar_area_dano()
 	_desativar_colisores()
 
 	# Efeitos especiais: usa o nó "EfeitosLenco" da cena, se existir; senão cria um com os valores padrão
@@ -206,18 +262,41 @@ func _physics_process(delta: float) -> void:
 
 	var pos_mouse := get_global_mouse_position()
 
-	# --- LEITURA DE ENTRADAS ---
-	# Q / E: um aperto dispara a ação inteira (direção travada no mouse) e ela volta sozinha
-	if Input.is_action_just_pressed("ControleAtaqueLenco"):
-		if _pode_usar(Habilidades.ATAQUE_LENCO):
-			_pedir_acao(EstadoLenco.ATAQUE_Q)
-	elif Input.is_action_just_pressed("ControleDefesaLenco"):
-		if _pode_usar(Habilidades.DEFESA_LENCO):
-			_pedir_acao(EstadoLenco.DEFESA_E)
-	elif Input.is_action_just_pressed("ControleFixarLenco"):
-		_tentar_disparar_gancho(pos_origem, pos_mouse)
+	# Shift: troca a forma do ataque (golpe curto <-> ponta lançada)
+	var modo_antes := modo_distancia
+	if _pode_usar(Habilidades.ATAQUE_LENCO):
+		if trocar_ataque_segurando:
+			modo_distancia = Input.is_action_pressed(ACAO_TROCAR_ATAQUE)
+		elif Input.is_action_just_pressed(ACAO_TROCAR_ATAQUE):
+			modo_distancia = not modo_distancia
+	else:
+		modo_distancia = false
+	if modo_distancia != modo_antes and efeitos:
+		efeitos.faiscas_em(pontos_tras[pontos_por_fita - 1], 8, 70.0)
+		efeitos.faiscas_em(pontos_frente[pontos_por_fita - 1], 8, 70.0)
+
+	var pode_acionar_lenco: bool = true
+	if jogador != null and jogador.has_method("_reacao_trava"):
+		pode_acionar_lenco = not bool(jogador.call("_reacao_trava"))
+	if pode_acionar_lenco:
+		# --- LEITURA DE ENTRADAS ---
+		# Q / E: um aperto dispara a ação inteira (direção travada no mouse) e ela volta sozinha
+		if Input.is_action_just_pressed("ControleAtaqueLenco"):
+			if _pode_usar(Habilidades.ATAQUE_LENCO):
+				_pedir_acao(EstadoLenco.ATAQUE)
+		elif Input.is_action_just_pressed("ControleDefesaLenco"):
+			if _pode_usar(Habilidades.DEFESA_LENCO):
+				_pedir_acao(EstadoLenco.DEFESA)
+		elif Input.is_action_just_pressed("ControlePropulsor"):
+			# S também senta, mas só no chão: aqui o propulsor só aceita o aperto com ela no ar
+			if jogador and not jogador.is_on_floor() and _pode_usar(Habilidades.PROPULSOR):
+				_pedir_acao(EstadoLenco.PROPULSOR)
+		elif Input.is_action_just_pressed("ControleFixarLenco"):
+			_tentar_disparar_gancho(pos_origem, pos_mouse)
 
 	tempo_recarga = maxf(tempo_recarga - delta, 0.0)
+	if jogador and jogador.is_on_floor():
+		usos_propulsor = 0   # Pousou: o propulsor volta a ter todos os usos
 	_checar_fim_acao()
 	_executar_acao_pendente(pos_origem, pos_mouse, delta)
 
@@ -238,10 +317,12 @@ func _physics_process(delta: float) -> void:
 	match estado_atual:
 		EstadoLenco.REPOUSO:
 			_atualizar_repouso_firme(pos_origem, delta)
-		EstadoLenco.ATAQUE_Q:
+		EstadoLenco.ATAQUE:
 			_atualizar_ataque_q(pos_origem, delta)
-		EstadoLenco.DEFESA_E:
-			_atualizar_defesa_e(pos_origem, delta)
+		EstadoLenco.PROPULSOR:
+			_atualizar_propulsor(pos_origem, delta)
+		EstadoLenco.DEFESA:
+			_atualizar_defesa(pos_origem, delta)
 		EstadoLenco.GANCHO:
 			_atualizar_gancho_pendulo(pos_origem, delta)
 
@@ -282,6 +363,9 @@ func _calcular_offsets_fitas(delta: float) -> void:
 
 # Quanto o lenço está "de frente" (0 a 1): sobe ao entrar numa animação de frente e desce ao sair
 func _atualizar_frontal(delta: float) -> void:
+	if jogador and jogador.has_method("progresso_pose_frontal"):
+		frontal = clampf(float(jogador.call("progresso_pose_frontal")), 0.0, 1.0)
+		return
 	var alvo := 1.0 if _animacao_de_frente() else 0.0
 	var duracao := duracao_virar_frente if alvo > frontal else duracao_voltar_frente
 	frontal = move_toward(frontal, alvo, delta / maxf(duracao, 0.01))
@@ -365,18 +449,26 @@ func _achar_fita(nome: String) -> Line2D:
 
 func _ao_mudar_estado(anterior: EstadoLenco, novo: EstadoLenco) -> void:
 	tempo_estado = 0.0
+	if novo == EstadoLenco.DEFESA:
+		frente_defesa = -1.0 if _olhando_esquerda() else 1.0   # O coração não vira se ela virar no meio
+	if novo == EstadoLenco.ATAQUE:
+		_alvos_atingidos.clear()
+		projetil_lancado = false
+	# Saiu do propulsor antes do auge: o impulso não sai
+	if anterior == EstadoLenco.PROPULSOR:
+		impulso_propulsor_pendente = false
 	# Guarda a pose atual: a formação do ataque/defesa parte dela
 	for i in range(pontos_por_fita):
 		pontos_inicio_tras[i] = pontos_tras[i]
 		pontos_inicio_frente[i] = pontos_frente[i]
 	# Saiu do ataque/defesa (por qualquer motivo): desliga as áreas de dano/defesa
-	if anterior == EstadoLenco.ATAQUE_Q or anterior == EstadoLenco.DEFESA_E:
+	if _eh_acao(anterior):
 		_desativar_colisores()
 	# Saiu do gancho: esquece o alvo preso (um objeto solto segue com a velocidade que tinha)
 	if novo != EstadoLenco.GANCHO:
 		_limpar_ancora()
 	# Saiu do ataque/defesa para o repouso: inicia o retorno lento
-	if (anterior == EstadoLenco.ATAQUE_Q or anterior == EstadoLenco.DEFESA_E) and novo == EstadoLenco.REPOUSO:
+	if _eh_acao(anterior) and novo == EstadoLenco.REPOUSO:
 		tempo_retorno = 0.0
 
 # Lê uma lista de pontos como uma curva suave (Catmull-Rom) em vez de linhas retas.
@@ -403,6 +495,10 @@ func _aplicar_forma(origem: Vector2, dir: Vector2, alcance: float,
 		final_verde.append(eixo + _amostrar_caminho(offsets_verde, tk * 4.0))
 		final_vermelho.append(eixo + _amostrar_caminho(offsets_vermelho, tk * 4.0))
 
+	_mover_para_figura(final_verde, final_vermelho, delta, duracao)
+
+# Faz as fitas "desenharem" a figura dada (posição final de cada ponto; verde = fita da frente, vermelho = fita de trás)
+func _mover_para_figura(final_verde: Array[Vector2], final_vermelho: Array[Vector2], delta: float, duracao: float) -> void:
 	var linear := clampf(tempo_estado / maxf(duracao, 0.01), 0.0, 1.0)
 	var u := smoothstep(0.0, 1.0, linear) # 0 = tudo na origem, 1 = figura completa
 	# No começo, mistura a pose em que o lenço estava para não dar um salto
@@ -457,7 +553,7 @@ func _executar_acao_pendente(origem: Vector2, alvo_mouse: Vector2, delta: float)
 		return
 
 	# Ainda ocupado (outra ação rolando ou em recarga): espera
-	if estado_atual == EstadoLenco.ATAQUE_Q or estado_atual == EstadoLenco.DEFESA_E or tempo_recarga > 0.0:
+	if _eh_acao(estado_atual) or tempo_recarga > 0.0:
 		return
 
 	# Trava a direção do mouse neste instante (sem mouse válido, usa para onde o personagem olha)
@@ -468,6 +564,22 @@ func _executar_acao_pendente(origem: Vector2, alvo_mouse: Vector2, delta: float)
 		var olhando_esquerda: bool = _olhando_esquerda()
 		dir_acao = Vector2.LEFT if olhando_esquerda else Vector2.RIGHT
 
+	# Propulsor: só no ar, com a habilidade e usos sobrando. O uso é gasto agora, mas o impulso só sai
+	# quando as fitas completam o golpe na direção do mouse (veja _atualizar_propulsor).
+	if acao_pendente == EstadoLenco.PROPULSOR:
+		if not _pode_propulsionar():
+			acao_pendente = EstadoLenco.REPOUSO
+			return
+		usos_propulsor += 1
+		impulso_propulsor_pendente = true
+
+	# Cada projétil ativo ocupa uma carga; há dois disparos disponíveis.
+	if acao_pendente == EstadoLenco.ATAQUE:
+		if modo_distancia and projeteis.size() >= 2:
+			acao_pendente = EstadoLenco.REPOUSO
+			return
+		ataque_a_distancia = modo_distancia
+
 	estado_atual = acao_pendente
 	acao_pendente = EstadoLenco.REPOUSO
 
@@ -475,9 +587,11 @@ func _executar_acao_pendente(origem: Vector2, alvo_mouse: Vector2, delta: float)
 func _checar_fim_acao() -> void:
 	var total := 0.0
 	match estado_atual:
-		EstadoLenco.ATAQUE_Q:
+		EstadoLenco.ATAQUE:
 			total = duracao_formacao_ataque + tempo_ativo_ataque
-		EstadoLenco.DEFESA_E:
+		EstadoLenco.PROPULSOR:
+			total = duracao_formacao_propulsor + tempo_ativo_propulsor
+		EstadoLenco.DEFESA:
 			total = duracao_formacao_defesa + tempo_ativo_defesa
 		_:
 			return
@@ -497,6 +611,41 @@ func _garantir_acao_alcance() -> void:
 	var evento := InputEventKey.new()
 	evento.physical_keycode = KEY_TAB
 	InputMap.action_add_event(ACAO_ALCANCE, evento)
+
+# Garante as teclas das ações novas: E = defesa (redoma) e S = propulsor.
+# Só mexe nas teclas de TECLADO dessas duas ações (joystick e mouse ficam como estão).
+func _ajustar_teclas() -> void:
+	if not aplicar_teclas_pelo_codigo:
+		return
+	_garantir_tecla("ControleDefesaLenco", KEY_E)
+	_garantir_tecla("ControlePropulsor", KEY_S)
+
+# Shift troca a forma do ataque (se a ação não existir no Mapa de Entrada, cria com Shift)
+func _garantir_acao_trocar_ataque() -> void:
+	if InputMap.has_action(ACAO_TROCAR_ATAQUE):
+		return
+	InputMap.add_action(ACAO_TROCAR_ATAQUE)
+	var evento := InputEventKey.new()
+	evento.physical_keycode = KEY_SHIFT
+	InputMap.action_add_event(ACAO_TROCAR_ATAQUE, evento)
+
+func _garantir_tecla(acao: StringName, tecla: Key) -> void:
+	if not InputMap.has_action(acao):
+		InputMap.add_action(acao)
+	var antigos: Array[InputEventKey] = []
+	for evento in InputMap.action_get_events(acao):
+		var k := evento as InputEventKey
+		if k == null:
+			continue
+		var codigo: Key = k.physical_keycode if k.physical_keycode != KEY_NONE else k.keycode
+		if codigo == tecla:
+			return   # Já tem a tecla certa
+		antigos.append(k)
+	for k in antigos:
+		InputMap.action_erase_event(acao, k)
+	var novo := InputEventKey.new()
+	novo.physical_keycode = tecla
+	InputMap.action_add_event(acao, novo)
 
 func _atualizar_indicador_alcance(origem: Vector2, delta: float) -> void:
 	origem_alcance = origem
@@ -657,12 +806,122 @@ func _atualizar_ataque_q(origem: Vector2, delta: float) -> void:
 	_aplicar_forma(origem, dir, alcance_ataque, offsets_verde, offsets_vermelho, delta, duracao_formacao_ataque)
 
 	if area_ataque:
-		area_ataque.monitoring = tempo_estado >= duracao_formacao_ataque * 0.6 # ativa quando a ponta está quase lá
+		# No modo à distância quem machuca é a ponta lançada, não o golpe curto
+		area_ataque.monitoring = (not ataque_a_distancia) and tempo_estado >= duracao_formacao_ataque * 0.6 # ativa quando a ponta está quase lá
 		area_ataque.global_position = origem + (dir * (alcance_ataque * 0.7))
 		area_ataque.rotation = dir.angle()
+		if area_ataque.monitoring:
+			for corpo in area_ataque.get_overlapping_bodies():
+				_ao_ataque_normal_atingir(corpo)
+			for area in area_ataque.get_overlapping_areas():
+				_ao_ataque_normal_atingir(area)
 
-# --- 3. DEFESA E ---
-func _atualizar_defesa_e(origem: Vector2, delta: float) -> void:
+	# Auge do movimento: a ponta se desprende e voa para a frente
+	if ataque_a_distancia and not projetil_lancado and tempo_estado >= duracao_formacao_ataque:
+		projetil_lancado = true
+		_lancar_projetil()
+
+# --- 3. DEFESA: CÍRCULO ---
+# Trás: avança pela frente, sobe e termina nas costas.
+# Frente: vai pelas costas, desce e termina na frente.
+func _atualizar_defesa(origem: Vector2, _delta: float) -> void:
+	var centro := _centro_corpo() + redoma_deslocamento * Vector2(frente_defesa, 1.0)
+	var raio := maxf(raio_defesa, 20.0)
+	var angulo_gola := asin(clampf((origem.y - centro.y) / raio, -0.95, 0.95))
+	var extra := deg_to_rad(sobreposicao_arcos_defesa)
+	# Saídas retas na altura da gola, em sentidos opostos.
+	var caminho_tras := _caminho_circular_defesa(origem, centro, raio, angulo_gola, extra, 1.0)
+	var caminho_frente := _caminho_circular_defesa(origem, centro, raio, PI - angulo_gola, extra, -1.0)
+	var linear := clampf(tempo_estado / maxf(duracao_formacao_defesa, 0.01), 0.0, 1.0)
+	var progresso := smoothstep(0.0, 1.0, linear)
+	var mistura_inicio := 1.0 - smoothstep(0.0, 0.25, linear)
+	# O desenho é sempre um trecho do MESMO caminho, inclusive ao fechar.
+	_arco_defesa_tras = _revelar_caminho_defesa(caminho_tras, pontos_inicio_tras, progresso, mistura_inicio)
+	_arco_defesa_frente = _revelar_caminho_defesa(caminho_frente, pontos_inicio_frente, progresso, mistura_inicio)
+	for i in range(pontos_por_fita):
+		var pos := float(i) / float(pontos_por_fita - 1) * float(_arco_defesa_tras.size() - 1)
+		pontos_tras[i] = _amostrar_caminho(_arco_defesa_tras, pos)
+		pontos_frente[i] = _amostrar_caminho(_arco_defesa_frente, pos)
+	pontos_tras[0] = origem
+	pontos_frente[0] = origem
+	_arco_defesa_tras[0] = origem
+	_arco_defesa_frente[0] = origem
+
+	# O preenchimento tem uma única circunferência, sem duplicar a sobreposição.
+	vertices_redoma.clear()
+	for i in range(128):
+		var angulo := TAU * float(i) / 128.0
+		vertices_redoma.append(centro + Vector2(cos(angulo), sin(angulo)) * raio)
+
+	if area_defesa:
+		area_defesa.monitoring = tempo_estado >= duracao_formacao_defesa * 0.6
+		area_defesa.global_position = centro
+		area_defesa.rotation = 0.0
+		for filho in area_defesa.get_children():
+			if filho is CollisionShape2D:
+				if not filho.shape is CircleShape2D:
+					filho.shape = CircleShape2D.new()
+				var circulo := filho.shape as CircleShape2D
+				circulo.radius = raio
+				filho.position = Vector2.ZERO
+				filho.scale = Vector2.ONE
+
+	if efeitos:
+		efeitos.definir_redoma(vertices_redoma, _arco_defesa_frente, _arco_defesa_tras, centro)
+
+
+func _caminho_circular_defesa(origem: Vector2, centro: Vector2, raio: float,
+		inicio: float, extra: float, lado_saida: float) -> Array[Vector2]:
+	var caminho: Array[Vector2] = []
+	var entrada := centro + Vector2(cos(inicio) * frente_defesa, sin(inicio)) * raio
+	# Trecho reto da gola até a borda, preservado até o fim da defesa.
+	for i in range(25):
+		caminho.append(origem.lerp(entrada, float(i) / 24.0))
+	# Trás percorre o semicírculo superior; frente percorre o inferior.
+	# O fim de cada arco encontra a saída do outro na altura da gola.
+	var fim := (-PI - inicio) if lado_saida > 0.0 else (PI - inicio)
+	fim -= extra
+	for i in range(1, 97):
+		var angulo := lerpf(inicio, fim, float(i) / 96.0)
+		caminho.append(centro + Vector2(cos(angulo) * frente_defesa, sin(angulo)) * raio)
+	return caminho
+
+
+func _revelar_caminho_defesa(caminho: Array[Vector2], inicial: Array[Vector2],
+		progresso: float, mistura: float) -> Array[Vector2]:
+	# Avanço por distância: sem atalhos entre os pontos da circunferência.
+	var distancias: Array[float] = [0.0]
+	for i in range(1, caminho.size()):
+		distancias.append(distancias[i - 1] + caminho[i - 1].distance_to(caminho[i]))
+	var total := distancias[distancias.size() - 1]
+	var resultado: Array[Vector2] = []
+	var segmento := 1
+	for i in range(129):
+		var t := float(i) / 128.0
+		var distancia := total * t * progresso
+		while segmento < caminho.size() - 1 and distancias[segmento] < distancia:
+			segmento += 1
+		var comprimento := distancias[segmento] - distancias[segmento - 1]
+		var fator := clampf((distancia - distancias[segmento - 1]) / maxf(comprimento, 0.0001), 0.0, 1.0)
+		var ponto := caminho[segmento - 1].lerp(caminho[segmento], fator)
+		if mistura > 0.0:
+			var anterior := _amostrar_caminho(inicial, t * float(inicial.size() - 1))
+			ponto = ponto.lerp(anterior, mistura)
+		resultado.append(ponto)
+	return resultado
+
+# Reparte os pontos da fita ao longo de um caminho de nós
+func _distribuir_no_caminho(caminho: Array[Vector2]) -> Array[Vector2]:
+	var saida: Array[Vector2] = []
+	var ultimo := float(caminho.size() - 1)
+	for k in range(pontos_por_fita):
+		var tk := float(k) / float(pontos_por_fita - 1)
+		saida.append(_amostrar_caminho(caminho, tk * ultimo))
+	return saida
+
+# --- 3b. PROPULSOR (tecla S) ---
+# As fitas golpeiam na direção do mouse; a personagem é impulsionada no sentido contrário.
+func _atualizar_propulsor(origem: Vector2, delta: float) -> void:
 	pontos_tras[0] = origem
 	pontos_frente[0] = origem
 
@@ -685,12 +944,26 @@ func _atualizar_defesa_e(origem: Vector2, delta: float) -> void:
 	offsets_verde[4] = (-perp * (altura_cotovelo + 35.0)) - (dir * recuo_ponta)
 	offsets_vermelho[4] = (perp * (altura_cotovelo + 35.0)) - (dir * recuo_ponta)
 
-	_aplicar_forma(origem, dir, alcance_defesa, offsets_verde, offsets_vermelho, delta, duracao_formacao_defesa)
+	_aplicar_forma(origem, dir, alcance_propulsor, offsets_verde, offsets_vermelho, delta, duracao_formacao_propulsor)
 
-	if area_defesa:
-		area_defesa.monitoring = tempo_estado >= duracao_formacao_defesa * 0.3
-		area_defesa.global_position = origem + (dir * (alcance_defesa * 0.4))
-		area_defesa.rotation = dir.angle()
+	# O golpe e o jato chegam ao auge no mesmo quadro em que sai o impulso.
+	if impulso_propulsor_pendente and tempo_estado >= duracao_formacao_propulsor:
+		impulso_propulsor_pendente = false
+		if jogador and not jogador.is_on_floor():
+			# Encerra a planagem para ela não limitar o segundo pulo.
+			if jogador.has_method("_encerrar_planar"):
+				jogador.call("_encerrar_planar")
+			# Usa a direção do mouse travada no início da ação, no sentido contrário.
+			# Mantém a força consistente e preserva a velocidade perpendicular.
+			var direcao_impulso := -dir_acao.normalized()
+			var velocidade_propulsor_atual := maxf(absf(forca_propulsor), 1.0)
+			if velocidade_max_propulsor > 0.0:
+				velocidade_propulsor_atual = minf(velocidade_propulsor_atual, velocidade_max_propulsor)
+			var atual_na_direcao := jogador.velocity.dot(direcao_impulso)
+			var impulso := direcao_impulso * (velocidade_propulsor_atual - atual_na_direcao)
+			jogador.aplicar_impulso(impulso, embalo_propulsor, 0.0)
+
+
 
 # --- 4. GANCHO: CORDA COMO LIMITE DE DISTÂNCIA ---
 func _tentar_disparar_gancho(origem: Vector2, alvo_mouse: Vector2) -> void:
@@ -700,6 +973,22 @@ func _tentar_disparar_gancho(origem: Vector2, alvo_mouse: Vector2) -> void:
 	raio_alcance.global_position = origem
 	raio_alcance.target_position = raio_alcance.to_local(origem + (alvo_mouse - origem).normalized() * alcance_gancho)
 	raio_alcance.force_raycast_update()
+
+	# Testa os projéteis parados antes do primeiro obstáculo do cenário.
+	var limite := alcance_gancho
+	if raio_alcance.is_colliding():
+		limite = minf(limite, origem.distance_to(raio_alcance.get_collision_point()))
+	var apoio := _buscar_projetil_apoio(origem, alvo_mouse, limite)
+	if apoio != null:
+		_limpar_ancora()
+		alvo_gancho = apoio
+		ancora_segue = true
+		ancora_local = Vector2.ZERO
+		ponto_ancora_gancho = apoio.global_position
+		var distancia := jogador.global_position.distance_to(ponto_ancora_gancho)
+		distancia_corda = maxf(alcance_gancho, distancia) if jogador.is_on_floor() else distancia
+		estado_atual = EstadoLenco.GANCHO
+		return
 
 	if not raio_alcance.is_colliding():
 		# Nada para prender: mostra o círculo de alcance
@@ -739,6 +1028,11 @@ func _tentar_disparar_gancho(origem: Vector2, alvo_mouse: Vector2) -> void:
 func _atualizar_gancho_pendulo(origem: Vector2, delta: float) -> void:
 	pontos_tras[0] = origem
 	pontos_frente[0] = origem
+
+	if alvo_gancho is ProjetilLenco:
+		if not alvo_gancho.pode_servir_de_apoio():
+			_soltar_apoio_projetil(alvo_gancho)
+			return
 
 	# Âncora presa a um objeto/plataforma móvel: o ponto acompanha o alvo
 	if ancora_segue:
@@ -842,6 +1136,11 @@ func soltar_tudo() -> void:
 	origem_inicializada = false   # Os pontos da fita voltam a nascer na gola, sem esticar pelo mapa
 	if efeitos:
 		efeitos.parar()
+	impulso_propulsor_pendente = false
+	for p in projeteis:
+		if is_instance_valid(p):
+			p.queue_free()
+	projeteis.clear()
 	_limpar_ancora()
 	_desativar_colisores()
 
@@ -850,27 +1149,52 @@ func _limpar_ancora() -> void:
 	ancora_segue = false
 	ancora_leve = false
 
+# Ataque, propulsor e defesa são "ações" do lenço (o gancho é à parte)
+func _eh_acao(e: EstadoLenco) -> bool:
+	return e == EstadoLenco.ATAQUE or e == EstadoLenco.PROPULSOR or e == EstadoLenco.DEFESA
+
+# O propulsor só funciona no ar, com a habilidade e com usos sobrando
+func _pode_propulsionar() -> bool:
+	return jogador != null and not jogador.is_on_floor() \
+			and usos_propulsor < usos_propulsor_no_ar \
+			and _pode_usar(Habilidades.PROPULSOR) \
+			and jogador.has_method("aplicar_impulso")
+
 # Pergunta ao Player se a habilidade está liberada (sem Player ou sem o método, libera)
 func _pode_usar(id: StringName) -> bool:
 	if jogador and jogador.has_method("pode_usar"):
 		return jogador.pode_usar(id)
 	return true
 
-# Efeitos do ataque e da defesa: o feixe segue as pontas das fitas e explode quando a figura fica completa
+# Efeitos do ataque, do propulsor e da defesa: o feixe segue as pontas das fitas e explode quando a figura fica completa
 func _atualizar_efeitos(delta: float) -> void:
 	if efeitos == null:
 		return
 	var tipo := EfeitosLenco.Tipo.NENHUM
 	var progresso := 1.0
 	match estado_atual:
-		EstadoLenco.ATAQUE_Q:
+		EstadoLenco.ATAQUE:
 			tipo = EfeitosLenco.Tipo.ATAQUE
 			progresso = clampf(tempo_estado / maxf(duracao_formacao_ataque, 0.01), 0.0, 1.0)
-		EstadoLenco.DEFESA_E:
+		EstadoLenco.PROPULSOR:
+			tipo = EfeitosLenco.Tipo.PROPULSOR
+			progresso = clampf(tempo_estado / maxf(duracao_formacao_propulsor, 0.01), 0.0, 1.0)
+		EstadoLenco.DEFESA:
 			tipo = EfeitosLenco.Tipo.DEFESA
 			progresso = clampf(tempo_estado / maxf(duracao_formacao_defesa, 0.01), 0.0, 1.0)
-	efeitos.atualizar(delta, tipo, dir_acao, progresso,
-			pontos_tras[pontos_por_fita - 1], pontos_frente[pontos_por_fita - 1])
+	efeitos.ataque_a_distancia = ataque_a_distancia
+	var direcao_visual := dir_acao
+	efeitos.atualizar(delta, tipo, direcao_visual, progresso, origem_anterior,
+			pontos_tras[pontos_por_fita - 1], pontos_frente[pontos_por_fita - 1],
+			_centro_corpo())
+
+# Centro do corpo (a cápsula de colisão do Player): o escudo e o turbilhão giram em volta dele
+func _centro_corpo() -> Vector2:
+	if jogador:
+		var forma := jogador.get_node_or_null("CollisionShape2D") as CollisionShape2D
+		if forma:
+			return forma.global_position
+	return origem_anterior + Vector2(0.0, 6.0)
 
 # Cor das fitas (o fim do degradê), usada de base para os efeitos
 func _cor_do_lenco() -> Color:
@@ -879,7 +1203,7 @@ func _cor_do_lenco() -> Color:
 		if g != null and g.get_point_count() > 0:
 			return g.get_color(g.get_point_count() - 1)
 		return fita_tras.default_color
-	return Color(0.125, 0.0, 0.402, 1.0)
+	return Color(0.6, 0.6, 1.0)
 
 func _desativar_colisores() -> void:
 	if area_ataque: area_ataque.monitoring = false
@@ -892,6 +1216,15 @@ func _redesenhar_line2d() -> void:
 	fita_tras.clear_points()
 	fita_frente.clear_points()
 
+	# Usa o mesmo caminho denso durante toda a defesa, sem trocar a curva no fechamento.
+	if estado_atual == EstadoLenco.DEFESA:
+		if not _arco_defesa_tras.is_empty() and not _arco_defesa_frente.is_empty():
+			for pt in _arco_defesa_tras:
+				fita_tras.add_point(fita_tras.to_local(pt))
+			for pt in _arco_defesa_frente:
+				fita_frente.add_point(fita_frente.to_local(pt))
+			return
+
 	for pt in _suavizar_curva(pontos_tras):
 		fita_tras.add_point(fita_tras.to_local(pt))
 	for pt in _suavizar_curva(pontos_frente):
@@ -900,6 +1233,7 @@ func _redesenhar_line2d() -> void:
 func _draw() -> void:
 	_desenhar_alcance()
 	_desenhar_origens_debug()
+	_desenhar_indicador_modo()
 
 	if not textura_ponta: return
 
@@ -908,6 +1242,73 @@ func _draw() -> void:
 
 	if pontos_frente.size() >= pontos_por_fita:
 		_desenhar_ponta_no_ponto(pontos_frente[pontos_por_fita - 2], pontos_frente[pontos_por_fita - 1])
+
+# Modo à distância ligado: um brilho suave pulsa nas pontas das fitas.
+func _desenhar_indicador_modo() -> void:
+	if not modo_distancia or pontos_tras.size() < pontos_por_fita:
+		return
+	var pulso := 0.6 + 0.25 * sin(Time.get_ticks_msec() * 0.008)
+	var cor := _cor_do_lenco().lerp(Color.WHITE, 0.5)
+	for ponto in [pontos_tras[pontos_por_fita - 1], pontos_frente[pontos_por_fita - 1]]:
+		var c := to_local(ponto)
+		draw_circle(c, 12.0, Color(cor, 0.10 * pulso))
+		draw_circle(c, 8.0, Color(cor, 0.20 * pulso))
+		draw_circle(c, 4.0, Color(cor, 0.45 * pulso))
+
+# --- ATAQUE À DISTÂNCIA: A PONTA LANÇADA ---
+# No auge do ataque, cria um projétil na direção travada do mouse.
+# Cada disparo espera no destino e recupera sua carga ao retornar à gola.
+func _lancar_projetil() -> void:
+	if projeteis.size() >= 2:
+		return
+	var ponta := (pontos_tras[pontos_por_fita - 1] + pontos_frente[pontos_por_fita - 1]) * 0.5
+	var p := ProjetilLenco.new()
+	p.top_level = true   # Voa no mundo, independente do movimento da personagem
+	p.velocidade_ida = velocidade_projetil
+	p.velocidade_volta = velocidade_volta_projetil
+	p.alcance = alcance_projetil
+	p.tempo_espera = tempo_recarga_projetil
+	p.raio = raio_projetil
+	p.cor = _cor_do_lenco().lerp(Color.WHITE, 0.45)
+	p.textura_ponta = textura_projetil
+	p.tamanho_ponta = tamanho_projetil
+	p.dano = dano_projetil
+	p.mascara_dano = mascara_dano
+	p.destino_volta = Callable(self, "_posicao_da_gola")
+	p.mascara_cenario = raio_alcance.collision_mask if raio_alcance else 1
+	var excluidos: Array[RID] = []
+	if jogador:
+		excluidos.append(jogador.get_rid())
+	p.excluir = excluidos
+	p.ignorar = jogador
+	p.apoio_desativado.connect(_soltar_apoio_projetil.bind(p))
+	p.acertou.connect(_ao_projetil_acertar.bind(p))
+	p.bateu_no_cenario.connect(_ao_projetil_bater)
+	p.tree_exiting.connect(_ao_projetil_voltar.bind(p))
+	add_child(p)
+	p.lancar(ponta, dir_acao)
+	projeteis.append(p)
+	if efeitos:
+		efeitos.faiscas_em(ponta, 10, 120.0)
+
+func _posicao_da_gola() -> Vector2:
+	return origem_anterior
+
+func _ao_projetil_acertar(alvo: Node, p: ProjetilLenco) -> void:
+	if efeitos and is_instance_valid(p):
+		efeitos.faiscas_em(p.global_position, 14, 180.0)
+	projetil_acertou.emit(alvo)
+
+func _ao_projetil_bater(onde: Vector2) -> void:
+	if efeitos:
+		efeitos.faiscas_em(onde, 12, 150.0)
+
+func _ao_projetil_voltar(p: ProjetilLenco) -> void:
+	# Libera somente a carga deste disparo.
+	_soltar_apoio_projetil(p)
+	projeteis.erase(p)
+	if efeitos:
+		efeitos.faiscas_em(origem_anterior, 8, 90.0)
 
 # Calibração (só com o modo debug ligado): mostra de onde saem as fitas e o quadro da animação atual.
 # Azul = origem comum | rosa = fita de trás | amarelo = fita da frente
@@ -935,3 +1336,82 @@ func _desenhar_ponta_no_ponto(ponto_anterior: Vector2, ponto_final: Vector2) -> 
 	draw_set_transform(pos_local, angulo)
 	draw_texture_rect(textura_ponta, rect, false)
 	draw_set_transform(Vector2.ZERO, 0.0)
+
+
+# Ponto temporário selecionado por um raio: não cria uma plataforma sólida.
+func _buscar_projetil_apoio(origem: Vector2, mouse: Vector2, limite: float) -> ProjetilLenco:
+	var direcao := origem.direction_to(mouse)
+	if direcao == Vector2.ZERO:
+		return null
+	var escolhido: ProjetilLenco = null
+	var mais_perto := limite
+	for p in projeteis:
+		if not is_instance_valid(p) or not p.pode_servir_de_apoio():
+			continue
+		var relativo := p.global_position - origem
+		var projecao := relativo.dot(direcao)
+		var lateral_quadrado := maxf(0.0, relativo.length_squared() - projecao * projecao)
+		var raio_apoio := maxf(raio_apoio_projetil, p.raio)
+		if lateral_quadrado > raio_apoio * raio_apoio:
+			continue
+		var margem := sqrt(raio_apoio * raio_apoio - lateral_quadrado)
+		if projecao + margem < 0.0:
+			continue
+		var entrada := maxf(0.0, projecao - margem)
+		# O centro também precisa estar ao alcance e antes do obstáculo.
+		if relativo.length() <= limite and entrada <= mais_perto:
+			escolhido = p
+			mais_perto = entrada
+	return escolhido
+
+
+func _soltar_apoio_projetil(p: ProjetilLenco) -> void:
+	if alvo_gancho != p:
+		return
+	corda_esticada = false
+	_limpar_ancora()
+	if estado_atual == EstadoLenco.GANCHO:
+		estado_atual = EstadoLenco.REPOUSO
+
+
+func _configurar_area_dano() -> void:
+	# A cena enviada não tem AreaAtaque; cria uma área padrão nesse caso.
+	if area_ataque == null:
+		area_ataque = Area2D.new()
+		area_ataque.name = "AreaAtaque"
+		area_ataque.collision_layer = 0
+		var colisao := CollisionShape2D.new()
+		var forma := RectangleShape2D.new()
+		forma.size = Vector2(alcance_ataque * 0.6, 36.0)
+		colisao.shape = forma
+		area_ataque.add_child(colisao)
+		add_child(area_ataque)
+	area_ataque.collision_mask = mascara_dano
+	area_ataque.set_meta("dano", dano_ataque_normal)
+	if not area_ataque.body_entered.is_connected(_ao_ataque_normal_atingir):
+		area_ataque.body_entered.connect(_ao_ataque_normal_atingir)
+	if not area_ataque.area_entered.is_connected(_ao_ataque_normal_atingir):
+		area_ataque.area_entered.connect(_ao_ataque_normal_atingir)
+
+
+func _ao_ataque_normal_atingir(contato: Node) -> void:
+	if estado_atual != EstadoLenco.ATAQUE or ataque_a_distancia:
+		return
+	if tempo_estado < duracao_formacao_ataque * 0.6:
+		return
+	var alvo := contato
+	while is_instance_valid(alvo) and alvo != jogador and alvo != get_tree().root:
+		if jogador.is_ancestor_of(alvo):
+			return
+		var metodo := ""
+		if alvo.has_method("receber_dano"):
+			metodo = "receber_dano"
+		elif alvo.has_method("tomar_dano"):
+			metodo = "tomar_dano"
+		if metodo != "":
+			var id := alvo.get_instance_id()
+			if id not in _alvos_atingidos:
+				_alvos_atingidos.append(id)
+				alvo.call(metodo, dano_ataque_normal)
+			return
+		alvo = alvo.get_parent()

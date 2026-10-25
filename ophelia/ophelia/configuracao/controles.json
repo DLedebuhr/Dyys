@@ -1,0 +1,116 @@
+{
+  "ControleAndarEsquerda": [
+    "A",
+    "LEFT"
+  ],
+  "ControleAndarDireita": [
+    "D",
+    "RIGHT"
+  ],
+  "ControlePular": [
+    "W"
+  ],
+  "ControleSentarLevantar": [
+    "S"
+  ],
+  "ControlePropulsor": [
+    "S"
+  ],
+  "ControleAtaqueLenco": [
+    "Q"
+  ],
+  "ControleDefesaLenco": [
+    "E"
+  ],
+  "ControleCorrer": [
+    "CAPS"
+  ],
+  "ControleTrocarAtaque": [
+    "SHIFT"
+  ],
+  "ControleMostrarAlcance": [
+    "TAB"
+  ],
+  "ControleFixarLenco": [
+    "MOUSE1"
+  ],
+  "ControleImpulsoLenco": [
+    "MOUSE2"
+  ],
+  "ControleVooDebug": [
+    "V"
+  ],
+  "ControleVooCima": [
+    "UP"
+  ],
+  "ControleVooBaixo": [
+    "DOWN"
+  ],
+  "ControleTesteHostil": [
+    "B"
+  ],
+  "ControleTesteRestaurar": [
+    "N"
+  ],
+  "ControleChapeuDebug": [
+    "H"
+  ],
+  "ControleIrritadaDebug": [
+    "Z"
+  ],
+  "ControleAgradecerDebug": [
+    "X"
+  ],
+  "ControleTeleporteDebug": [
+    "T"
+  ],
+  "ControleAprenderDebug": [
+    "K"
+  ],
+  "ControleEsquecerDebug": [
+    "J"
+  ],
+  "ControleCameraLentaDebug": [
+    "L"
+  ],
+  "ControleDigitoDebug0": [
+    "0",
+    "KP0"
+  ],
+  "ControleDigitoDebug1": [
+    "1",
+    "KP1"
+  ],
+  "ControleDigitoDebug2": [
+    "2",
+    "KP2"
+  ],
+  "ControleDigitoDebug3": [
+    "3",
+    "KP3"
+  ],
+  "ControleDigitoDebug4": [
+    "4",
+    "KP4"
+  ],
+  "ControleDigitoDebug5": [
+    "5",
+    "KP5"
+  ],
+  "ControleDigitoDebug6": [
+    "6",
+    "KP6"
+  ],
+  "ControleDigitoDebug7": [
+    "7",
+    "KP7"
+  ],
+  "ControleDigitoDebug8": [
+    "8",
+    "KP8"
+  ],
+  "ControleDigitoDebug9": [
+    "9",
+    "KP9"
+  ]
+}

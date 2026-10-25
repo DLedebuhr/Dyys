@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://df1lm2pj205d7"]
+
+[ext_resource type="Script" uid="uid://c5qvc1brb63fs" path="res://ophelia/testes/AlvoTeste.gd" id="alvo"]
+[ext_resource type="Script" uid="uid://belrycbsso6f1" path="res://ophelia/testes/CenarioTeste.gd" id="cenario"]
+[ext_resource type="PackedScene" uid="uid://cn288il5ik5ex" path="res://ophelia/OPHELIA.tscn" id="personagem"]
+
+[sub_resource type="RectangleShape2D" id="Chao"]
+size = Vector2(2500, 64)
+
+[sub_resource type="RectangleShape2D" id="Plataforma"]
+size = Vector2(250, 32)
+
+[sub_resource type="RectangleShape2D" id="Alvo"]
+size = Vector2(60, 124)
+
+[node name="CenarioTesteOPHELIA" type="Node2D" unique_id=71994698]
+script = ExtResource("cenario")
+
+[node name="OPHELIA" parent="." unique_id=678153441 instance=ExtResource("personagem")]
+position = Vector2(430, 420)
+
+[node name="Camera2D" type="Camera2D" parent="OPHELIA" unique_id=1118379657]
+zoom = Vector2(2, 2)
+
+[node name="Chao" type="StaticBody2D" parent="." unique_id=1133053766]
+position = Vector2(960, 683)
+
+[node name="FormaChao" type="CollisionShape2D" parent="Chao" unique_id=1196439035]
+shape = SubResource("Chao")
+
+[node name="DesenhoChao" type="Polygon2D" parent="Chao" unique_id=1363943825]
+color = Color(0.18, 0.25, 0.29, 1)
+polygon = PackedVector2Array(-1250, -32, 1250, -32, 1250, 32, -1250, 32)
+
+[node name="PlataformaEsquerda" type="StaticBody2D" parent="." unique_id=656906724]
+position = Vector2(270, 400)
+
+[node name="Forma" type="CollisionShape2D" parent="PlataformaEsquerda" unique_id=2024187383]
+shape = SubResource("Plataforma")
+
+[node name="Desenho" type="Polygon2D" parent="PlataformaEsquerda" unique_id=1377515281]
+color = Color(0.32, 0.43, 0.48, 1)
+polygon = PackedVector2Array(-125, -16, 125, -16, 125, 16, -125, 16)
+
+[node name="PlataformaDireita" type="StaticBody2D" parent="." unique_id=630635470]
+position = Vector2(1030, 330)
+
+[node name="Forma" type="CollisionShape2D" parent="PlataformaDireita" unique_id=679264453]
+shape = SubResource("Plataforma")
+
+[node name="Desenho" type="Polygon2D" parent="PlataformaDireita" unique_id=1707914657]
+color = Color(0.32, 0.43, 0.48, 1)
+polygon = PackedVector2Array(-125, -16, 125, -16, 125, 16, -125, 16)
+
+[node name="Alvo" type="StaticBody2D" parent="." unique_id=1894664347]
+position = Vector2(740, 589)
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("alvo")
+
+[node name="Forma" type="CollisionShape2D" parent="Alvo" unique_id=1072370464]
+shape = SubResource("Alvo")
+
+[node name="Desenho" type="Polygon2D" parent="Alvo" unique_id=1266785541]
+color = Color(0.76, 0.47, 0.37, 1)
+polygon = PackedVector2Array(-30, -62, 30, -62, 30, 62, -30, 62)
+
+[node name="Interface" type="CanvasLayer" parent="." unique_id=36723661]
+
+[node name="Titulo" type="Label" parent="Interface" unique_id=1845102849]
+offset_left = 32.0
+offset_top = 24.0
+theme_override_font_sizes/font_size = 30
+text = "OPHELIA · CENA DE TESTE"
+
+[node name="Controles" type="Label" parent="Interface" unique_id=1623033815]
+offset_left = 32.0
+offset_top = 78.0
+theme_override_font_sizes/font_size = 20
+text = "A/D: mover  ·  CapsLock: correr  ·  W: pular/planar  ·  S: sentar no chão/propulsor no ar
+Q: atacar  ·  E: defender  ·  Shift: alternar disparo  ·  Mouse esquerdo: gancho  ·  Direito: impulso
+B: disparo hostil de teste  ·  N: restaurar vida e alvo  ·  Z/X: irritada/agradecer  ·  H: chapéu
+Tab: alcance  ·  V: voo debug  ·  T: teleporte  ·  666: alternar modo debug"
+
+[node name="Estado" type="Label" parent="Interface" unique_id=919651777]
+offset_left = 32.0
+offset_top = 230.0
+theme_override_font_sizes/font_size = 20

@@ -316,7 +316,6 @@ position = Vector2(1518, 1998)
 forca_pulo = -700.0
 
 [node name="Camera2D2" type="Camera2D" parent="Player" unique_id=738045151]
-zoom = Vector2(2, 2)
 script = ExtResource("9_d2jv4")
 
 [node name="TextureRect6" type="TextureRect" parent="." unique_id=1531984026]

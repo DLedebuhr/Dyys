@@ -68,7 +68,10 @@
 [ext_resource type="Texture2D" uid="uid://cxae46oihrvj1" path="res://assets/textures/Characters/Ophelia/SpritesPlanar/Frame 99.png" id="52_y0ntn"]
 [ext_resource type="Texture2D" uid="uid://bvbuo1vxrur7n" path="res://assets/textures/Characters/Ophelia/PontaFita.png" id="54_jybf5"]
 [ext_resource type="Script" uid="uid://d2tsomjfc2bmu" path="res://scenes/actors/Habilidades.gd" id="57_jybf5"]
+[ext_resource type="Texture2D" uid="uid://c6ptfg0u424kw" path="res://assets/textures/Characters/Ophelia/SpritesParada/Frame 6.png" id="63_d550d"]
+[ext_resource type="Texture2D" uid="uid://bg2jnqgvtplea" path="res://assets/textures/Characters/Ophelia/SpritesParada/Frame 110.png" id="64_ubeei"]
 [ext_resource type="Script" uid="uid://c4aymq7utidt" path="res://scenes/actors/EfeitosLenco.gd" id="69_ecpok"]
+[ext_resource type="Script" uid="uid://dawp4bupjubh7" path="res://scenes/actors/ProjetilLenco.gd" id="70_a3das"]
 
 [sub_resource type="Gradient" id="Gradient_0878f"]
 offsets = PackedFloat32Array(0.0073891627, 1)
@@ -250,6 +253,22 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("3_ecpok")
+}],
+"loop": 1,
+"name": &"EsperarMovimentoBase",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_a3das")
+}],
+"loop": 1,
+"name": &"EsperarMovimentoChapeu",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("47_4r5kv")
 }, {
 "duration": 1.0,
@@ -363,6 +382,22 @@ animations = [{
 "loop": 0,
 "name": &"SentarChapeu",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("63_d550d")
+}],
+"loop": 1,
+"name": &"TransicaoBase",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("64_ubeei")
+}],
+"loop": 1,
+"name": &"TransicaoChapeu",
+"speed": 5.0
 }]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y7lai"]
@@ -390,6 +425,7 @@ velocidade_correr = 400.0
 forca_pulo = -690.0
 planar_gravidade = 0.5
 velocidade_queda_planando = 100.0
+cor_brilho_batida = Color(1, 1, 1, 1)
 
 [node name="Sombra" type="Sprite2D" parent="." unique_id=730976708]
 script = ExtResource("2_yks8x")
@@ -409,8 +445,7 @@ end_cap_mode = 2
 position = Vector2(0, -18)
 scale = Vector2(0.35, 0.35)
 sprite_frames = SubResource("SpriteFrames_15tap")
-animation = &"EsperarChapeu"
-frame_progress = 0.9024978
+animation = &"TransicaoChapeu"
 
 [node name="Asas" type="AnimatedSprite2D" parent="." unique_id=223967372 node_paths=PackedStringArray("jogador", "sprite_principal")]
 z_index = 1
@@ -450,7 +485,6 @@ end_cap_mode = 2
 position = Vector2(0, 21)
 script = ExtResource("15_0878f")
 alcance_ataque = 200.0
-alcance_defesa = 200.0
 alcance_gancho = 700.0
 cor_alcance = Color(1, 1, 1, 1)
 textura_ponta = ExtResource("54_jybf5")
@@ -471,3 +505,8 @@ script = ExtResource("57_jybf5")
 
 [node name="EfeitosLenco" type="Node2D" parent="." unique_id=2093524829]
 script = ExtResource("69_ecpok")
+usar_cor_do_lenco = false
+cor_manual = Color(0.21176471, 0.21568628, 0.3764706, 1)
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1293253118]
+script = ExtResource("70_a3das")

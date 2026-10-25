@@ -21,13 +21,18 @@ extends CharacterBody2D
 @export var planar_segurando_tecla: bool = true # true: planar enquanto segura | false: aperta de novo para cancelar
 
 @export_group("Reações")
-@export var duracao_irritada: float = 2.0          # Segundos (a animação repete até o tempo acabar)
-@export var duracao_agradecer: float = 2.0         # Segundos
+@export var duracao_irritada: float = 2.0          # Uma execução completa, ajustada para esta duração
+@export var duracao_agradecer: float = 2.0         # Uma execução completa, ajustada para esta duração
 @export var tempo_parada: float = 20.0             # Segundos sem agir até a reação "Parada"
-@export var duracao_parada: float = 0.0            # 0 = dura até ela agir de novo
+@export var duracao_parada: float = 0.0            # Compatibilidade: EsperarMovimento agora termina ao agir
 @export var espera_maxima_reacao: float = 3.0      # Quanto um pedido de reação espera ela ficar livre
 @export_flags_2d_physics var mascara_sensor: int = 1   # Camadas das áreas que ela detecta (AreaPrePortal)
 @export var imprimir_reacoes: bool = true          # Escreve na Saída cada reação (para testar)
+
+@export_subgroup("Transição para a frente")
+@export var quadros_transicao_base: Array[Texture2D] = []
+@export var quadros_transicao_chapeu: Array[Texture2D] = []
+@export_range(0.05, 1.0, 0.01) var duracao_transicao_pose: float = 0.24
 
 @export_subgroup("Brilho da batida de pé (Irritada)")
 @export var brilho_batida_ativo: bool = true
@@ -73,12 +78,16 @@ var olhando_esquerda: bool = false
 
 var reacao_atual: StringName = &""      # Reação tocando agora (&"" = nenhuma)
 var _reacao_tempo: float = 0.0          # Tempo restante da reação (conta depois da Transição)
+enum EstadoPose { Normal, Entrando, Reagindo, EsperarMovimento, Saindo }
+var estado_pose: EstadoPose = EstadoPose.Normal
+var _lado_transicao: bool = false
+var _transicao_duracao: float = 0.0
+var _pulo_apos_transicao: bool = false
 var _reacao_na_transicao: bool = false  # true enquanto toca a Transição que antecede a reação
 var _transicao_tempo: float = 0.0       # Tempo restante da Transição
 var _reacao_pendente: StringName = &""  # Pedido esperando ela ficar livre
 var _reacao_espera: float = 0.0         # Quanto tempo o pedido ainda espera
 var _tempo_ocioso: float = 0.0          # Há quantos segundos ela está sem agir
-var _avisou_sem_anim: Dictionary = {}   # Para avisar de animação faltando uma vez só
 var _sensor: Area2D = null              # Detecta as áreas do cenário (AreaPrePortal)
 var _tex_brilho: Texture2D = null       # Textura das faíscas (criada uma vez só)
 
@@ -86,13 +95,20 @@ var _tex_brilho: Texture2D = null       # Textura das faíscas (criada uma vez s
 var tempo_coyote: float = 0.0
 var tempo_jump_buffer: float = 0.0
 
+# Impulso externo (propulsor do lenço)
+var tempo_embalo: float = 0.0       # Enquanto > 0 no ar, o embalo horizontal não é freado
+var pode_cortar_pulo: bool = true   # Soltar o pulo corta a subida, menos se ela subiu por um impulso
+
 func _ready() -> void:
 	add_to_group("jogador") # Os interativos reconhecem a personagem por este grupo
 	if habilidades == null:
 		push_warning("Player: falta o nó filho 'Habilidades'. Todas as habilidades ficam liberadas.")
 	_criar_sensor()
 	if sprite:
+		_preparar_animacoes_reacao()
 		sprite.frame_changed.connect(_ao_mudar_frame)
+		sprite.animation_finished.connect(_ao_terminar_animacao_reacao)
+		_tocar("Parado", true)
 
 func _physics_process(delta: float) -> void:
 	_atualizar_temporizadores(delta)
@@ -117,8 +133,12 @@ func _balancando() -> bool:
 
 # --- LÓGICA DE TEMPORIZADORES ---
 func _atualizar_temporizadores(delta: float) -> void:
+	tempo_embalo = maxf(tempo_embalo - delta, 0.0)
+
 	# Coyote Time: permite pular pouco depois de deixar uma plataforma
 	if is_on_floor():
+		tempo_embalo = 0.0
+		pode_cortar_pulo = true
 		tempo_coyote = coyote_time_limite
 	else:
 		tempo_coyote -= delta
@@ -154,6 +174,8 @@ func _definir_estado_sentada(sentar: bool) -> void:
 # --- PLANAR ---
 # Aperta "ControlePular" de novo no ar (sem estar preso ao gancho) para começar a planar.
 func _processar_planar() -> void:
+	if _reacao_trava():
+		return
 	if planando:
 		if is_on_floor():
 			_encerrar_planar()  # Pousou
@@ -210,6 +232,7 @@ func _processar_pulo() -> void:
 	# O pulo é acionado se houver registro no Buffer E no Coyote Time
 	if tempo_jump_buffer > 0.0 and tempo_coyote > 0.0:
 		velocity.y = forca_pulo
+		pode_cortar_pulo = true
 		tempo_jump_buffer = 0.0 # Consome o buffer
 		tempo_coyote = 0.0      # Consome o coyote
 
@@ -218,7 +241,7 @@ func _processar_pulo() -> void:
 			_definir_estado_sentada(false)
 
 	# Pulo variável: corta a altura se soltar a tecla no ar
-	if Input.is_action_just_released("ControlePular") and velocity.y < 0.0:
+	if Input.is_action_just_released("ControlePular") and velocity.y < 0.0 and pode_cortar_pulo:
 		velocity.y *= 0.5
 
 # --- MOVIMENTO HORIZONTAL ---
@@ -244,6 +267,15 @@ func _processar_movimento_horizontal(delta: float) -> void:
 
 	var vel_maxima := velocidade_correr if esta_correndo else velocidade_andar
 
+	# Depois de um impulso no ar (propulsor) o embalo horizontal se mantém: só ajuda a ir para o lado apertado
+	if tempo_embalo > 0.0 and not is_on_floor():
+		if direcao != 0.0:
+			olhando_esquerda = (direcao < 0.0)
+			var alvo_x := direcao * vel_maxima
+			if absf(velocity.x) < absf(alvo_x) or signf(velocity.x) != signf(alvo_x):
+				velocity.x = move_toward(velocity.x, alvo_x, aceleracao * delta)
+		return
+
 	if direcao != 0.0:
 		velocity.x = move_toward(velocity.x, direcao * vel_maxima, aceleracao * delta)
 		olhando_esquerda = (direcao < 0.0)
@@ -267,12 +299,22 @@ func esta_em_uso(id: StringName) -> bool:
 		Habilidades.FIXAR_LENCO:
 			return _em_gancho()
 		Habilidades.ATAQUE_LENCO:
-			return lenco != null and lenco.estado_atual == lenco.EstadoLenco.ATAQUE_Q
+			return lenco != null and lenco.estado_atual == lenco.EstadoLenco.ATAQUE
 		Habilidades.DEFESA_LENCO:
-			return lenco != null and lenco.estado_atual == lenco.EstadoLenco.DEFESA_E
+			return lenco != null and lenco.estado_atual == lenco.EstadoLenco.DEFESA
+		Habilidades.PROPULSOR:
+			return lenco != null and lenco.estado_atual == lenco.EstadoLenco.PROPULSOR
 		Habilidades.AGARRAR_OBJETO:
 			return lenco != null and lenco.estado_atual == lenco.EstadoLenco.GANCHO and lenco.ancora_leve
 	return false
+
+# Impulso externo (usado pelo propulsor do lenço): soma à velocidade e mantém o embalo por um tempo
+func aplicar_impulso(impulso: Vector2, embalo: float = 0.0, velocidade_max: float = 0.0) -> void:
+	velocity += impulso
+	if velocidade_max > 0.0:
+		velocity = velocity.limit_length(velocidade_max)
+	tempo_embalo = maxf(tempo_embalo, embalo)
+	pode_cortar_pulo = false   # Soltar o pulo não corta a subida causada pelo impulso
 
 # --- MODO DEBUG E TELEPORTE (só para desenvolvimento; jogadores não têm acesso) ---
 func em_modo_debug() -> bool:
@@ -297,6 +339,7 @@ func teletransportar(destino: Vector2, destino_e_dos_pes: bool = true) -> bool:
 	if lenco != null and lenco.has_method("soltar_tudo"):
 		lenco.soltar_tudo()
 	velocity = Vector2.ZERO
+	tempo_embalo = 0.0
 	tempo_coyote = 0.0
 	tempo_jump_buffer = 0.0
 
@@ -328,49 +371,49 @@ func tocar_reacao(id: StringName) -> void:
 # Interrompe qualquer reação (usado pelo voo de teste)
 func cancelar_reacao() -> void:
 	reacao_atual = &""
+	estado_pose = EstadoPose.Normal
 	_reacao_na_transicao = false
 	_reacao_pendente = &""
+	_pulo_apos_transicao = false
+	_transicao_tempo = 0.0
 	_tempo_ocioso = 0.0
 
+
 func _processar_reacoes(delta: float) -> void:
-	# "Agindo" = qualquer tecla ou botão apertado, andando ou fora do chão
+	var direcao := Input.get_axis("ControleAndarEsquerda", "ControleAndarDireita")
+	var quer_pular := Input.is_action_just_pressed("ControlePular")
 	var agindo := Input.is_anything_pressed() or absf(velocity.x) > 10.0 or not is_on_floor()
 
-	# 1) Reação em andamento
-	if reacao_atual != &"" and _reacao_na_transicao:
-		# Primeiro a Transição (meio termo, espelhada pela direção); depois a animação da reação
-		if reacao_atual == REACAO_PARADA and agindo:
-			_encerrar_reacao()
-		else:
-			_transicao_tempo -= delta
-			if _transicao_tempo <= 0.0:
-				_reacao_na_transicao = false
-				_tocar(_anim_da_reacao(reacao_atual), true)
-	elif reacao_atual == REACAO_PARADA:
-		# A Parada acaba quando ela age (ou depois do tempo, se 'duracao_parada' > 0)
-		if agindo:
-			_encerrar_reacao()
-		elif duracao_parada > 0.0:
-			_reacao_tempo -= delta
-			if _reacao_tempo <= 0.0:
-				_encerrar_reacao()
-	elif reacao_atual != &"":
-		# Irritada e AgradecerAjuda duram o tempo configurado (ela fica parada durante)
-		_reacao_tempo -= delta
-		if _reacao_tempo <= 0.0:
-			_encerrar_reacao()
+	if estado_pose != EstadoPose.Normal and not is_on_floor():
+		cancelar_reacao()
+		return
 
-	# 2) Pedido esperando ela ficar livre
+	if estado_pose == EstadoPose.Entrando or estado_pose == EstadoPose.Saindo:
+		_transicao_tempo = maxf(_transicao_tempo - delta, 0.0)
+		if estado_pose == EstadoPose.Saindo and quer_pular:
+			_pulo_apos_transicao = true
+	elif estado_pose == EstadoPose.Reagindo:
+		_reacao_tempo = maxf(_reacao_tempo - delta, 0.0)
+	elif estado_pose == EstadoPose.EsperarMovimento:
+		# Chapéu/debug e teclas sem ação não tiram a personagem da espera.
+		var outra_acao := false
+		for acao in ["ControleSentarLevantar", "ControleAtaqueLenco", "ControleDefesaLenco", "ControleFixarLenco"]:
+			if InputMap.has_action(acao) and Input.is_action_just_pressed(acao):
+				outra_acao = true
+		if not is_zero_approx(direcao) or quer_pular or outra_acao:
+			_pulo_apos_transicao = quer_pular
+			_iniciar_saida_frontal(direcao)
+
 	if _reacao_pendente != &"":
 		_reacao_espera -= delta
 		if _reacao_espera <= 0.0:
 			_reacao_pendente = &""
 		elif _pode_iniciar_reacao(_reacao_pendente, agindo):
-			_iniciar_reacao(_reacao_pendente)
+			var pedido := _reacao_pendente
 			_reacao_pendente = &""
+			_iniciar_reacao(pedido)
 
-	# 3) Parada: livre e sem agir por tempo suficiente
-	if reacao_atual == &"" and _reacao_pendente == &"" and _livre_para_reagir() and not agindo:
+	if estado_pose == EstadoPose.Normal and _reacao_pendente == &"" and _livre_para_reagir() and not agindo:
 		_tempo_ocioso += delta
 		if _tempo_ocioso >= tempo_parada:
 			_tempo_ocioso = 0.0
@@ -378,61 +421,168 @@ func _processar_reacoes(delta: float) -> void:
 	else:
 		_tempo_ocioso = 0.0
 
-# Livre = em pé, no chão, sem planar e com o lenço em repouso
+
 func _livre_para_reagir() -> bool:
 	return is_on_floor() and not esta_sentada and not esta_levantando and not planando \
 			and (lenco == null or lenco.estado_atual == lenco.EstadoLenco.REPOUSO)
 
-# Prioridade: a Parada cede a qualquer outra reação; Irritada e AgradecerAjuda esperam a vez
+
 func _prioridade(id: StringName) -> int:
 	return 0 if id == REACAO_PARADA else 1
+
 
 func _pode_iniciar_reacao(id: StringName, agindo: bool) -> bool:
 	if id == REACAO_PARADA and agindo:
 		return false
 	if not _livre_para_reagir():
 		return false
-	return reacao_atual == &"" or _prioridade(id) > _prioridade(reacao_atual)
+	return estado_pose == EstadoPose.Normal or estado_pose == EstadoPose.EsperarMovimento
+
 
 func _iniciar_reacao(id: StringName) -> void:
+	var ja_de_frente := estado_pose == EstadoPose.EsperarMovimento
 	reacao_atual = id
 	_tempo_ocioso = 0.0
-	if id == REACAO_IRRITADA:
-		_reacao_tempo = duracao_irritada
-	elif id == REACAO_AGRADECER_AJUDA:
-		_reacao_tempo = duracao_agradecer
-	else:
-		_reacao_tempo = duracao_parada
+	_pulo_apos_transicao = false
+	if ja_de_frente:
+		_comecar_animacao_reacao()
+		return
+	estado_pose = EstadoPose.Entrando
+	_reacao_na_transicao = true
+	_lado_transicao = olhando_esquerda
+	_tocar_transicao_pose(false)
 
-	var anim := _anim_da_reacao(id)
 
-	# Antes da reação toca a Transição: um meio termo que ESPELHA com a direção e leva à pose de frente
-	_reacao_na_transicao = _tem_anim(_nome_anim("Transicao"))
-	if _reacao_na_transicao:
-		_transicao_tempo = _duracao_animacao(_nome_anim("Transicao"))
-		_tocar("Transicao", true)
-		_log_reacao("%s iniciada (Transição de %.2f s)" % [id, _transicao_tempo])
-	elif _tem_anim(_nome_anim(anim)):
-		_tocar(anim, true)
-		_log_reacao("%s iniciada (sem Transição)" % id)
-	else:
-		_log_reacao("%s iniciada (SEM a animação '%s': a pose normal continua)" % [id, _nome_anim(anim)])
+func _tocar_transicao_pose(saindo: bool) -> void:
+	var nome := _nome_anim("Transicao")
+	if not _tem_anim(nome):
+		_concluir_transicao_pose()
+		return
+	_transicao_duracao = maxf(duracao_transicao_pose, 0.05)
+	_transicao_tempo = _transicao_duracao
+	var velocidade := maxf(_duracao_animacao(nome), 0.01) / _transicao_duracao
+	sprite.stop()
+	sprite.flip_h = _lado_transicao
+	sprite.play(nome, -velocidade if saindo else velocidade, saindo)
 
-	# Avisa uma vez só de cada animação que falta
-	for nome in ["Transicao", anim]:
-		if not _tem_anim(_nome_anim(nome)) and not _avisou_sem_anim.has(nome):
-			_avisou_sem_anim[nome] = true
-			push_warning("Player: não existe a animação '%s'." % _nome_anim(nome))
 
-func _encerrar_reacao() -> void:
-	_log_reacao("%s encerrada" % reacao_atual)
+func _comecar_animacao_reacao() -> void:
+	_reacao_na_transicao = false
+	if reacao_atual == REACAO_PARADA:
+		_entrar_esperar_movimento()
+		return
+	estado_pose = EstadoPose.Reagindo
+	var anim := _anim_da_reacao(reacao_atual)
+	var nome := _nome_anim(anim)
+	if not _tem_anim(nome):
+		push_warning("Player: não existe a animação '%s'." % nome)
+		_entrar_esperar_movimento()
+		return
+	_reacao_tempo = maxf(duracao_irritada if reacao_atual == REACAO_IRRITADA else duracao_agradecer, 0.01)
+	var velocidade := maxf(_duracao_animacao(nome), 0.01) / _reacao_tempo
+	sprite.stop()
+	sprite.flip_h = false
+	sprite.play(nome, velocidade)
+	_log_reacao("%s iniciada" % reacao_atual)
+
+
+func _entrar_esperar_movimento() -> void:
+	_log_reacao("%s concluída; EsperarMovimento" % reacao_atual)
 	reacao_atual = &""
 	_reacao_na_transicao = false
+	estado_pose = EstadoPose.EsperarMovimento
+	_reacao_tempo = 0.0
 	_tempo_ocioso = 0.0
+	_tocar(_nome_espera_frontal(), true)
 
-# Irritada e AgradecerAjuda seguram a personagem parada enquanto tocam
+
+func _iniciar_saida_frontal(direcao: float) -> void:
+	if not is_zero_approx(direcao):
+		olhando_esquerda = direcao < 0.0
+	_lado_transicao = olhando_esquerda
+	estado_pose = EstadoPose.Saindo
+	_reacao_na_transicao = true
+	_tocar_transicao_pose(true)
+
+
+func _concluir_transicao_pose() -> void:
+	if estado_pose == EstadoPose.Entrando:
+		_comecar_animacao_reacao()
+	elif estado_pose == EstadoPose.Saindo:
+		estado_pose = EstadoPose.Normal
+		_reacao_na_transicao = false
+		reacao_atual = &""
+		_transicao_tempo = 0.0
+		if _pulo_apos_transicao:
+			tempo_jump_buffer = jump_buffer_limite
+		_pulo_apos_transicao = false
+
+
+func _ao_terminar_animacao_reacao() -> void:
+	if estado_pose == EstadoPose.Entrando or estado_pose == EstadoPose.Saindo:
+		if String(sprite.animation).begins_with("Transicao"):
+			_concluir_transicao_pose()
+	elif estado_pose == EstadoPose.Reagindo:
+		if sprite.animation == _nome_anim(_anim_da_reacao(reacao_atual)):
+			_entrar_esperar_movimento()
+
+
+func _encerrar_reacao() -> void:
+	_entrar_esperar_movimento()
+
+
 func _reacao_trava() -> bool:
-	return reacao_atual == REACAO_IRRITADA or reacao_atual == REACAO_AGRADECER_AJUDA
+	return estado_pose != EstadoPose.Normal
+
+
+func progresso_pose_frontal() -> float:
+	match estado_pose:
+		EstadoPose.Entrando:
+			return 1.0 - clampf(_transicao_tempo / maxf(_transicao_duracao, 0.01), 0.0, 1.0)
+		EstadoPose.Saindo:
+			return clampf(_transicao_tempo / maxf(_transicao_duracao, 0.01), 0.0, 1.0)
+		EstadoPose.Reagindo, EstadoPose.EsperarMovimento:
+			return 1.0
+	return 0.0
+
+
+func _nome_espera_frontal() -> String:
+	return "EsperarMovimento" if _tem_anim(_nome_anim("EsperarMovimento")) else "Esperar"
+
+
+func _preparar_animacoes_reacao() -> void:
+	if sprite.sprite_frames == null:
+		return
+	# Recursos próprios: não altera os SpriteFrames de outras personagens.
+	sprite.sprite_frames = sprite.sprite_frames.duplicate() as SpriteFrames
+	for sufixo in ["Base", "Chapeu"]:
+		var transicao: String = "Transicao" + String(sufixo)
+		var configurados: Array[Texture2D] = quadros_transicao_base if sufixo == "Base" else quadros_transicao_chapeu
+		if not configurados.is_empty() or not _tem_anim(transicao):
+			if not _tem_anim(transicao):
+				sprite.sprite_frames.add_animation(transicao)
+			sprite.sprite_frames.clear(transicao)
+			for textura in configurados:
+				if textura != null:
+					sprite.sprite_frames.add_frame(transicao, textura)
+			if sprite.sprite_frames.get_frame_count(transicao) == 0:
+				# A cena enviada não contém os quadros intermediários da transição.
+				# Fallback explícito: perfil -> frente, usando as poses existentes.
+				for pose in ["Parado" + sufixo, "EsperarMovimento" + sufixo, "Esperar" + sufixo]:
+					if _tem_anim(pose) and sprite.sprite_frames.get_frame_count(pose) > 0:
+						sprite.sprite_frames.add_frame(transicao, sprite.sprite_frames.get_frame_texture(pose, 0))
+						if pose.begins_with("Esperar"):
+							break
+			if sprite.sprite_frames.get_frame_count(transicao) == 0:
+				sprite.sprite_frames.remove_animation(transicao)
+				continue
+			sprite.sprite_frames.set_animation_speed(transicao, 8.0)
+		if _tem_anim(transicao):
+			sprite.sprite_frames.set_animation_loop(transicao, false)
+		for pose in ["Irritada", "Agradecer", "Esperar", "EsperarMovimento"]:
+			var nome: String = String(pose) + String(sufixo)
+			if _tem_anim(nome):
+				sprite.sprite_frames.set_animation_loop(nome, pose.begins_with("Esperar"))
 
 # Espelha o sprite conforme a direção, exceto nas animações que seguem a imagem original
 func _aplicar_espelho() -> void:
@@ -443,7 +593,8 @@ func _aplicar_espelho() -> void:
 	for prefixo in ANIMACOES_SEM_ESPELHO:
 		if nome.begins_with(prefixo):
 			sem_espelho = true
-	sprite.flip_h = olhando_esquerda and not sem_espelho
+	var lado := _lado_transicao if estado_pose == EstadoPose.Entrando or estado_pose == EstadoPose.Saindo else olhando_esquerda
+	sprite.flip_h = lado and not sem_espelho
 
 # Duração (s) de uma passada da animação, somando os quadros e dividindo pela velocidade
 func _duracao_animacao(nome: String) -> float:
@@ -567,7 +718,20 @@ func _deve_ficar_irritada(_area: Area2D) -> bool:
 
 # --- CHAPÉU E NOMES DE ANIMAÇÃO ---
 func definir_chapeu(usar: bool) -> void:
+	if usando_chapeu == usar:
+		return
+	var antigo := String(sprite.animation) if sprite else ""
+	var frame_anterior := sprite.frame if sprite else 0
+	var progresso_anterior := sprite.frame_progress if sprite else 0.0
+	var velocidade_anterior := sprite.get_playing_speed() if sprite else 1.0
 	usando_chapeu = usar
+	var base := antigo.trim_suffix("Chapeu").trim_suffix("Base")
+	var novo := _nome_anim(base)
+	if _tem_anim(novo):
+		var taxa := velocidade_anterior / maxf(absf(sprite.speed_scale), 0.001)
+		sprite.play(novo, taxa, taxa < 0.0)
+		var ultimo := sprite.sprite_frames.get_frame_count(novo) - 1
+		sprite.set_frame_and_progress(clampi(frame_anterior, 0, ultimo), progresso_anterior)
 
 # "Andar" -> "AndarBase" ou "AndarChapeu", conforme o chapéu
 func _nome_anim(nome: String) -> String:
@@ -586,6 +750,8 @@ func _tocar(nome: String, reiniciar: bool = false) -> void:
 	# Trocou só o chapéu (mesma animação, outra versão)? Mantém o frame em vez de recomeçar.
 	var mesma_animacao := not reiniciar and String(sprite.animation).begins_with(nome)
 	var frame_antes := sprite.frame
+	if reiniciar:
+		sprite.stop()
 	sprite.play(alvo)
 	if mesma_animacao:
 		var ultimo := sprite.sprite_frames.get_frame_count(alvo) - 1
@@ -610,12 +776,14 @@ func _atualizar_animacoes() -> void:
 		else:
 			return
 
-	# Reação em andamento (Irritada, AgradecerAjuda, Parada): vale mais que andar/parado
-	if reacao_atual != &"":
-		var anim_reacao := "Transicao" if _reacao_na_transicao else _anim_da_reacao(reacao_atual)
-		if _tem_anim(_nome_anim(anim_reacao)):
-			_tocar(anim_reacao)
-			return
+	# A pose frontal tem prioridade sobre a locomoção e não reinicia a transição inversa.
+	if estado_pose == EstadoPose.Entrando or estado_pose == EstadoPose.Saindo:
+		return
+	if estado_pose == EstadoPose.Reagindo:
+		return
+	if estado_pose == EstadoPose.EsperarMovimento:
+		_tocar(_nome_espera_frontal())
+		return
 
 	if esta_sentada:
 		_tocar("Sentar")

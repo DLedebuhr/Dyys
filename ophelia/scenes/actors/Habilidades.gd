@@ -25,6 +25,7 @@ const ATAQUE_LENCO: StringName = &"AtaqueLenco"
 const DEFESA_LENCO: StringName = &"DefesaLenco"
 const PLANAR: StringName = &"Planar"
 const AGARRAR_OBJETO: StringName = &"AgarrarObjeto"
+const PROPULSOR: StringName = &"Propulsor"
 
 # Disponíveis desde o começo (nunca ficam bloqueadas)
 const INICIAIS := [
@@ -32,7 +33,7 @@ const INICIAIS := [
 	CORRER, FIXAR_LENCO, IMPULSO_LENCO,
 ]
 # Só passam a valer depois de aprendidas em um interativo (a ordem aqui é a ordem do save)
-const APRENDIDAS := [ATAQUE_LENCO, DEFESA_LENCO, PLANAR, AGARRAR_OBJETO]
+const APRENDIDAS := [ATAQUE_LENCO, DEFESA_LENCO, PLANAR, AGARRAR_OBJETO, PROPULSOR]
 
 @export var imprimir_eventos: bool = true   # Escreve na Saída cada desbloqueio e troca do modo debug
 @export var sequencia_debug: Array[int] = [6, 6, 6]   # Dígitos que ligam/desligam o modo debug
