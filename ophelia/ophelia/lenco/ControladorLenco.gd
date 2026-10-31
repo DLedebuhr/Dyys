@@ -125,6 +125,7 @@ var caminho_defesa_tras: Array[Vector2] = []
 @export var duracao_formacao_propulsor: float = 0.12  # Tempo (s) das fitas até a posição final
 @export var tempo_ativo_propulsor: float = 0.2     # Tempo (s) com as fitas esticadas
 
+var tremor_visual: Vector2 = Vector2.ZERO
 var pontos_tras: Array[Vector2] = []
 var pontos_frente: Array[Vector2] = []
 
@@ -466,6 +467,7 @@ func _revelar_caminho_defesa(caminho: Array[Vector2], inicial: Array[Vector2],
 func _redesenhar_line2d() -> void:
 	visual._redesenhar_line2d()
 func _draw() -> void:
+	draw_set_transform(global_transform.basis_xform_inv(tremor_visual))
 	visual._draw()
 func _desenhar_indicador_modo() -> void:
 	visual._desenhar_indicador_modo()

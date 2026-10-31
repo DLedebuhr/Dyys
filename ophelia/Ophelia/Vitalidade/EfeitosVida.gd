@@ -1,91 +1,164 @@
 extends Node2D
-## Partículas desenhadas por código. Sem círculo no chão e sem coluna de luz.
+## Usa o estilo compartilhado em Efeitos/EstiloParticulas.tres.
 @export var vitalidade: Node
 @export var sprite: AnimatedSprite2D
-@export var centro_efeitos: Vector2 = Vector2(0, -30)
+## Correção opcional, somada ao centro real da imagem atual.
+@export var centro_efeitos: Vector2 = Vector2.ZERO
 @export var tamanho_personagem: Vector2 = Vector2(50, 95)
-@export var cor_cura: Color = Color(0.35, 1.0, 0.5)
 @export_range(0, 80, 1) var quantidade_particulas_cura: int = 20
 @export_range(0.1, 1.0, 0.05) var opacidade_cura: float = 0.6
 @export_range(5.0, 80.0, 1.0) var velocidade_cura: float = 25.0
-@export var cor_dano: Color = Color(1.0, 0.8, 0.5)
 @export_range(0.0, 10.0, 0.1) var forca_tremida: float = 2.5
+@export_range(0, 200, 1) var quantidade_particulas_morte: int = 90
 var _particulas: Array[Dictionary] = []
+var _amostras: Dictionary = {}
 var _tempo: float = 0.0
 var _tremida: float = 0.0
 var _posicao_sprite: Vector2
 var _cor_sprite: Color
+var _asas: Node2D
+var _posicao_asas: Vector2
+var _lenco: Node2D
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
+	var jogador: Node = get_parent().get_parent()
 	if vitalidade == null:
-		vitalidade = get_parent().get_node_or_null("Vitalidade")
+		vitalidade = jogador.get_node_or_null("Vitalidade")
 	if sprite == null:
-		sprite = get_parent().find_child("SpritePersonagem", true, false) as AnimatedSprite2D
+		sprite = jogador.find_child("SpritePersonagem", true, false) as AnimatedSprite2D
+	_lenco = jogador.get_node_or_null("Lenco") as Node2D
+	_asas = jogador.get_node_or_null("Visual/Asas") as Node2D
 	if sprite != null:
 		_posicao_sprite = sprite.position
 		_cor_sprite = sprite.self_modulate
+	if _asas != null:
+		_posicao_asas = _asas.position
+	z_index = 10
 	if vitalidade == null:
 		return
-	vitalidade.dano_recebido.connect(_dano)
+	vitalidade.connect("dano_recebido", _dano)
 	if vitalidade.has_signal("fruta_consumida"):
 		vitalidade.connect("fruta_consumida", _ao_consumir_fruta)
-	vitalidade.morreu.connect(_morte)
-	vitalidade.restaurada.connect(_restaurar_sprite)
+	vitalidade.connect("morreu", _morte)
+	vitalidade.connect("restaurada", _restaurar_sprite)
 
 func _dano(_quantidade: float, _origem: Vector2) -> void:
 	_tremida = 0.22
-	_emitir(25, cor_dano, false, false)
+	_emitir(18, false, false)
 
 func _ao_consumir_fruta(_estacao: StringName, _quantidade_curada: float) -> void:
-	_emitir(quantidade_particulas_cura, cor_cura, true, false)
+	_emitir(quantidade_particulas_cura, true, false)
 
 func _morte() -> void:
-	_emitir(120, cor_dano, false, true)
+	_tremida = 0.0
+	# O sinal pode chegar antes ou depois de CicloVida ocultar o sprite.
+	# A imagem e os pontos das fitas continuam disponíveis nos dois casos.
+	_emitir(quantidade_particulas_morte, false, true)
+	if is_instance_valid(_lenco):
+		for nome in ["pontos_tras", "pontos_frente"]:
+			var pontos: Array = _lenco.get(nome)
+			for i in range(1, pontos.size()):
+				for passo in range(3):
+					var posicao: Vector2 = Vector2(pontos[i - 1]).lerp(pontos[i], float(passo) / 3.0)
+					_adicionar(posicao, Vector2.RIGHT.rotated(randf() * TAU) * randf_range(20, 65), false)
 
-func _emitir(quantidade: int, cor: Color, cura: bool, morte: bool) -> void:
+func _pontos_sprite() -> PackedVector2Array:
+	var saida := PackedVector2Array()
+	if not is_instance_valid(sprite) or sprite.sprite_frames == null:
+		return saida
+	var textura: Texture2D = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
+	if textura == null:
+		return saida
+	var chave: int = textura.get_instance_id()
+	if not _amostras.has(chave):
+		var uv := PackedVector2Array()
+		var imagem: Image = textura.get_image()
+		if imagem != null and not imagem.is_empty():
+			if imagem.is_compressed():
+				if imagem.decompress() != OK:
+					return saida
+			var passo: int = maxi(1, int(ceilf(float(maxi(imagem.get_width(), imagem.get_height())) / 180.0)))
+			for y in range(0, imagem.get_height(), passo):
+				for x in range(0, imagem.get_width(), passo):
+					if imagem.get_pixel(x, y).a > 0.2:
+						uv.append((Vector2(x, y) + Vector2.ONE * 0.5) / Vector2(imagem.get_size()))
+		_amostras[chave] = uv
+	var rect := Rect2(sprite.offset - (textura.get_size() * 0.5 if sprite.centered else Vector2.ZERO), textura.get_size())
+	for uv: Vector2 in _amostras[chave]:
+		var ponto := uv
+		if sprite.flip_h:
+			ponto.x = 1.0 - ponto.x
+		if sprite.flip_v:
+			ponto.y = 1.0 - ponto.y
+		saida.append(sprite.to_global(rect.position + ponto * rect.size) + global_transform.basis_xform(centro_efeitos))
+	return saida
+
+func _emitir(quantidade: int, cura: bool, morte: bool) -> void:
+	var pontos: PackedVector2Array = _pontos_sprite()
+	var centro: Vector2 = sprite.global_position if is_instance_valid(sprite) else global_position
+	if not pontos.is_empty():
+		var limites := Rect2(pontos[0], Vector2.ZERO)
+		for ponto in pontos:
+			limites = limites.expand(ponto)
+		centro = limites.get_center()
 	for i in range(quantidade):
-		var pos: Vector2 = centro_efeitos + Vector2(randf_range(-0.5, 0.5), randf_range(-0.5, 0.5)) * tamanho_personagem
-		var velocidade: Vector2 = Vector2(randf_range(-6.0, 6.0), -velocidade_cura * randf_range(0.6, 1.1)) if cura else Vector2.RIGHT.rotated(randf() * TAU) * randf_range(40.0, 210.0 if morte else 90.0)
-		var duracao: float = randf_range(1.1, 1.7) if cura else randf_range(0.65, 1.25)
-		_particulas.append({"p": to_global(pos), "v": velocidade, "t": duracao, "total": duracao, "cor": cor, "cruz": cura and i % 3 == 0, "r": randf_range(1.5, 3.0) if cura else randf_range(2.0, 5.0), "cura": cura, "atraso": randf_range(0.0, 0.25) if cura else 0.0})
+		var posicao: Vector2 = pontos[randi() % pontos.size()] if not pontos.is_empty() else centro + Vector2(randf_range(-0.5, 0.5), randf_range(-0.5, 0.5)) * tamanho_personagem
+		var velocidade: Vector2
+		if cura:
+			velocidade = Vector2(randf_range(-6, 6), -velocidade_cura * randf_range(0.6, 1.1))
+		else:
+			velocidade = (posicao - centro).normalized().rotated(randf_range(-0.35, 0.35)) * randf_range(25, 100 if morte else 55)
+		_adicionar(posicao, velocidade, cura)
+
+func _adicionar(posicao: Vector2, velocidade: Vector2, cura: bool) -> void:
+	var duracao: float = randf_range(0.85, 1.3)
+	_particulas.append({"p": posicao, "v": velocidade, "t": duracao, "total": duracao, "r": randf_range(4, 8), "cura": cura, "fase": randf() * TAU, "atraso": randf_range(0, 0.2) if cura else 0.0})
 
 func _process(delta: float) -> void:
 	_tempo += delta
 	_tremida = maxf(0.0, _tremida - delta)
+	var deslocamento := Vector2(randf_range(-1, 1), randf_range(-1, 1)) * forca_tremida * clampf(_tremida / 0.22, 0, 1)
 	if is_instance_valid(sprite):
-		sprite.position = _posicao_sprite + (Vector2(randf_range(-1, 1), randf_range(-1, 1)) * forca_tremida if _tremida > 0.0 else Vector2.ZERO)
+		sprite.position = _posicao_sprite + deslocamento
 		var piscando: bool = is_instance_valid(vitalidade) and bool(vitalidade.call("esta_invulneravel")) and bool(vitalidade.call("esta_viva"))
-		sprite.self_modulate = Color(_cor_sprite, _cor_sprite.a * (0.25 if piscando and sin(_tempo * 40.0) > 0 else 1.0))
+		var alfa: float = 0.25 if piscando and sin(_tempo * 40.0) > 0 else 1.0
+		sprite.self_modulate = Color(_cor_sprite, _cor_sprite.a * alfa)
+	if is_instance_valid(_asas):
+		_asas.position = _posicao_asas + deslocamento
+	if is_instance_valid(_lenco):
+		_lenco.set("tremor_visual", get_parent().global_transform.basis_xform(deslocamento))
+		_lenco.call("_redesenhar_line2d")
+		_lenco.queue_redraw()
 	for i in range(_particulas.size() - 1, -1, -1):
-		if float(_particulas[i]["atraso"]) > 0.0:
-			_particulas[i]["atraso"] -= delta
+		var p: Dictionary = _particulas[i]
+		if float(p["atraso"]) > 0:
+			p["atraso"] -= delta
 			continue
-		_particulas[i]["t"] -= delta
-		_particulas[i]["p"] += _particulas[i]["v"] * delta
-		if _particulas[i]["t"] <= 0.0:
+		p["t"] -= delta
+		p["p"] += p["v"] * delta
+		p["v"] *= exp(-1.4 * delta)
+		if float(p["t"]) <= 0:
 			_particulas.remove_at(i)
 	queue_redraw()
 
 func _draw() -> void:
 	for p in _particulas:
-		if float(p["atraso"]) > 0.0:
+		if float(p["atraso"]) > 0:
 			continue
-		var pos: Vector2 = to_local(p["p"])
-		var cor: Color = Color(p["cor"], clampf(float(p["t"]) / minf(0.35, float(p["total"])), 0, 1))
+		var idade: float = 1.0 - float(p["t"]) / float(p["total"])
+		var alfa: float = (1.0 - smoothstep(0.35, 1.0, idade)) * (0.65 + 0.35 * sin(_tempo * 18 + float(p["fase"])))
 		if bool(p["cura"]):
-			var idade: float = 1.0 - float(p["t"]) / float(p["total"])
-			cor.a = opacidade_cura * smoothstep(0.0, 0.2, idade) * (1.0 - smoothstep(0.45, 1.0, idade))
-		var r: float = p["r"]
-		draw_circle(pos, r * 2.0, Color(cor, cor.a * 0.08))
-		if p["cruz"]:
-			draw_line(pos - Vector2(r, 0), pos + Vector2(r, 0), cor, r * 0.65, true)
-			draw_line(pos - Vector2(0, r), pos + Vector2(0, r), cor, r * 0.65, true)
-		else:
-			draw_circle(pos, r * 0.5, cor)
+			alfa *= opacidade_cura * smoothstep(0, 0.15, idade)
+		var cor := Color(OpheliaEfeitosComuns.cor_particula(), alfa)
+		OpheliaEfeitosComuns.desenhar_cintilo(self, to_local(p["p"]), float(p["r"]) * (1.0 - idade * 0.4), cor)
 
 func _restaurar_sprite() -> void:
 	_tremida = 0.0
 	if is_instance_valid(sprite):
 		sprite.position = _posicao_sprite
 		sprite.self_modulate = _cor_sprite
+	if is_instance_valid(_asas):
+		_asas.position = _posicao_asas
+	if is_instance_valid(_lenco):
+		_lenco.set("tremor_visual", Vector2.ZERO)

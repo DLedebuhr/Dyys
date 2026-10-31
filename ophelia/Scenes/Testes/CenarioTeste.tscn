@@ -93,7 +93,6 @@ color = Color(0.76, 0.47, 0.37, 1)
 polygon = PackedVector2Array(-30, -62, 30, -62, 30, 62, -30, 62)
 
 [node name="Interface" type="CanvasLayer" parent="." unique_id=36723661]
-visible = false
 
 [node name="Titulo" type="Label" parent="Interface" unique_id=1845102849]
 offset_left = 32.0

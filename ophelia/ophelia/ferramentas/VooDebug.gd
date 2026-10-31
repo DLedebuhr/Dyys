@@ -416,7 +416,8 @@ func _criar_particulas(nome: String, quantidade: int, vida: float, vel_min: floa
 	p.amount = quantidade
 	p.lifetime = vida
 	p.local_coords = false # as faíscas ficam no mundo e formam o rastro
-	p.texture = _textura_brilho(32, cor_brilho)
+	p.texture = OpheliaEfeitosComuns.textura_cintilo()
+	p.color = OpheliaEfeitosComuns.cor_particula()
 	p.material = _material_aditivo()
 	p.emission_shape = CPUParticles2D.EMISSION_SHAPE_SPHERE
 	p.emission_sphere_radius = raio_emissao
@@ -432,12 +433,5 @@ func _criar_particulas(nome: String, quantidade: int, vida: float, vel_min: floa
 
 	p.scale_amount_curve = OpheliaEfeitosComuns.curva_encolher()
 
-	var rampa := Gradient.new()
-	rampa.offsets = PackedFloat32Array([0.0, 0.3, 1.0])
-	rampa.colors = PackedColorArray([
-		Color(1.0, 1.0, 1.0, 1.0),
-		Color(cor_brilho.r, cor_brilho.g, cor_brilho.b, 0.8),
-		Color(cor_brilho.r, cor_brilho.g, cor_brilho.b, 0.0),
-	])
-	p.color_ramp = rampa
+	p.color_ramp = OpheliaEfeitosComuns.gradiente_cintilo()
 	return p

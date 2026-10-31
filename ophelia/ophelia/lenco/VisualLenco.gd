@@ -306,15 +306,15 @@ func _redesenhar_line2d() -> void:
 	if lenco.estado_atual == lenco.EstadoLenco.DEFESA:
 		if not lenco.caminho_defesa_tras.is_empty() and not lenco.caminho_defesa_frente.is_empty():
 			for pt in lenco.caminho_defesa_tras:
-				lenco.fita_tras.add_point(lenco.fita_tras.to_local(pt))
+				lenco.fita_tras.add_point(lenco.fita_tras.to_local(pt + lenco.tremor_visual))
 			for pt in lenco.caminho_defesa_frente:
-				lenco.fita_frente.add_point(lenco.fita_frente.to_local(pt))
+				lenco.fita_frente.add_point(lenco.fita_frente.to_local(pt + lenco.tremor_visual))
 			return
 
 	for pt in lenco._suavizar_curva(lenco.pontos_tras):
-		lenco.fita_tras.add_point(lenco.fita_tras.to_local(pt))
+		lenco.fita_tras.add_point(lenco.fita_tras.to_local(pt + lenco.tremor_visual))
 	for pt in lenco._suavizar_curva(lenco.pontos_frente):
-		lenco.fita_frente.add_point(lenco.fita_frente.to_local(pt))
+		lenco.fita_frente.add_point(lenco.fita_frente.to_local(pt + lenco.tremor_visual))
 
 func _draw() -> void:
 	lenco._desenhar_alcance()

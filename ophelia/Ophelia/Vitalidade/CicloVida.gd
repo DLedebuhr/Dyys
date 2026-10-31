@@ -18,6 +18,10 @@ func _ready() -> void:
 	if _corpo == null or vitalidade == null:
 		push_error("CicloVida deve ser filho da OPHELIA e receber Vitalidade.")
 		return
+	for caminho in ["Visual/SpritePersonagem", "Visual/Asas", "Visual/Sombra", "Visual/FitaTras", "Visual/FitaFrente", "Visual/EfeitosTras", "Lenco"]:
+		var visual: CanvasItem = _corpo.get_node_or_null(caminho) as CanvasItem
+		if visual != null and not visuais.has(visual):
+			visuais.append(visual)
 	_inicio = _corpo.global_position
 	vitalidade.morreu.connect(_ao_morrer)
 
@@ -27,13 +31,13 @@ func _ao_morrer() -> void:
 	_restante = espera_renascimento
 	_modo_anterior = _corpo.process_mode
 	_corpo.velocity = Vector2.ZERO
-	_limpar_estado()
 	_corpo.process_mode = Node.PROCESS_MODE_DISABLED
 	_visibilidade.clear()
 	for visual in visuais:
 		_visibilidade.append(visual.visible if is_instance_valid(visual) else false)
 		if is_instance_valid(visual):
 			visual.hide()
+	_limpar_estado()
 
 func _process(delta: float) -> void:
 	if _restante < 0.0:

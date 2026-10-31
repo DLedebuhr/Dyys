@@ -348,7 +348,7 @@ func faiscas_em(onde: Vector2, quantidade: int, velocidade: float = -1.0) -> voi
 func _faiscas_da_explosao(onde: Vector2, quantidade: int, abertura: float = 180.0, velocidade: float = -1.0) -> void:
 	var p := CPUParticles2D.new()
 	OpheliaEfeitosComuns.configurar_emissor(p)
-	p.texture = _tex
+	p.texture = OpheliaEfeitosComuns.textura_cintilo()
 	p.local_coords = false
 	p.one_shot = true
 	p.emitting = false
@@ -366,7 +366,7 @@ func _faiscas_da_explosao(onde: Vector2, quantidade: int, abertura: float = 180.
 	p.scale_amount_min = 0.4 * tamanho_explosao
 	p.scale_amount_max = 1.1 * tamanho_explosao
 	p.scale_amount_curve = _curva_encolher()
-	p.color = _cor
+	p.color = OpheliaEfeitosComuns.cor_particula()
 	p.material = _mat
 	add_child(p)
 	p.global_position = onde
@@ -386,7 +386,7 @@ func _faiscas_da_redoma(quantidade: int, velocidade: float) -> void:
 		normais.append((q - _centroide_rel).normalized())
 	var p := CPUParticles2D.new()
 	OpheliaEfeitosComuns.configurar_emissor(p)
-	p.texture = _tex
+	p.texture = OpheliaEfeitosComuns.textura_cintilo()
 	p.local_coords = false
 	p.one_shot = true
 	p.emitting = false
@@ -406,7 +406,7 @@ func _faiscas_da_redoma(quantidade: int, velocidade: float) -> void:
 	p.scale_amount_min = 0.4 * tamanho_explosao
 	p.scale_amount_max = 1.0 * tamanho_explosao
 	p.scale_amount_curve = _curva_encolher()
-	p.color = _cor
+	p.color = OpheliaEfeitosComuns.cor_particula()
 	p.material = _mat
 	add_child(p)
 	p.global_position = _def_centro
@@ -639,7 +639,7 @@ func _nova_linha(largura: float) -> Line2D:
 func _novo_emissor() -> CPUParticles2D:
 	var p := CPUParticles2D.new()
 	OpheliaEfeitosComuns.configurar_emissor(p)
-	p.texture = _tex
+	p.texture = OpheliaEfeitosComuns.textura_cintilo()
 	p.local_coords = false             # As faíscas ficam no mundo e formam a trilha
 	p.emitting = false
 	p.amount = maxi(4, int(faiscas_por_segundo * vida_faisca * 0.5))
@@ -661,7 +661,7 @@ func _novo_emissor() -> CPUParticles2D:
 func _novo_emissor_ponta_redoma() -> CPUParticles2D:
 	var p := CPUParticles2D.new()
 	OpheliaEfeitosComuns.configurar_emissor(p)
-	p.texture = _tex
+	p.texture = OpheliaEfeitosComuns.textura_cintilo()
 	p.local_coords = false
 	p.emitting = false
 	p.amount = maxi(8, int(faiscas_ponta_redoma * vida_faisca_redoma))
@@ -683,7 +683,7 @@ func _novo_emissor_ponta_redoma() -> CPUParticles2D:
 func _novo_emissor_jato() -> CPUParticles2D:
 	var p := CPUParticles2D.new()
 	OpheliaEfeitosComuns.configurar_emissor(p)
-	p.texture = _tex
+	p.texture = OpheliaEfeitosComuns.textura_cintilo()
 	p.local_coords = false
 	p.emitting = false
 	p.amount = maxi(8, int(faiscas_do_jato * vida_jato))
@@ -706,7 +706,7 @@ func _novo_emissor_jato() -> CPUParticles2D:
 func _novo_emissor_borda() -> CPUParticles2D:
 	var p := CPUParticles2D.new()
 	OpheliaEfeitosComuns.configurar_emissor(p)
-	p.texture = _tex
+	p.texture = OpheliaEfeitosComuns.textura_cintilo()
 	p.local_coords = false
 	p.emitting = false
 	p.amount = maxi(6, int(brilhos_na_redoma * 0.9))
@@ -731,13 +731,13 @@ func _aplicar_cor() -> void:
 		_halos[i].gradient = _gradiente(_cor, 0.65)
 		_nucleos[i].gradient = _gradiente(claro, 1.0)
 	for emissor in _faiscas:
-		emissor.color = _cor
+		emissor.color = OpheliaEfeitosComuns.cor_particula()
 	for emissor in _faiscas_redoma:
-		emissor.color = _cor
+		emissor.color = OpheliaEfeitosComuns.cor_particula()
 	if _faiscas_borda:
-		_faiscas_borda.color = _cor
+		_faiscas_borda.color = OpheliaEfeitosComuns.cor_particula()
 	if _jato:
-		_jato.color = _cor
+		_jato.color = OpheliaEfeitosComuns.cor_particula()
 
 # Do transparente (rabo do feixe) até a cor cheia (ponta)
 func _gradiente(c: Color, alfa_final: float) -> Gradient:

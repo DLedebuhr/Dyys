@@ -384,8 +384,4 @@ func _desenhar_brilhos() -> void:
 		var piscar := 0.6 + 0.4 * sin(b.fase + _tempo * 18.0)
 		var cor := Color(cor_brilho, clampf(f * 1.4, 0.0, 1.0) * piscar)
 		var s := maxf(1.0, b.tam * (0.5 + f * 0.5))
-		_brilhos.draw_rect(Rect2(b.pos - Vector2(s, s) * 0.5, Vector2(s, s)), cor)
-		if b.tam > tamanho_brilho * 0.9:   # As faíscas maiores ganham uma cruz
-			var cor2 := Color(cor, cor.a * 0.7)
-			_brilhos.draw_rect(Rect2(b.pos - Vector2(s * 1.5, s * 0.25), Vector2(s * 3.0, s * 0.5)), cor2)
-			_brilhos.draw_rect(Rect2(b.pos - Vector2(s * 0.25, s * 1.5), Vector2(s * 0.5, s * 3.0)), cor2)
+		OpheliaEfeitosComuns.desenhar_cintilo(_brilhos, b.pos, s * 3.0, Color(OpheliaEfeitosComuns.cor_particula(), cor.a))

@@ -23,6 +23,7 @@ func _posicao_pes_global() -> Vector2:
 
 func _brilho_nos_pes() -> void:
 	var p = CPUParticles2D.new()
+	OpheliaEfeitosComuns.configurar_emissor(p)
 	p.texture = corpo._textura_brilho()
 	p.one_shot = true
 	p.emitting = false
@@ -38,7 +39,7 @@ func _brilho_nos_pes() -> void:
 	p.damping_max = 80.0
 	p.scale_amount_min = 0.4 * corpo.tamanho_brilho_batida
 	p.scale_amount_max = 1.0 * corpo.tamanho_brilho_batida
-	p.color = corpo.cor_brilho_batida
+	p.color = OpheliaEfeitosComuns.cor_particula()
 
 	# Encolhe até sumir
 	p.scale_amount_curve = OpheliaEfeitosComuns.curva_encolher()
@@ -55,7 +56,7 @@ func _brilho_nos_pes() -> void:
 	corpo.get_tree().create_timer(corpo.duracao_brilho_batida + 0.3).timeout.connect(p.queue_free)
 
 func _textura_brilho() -> Texture2D:
-	return OpheliaEfeitosComuns.textura_radial(16)
+	return OpheliaEfeitosComuns.textura_cintilo()
 
 func _ao_entrar_em_area(area: Area2D) -> void:
 	if String(area.name).begins_with("AreaPrePortal") or area.is_in_group("AreaPrePortal"):

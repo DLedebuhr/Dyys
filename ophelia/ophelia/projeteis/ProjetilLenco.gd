@@ -273,7 +273,7 @@ void fragment() {
 func _criar_faiscas() -> CPUParticles2D:
 	var p := CPUParticles2D.new()
 	OpheliaEfeitosComuns.configurar_emissor(p)
-	p.texture = _tex
+	p.texture = OpheliaEfeitosComuns.textura_cintilo()
 	p.local_coords = false             # As faíscas ficam no mundo e formam a trilha
 	p.emitting = false
 	p.amount = 28
@@ -288,7 +288,7 @@ func _criar_faiscas() -> CPUParticles2D:
 	p.scale_amount_min = 0.3
 	p.scale_amount_max = 0.8
 	p.scale_amount_curve = OpheliaEfeitosComuns.curva_encolher()
-	p.color = cor
+	p.color = OpheliaEfeitosComuns.cor_particula()
 	p.material = _mat
 	return p
 
