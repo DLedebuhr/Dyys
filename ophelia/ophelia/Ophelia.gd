@@ -99,10 +99,10 @@ var pode_cortar_pulo: bool = true   # Soltar o pulo corta a subida, menos se ela
 
 # Cada módulo tem uma tarefa. O corpo conserva o estado compartilhado e é o único
 # responsável por concluir o movimento físico com move_and_slide().
-const Movimento = preload("res://ophelia/componentes/MovimentoOphelia.gd")
-const Reacoes = preload("res://ophelia/componentes/ReacoesOphelia.gd")
-const Animacao = preload("res://ophelia/componentes/AnimacaoOphelia.gd")
-const Interacoes = preload("res://ophelia/componentes/InteracoesOphelia.gd")
+const Movimento = preload("res://Ophelia/Componentes/MovimentoOphelia.gd")
+const Reacoes = preload("res://Ophelia/Componentes/ReacoesOphelia.gd")
+const Animacao = preload("res://Ophelia/Componentes/AnimacaoOphelia.gd")
+const Interacoes = preload("res://Ophelia/Componentes/InteracoesOphelia.gd")
 var movimento = Movimento.new()
 var reacoes = Reacoes.new()
 var animacao = Animacao.new()
@@ -191,7 +191,7 @@ func _executar_pedidos() -> void:
 		elif acao == &"ControleImpulsoLenco":
 			lenco.impulso_gancho_pendente = true
 		elif acao == &"ControleTrocarAtaque":
-			if pode_usar(OpheliaHabilidades.ATAQUE_LENCO):
+			if pode_usar(OpheliaHabilidades.ATAQUE_MODIFICADO):
 				lenco.modo_distancia = not lenco.modo_distancia
 		else:
 			_ativadas[acao] = true

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b8tlahe2grjhv"
-path="res://.godot/imported/Frame 106.png-97db055a836ee36dda5b55a83dcfee3f.ctex"
+path="res://.godot/imported/Frame 106.png-f2cb3c92abcf788221835dc260ef917f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Characters/Ophelia/SpritesEsperar/Frame 106.png"
-dest_files=["res://.godot/imported/Frame 106.png-97db055a836ee36dda5b55a83dcfee3f.ctex"]
+source_file="res://Assets/Textures/Characters/Ophelia/SpritesEsperar/Frame 106.png"
+dest_files=["res://.godot/imported/Frame 106.png-f2cb3c92abcf788221835dc260ef917f.ctex"]
 
 [params]
 

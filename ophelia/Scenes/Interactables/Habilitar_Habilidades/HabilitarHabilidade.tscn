@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://bp6xokbwwm2sx"]
+
+[ext_resource type="Script" uid="uid://tjvodwhyc0nt" path="res://Scenes/Interactables/Habilitar_Habilidades/HabilitarHabilidade.gd" id="1_wd3ai"]
+[ext_resource type="PackedScene" uid="uid://cwr8dcv5w4ofa" path="res://Scenes/Interactables/Habilitar_Habilidades/TelaHelpHabilidade.tscn" id="2_o68jw"]
+[ext_resource type="Script" uid="uid://ds831agbwpgfj" path="res://Scenes/Interactables/Habilitar_Habilidades/DadosAjudaHabilidade.gd" id="3_mxjir"]
+[ext_resource type="Texture2D" uid="uid://cwwwdrbe2v8hj" path="res://assets/textures/UI/Tela_Aprender_Habilidades/Tela Corte de Cetim.png" id="4_1em2t"]
+[ext_resource type="Texture2D" uid="uid://cuuvylwminolr" path="res://assets/textures/UI/Tela_Aprender_Habilidades/Tela Projéteis de Cetim.png" id="5_0upwv"]
+[ext_resource type="Texture2D" uid="uid://qy1ne4ijhrd6" path="res://assets/textures/UI/Tela_Aprender_Habilidades/Tela Casulo de Cetim.png" id="6_cv3al"]
+[ext_resource type="Texture2D" uid="uid://knowkc22y8fr" path="res://assets/textures/UI/Tela_Aprender_Habilidades/Tela Planar.png" id="7_laam7"]
+[ext_resource type="Texture2D" uid="uid://d1lhv66dxrkvk" path="res://assets/textures/UI/Tela_Aprender_Habilidades/Tela Laço de Cetim.png" id="8_25dsr"]
+[ext_resource type="Texture2D" uid="uid://n82n33a6bi7u" path="res://assets/textures/UI/Tela_Aprender_Habilidades/Tela Sopro de Cetim.png" id="9_evdpo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ludo5"]
+size = Vector2(127, 125)
+
+[sub_resource type="Resource" id="Resource_nt6k4"]
+script = ExtResource("3_mxjir")
+elementos = ExtResource("4_1em2t")
+metadata/_custom_type_script = "uid://ds831agbwpgfj"
+
+[sub_resource type="Resource" id="Resource_pq5br"]
+script = ExtResource("3_mxjir")
+habilidade = "AtaqueModificado"
+elementos = ExtResource("5_0upwv")
+metadata/_custom_type_script = "uid://ds831agbwpgfj"
+
+[sub_resource type="Resource" id="Resource_hh7fa"]
+script = ExtResource("3_mxjir")
+habilidade = "DefesaLenco"
+elementos = ExtResource("6_cv3al")
+metadata/_custom_type_script = "uid://ds831agbwpgfj"
+
+[sub_resource type="Resource" id="Resource_7m8mo"]
+script = ExtResource("3_mxjir")
+habilidade = "Planar"
+elementos = ExtResource("7_laam7")
+metadata/_custom_type_script = "uid://ds831agbwpgfj"
+
+[sub_resource type="Resource" id="Resource_vwv3s"]
+script = ExtResource("3_mxjir")
+habilidade = "AgarrarObjeto"
+elementos = ExtResource("8_25dsr")
+metadata/_custom_type_script = "uid://ds831agbwpgfj"
+
+[sub_resource type="Resource" id="Resource_a8k6r"]
+script = ExtResource("3_mxjir")
+habilidade = "Propulsor"
+elementos = ExtResource("9_evdpo")
+metadata/_custom_type_script = "uid://ds831agbwpgfj"
+
+[node name="HabilitarHabilidade" type="Area2D" unique_id=167693267]
+z_index = 5
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_wd3ai")
+habilidade = "Planar"
+duracao_viagem = 0.4
+
+[node name="Colisao" type="CollisionShape2D" parent="." unique_id=228620783]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_ludo5")
+
+[node name="Visual" type="Node2D" parent="." unique_id=889871245]
+
+[node name="Simbolo" type="Sprite2D" parent="Visual" unique_id=511652015]
+
+[node name="Particulas" type="CPUParticles2D" parent="." unique_id=736175527]
+emitting = false
+
+[node name="TelaHelpHabilidade" parent="." unique_id=828445563 instance=ExtResource("2_o68jw")]
+conteudos = Array[ExtResource("3_mxjir")]([SubResource("Resource_nt6k4"), SubResource("Resource_pq5br"), SubResource("Resource_hh7fa"), SubResource("Resource_7m8mo"), SubResource("Resource_vwv3s"), SubResource("Resource_a8k6r")])

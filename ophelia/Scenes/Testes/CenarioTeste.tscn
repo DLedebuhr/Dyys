@@ -1,0 +1,200 @@
+[gd_scene format=3 uid="uid://df1lm2pj205d7"]
+
+[ext_resource type="Script" uid="uid://belrycbsso6f1" path="res://Scenes/Testes/CenarioTeste.gd" id="1_fsfie"]
+[ext_resource type="PackedScene" uid="uid://cp1hn5qtbwfwr" path="res://Scenes/Interactables/Portal/Portal.tscn" id="2_v2c4o"]
+[ext_resource type="PackedScene" uid="uid://cn288il5ik5ex" path="res://Ophelia/OPHELIA.tscn" id="3_v2tty"]
+[ext_resource type="PackedScene" uid="uid://bgr2cm7yllk3e" path="res://Scenes/Cameras/CameraJogador.tscn" id="4_co80e"]
+[ext_resource type="PackedScene" uid="uid://ckbvdb0vgnks0" path="res://Scenes/UI/Telas/HUB/HUB.tscn" id="5_i0ak4"]
+[ext_resource type="PackedScene" uid="uid://t38mgiq6mgta" path="res://Scenes/Testes/ArmadilhaDano.tscn" id="6_34855"]
+[ext_resource type="Script" uid="uid://c5qvc1brb63fs" path="res://Scenes/Testes/AlvoTeste.gd" id="7_mr7of"]
+[ext_resource type="PackedScene" uid="uid://bp6xokbwwm2sx" path="res://Scenes/Interactables/Habilitar_Habilidades/HabilitarHabilidade.tscn" id="8_14t7l"]
+[ext_resource type="Texture2D" uid="uid://ng1dj35h5y0p" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconeAtaqueA.png" id="9_yuit5"]
+[ext_resource type="Texture2D" uid="uid://buusvjxtt4mwx" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconeImpulso.png" id="10_4q0uu"]
+[ext_resource type="Texture2D" uid="uid://dfjtvvquawjt1" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconeAtaqueB.png" id="11_s0tf4"]
+[ext_resource type="Texture2D" uid="uid://c12i1wy5munn3" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconeDefesa.png" id="12_wj130"]
+[ext_resource type="Texture2D" uid="uid://cwt6wj4sc6nb1" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconePlanar.png" id="13_4ac74"]
+[ext_resource type="Texture2D" uid="uid://rwdbiwsu1gi0" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconePuxar.png" id="14_02kre"]
+[ext_resource type="Texture2D" uid="uid://bbnt0jfljbgvi" path="res://Assets/Textures/Muguet2.png" id="15_4jkx7"]
+[ext_resource type="Texture2D" uid="uid://c02ucnjpfd6f2" path="res://Assets/Textures/Muguet2A.png" id="16_vvilr"]
+[ext_resource type="Texture2D" uid="uid://dyxirulkgcdg3" path="res://Assets/Textures/Muguet2B.png" id="17_sfi0s"]
+
+[sub_resource type="RectangleShape2D" id="Chao"]
+size = Vector2(2500, 64)
+
+[sub_resource type="RectangleShape2D" id="Plataforma"]
+size = Vector2(250, 32)
+
+[sub_resource type="RectangleShape2D" id="Alvo"]
+size = Vector2(60, 124)
+
+[node name="CenarioTesteOPHELIA" type="Node2D" unique_id=71994698]
+script = ExtResource("1_fsfie")
+
+[node name="Portal" parent="." unique_id=1448505995 instance=ExtResource("2_v2c4o")]
+position = Vector2(3744, 896)
+
+[node name="OPHELIA" parent="." unique_id=678153441 instance=ExtResource("3_v2tty")]
+position = Vector2(1267, 509)
+
+[node name="CameraJogador" parent="." unique_id=701648686 node_paths=PackedStringArray("jogador") instance=ExtResource("4_co80e")]
+limit_left = -100
+limit_top = -500
+limit_right = 4500
+limit_bottom = 1000
+jogador = NodePath("../OPHELIA")
+
+[node name="HUD" parent="." unique_id=497880551 instance=ExtResource("5_i0ak4")]
+
+[node name="ArmadilhaDano" parent="." unique_id=1799698678 instance=ExtResource("6_34855")]
+position = Vector2(592, -72)
+collision_layer = 0
+
+[node name="Chao" type="StaticBody2D" parent="." unique_id=1133053766]
+position = Vector2(960, 683)
+
+[node name="FormaChao" type="CollisionShape2D" parent="Chao" unique_id=1196439035]
+shape = SubResource("Chao")
+
+[node name="DesenhoChao" type="Polygon2D" parent="Chao" unique_id=1363943825]
+color = Color(0.18, 0.25, 0.29, 1)
+polygon = PackedVector2Array(-1250, -32, 1250, -32, 1250, 32, -1250, 32)
+
+[node name="PlataformaEsquerda" type="StaticBody2D" parent="." unique_id=656906724]
+position = Vector2(270, 400)
+
+[node name="Forma" type="CollisionShape2D" parent="PlataformaEsquerda" unique_id=2024187383]
+shape = SubResource("Plataforma")
+
+[node name="Desenho" type="Polygon2D" parent="PlataformaEsquerda" unique_id=1377515281]
+color = Color(0.32, 0.43, 0.48, 1)
+polygon = PackedVector2Array(-125, -16, 125, -16, 125, 16, -125, 16)
+
+[node name="PlataformaDireita" type="StaticBody2D" parent="." unique_id=630635470]
+position = Vector2(1030, 330)
+
+[node name="Forma" type="CollisionShape2D" parent="PlataformaDireita" unique_id=679264453]
+shape = SubResource("Plataforma")
+
+[node name="Desenho" type="Polygon2D" parent="PlataformaDireita" unique_id=1707914657]
+color = Color(0.32, 0.43, 0.48, 1)
+polygon = PackedVector2Array(-125, -16, 125, -16, 125, 16, -125, 16)
+
+[node name="Alvo" type="StaticBody2D" parent="." unique_id=1894664347]
+position = Vector2(740, 589)
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("7_mr7of")
+
+[node name="Forma" type="CollisionShape2D" parent="Alvo" unique_id=1072370464]
+shape = SubResource("Alvo")
+
+[node name="Desenho" type="Polygon2D" parent="Alvo" unique_id=1266785541]
+color = Color(0.76, 0.47, 0.37, 1)
+polygon = PackedVector2Array(-30, -62, 30, -62, 30, 62, -30, 62)
+
+[node name="Interface" type="CanvasLayer" parent="." unique_id=36723661]
+visible = false
+
+[node name="Titulo" type="Label" parent="Interface" unique_id=1845102849]
+offset_left = 32.0
+offset_top = 24.0
+theme_override_font_sizes/font_size = 30
+text = "OPHELIA · CENA DE TESTE"
+
+[node name="Controles" type="Label" parent="Interface" unique_id=1623033815]
+offset_left = 32.0
+offset_top = 78.0
+theme_override_font_sizes/font_size = 20
+text = "A/D: mover  ·  CapsLock: correr  ·  W: pular/planar  ·  S: sentar no chão/propulsor no ar
+Q: atacar  ·  E: defender  ·  Shift: alternar disparo  ·  Mouse esquerdo: gancho  ·  Direito: impulso
+B: disparo hostil de teste  ·  N: restaurar vida e alvo  ·  Z/X: irritada/agradecer  ·  H: chapéu
+Tab: alcance  ·  V: voo debug  ·  T: teleporte  ·  666: alternar modo debug"
+
+[node name="Estado" type="Label" parent="Interface" unique_id=919651777]
+offset_left = 32.0
+offset_top = 230.0
+theme_override_font_sizes/font_size = 20
+
+[node name="HabilitarHabilidade" parent="." unique_id=1340296110 instance=ExtResource("8_14t7l")]
+position = Vector2(1442, 589)
+habilidade = "AtaqueLenco"
+textura_simbolo = ExtResource("9_yuit5")
+
+[node name="HabilitarHabilidade2" parent="." unique_id=167693267 instance=ExtResource("8_14t7l")]
+position = Vector2(2082, 588)
+habilidade = "Propulsor"
+textura_simbolo = ExtResource("10_4q0uu")
+
+[node name="Chao2" type="StaticBody2D" parent="." unique_id=1476602662]
+position = Vector2(1656, 14)
+
+[node name="FormaChao" type="CollisionShape2D" parent="Chao2" unique_id=1980753105]
+shape = SubResource("Chao")
+
+[node name="DesenhoChao" type="Polygon2D" parent="Chao2" unique_id=174997174]
+color = Color(0.18, 0.25, 0.29, 1)
+polygon = PackedVector2Array(-1250, -32, 1250, -32, 1250, 32, -1250, 32)
+
+[node name="HabilitarHabilidade3" parent="." unique_id=775757093 instance=ExtResource("8_14t7l")]
+position = Vector2(1067, -71)
+habilidade = "AtaqueModificado"
+textura_simbolo = ExtResource("11_s0tf4")
+
+[node name="HabilitarHabilidade4" parent="." unique_id=1882137030 instance=ExtResource("8_14t7l")]
+position = Vector2(1689, -87)
+habilidade = "DefesaLenco"
+textura_simbolo = ExtResource("12_wj130")
+
+[node name="HabilitarHabilidade5" parent="." unique_id=2106708053 instance=ExtResource("8_14t7l")]
+position = Vector2(2245, -85)
+textura_simbolo = ExtResource("13_4ac74")
+
+[node name="HabilitarHabilidade6" parent="." unique_id=1993345838 instance=ExtResource("8_14t7l")]
+position = Vector2(2743, -75)
+habilidade = "AgarrarObjeto"
+textura_simbolo = ExtResource("14_02kre")
+
+[node name="PlataformaDireita2" type="StaticBody2D" parent="." unique_id=273359218]
+position = Vector2(74, 183)
+
+[node name="Forma" type="CollisionShape2D" parent="PlataformaDireita2" unique_id=712453070]
+shape = SubResource("Plataforma")
+
+[node name="Desenho" type="Polygon2D" parent="PlataformaDireita2" unique_id=605364652]
+color = Color(0.32, 0.43, 0.48, 1)
+polygon = PackedVector2Array(-125, -16, 125, -16, 125, 16, -125, 16)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1277068615]
+offset_left = 631.99994
+offset_top = -351.99997
+offset_right = 2774.0
+offset_bottom = 3175.0
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("15_4jkx7")
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=1764395002]
+offset_left = 1247.9999
+offset_top = -367.99997
+offset_right = 1885.9999
+offset_bottom = 641.0
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("16_vvilr")
+
+[node name="TextureRect3" type="TextureRect" parent="." unique_id=363249160]
+offset_left = 1824.0
+offset_top = -392.0
+offset_right = 2102.0
+offset_bottom = -5.0
+texture = ExtResource("17_sfi0s")
+
+[node name="Chao3" type="StaticBody2D" parent="." unique_id=287747221]
+position = Vector2(960, 683)
+
+[node name="FormaChao" type="CollisionShape2D" parent="Chao3" unique_id=563405626]
+position = Vector2(2152, 229)
+shape = SubResource("Chao")
+
+[node name="DesenhoChao" type="Polygon2D" parent="Chao3" unique_id=1790833237]
+position = Vector2(2160, 237)
+color = Color(0.18, 0.25, 0.29, 1)
+polygon = PackedVector2Array(-1250, -32, 1250, -32, 1250, 32, -1250, 32)

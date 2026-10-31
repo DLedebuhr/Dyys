@@ -190,10 +190,10 @@ var tempo_visual_alcance: float = 0.0
 var mostrando_alcance_antes: bool = false
 
 
-const Visual = preload("res://ophelia/lenco/VisualLenco.gd")
-const Combate = preload("res://ophelia/lenco/CombateLenco.gd")
-const Gancho = preload("res://ophelia/lenco/GanchoLenco.gd")
-const CenaProjetil = preload("res://ophelia/projeteis/ProjetilLenco.tscn")
+const Visual = preload("res://Ophelia/Lenco/VisualLenco.gd")
+const Combate = preload("res://Ophelia/Lenco/CombateLenco.gd")
+const Gancho = preload("res://Ophelia/Lenco/GanchoLenco.gd")
+const CenaProjetil = preload("res://Ophelia/Projeteis/ProjetilLenco.tscn")
 var visual = Visual.new()
 var combate = Combate.new()
 var gancho = Gancho.new()
@@ -342,9 +342,13 @@ func _executar_acao_pendente(origem: Vector2, alvo_mouse: Vector2, delta: float)
 
 	# Cada projétil ativo ocupa uma carga; há dois disparos disponíveis.
 	if acao_pendente == EstadoLenco.ATAQUE:
+		if not _pode_usar(OpheliaHabilidades.ATAQUE_MODIFICADO):
+			modo_distancia = false
+
 		if modo_distancia and projeteis.size() >= 2:
 			acao_pendente = EstadoLenco.REPOUSO
 			return
+
 		ataque_a_distancia = modo_distancia
 
 	estado_atual = acao_pendente

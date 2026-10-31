@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b6mdn3vw81gvb"
-path="res://.godot/imported/Mouse.png-f7484914fe0872949f7a0f537374f6ec.ctex"
+path="res://.godot/imported/Mouse.png-49a8a9c6d74a1a87ece53be93846500a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Characters/Ophelia/Mouse.png"
-dest_files=["res://.godot/imported/Mouse.png-f7484914fe0872949f7a0f537374f6ec.ctex"]
+source_file="res://Assets/Textures/Characters/Ophelia/Mouse.png"
+dest_files=["res://.godot/imported/Mouse.png-49a8a9c6d74a1a87ece53be93846500a.ctex"]
 
 [params]
 

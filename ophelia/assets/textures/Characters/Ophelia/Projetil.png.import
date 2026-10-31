@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bqrike36f74cb"
-path="res://.godot/imported/Projetil.png-6c974a76d45636c8665c3344a3f260a0.ctex"
+path="res://.godot/imported/Projetil.png-5ed7a212f2047c981efa557d04fcf7ec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Characters/Ophelia/Projetil.png"
-dest_files=["res://.godot/imported/Projetil.png-6c974a76d45636c8665c3344a3f260a0.ctex"]
+source_file="res://Assets/Textures/Characters/Ophelia/Projetil.png"
+dest_files=["res://.godot/imported/Projetil.png-5ed7a212f2047c981efa557d04fcf7ec.ctex"]
 
 [params]
 

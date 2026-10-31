@@ -52,7 +52,7 @@ func _ready() -> void:
 	_tex = _criar_textura()
 
 	_brilho = Node2D.new()
-	_brilho.material = _mat
+	_brilho.material = _criar_material_eco()
 	_brilho.draw.connect(_desenhar_brilho)
 	add_child(_brilho)
 
@@ -236,10 +236,39 @@ func _desenhar_brilho() -> void:
 			cores_miolo.append(Color(claro, 0.9 * f))
 		_brilho.draw_polyline_colors(pontos, cores_halo, raio * 1.8, true)
 		_brilho.draw_polyline_colors(pontos, cores_miolo, raio * 0.6, true)
-	var r := raio * 2.6 * pulso
-	_brilho.draw_texture_rect(_tex, Rect2(-Vector2(r, r), Vector2(r, r) * 2.0), false, Color(cor, 0.85))
-	var r2 := raio * 1.1
-	_brilho.draw_texture_rect(_tex, Rect2(-Vector2(r2, r2), Vector2(r2, r2) * 2.0), false, Color(claro, 1.0))
+	_brilho.draw_set_transform(Vector2.ZERO, _angulo)
+	# Cópias luminosas da própria ponta: proporção, recortes e rotação iguais.
+	for i in range(3):
+		var fase: float = fposmod(_t * 1.8 + float(i) / 3.0, 1.0)
+		var escala: float = lerpf(1.08, 1.75, fase) * pulso
+		var alfa: float = pow(1.0 - fase, 2.0) * 0.28
+		_desenhar_eco_ponta(escala, Color(cor, alfa))
+	_desenhar_eco_ponta(1.04, Color(claro, 0.45 * pulso))
+	_brilho.draw_set_transform(Vector2.ZERO, 0.0)
+
+func _desenhar_eco_ponta(escala: float, tinta: Color) -> void:
+	if textura_ponta != null:
+		var tamanho: Vector2 = tamanho_ponta * 1.3 * escala
+		_brilho.draw_texture_rect(textura_ponta, Rect2(-tamanho * 0.5, tamanho), false, tinta)
+	else:
+		var forma := PackedVector2Array([Vector2(13, 0), Vector2(0, -5), Vector2(-9, 0), Vector2(0, 5)])
+		for i in range(forma.size()):
+			forma[i] *= escala
+		_brilho.draw_colored_polygon(forma, tinta)
+
+func _criar_material_eco() -> ShaderMaterial:
+	# Usa só o alpha da textura, para iluminar a silhueta sem repetir sua cor escura.
+	var shader := Shader.new()
+	shader.code = """shader_type canvas_item;
+render_mode blend_add, unshaded;
+varying vec4 tinta;
+void vertex() { tinta = COLOR; }
+void fragment() {
+ COLOR = vec4(tinta.rgb, texture(TEXTURE, UV).a * tinta.a);
+}"""
+	var material_eco := ShaderMaterial.new()
+	material_eco.shader = shader
+	return material_eco
 
 func _criar_faiscas() -> CPUParticles2D:
 	var p := CPUParticles2D.new()

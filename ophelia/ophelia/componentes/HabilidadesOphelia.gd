@@ -22,6 +22,7 @@ const FIXAR_LENCO: StringName = &"FixarLenco"
 const IMPULSO_LENCO: StringName = &"ImpulsoLenco"
 
 const ATAQUE_LENCO: StringName = &"AtaqueLenco"
+const ATAQUE_MODIFICADO: StringName = &"AtaqueModificado"
 const DEFESA_LENCO: StringName = &"DefesaLenco"
 const PLANAR: StringName = &"Planar"
 const AGARRAR_OBJETO: StringName = &"AgarrarObjeto"
@@ -33,7 +34,7 @@ const INICIAIS := [
 	CORRER, FIXAR_LENCO, IMPULSO_LENCO,
 ]
 # Só passam a valer depois de aprendidas em um interativo (a ordem aqui é a ordem do save)
-const APRENDIDAS := [ATAQUE_LENCO, DEFESA_LENCO, PLANAR, AGARRAR_OBJETO, PROPULSOR]
+const APRENDIDAS := [ATAQUE_LENCO, ATAQUE_MODIFICADO, DEFESA_LENCO, PLANAR, AGARRAR_OBJETO, PROPULSOR]
 
 @export var imprimir_eventos: bool = true   # Escreve na Saída cada desbloqueio e troca do modo debug
 @export var sequencia_debug: Array[int] = [6, 6, 6]   # Dígitos que ligam/desligam o modo debug
@@ -53,7 +54,7 @@ func pode_usar(id: StringName) -> bool:
 	if not _conhecida(id):
 		_avisar_desconhecida(id)
 		return false
-	return _debug or esta_desbloqueada(id)
+	return _debug or (esta_desbloqueada(id) and (id != ATAQUE_MODIFICADO or esta_desbloqueada(ATAQUE_LENCO)))
 
 # Aprendida de verdade? (ignora o modo debug; é o que vai para o save)
 func esta_desbloqueada(id: StringName) -> bool:
@@ -70,6 +71,8 @@ func solicitar_desbloqueio(id: StringName) -> bool:
 		push_warning("Habilidades: '%s' não é uma habilidade que se aprende (confira o nome)." % id)
 		return false
 	if _aprendidas.has(id):
+		return false
+	if id == ATAQUE_MODIFICADO and not esta_desbloqueada(ATAQUE_LENCO):
 		return false
 	_aprendidas[id] = true
 	_log("desbloqueou %s | reais: %s" % [id, exportar_estado()])

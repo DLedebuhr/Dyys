@@ -43,7 +43,7 @@ extends AnimatedSprite2D
 @export var intervalo_ciclo: float = 2.5            # Segundos entre abrir e fechar no teste de ciclo
 @export var debug: bool = true
 
-const SHADER = preload("res://ophelia/efeitos/RevelacaoAsas.gdshader")
+const SHADER = preload("res://Ophelia/Efeitos/RevelacaoAsas.gdshader")
 
 class Brilho:
 	var pos: Vector2

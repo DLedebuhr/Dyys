@@ -2,6 +2,9 @@ extends RefCounted
 ## Componente especializado; o coordenador fornece o estado e as referências.
 var corpo
 
+# Levanta rapidamente antes de andar; pular pode interromper essa transição.
+const DURACAO_LEVANTAR: float = 0.22
+
 func configurar(coordenador) -> void:
 	corpo = coordenador
 
@@ -30,32 +33,45 @@ func _atualizar_temporizadores(delta: float) -> void:
 		corpo.tempo_jump_buffer -= delta
 
 func _processar_inputs_estado() -> void:
-	# A pausa por cansaço termina ao pedir movimento; sentar manual continua igual.
-	if corpo.sentou_por_inatividade:
-		var quer_mover: bool = not is_zero_approx(Input.get_axis("ControleAndarEsquerda", "ControleAndarDireita"))
-		var quer_agir: bool = corpo.tem_acao_pendente() or corpo.acao_ativada("ControlePular")
-		if (quer_mover or quer_agir) and not corpo.raycast_teto.is_colliding():
-			corpo.sentou_por_inatividade = false
-			corpo.esta_sentada = false
-			corpo.esta_levantando = true
-			corpo._tocar("Levantar", true)
-	if corpo.acao_ativada("ControleCorrer"):
-		corpo.esta_correndo = !corpo.esta_correndo
-
-	if corpo.acao_ativada("ControleSentarLevantar") and corpo.is_on_floor() and not corpo._reacao_trava():
-		corpo.sentou_por_inatividade = false
-		var tem_teto_acima = corpo.raycast_teto.is_colliding() if corpo.raycast_teto else false
-
-		if corpo.esta_sentada:
-			# Só levanta se não houver teto no caminho
-			if not tem_teto_acima:
-				corpo.esta_sentada = false
-				corpo.esta_levantando = true
-				corpo._tocar("Levantar", true)
-		else:
-			corpo.esta_sentada = true
+	if corpo.esta_levantando:
+		var nome: String = corpo._nome_anim("Levantar")
+		if corpo.sprite.animation != nome or not corpo.sprite.is_playing():
 			corpo.esta_levantando = false
+	if corpo.acao_ativada("ControleCorrer"):
+		corpo.esta_correndo = not corpo.esta_correndo
+	var tem_teto: bool = corpo.raycast_teto != null and corpo.raycast_teto.is_colliding()
+	var quer_pular: bool = corpo.acao_ativada("ControlePular")
+	if corpo.sentou_por_inatividade and quer_pular and not tem_teto:
+		corpo._definir_estado_sentada(false)
+		corpo.esta_levantando = false
+		return
+	if corpo.acao_ativada("ControleSentarLevantar") and corpo.is_on_floor() and not corpo._reacao_trava():
+		if corpo.esta_sentada:
+			if not tem_teto:
+				_iniciar_levantar()
+		elif not corpo.esta_levantando:
+			corpo.sentou_por_inatividade = false
+			corpo.esta_sentada = true
 			corpo._tocar("Sentar", true)
+		return
+	if corpo.sentou_por_inatividade and not tem_teto:
+		var quer_mover: bool = not is_zero_approx(Input.get_axis("ControleAndarEsquerda", "ControleAndarDireita"))
+		if quer_mover or corpo.tem_acao_pendente():
+			_iniciar_levantar()
+
+func _iniciar_levantar() -> void:
+	corpo.sentou_por_inatividade = false
+	corpo.esta_sentada = false
+	var nome: String = corpo._nome_anim("Levantar")
+	if not corpo._tem_anim(nome) or corpo.sprite.sprite_frames.get_frame_count(nome) == 0:
+		corpo.esta_levantando = false
+		return
+	corpo.esta_levantando = true
+	corpo.velocity.x = 0.0
+	corpo._tocar("Levantar", true)
+	var duracao: float = maxf(corpo._duracao_animacao(nome), 0.01)
+	var taxa: float = duracao / DURACAO_LEVANTAR
+	corpo.sprite.play(nome, taxa)
 
 func _definir_estado_sentada(sentar: bool) -> void:
 	corpo.esta_sentada = sentar
@@ -118,6 +134,9 @@ func _processar_pulo() -> void:
 
 	# O pulo é acionado se houver registro no Buffer E no Coyote Time
 	if corpo.tempo_jump_buffer > 0.0 and corpo.tempo_coyote > 0.0:
+		if corpo.esta_sentada and corpo.raycast_teto != null and corpo.raycast_teto.is_colliding():
+			return
+		corpo.esta_levantando = false
 		corpo.velocity.y = corpo.forca_pulo
 		corpo.pode_cortar_pulo = true
 		corpo.tempo_jump_buffer = 0.0 # Consome o buffer
@@ -132,6 +151,13 @@ func _processar_pulo() -> void:
 		corpo.velocity.y *= 0.5
 
 func _processar_movimento_horizontal(delta: float) -> void:
+	# O comando já foi aceito, mas o corpo só se desloca após terminar Levantar.
+	if corpo.esta_levantando and corpo.is_on_floor():
+		corpo.velocity.x = 0.0
+		var direcao_levantar: float = Input.get_axis("ControleAndarEsquerda", "ControleAndarDireita")
+		if not is_zero_approx(direcao_levantar):
+			corpo.olhando_esquerda = direcao_levantar < 0.0
+		return
 	# Durante Irritada/Agradecer ela fica parada: só desacelera
 	if corpo._reacao_trava():
 		corpo.velocity.x = move_toward(corpo.velocity.x, 0.0, corpo.atrito * delta)

@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://bf7w2qadg3mob"
-path="res://.godot/imported/koiroylers-sparkle-355937.mp3-49a257c6724404c220b84e7b29922dfc.mp3str"
+path="res://.godot/imported/koiroylers-sparkle-355937.mp3-fa009eb6dd5d17dba0e6e81546f26d8f.mp3str"
 
 [deps]
 
-source_file="res://assets/audio/sfx/koiroylers-sparkle-355937.mp3"
-dest_files=["res://.godot/imported/koiroylers-sparkle-355937.mp3-49a257c6724404c220b84e7b29922dfc.mp3str"]
+source_file="res://Assets/Audio/SFX/koiroylers-sparkle-355937.mp3"
+dest_files=["res://.godot/imported/koiroylers-sparkle-355937.mp3-fa009eb6dd5d17dba0e6e81546f26d8f.mp3str"]
 
 [params]
 

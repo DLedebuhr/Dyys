@@ -2,8 +2,6 @@ extends RefCounted
 ## Componente especializado; o coordenador fornece o estado e as referências.
 var corpo
 
-#@export_range(10.0, 120.0, 0.5) var atraso_espera_frontal: float = 10.0
-
 func configurar(coordenador) -> void:
 	corpo = coordenador
 
@@ -180,6 +178,9 @@ func progresso_pose_frontal() -> float:
 	return 0.0
 
 func _nome_espera_frontal() -> String:
+	# EsperarMovimento é a pose neutra; após os dez segundos toca Esperar.
+	if corpo.tempo_frontal_imovel <= 0.0 and corpo._tem_anim(corpo._nome_anim("Esperar")):
+		return "Esperar"
 	return "EsperarMovimento" if corpo._tem_anim(corpo._nome_anim("EsperarMovimento")) else "Esperar"
 
 func _log_reacao(texto: String) -> void:

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dpt0vxkfiexsc"
-path="res://.godot/imported/Frame 42.png-8344cdda419b85931ac79dbe5930d71a.ctex"
+path="res://.godot/imported/Frame 42.png-e07bd433b653aad584a923b4d18a7e35.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Characters/Ophelia/SpritesAndar/Frame 42.png"
-dest_files=["res://.godot/imported/Frame 42.png-8344cdda419b85931ac79dbe5930d71a.ctex"]
+source_file="res://Assets/Textures/Characters/Ophelia/SpritesAndar/Frame 42.png"
+dest_files=["res://.godot/imported/Frame 42.png-e07bd433b653aad584a923b4d18a7e35.ctex"]
 
 [params]
 

@@ -34,6 +34,9 @@ func _preparar_animacoes_reacao() -> void:
 			corpo.sprite.sprite_frames.set_animation_speed(transicao, 8.0)
 		if corpo._tem_anim(transicao):
 			corpo.sprite.sprite_frames.set_animation_loop(transicao, false)
+		var levantar: String = "Levantar" + String(sufixo)
+		if corpo._tem_anim(levantar):
+			corpo.sprite.sprite_frames.set_animation_loop(levantar, false)
 		for pose in ["Irritada", "Agradecer", "Esperar", "EsperarMovimento"]:
 			var nome: String = String(pose) + String(sufixo)
 			if corpo._tem_anim(nome):

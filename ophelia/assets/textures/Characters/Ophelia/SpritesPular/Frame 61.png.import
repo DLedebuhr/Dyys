@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dd78h3dt4oaku"
-path="res://.godot/imported/Frame 61.png-4982c4417e5563a1bd521faa01634ada.ctex"
+path="res://.godot/imported/Frame 61.png-802060e2cc42fafe069a69ab88afc3a9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Characters/Ophelia/SpritesPular/Frame 61.png"
-dest_files=["res://.godot/imported/Frame 61.png-4982c4417e5563a1bd521faa01634ada.ctex"]
+source_file="res://Assets/Textures/Characters/Ophelia/SpritesPular/Frame 61.png"
+dest_files=["res://.godot/imported/Frame 61.png-802060e2cc42fafe069a69ab88afc3a9.ctex"]
 
 [params]
 

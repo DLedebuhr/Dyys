@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://beo6pw6jse33y"]
 
-[ext_resource type="Script" uid="uid://bmnr7iife2fpx" path="res://ophelia/projeteis/ProjetilLenco.gd" id="1_fgva3"]
+[ext_resource type="Script" uid="uid://bmnr7iife2fpx" path="res://Ophelia/Projeteis/ProjetilLenco.gd" id="1_fgva3"]
 
 [node name="ProjetilLenco" type="Node2D" unique_id=735033826]
 script = ExtResource("1_fgva3")

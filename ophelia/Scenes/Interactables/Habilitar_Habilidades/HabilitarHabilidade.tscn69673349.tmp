@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bp6xokbwwm2sx"]
+
+[ext_resource type="Script" uid="uid://tjvodwhyc0nt" path="res://scenes/interactables/Habilitar_Habilidades/HabilitarHabilidade.gd" id="1_wd3ai"]
+[ext_resource type="PackedScene" uid="uid://cwr8dcv5w4ofa" path="res://scenes/interactables/Habilitar_Habilidades/TelaHelpHabilidade.tscn" id="3_bxlc0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ludo5"]
+size = Vector2(127, 125)
+
+[node name="HabilitarHabilidade" type="Area2D" unique_id=167693267]
+z_index = 5
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_wd3ai")
+
+[node name="Colisao" type="CollisionShape2D" parent="." unique_id=228620783]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_ludo5")
+
+[node name="Visual" type="Node2D" parent="." unique_id=889871245]
+
+[node name="Simbolo" type="Sprite2D" parent="Visual" unique_id=511652015]
+
+[node name="Particulas" type="CPUParticles2D" parent="." unique_id=736175527]
+emitting = false
+
+[node name="TelaHelpHabilidade" parent="." unique_id=828445563 instance=ExtResource("3_bxlc0")]

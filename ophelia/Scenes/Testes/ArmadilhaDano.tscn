@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://t38mgiq6mgta"]
+
+[ext_resource type="Script" uid="uid://bpk32bptaxc04" path="res://ArmadilhaDano.gd" id="1_3qkws"]
+[ext_resource type="Texture2D" uid="uid://dpx8io2f8gdgb" path="res://icon.svg" id="2_wh4xx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ludo5"]
+size = Vector2(112, 109)
+
+[node name="ArmadilhaDano" type="Area2D" unique_id=1799698678]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_3qkws")
+
+[node name="Colisao" type="CollisionShape2D" parent="." unique_id=889025896]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_ludo5")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1889115822]
+texture = ExtResource("2_wh4xx")

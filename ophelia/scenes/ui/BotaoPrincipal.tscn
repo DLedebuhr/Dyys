@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cnc7rfn115syt"]
 
-[ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://assets/fonts/tt-milks-casual-pie-line.ttf" id="1_prkmj"]
+[ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://assets/Fonts/tt-milks-casual-pie-line.ttf" id="1_prkmj"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mqaic"]
 

@@ -1,0 +1,127 @@
+[gd_scene format=3 uid="uid://cwr8dcv5w4ofa"]
+
+[ext_resource type="Script" uid="uid://vm3vxgq2qdwa" path="res://Scenes/Interactables/Habilitar_Habilidades/TelaHelpHabilidade.gd" id="1_k5s3o"]
+[ext_resource type="Script" uid="uid://ds831agbwpgfj" path="res://Scenes/Interactables/Habilitar_Habilidades/DadosAjudaHabilidade.gd" id="2_v8ce4"]
+[ext_resource type="Texture2D" uid="uid://cwwwdrbe2v8hj" path="res://assets/textures/UI/Tela_Aprender_Habilidades/Tela Corte de Cetim.png" id="3_nhluv"]
+[ext_resource type="Texture2D" uid="uid://n82n33a6bi7u" path="res://assets/textures/UI/Tela_Aprender_Habilidades/Tela Sopro de Cetim.png" id="4_43mls"]
+[ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://Scenes/UI/BotaoMenu.tscn" id="5_4r7qe"]
+[ext_resource type="Texture2D" uid="uid://dj6683u3wv1it" path="res://assets/textures/UI/Tela_Aprender_Habilidades/OK.png" id="6_pihsx"]
+[ext_resource type="Texture2D" uid="uid://cqkcnqqpmqou" path="res://assets/textures/UI/Tela_Aprender_Habilidades/OK2.png" id="7_51lil"]
+[ext_resource type="Texture2D" uid="uid://dscc6jvgi0i2e" path="res://assets/textures/UI/Tela_Aprender_Habilidades/OK3.png" id="8_lsdmu"]
+
+[sub_resource type="Resource" id="Resource_f56d6"]
+script = ExtResource("2_v8ce4")
+elementos = ExtResource("3_nhluv")
+metadata/_custom_type_script = "uid://ds831agbwpgfj"
+
+[sub_resource type="Resource" id="Resource_5mw60"]
+script = ExtResource("2_v8ce4")
+habilidade = "Propulsor"
+elementos = ExtResource("4_43mls")
+metadata/_custom_type_script = "uid://ds831agbwpgfj"
+
+[sub_resource type="Gradient" id="Gradient_nt6k4"]
+colors = PackedColorArray(0.07058824, 0.07058824, 0.13333334, 1, 0.07058824, 0.07058824, 0.13333334, 0.6509804)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ludo5"]
+gradient = SubResource("Gradient_nt6k4")
+fill = 1
+fill_from = Vector2(0.5, 1)
+fill_to = Vector2(0.5, 0)
+
+[node name="TelaHelpHabilidade" type="CanvasLayer" unique_id=1570104727]
+process_mode = 3
+layer = 100
+script = ExtResource("1_k5s3o")
+conteudos = Array[ExtResource("2_v8ce4")]([SubResource("Resource_f56d6"), SubResource("Resource_5mw60"), null, null, null, null])
+
+[node name="Tela" type="Control" parent="." unique_id=654690624]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Fundo" type="ColorRect" parent="Tela" unique_id=663253174]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.07058824, 0.07058824, 0.13333334, 0.78431374)
+
+[node name="TextureRect" type="TextureRect" parent="Tela" unique_id=1961954323]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = SubResource("GradientTexture2D_ludo5")
+
+[node name="Demonstracao" type="Control" parent="Tela" unique_id=1508772536]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 977.0
+offset_top = 456.0
+offset_right = -456.0
+offset_bottom = -344.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Textura" type="TextureRect" parent="Tela/Demonstracao" unique_id=1621614824]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Video" type="VideoStreamPlayer" parent="Tela/Demonstracao" unique_id=886331669]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+volume_db = -80.0
+expand = true
+
+[node name="Elementos" type="TextureRect" parent="Tela" unique_id=91797265]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+texture = ExtResource("4_43mls")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Fechar" parent="Tela" unique_id=350134895 instance=ExtResource("5_4r7qe")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.56200004
+anchor_top = 0.75600004
+anchor_right = 0.707
+anchor_bottom = 0.81500006
+offset_left = 1.7779541
+offset_top = -0.4800415
+offset_right = 1.782959
+offset_bottom = -0.20007324
+grow_horizontal = 2
+grow_vertical = 2
+ignore_texture_size = true
+stretch_mode = 5
+imagem_normal = ExtResource("6_pihsx")
+imagem_hover = ExtResource("7_51lil")
+imagem_pressed = ExtResource("8_lsdmu")

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bvbuo1vxrur7n"
-path="res://.godot/imported/PontaFita.png-bf5d2f39794fc93ef2596be2cea11385.ctex"
+path="res://.godot/imported/PontaFita.png-87e09e54b34e7ea36f72d74490a43248.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Characters/Ophelia/PontaFita.png"
-dest_files=["res://.godot/imported/PontaFita.png-bf5d2f39794fc93ef2596be2cea11385.ctex"]
+source_file="res://Assets/Textures/Characters/Ophelia/PontaFita.png"
+dest_files=["res://.godot/imported/PontaFita.png-87e09e54b34e7ea36f72d74490a43248.ctex"]
 
 [params]
 
