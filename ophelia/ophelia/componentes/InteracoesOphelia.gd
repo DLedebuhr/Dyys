@@ -2,26 +2,52 @@ extends RefCounted
 ## Componente especializado; o coordenador fornece o estado e as referências.
 var corpo
 
+# Configurar o componente
+# ---------------------
+# Guarda a referência do coordenador usada por este componente.
 func configurar(coordenador) -> void:
+
 	corpo = coordenador
 
+# Ao mudar frame
+# ---------------------
+# Trata o evento: mudar frame.
 func _ao_mudar_frame() -> void:
+
 	if not corpo.brilho_batida_ativo or corpo.reacao_atual != corpo.REACAO_IRRITADA or not corpo.sprite:
+
 		return
+
 	if not String(corpo.sprite.animation).begins_with("Irritada"):
+
 		return
+
 	if corpo.frame_batida_pe < 0 or corpo.sprite.frame == corpo.frame_batida_pe:
+
 		corpo._brilho_nos_pes()
 
+# Posição pés global
+# ---------------------
+# Processa posição pés global.
 func _posicao_pes_global() -> Vector2:
+
 	var local = Vector2.ZERO
+
 	if corpo.colisor_corpo != null:
+
 		var capsula = corpo.colisor_corpo.shape as CapsuleShape2D
+
 		if capsula != null:
+
 			local = corpo.colisor_corpo.position + Vector2(0.0, capsula.height * 0.5 * corpo.colisor_corpo.scale.y)
+
 	return corpo.to_global(local)
 
+# Brilho nos pés
+# ---------------------
+# Processa brilho nos pés.
 func _brilho_nos_pes() -> void:
+
 	var p = CPUParticles2D.new()
 	OpheliaEfeitosComuns.configurar_emissor(p)
 	p.texture = corpo._textura_brilho()
@@ -40,14 +66,11 @@ func _brilho_nos_pes() -> void:
 	p.scale_amount_min = 0.4 * corpo.tamanho_brilho_batida
 	p.scale_amount_max = 1.0 * corpo.tamanho_brilho_batida
 	p.color = OpheliaEfeitosComuns.cor_particula()
-
 	# Encolhe até sumir
 	p.scale_amount_curve = OpheliaEfeitosComuns.curva_encolher()
-
 	# Soma luz em vez de cobrir (fica brilhante de verdade)
 	var mat = OpheliaEfeitosComuns.material_aditivo()
 	p.material = mat
-
 	# Filho do OPHELIA, sem mexer no z_index: fica atrás dos mesmos objetos que ela
 	corpo.add_child(p)
 	var lado = -1.0 if corpo.sprite.flip_h else 1.0
@@ -55,13 +78,27 @@ func _brilho_nos_pes() -> void:
 	p.emitting = true
 	corpo.get_tree().create_timer(corpo.duracao_brilho_batida + 0.3).timeout.connect(p.queue_free)
 
+# Textura brilho
+# ---------------------
+# Retorna textura brilho.
 func _textura_brilho() -> Texture2D:
+
 	return OpheliaEfeitosComuns.textura_cintilo()
 
+# Ao entrar em area
+# ---------------------
+# Trata o evento: entrar em area.
 func _ao_entrar_em_area(area: Area2D) -> void:
+
 	if String(area.name).begins_with("AreaPrePortal") or area.is_in_group("AreaPrePortal"):
+
 		if corpo._deve_ficar_irritada(area):
+
 			corpo.tocar_reacao(corpo.REACAO_IRRITADA)
 
+# Deve ficar irritada
+# ---------------------
+# Verifica deve ficar irritada.
 func _deve_ficar_irritada(_area: Area2D) -> bool:
+
 	return not corpo.catalogo_completo

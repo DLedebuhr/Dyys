@@ -1,12 +1,14 @@
 extends Control
-
 # Altere para o caminho exato da sua cena de Menu Principal
-const CENA_MENU_PRINCIPAL := "res://Scenes/UI/Screens/Tela_Principal/MTelaPrincipal.tscn"
-
+const CENA_MENU_PRINCIPAL := "res://Scenes/UI/Telas/Tela_Principal/TelaPrincipal.tscn"
 # Substitua pelo caminho do seu botão de voltar na árvore de nós
 @onready var botao_voltar: TextureButton = $Voltar
 
+# Preparar o nó
+# ---------------------
+# Configura referências, sinais e estado inicial.
 func _ready() -> void:
+
 	# Efeito de Entrada (Fade In) dos novos elementos ao carregar a tela
 	modulate.a = 0.0
 	var fade_in = create_tween()
@@ -15,15 +17,21 @@ func _ready() -> void:
 		.set_ease(Tween.EASE_OUT)
 
 	if botao_voltar:
+
 		botao_voltar.pressed.connect(_on_botao_voltar_pressed)
 
+# Voltar ao menu
+# ---------------------
+# Faz a transição de saída e retorna ao menu principal.
 func _on_botao_voltar_pressed() -> void:
+
 	# Efeito de Saída (Fade Out) ao clicar em Voltar
 	var fade_out = create_tween()
 	fade_out.tween_property(self, "modulate:a", 0.0, 0.5)\
 		.set_trans(Tween.TRANS_SINE)\
 		.set_ease(Tween.EASE_IN)
-	
+
 	fade_out.finished.connect(func():
+
 		get_tree().change_scene_to_file(CENA_MENU_PRINCIPAL)
 	)

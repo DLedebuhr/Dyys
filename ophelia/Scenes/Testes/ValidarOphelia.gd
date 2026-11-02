@@ -1,7 +1,12 @@
 extends SceneTree
 ## Testes de comportamento em uma cena isolada. Nenhum dado do Player antigo é modificado.
 class AlvoSemRetorno extends Node:
+
+	# Receber dano
+	# ---------------------
+	# Recebe dano.
 	func receber_dano(_quantidade: int) -> void:
+
 		pass
 
 var corpo
@@ -11,43 +16,78 @@ var acertos: int = 0
 var alvo
 var acoes_antes: Array[StringName] = []
 
+# Iniciar a execução
+# ---------------------
+# Prepara a execução desta ferramenta.
 func _initialize() -> void:
+
 	call_deferred("_executar")
 
+# Verificar
+# ---------------------
+# Verifica a rotina deste componente.
 func verificar(condicao: bool, descricao: String) -> void:
+
 	if condicao:
+
 		acertos += 1
 		print("OK: ", descricao)
+
 	else:
+
 		falhas.append(descricao)
 		push_error("FALHOU: " + descricao)
 
+# Quadros
+# ---------------------
+# Processa quadros.
 func quadros(quantidade: int) -> void:
+
 	for i in range(quantidade):
+
 		await physics_frame
+
 	await process_frame
 
+# Apertar
+# ---------------------
+# Processa apertar.
 func apertar(acao: StringName) -> void:
+
 	var evento := InputEventAction.new()
 	evento.action = acao
 	evento.pressed = true
 	Input.parse_input_event(evento)
 	await process_frame
 
+# Soltar
+# ---------------------
+# Solta a rotina deste componente.
 func soltar(acao: StringName) -> void:
+
 	var evento := InputEventAction.new()
 	evento.action = acao
 	evento.pressed = false
 	Input.parse_input_event(evento)
 	await process_frame
 
+# Pedido
+# ---------------------
+# Processa pedido.
 func pedido(acao: StringName, mouse: Vector2) -> void:
+
 	corpo.entrada._pedidos.append({"acao": acao, "mouse": mouse})
 
+# Reiniciar
+# ---------------------
+# Reinicia a rotina deste componente.
 func reiniciar() -> void:
+
 	if is_instance_valid(mundo):
+
 		mundo.queue_free()
 		await process_frame
+
 	mundo = Node2D.new()
 	root.add_child(mundo)
 	current_scene = mundo
@@ -67,7 +107,11 @@ func reiniciar() -> void:
 	corpo.habilidades.definir_modo_debug(true)
 	await quadros(90)
 
+# Executar
+# ---------------------
+# Executa a rotina deste componente.
 func _executar() -> void:
+
 	var legado := AlvoSemRetorno.new()
 	verificar(OpheliaDano.aplicar(legado, 5), "Interface de dano aceita alvo antigo sem retorno")
 	legado.free()
@@ -89,7 +133,6 @@ func _executar() -> void:
 	verificar(corpo.velocity.y < 0.0, "Pulo usa evento de aperto")
 	await soltar(&"ControlePular")
 	await quadros(90)
-
 	corpo.duracao_irritada = 0.12
 	corpo.duracao_transicao_pose = 0.1
 	corpo.olhando_esquerda = true
@@ -105,16 +148,15 @@ func _executar() -> void:
 	verificar(corpo.lenco.estado_atual == corpo.lenco.EstadoLenco.ATAQUE, "Ataque apertado e solto na espera executa após a transição")
 	await quadros(60)
 	verificar(corpo.estado_pose == corpo.EstadoPose.Normal, "Saída volta à pose normal")
-
 	await reiniciar()
 	var antes: int = corpo.vitalidade.vida_atual
-	verificar(corpo.receber_dano(10), "Receber dano fora da defesa reduz vida")
-	verificar(corpo.vitalidade.vida_atual == antes - 10, "Quantidade de dano recebida é exata")
+	verificar(corpo.receber_dano(1), "Receber dano fora da defesa reduz vida")
+	verificar(corpo.vitalidade.vida_atual == antes - 1, "Quantidade de dano recebida é exata")
 	pedido(&"ControleDefesaLenco", corpo.global_position + Vector2.RIGHT * 100)
 	await quadros(20)
 	verificar(corpo.lenco.defesa_ativa(), "Escudo entra em sua janela ativa")
 	var vida_defendendo: int = corpo.vitalidade.vida_atual
-	verificar(not corpo.receber_dano(30), "Escudo bloqueia receber_dano")
+	verificar(not corpo.receber_dano(1), "Escudo bloqueia receber_dano")
 	verificar(corpo.vitalidade.vida_atual == vida_defendendo, "Defesa preserva a vida")
 	var hostil = load("res://Scenes/Testes/ProjetilHostilTeste.gd").new()
 	hostil.position = corpo.global_position + Vector2(110, 25)
@@ -123,8 +165,8 @@ func _executar() -> void:
 	verificar(not is_instance_valid(hostil) or hostil.is_queued_for_deletion(), "Área do escudo intercepta projétil hostil")
 	await quadros(60)
 	verificar(not corpo.lenco.defesa_ativa(), "Defesa termina ao esgotar a duração")
-	verificar(corpo.receber_dano(5), "Dano volta a funcionar depois da defesa")
-
+	corpo.vitalidade._invulnerabilidade = 0.0
+	verificar(corpo.receber_dano(1), "Dano volta a funcionar depois da defesa")
 	await reiniciar()
 	var lenco = corpo.lenco
 	lenco.alcance_projetil = 30.0
@@ -137,7 +179,6 @@ func _executar() -> void:
 	verificar(lenco.projeteis.size() == 2, "Projéteis permanecem parados antes da recarga")
 	await quadros(320)
 	verificar(lenco.projeteis.is_empty(), "Projéteis retornam e recuperam as cargas após cinco segundos")
-
 	await reiniciar()
 	lenco = corpo.lenco
 	lenco.dir_acao = Vector2.RIGHT
@@ -158,10 +199,9 @@ func _executar() -> void:
 	projetil._comecar_espera()
 	await quadros(30)
 	verificar(lenco.projeteis.is_empty(), "Contato com a personagem antecipa a recuperação")
-
 	await reiniciar()
 	alvo = load("res://Scenes/Testes/AlvoTeste.gd").new()
-	alvo.collision_layer = 4
+	alvo.collision_layer = CamadasFisica.CENARIO_SOLIDO | CamadasFisica.RECEBE_DANO
 	alvo.collision_mask = 0
 	alvo.position = corpo.global_position + Vector2(140, 21)
 	var forma := CollisionShape2D.new()
@@ -175,10 +215,12 @@ func _executar() -> void:
 	verificar(alvo.vida == 90, "Ataque normal aplica dez de dano uma única vez")
 	await quadros(30)
 	corpo.lenco.dir_acao = Vector2.RIGHT
+	# Esta chamada direta não executa a formação do ataque: prepara uma ponta válida acima do chão.
+	corpo.lenco.pontos_frente[-1] = corpo.lenco.origem_anterior + Vector2.RIGHT * 20
+	corpo.lenco.pontos_tras[-1] = corpo.lenco.pontos_frente[-1]
 	corpo.lenco._lancar_projetil()
 	await quadros(30)
-	verificar(alvo.vida == 85, "Projétil aplica cinco de dano uma única vez")
-
+	verificar(alvo.vida == 90 - int(corpo.lenco.dano_projetil), "Projétil aplica o dano configurado uma única vez")
 	await reiniciar()
 	corpo.velocity.y = -100.0
 	corpo.position.y -= 30.0
@@ -190,7 +232,6 @@ func _executar() -> void:
 	verificar(corpo.lenco.usos_propulsor == 1, "Propulsor consome um uso aéreo")
 	await quadros(150)
 	verificar(corpo.lenco.usos_propulsor == 0, "Pouso restaura o propulsor")
-
 	await reiniciar()
 	var tecla_s := InputEventKey.new()
 	tecla_s.physical_keycode = KEY_S
@@ -217,7 +258,6 @@ func _executar() -> void:
 	await soltar(&"ControlePular")
 	await quadros(3)
 	verificar(not corpo.planando, "Soltar W encerra a planagem no modo segurar")
-
 	await reiniciar()
 	corpo.duracao_agradecer = 0.15
 	corpo.duracao_transicao_pose = 0.12
@@ -225,14 +265,13 @@ func _executar() -> void:
 	await quadros(3)
 	corpo.definir_chapeu(true)
 	await quadros(22)
-	verificar(corpo.estado_pose == corpo.EstadoPose.EsperarMovimento and corpo.sprite.animation == &"EsperarChapeu", "Troca de chapéu preserva reação e espera frontal")
+	verificar(corpo.estado_pose == corpo.EstadoPose.EsperarMovimento and corpo.sprite.animation == StringName(corpo._nome_anim(corpo._nome_espera_frontal())), "Troca de chapéu preserva reação e espera frontal")
 	await apertar(&"ControleAndarEsquerda")
 	await quadros(2)
 	verificar(corpo.estado_pose == corpo.EstadoPose.Saindo and corpo.sprite.flip_h, "Saída frontal espelha para o lado escolhido")
 	await quadros(15)
 	verificar(corpo.velocity.x < 0.0, "Movimento começa depois da transição de saída")
 	await soltar(&"ControleAndarEsquerda")
-
 	await reiniciar()
 	corpo.lenco.tempo_ativo_ataque = 1.0
 	pedido(&"ControleAtaqueLenco", corpo.global_position + Vector2.RIGHT * 200)
@@ -242,7 +281,6 @@ func _executar() -> void:
 	await quadros(2)
 	verificar(corpo.velocity.y < 0.0, "Ataque aguardando recarga não bloqueia um pulo")
 	await soltar(&"ControlePular")
-
 	await reiniciar()
 	var voo = corpo.get_node("Ferramentas/VooDebug")
 	await apertar(&"ControleVooDebug")
@@ -256,7 +294,6 @@ func _executar() -> void:
 	verificar(voo.forma == voo.Forma.NORMAL and corpo.is_physics_processing(), "Retorno do voo restaura a personagem e o lenço")
 	verificar(corpo.lenco.process_mode == Node.PROCESS_MODE_INHERIT, "Lenço volta ao processamento após o voo")
 	verificar(corpo.entrada.habilitada, "Entradas normais são restauradas ao encerrar o voo")
-
 	await reiniciar()
 	corpo.position = Vector2(200, -300)
 	corpo.velocity = Vector2.ZERO
@@ -271,9 +308,12 @@ func _executar() -> void:
 	corpo.velocity = Vector2(160, 0)
 	var maior_distancia: float = 0.0
 	var inicio_x: float = corpo.position.x
+
 	for i in range(45):
+
 		await quadros(1)
 		maior_distancia = maxf(maior_distancia, corpo.global_position.distance_to(lenco.ponto_ancora_gancho))
+
 	verificar(maior_distancia <= lenco.distancia_corda + 2.0, "Restrição do gancho mantém o corpo dentro do comprimento da corda")
 	verificar(absf(corpo.position.x - inicio_x) > 10.0, "Gancho permite balanço contínuo, sem travar o movimento")
 	print("TECLAS_NUMERICAS: ", KEY_KP_0, " SHIFT: ", KEY_SHIFT)

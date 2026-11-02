@@ -3,7 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://c5mrejuaryo8f" path="res://Assets/Textures/UI/HUB/Frame 39.png" id="2_egmm8"]
 [ext_resource type="Texture2D" uid="uid://ecnhmeb3ibvu" path="res://Assets/Textures/UI/HUB/EnfeiteBarraVida.png" id="3_6ipep"]
 [ext_resource type="Script" uid="uid://dpkhmmu5ahmru" path="res://Scenes/UI/Telas/HUB/BarraVida.gd" id="3_6sjij"]
+[ext_resource type="PackedScene" uid="uid://4styg8rs3i4o" path="res://Scenes/UI/IndicadorInteracao/IndicadorInteracao.tscn" id="5_qgtg7"]
 [ext_resource type="Texture2D" uid="uid://di7j0n5t0dks6" path="res://Assets/Textures/UI/HUB/CoracaoBarraVida.png" id="5_qvbc4"]
+[ext_resource type="PackedScene" uid="uid://lwycvvictfjv" path="res://Scenes/UI/Inventario/TelaInventario.tscn" id="6_x8xhp"]
 
 [node name="HUD" type="CanvasLayer" unique_id=497880551]
 layer = 10
@@ -44,9 +46,9 @@ script = ExtResource("3_6sjij")
 vidas = [NodePath("Vida1"), NodePath("Vida2"), NodePath("Vida3"), NodePath("Vida4"), NodePath("Vida5"), NodePath("Vida6")]
 quantidade_explosao = 100
 textura_formato_particulas = ExtResource("5_qvbc4")
-limite_alpha = 0.09999999999999999
+limite_alpha = 0.1
 tamanho_particula_px = 1.0
-velocidade_explosao_px = 74.0
+velocidade_explosao_px = 116.0
 
 [node name="Vida1" type="TextureProgressBar" parent="Interface/BarraVida" unique_id=1985719721]
 layout_mode = 0
@@ -97,3 +99,7 @@ offset_bottom = 147.0
 texture_progress = ExtResource("5_qvbc4")
 
 [node name="Particulas" type="Node2D" parent="Interface/BarraVida" unique_id=1846476915]
+
+[node name="IndicadorInteracao" parent="." unique_id=1749826466 instance=ExtResource("5_qgtg7")]
+
+[node name="TelaInventario" parent="." unique_id=942691893 instance=ExtResource("6_x8xhp")]

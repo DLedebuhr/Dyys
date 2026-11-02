@@ -17,6 +17,9 @@
 [ext_resource type="Texture2D" uid="uid://bbnt0jfljbgvi" path="res://Assets/Textures/Muguet2.png" id="15_4jkx7"]
 [ext_resource type="Texture2D" uid="uid://c02ucnjpfd6f2" path="res://Assets/Textures/Muguet2A.png" id="16_vvilr"]
 [ext_resource type="Texture2D" uid="uid://dyxirulkgcdg3" path="res://Assets/Textures/Muguet2B.png" id="17_sfi0s"]
+[ext_resource type="PackedScene" uid="uid://kqvun14pta7y" path="res://Scenes/Interactables/Frutas/GalhoFrutas.tscn" id="18_v2c4o"]
+[ext_resource type="Texture2D" uid="uid://bk8gnkd2ojuu5" path="res://Assets/Textures/Interativeis/FrutasVida/PontaGalho.png" id="19_co80e"]
+[ext_resource type="PackedScene" uid="uid://cxmv3llmkuy6q" path="res://Scenes/Interactables/Aumentar_Vida/AumentarVida.tscn" id="19_v2tty"]
 
 [sub_resource type="RectangleShape2D" id="Chao"]
 size = Vector2(2500, 64)
@@ -47,10 +50,10 @@ jogador = NodePath("../OPHELIA")
 
 [node name="ArmadilhaDano" parent="." unique_id=1799698678 instance=ExtResource("6_34855")]
 position = Vector2(592, -72)
-collision_layer = 0
 
 [node name="Chao" type="StaticBody2D" parent="." unique_id=1133053766]
 position = Vector2(960, 683)
+collision_mask = 0
 
 [node name="FormaChao" type="CollisionShape2D" parent="Chao" unique_id=1196439035]
 shape = SubResource("Chao")
@@ -61,6 +64,7 @@ polygon = PackedVector2Array(-1250, -32, 1250, -32, 1250, 32, -1250, 32)
 
 [node name="PlataformaEsquerda" type="StaticBody2D" parent="." unique_id=656906724]
 position = Vector2(270, 400)
+collision_mask = 0
 
 [node name="Forma" type="CollisionShape2D" parent="PlataformaEsquerda" unique_id=2024187383]
 shape = SubResource("Plataforma")
@@ -71,6 +75,7 @@ polygon = PackedVector2Array(-125, -16, 125, -16, 125, 16, -125, 16)
 
 [node name="PlataformaDireita" type="StaticBody2D" parent="." unique_id=630635470]
 position = Vector2(1030, 330)
+collision_mask = 0
 
 [node name="Forma" type="CollisionShape2D" parent="PlataformaDireita" unique_id=679264453]
 shape = SubResource("Plataforma")
@@ -81,7 +86,7 @@ polygon = PackedVector2Array(-125, -16, 125, -16, 125, 16, -125, 16)
 
 [node name="Alvo" type="StaticBody2D" parent="." unique_id=1894664347]
 position = Vector2(740, 589)
-collision_layer = 4
+collision_layer = 17
 collision_mask = 0
 script = ExtResource("7_mr7of")
 
@@ -93,6 +98,7 @@ color = Color(0.76, 0.47, 0.37, 1)
 polygon = PackedVector2Array(-30, -62, 30, -62, 30, 62, -30, 62)
 
 [node name="Interface" type="CanvasLayer" parent="." unique_id=36723661]
+visible = false
 
 [node name="Titulo" type="Label" parent="Interface" unique_id=1845102849]
 offset_left = 32.0
@@ -126,6 +132,7 @@ textura_simbolo = ExtResource("10_4q0uu")
 
 [node name="Chao2" type="StaticBody2D" parent="." unique_id=1476602662]
 position = Vector2(1656, 14)
+collision_mask = 0
 
 [node name="FormaChao" type="CollisionShape2D" parent="Chao2" unique_id=1980753105]
 shape = SubResource("Chao")
@@ -155,6 +162,7 @@ textura_simbolo = ExtResource("14_02kre")
 
 [node name="PlataformaDireita2" type="StaticBody2D" parent="." unique_id=273359218]
 position = Vector2(74, 183)
+collision_mask = 0
 
 [node name="Forma" type="CollisionShape2D" parent="PlataformaDireita2" unique_id=712453070]
 shape = SubResource("Plataforma")
@@ -187,13 +195,37 @@ offset_bottom = -5.0
 texture = ExtResource("17_sfi0s")
 
 [node name="Chao3" type="StaticBody2D" parent="." unique_id=287747221]
-position = Vector2(960, 683)
+z_index = -1
+position = Vector2(960, 680)
+collision_mask = 0
 
 [node name="FormaChao" type="CollisionShape2D" parent="Chao3" unique_id=563405626]
-position = Vector2(2152, 229)
+position = Vector2(2152, 240)
 shape = SubResource("Chao")
 
 [node name="DesenhoChao" type="Polygon2D" parent="Chao3" unique_id=1790833237]
-position = Vector2(2160, 237)
+position = Vector2(2160, 240)
 color = Color(0.18, 0.25, 0.29, 1)
 polygon = PackedVector2Array(-1250, -32, 1250, -32, 1250, 32, -1250, 32)
+
+[node name="GalhoFrutas" parent="." unique_id=1250118422 instance=ExtResource("18_v2c4o")]
+position = Vector2(2640, 48)
+quantidade_frutas = 3
+posicoes_frutas = Array[Vector2]([Vector2(0, -40), Vector2(0, -80), Vector2(0, -120)])
+comprimento = 342.0
+segmentos = 20
+textura_ponta = ExtResource("19_co80e")
+
+[node name="AumentarVida" parent="." unique_id=560466280 instance=ExtResource("19_v2tty")]
+position = Vector2(2384, 816)
+
+[node name="GalhoFrutas2" parent="." unique_id=74188360 instance=ExtResource("18_v2c4o")]
+position = Vector2(2288, 48)
+quantidade_frutas = 4
+posicoes_frutas = Array[Vector2]([Vector2(0, -40), Vector2(0, -80), Vector2(0, -120), Vector2(0, -160)])
+estacao = 3
+comprimento = 262.0
+textura_ponta = ExtResource("19_co80e")
+
+[node name="AumentarVida2" parent="." unique_id=1881217007 instance=ExtResource("19_v2tty")]
+position = Vector2(2928, 808)

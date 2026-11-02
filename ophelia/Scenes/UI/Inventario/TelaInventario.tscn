@@ -1,0 +1,327 @@
+[gd_scene format=3 uid="uid://baqkarry8sjnh"]
+
+[ext_resource type="Script" uid="uid://bd3hxjiesyo6s" path="res://Scenes/UI/Inventario/TelaInventario.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://l8ihucxi7xkx" path="res://Scenes/UI/Inventario/SlotInventario.tscn" id="2"]
+[ext_resource type="Texture2D" uid="uid://dv72o3v3eal1i" path="res://Assets/Textures/UI/Tela_Inventario/Tela Inventário.png" id="2_govfe"]
+[ext_resource type="PackedScene" uid="uid://bi2slnccoyxfs" path="res://Scenes/UI/Inventario/BotaoAcaoInventario.tscn" id="3"]
+[ext_resource type="Texture2D" uid="uid://6p8omjcujjbv" path="res://Assets/Textures/UI/Tela_Inventario/Frame 42.png" id="3_vfu81"]
+[ext_resource type="Texture2D" uid="uid://gad37kj4ui7o" path="res://Assets/Textures/UI/Tela_Inventario/q.png" id="5_wuwyo"]
+[ext_resource type="Texture2D" uid="uid://bdsjpe42lsimg" path="res://Assets/Textures/UI/Tela_Inventario/Frame 47.png" id="7_u2is2"]
+[ext_resource type="Texture2D" uid="uid://1ds5hlemg41n" path="res://Assets/Textures/UI/Tela_Inventario/Frame 48.png" id="8_wuwyo"]
+[ext_resource type="Texture2D" uid="uid://0lhucsmetcdm" path="res://Assets/Textures/UI/Tela_Inventario/Frame 53.png" id="9_bro38"]
+[ext_resource type="Texture2D" uid="uid://caua2gksaoukf" path="res://Assets/Textures/UI/Tela_Inventario/Frame 49.png" id="10_gknme"]
+[ext_resource type="Texture2D" uid="uid://cx6cmcx731gkt" path="res://Assets/Textures/UI/Tela_Inventario/Frame 50.png" id="11_ui57t"]
+[ext_resource type="Texture2D" uid="uid://e4uq2cqvw3df" path="res://Assets/Textures/UI/Tela_Inventario/Frame 54.png" id="12_550fg"]
+[ext_resource type="Texture2D" uid="uid://cwojsu03u7jnc" path="res://Assets/Textures/UI/Tela_Inventario/Frame 51.png" id="13_0xwy0"]
+[ext_resource type="Texture2D" uid="uid://cbjw3eg52tdu3" path="res://Assets/Textures/UI/Tela_Inventario/Frame 52.png" id="14_bn8pu"]
+[ext_resource type="Texture2D" uid="uid://qph3wucmhorp" path="res://Assets/Textures/UI/Tela_Inventario/Frame 55.png" id="15_ypcth"]
+[ext_resource type="Texture2D" uid="uid://dhykarpbxopdk" path="res://Assets/Textures/UI/Tela_Inventario/Frame 43.png" id="16_ighgl"]
+[ext_resource type="Texture2D" uid="uid://bj354fadxbnuy" path="res://Assets/Textures/UI/Tela_Inventario/Frame 44.png" id="17_xykvd"]
+[ext_resource type="Texture2D" uid="uid://cripwag8u5172" path="res://Assets/Textures/UI/Tela_Inventario/Frame 45.png" id="18_6tqxu"]
+[ext_resource type="Texture2D" uid="uid://bbwo1r8du5r4c" path="res://Assets/Textures/UI/Tela_Inventario/Frame 46.png" id="19_x6wyq"]
+[ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://Assets/Fonts/tt-milks-casual-pie-line.ttf" id="20_fonte_info"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wuwyo"]
+font = ExtResource("20_fonte_info")
+font_size = 24
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_bro38"]
+
+[node name="TelaInventario" type="CanvasLayer" unique_id=1428181503 node_paths=PackedStringArray("painel", "armazenamento", "informacao", "oficina", "navegacao", "fundo_cor", "fundo_arte", "arte_oficina", "montar", "encapsular", "catalogar", "botao_catalogo", "botao_mapa")]
+process_mode = 3
+layer = 30
+script = ExtResource("1")
+borda_slot = ExtResource("3_vfu81")
+fonte_informacao = ExtResource("20_fonte_info")
+painel = NodePath("Painel")
+armazenamento = NodePath("Painel/Armazenamento")
+informacao = NodePath("Painel/Informacao")
+oficina = NodePath("Painel/Oficina")
+navegacao = NodePath("Painel/Navegacao")
+fundo_cor = NodePath("Painel/FundoCor")
+fundo_arte = NodePath("Painel/Fundo")
+arte_oficina = NodePath("Painel/Oficina/Decoracao")
+montar = NodePath("Painel/Oficina/HBoxContainer2/Montar")
+encapsular = NodePath("Painel/Oficina/HBoxContainer2/Encapsular")
+catalogar = NodePath("Painel/Oficina/HBoxContainer2/Catalogar")
+botao_catalogo = NodePath("Painel/Navegacao/Catalogo")
+botao_mapa = NodePath("Painel/Navegacao/Mapa")
+
+[node name="Painel" type="Control" parent="." unique_id=233850509]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FundoCor" type="ColorRect" parent="Painel" unique_id=372816905]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.1
+anchor_top = -0.1
+anchor_right = 1.1
+anchor_bottom = 1.1
+mouse_filter = 2
+color = Color(0.055, 0.055, 0.11, 0.94)
+
+[node name="TextureRect" type="TextureRect" parent="Painel" unique_id=503290203]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_govfe")
+
+[node name="Fundo" type="TextureRect" parent="Painel" unique_id=973989230]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("5_wuwyo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Armazenamento" type="GridContainer" parent="Painel" unique_id=1705606608]
+layout_mode = 0
+offset_left = 246.0
+offset_top = 165.0
+offset_right = 1678.0
+offset_bottom = 537.0
+theme_override_constants/h_separation = 51
+theme_override_constants/v_separation = 51
+columns = 7
+
+[node name="Espaco01" parent="Painel/Armazenamento" unique_id=319333671 instance=ExtResource("2")]
+layout_mode = 2
+
+[node name="Espaco02" parent="Painel/Armazenamento" unique_id=1251522825 instance=ExtResource("2")]
+layout_mode = 2
+indice = 1
+
+[node name="Espaco03" parent="Painel/Armazenamento" unique_id=590747611 instance=ExtResource("2")]
+layout_mode = 2
+indice = 2
+
+[node name="Espaco04" parent="Painel/Armazenamento" unique_id=250426562 instance=ExtResource("2")]
+layout_mode = 2
+indice = 3
+
+[node name="Espaco05" parent="Painel/Armazenamento" unique_id=1831968880 instance=ExtResource("2")]
+layout_mode = 2
+indice = 4
+
+[node name="Espaco06" parent="Painel/Armazenamento" unique_id=1266500578 instance=ExtResource("2")]
+layout_mode = 2
+indice = 5
+
+[node name="Espaco07" parent="Painel/Armazenamento" unique_id=215106917 instance=ExtResource("2")]
+layout_mode = 2
+indice = 6
+
+[node name="Espaco08" parent="Painel/Armazenamento" unique_id=82411555 instance=ExtResource("2")]
+layout_mode = 2
+indice = 7
+
+[node name="Espaco09" parent="Painel/Armazenamento" unique_id=1223752687 instance=ExtResource("2")]
+layout_mode = 2
+indice = 8
+
+[node name="Espaco10" parent="Painel/Armazenamento" unique_id=1193347638 instance=ExtResource("2")]
+layout_mode = 2
+indice = 9
+
+[node name="Espaco11" parent="Painel/Armazenamento" unique_id=1681558826 instance=ExtResource("2")]
+layout_mode = 2
+indice = 10
+
+[node name="Espaco12" parent="Painel/Armazenamento" unique_id=128991720 instance=ExtResource("2")]
+layout_mode = 2
+indice = 11
+
+[node name="Espaco13" parent="Painel/Armazenamento" unique_id=420604050 instance=ExtResource("2")]
+layout_mode = 2
+indice = 12
+
+[node name="Espaco14" parent="Painel/Armazenamento" unique_id=1027119060 instance=ExtResource("2")]
+layout_mode = 2
+indice = 13
+
+[node name="Informacao" type="TextureRect" parent="Painel" unique_id=1001999187]
+layout_mode = 0
+offset_left = 206.0
+offset_top = 587.0
+offset_right = 749.0
+offset_bottom = 923.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Texto" type="Control" parent="Painel/Informacao" unique_id=2065842835]
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Titulo" type="Label" parent="Painel/Informacao/Texto" unique_id=1397835933]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 75.0
+offset_right = 1.0
+offset_bottom = 114.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Painel de Ajuda"
+label_settings = SubResource("LabelSettings_wuwyo")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Subtitulo" type="Label" parent="Painel/Informacao/Texto" unique_id=2134082769]
+layout_mode = 0
+anchor_right = 1.0
+offset_top = 125.0
+offset_right = 1.0
+offset_bottom = 164.0
+theme_override_font_sizes/font_size = 14
+label_settings = SubResource("LabelSettings_bro38")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Descricao" type="Label" parent="Painel/Informacao/Texto" unique_id=1800066433]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 197.0
+offset_right = -39.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 16
+text = "Selecione o item para descobrir seu significado"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Oficina" type="Control" parent="Painel" unique_id=851058861]
+anchors_preset = 0
+offset_left = 751.0
+offset_top = 587.0
+offset_right = 1714.0
+offset_bottom = 923.0
+mouse_filter = 2
+
+[node name="Decoracao" type="TextureRect" parent="Painel/Oficina" unique_id=1873351421]
+visible = false
+layout_mode = 0
+offset_right = 840.0
+offset_bottom = 310.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Painel/Oficina" unique_id=582266590]
+layout_mode = 0
+offset_left = 139.0
+offset_top = 39.0
+offset_right = 819.0
+offset_bottom = 199.0
+theme_override_constants/separation = 100
+
+[node name="Entrada1" parent="Painel/Oficina/HBoxContainer" unique_id=457676217 instance=ExtResource("2")]
+layout_mode = 2
+local = "oficina"
+
+[node name="Entrada2" parent="Painel/Oficina/HBoxContainer" unique_id=1745063320 instance=ExtResource("2")]
+layout_mode = 2
+local = "oficina"
+indice = 1
+
+[node name="Resultado" parent="Painel/Oficina/HBoxContainer" unique_id=898620959 instance=ExtResource("2")]
+layout_mode = 2
+local = "resultado"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Painel/Oficina" unique_id=1365744606]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 268.0
+offset_right = 924.0
+offset_bottom = 308.0
+theme_override_constants/separation = 37
+
+[node name="Montar" parent="Painel/Oficina/HBoxContainer2" unique_id=2117440010 instance=ExtResource("3")]
+layout_mode = 2
+texture_normal = ExtResource("7_u2is2")
+texture_pressed = ExtResource("8_wuwyo")
+texture_hover = ExtResource("8_wuwyo")
+texture_disabled = ExtResource("9_bro38")
+imagem_normal = ExtResource("7_u2is2")
+imagem_hover = ExtResource("8_wuwyo")
+imagem_pressed = ExtResource("8_wuwyo")
+imagem_inativa = ExtResource("9_bro38")
+
+[node name="Encapsular" parent="Painel/Oficina/HBoxContainer2" unique_id=2101988088 instance=ExtResource("3")]
+layout_mode = 2
+texture_normal = ExtResource("10_gknme")
+texture_pressed = ExtResource("11_ui57t")
+texture_hover = ExtResource("11_ui57t")
+texture_disabled = ExtResource("12_550fg")
+imagem_normal = ExtResource("10_gknme")
+imagem_hover = ExtResource("11_ui57t")
+imagem_pressed = ExtResource("11_ui57t")
+imagem_inativa = ExtResource("12_550fg")
+usar_tamanho_textura = true
+
+[node name="Catalogar" parent="Painel/Oficina/HBoxContainer2" unique_id=1255111793 instance=ExtResource("3")]
+layout_mode = 2
+texture_normal = ExtResource("13_0xwy0")
+texture_pressed = ExtResource("14_bn8pu")
+texture_hover = ExtResource("14_bn8pu")
+texture_disabled = ExtResource("15_ypcth")
+imagem_normal = ExtResource("13_0xwy0")
+imagem_hover = ExtResource("14_bn8pu")
+imagem_pressed = ExtResource("14_bn8pu")
+imagem_inativa = ExtResource("15_ypcth")
+usar_tamanho_textura = true
+
+[node name="Navegacao" type="Control" parent="Painel" unique_id=643087959]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Catalogo" parent="Painel/Navegacao" unique_id=507521268 instance=ExtResource("3")]
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 0
+offset_left = -5.0
+offset_top = 460.0
+offset_right = 155.0
+offset_bottom = 620.0
+pivot_offset = Vector2(80, 80)
+texture_normal = ExtResource("16_ighgl")
+texture_pressed = ExtResource("17_xykvd")
+texture_hover = ExtResource("17_xykvd")
+imagem_normal = ExtResource("16_ighgl")
+imagem_hover = ExtResource("17_xykvd")
+imagem_pressed = ExtResource("17_xykvd")
+
+[node name="Mapa" parent="Painel/Navegacao" unique_id=447631683 instance=ExtResource("3")]
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 0
+offset_left = 1764.0
+offset_top = 460.0
+offset_right = 1924.0
+offset_bottom = 620.0
+pivot_offset = Vector2(80, 80)
+texture_normal = ExtResource("18_6tqxu")
+texture_pressed = ExtResource("19_x6wyq")
+texture_hover = ExtResource("19_x6wyq")
+imagem_normal = ExtResource("18_6tqxu")
+imagem_hover = ExtResource("19_x6wyq")
+imagem_pressed = ExtResource("19_x6wyq")

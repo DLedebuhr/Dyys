@@ -3,19 +3,19 @@
 # enquanto voa, só pausa esses scripts e depois devolve tudo como estava.
 # Ferramenta de desenvolvimento: só funciona com o modo debug (666) ligado. Jogadores não têm acesso.
 extends Node
-
 signal voo_iniciado
 signal voo_encerrado
-
 enum Forma { NORMAL, ENTRANDO, VOANDO, SAINDO }
-
 const ACAO_VOO: String = "ControleVooDebug"
 const TAM_TEXTURA: int = 128
-
 @export var habilitado: bool = true:
+
 	set(valor):
+
 		habilitado = valor
+
 		if not habilitado and forma == Forma.VOANDO and is_inside_tree():
+
 			_encerrar_voo(true)
 
 @export_group("Voo")
@@ -26,31 +26,25 @@ const TAM_TEXTURA: int = 128
 @export var usar_teclado: bool = true         # A/D, setas e pular (sobe) assumem o controle
 @export var colidir_no_voo: bool = false      # false = atravessa tudo (voo livre)
 @export var esconder_cursor_no_voo: bool = true
-
 @export_group("Troca de forma")
 @export var duracao_troca: float = 0.7
 @export var altura_busca_pouso: float = 240.0 # pousando dentro de algo, procura espaço livre até essa altura
 @export var anim_para_luz: String = "transformar_luz"       # opcional: animação do sprite (boneca -> luz)
 @export var anim_para_boneca: String = "transformar_boneca" # opcional: animação do sprite (luz -> boneca)
-
 @export_group("Brilhos")
 @export var cor_brilho: Color = Color(1.0, 0.92, 0.65)
 @export var tamanho_brilho: float = 70.0
 @export var pulso_brilho: float = 0.16
 @export var duracao_resquicios: float = 5.0   # por quanto tempo sobram brilhos depois de virar boneca
-
 var forma: Forma = Forma.NORMAL
-
 var jogador: CharacterBody2D = null
 var lenco: Node = null
 var sprite: AnimatedSprite2D = null
 var fita_tras: Line2D = null
 var fita_frente: Line2D = null
-
 var visuais: Array[CanvasItem] = []
 var modulate_original: Dictionary = {}
 var escala_sprite: Vector2 = Vector2.ONE
-
 var brilho: Sprite2D = null
 var particulas_voo: CPUParticles2D = null
 var explosao: CPUParticles2D = null
@@ -58,18 +52,22 @@ var rastro: CPUParticles2D = null
 var escala_brilho: Vector2 = Vector2.ONE
 var rastro_min: float = 1.0
 var rastro_max: float = 1.0
-
 var centro_corpo: Vector2 = Vector2.ZERO
 var pes_corpo: Vector2 = Vector2.ZERO
-
 var velocidade: Vector2 = Vector2.ZERO
 var controle_mouse: bool = true
 var intensidade_resquicios: float = 0.0
 var tempo: float = 0.0
 
+# Preparar o nó
+# ---------------------
+# Configura referências, sinais e estado inicial.
 func _ready() -> void:
+
 	jogador = owner as CharacterBody2D
+
 	if jogador == null:
+
 		push_warning("VooDebug: este nó precisa pertencer à cena OPHELIA (CharacterBody2D).")
 		set_physics_process(false)
 		return
@@ -80,101 +78,168 @@ func _ready() -> void:
 	fita_frente = %FitaFrente as Line2D
 
 	for no in [sprite, fita_tras, fita_frente, lenco]:
+
 		var ci := no as CanvasItem
+
 		if ci != null:
+
 			visuais.append(ci)
 			modulate_original[ci] = ci.modulate
+
 	if sprite != null:
+
 		escala_sprite = sprite.scale
 
 	_medir_corpo()
 	_criar_efeitos()
 
+# Finalizar o nó
+# ---------------------
+# Libera ou restaura o estado ao sair da cena.
 func _exit_tree() -> void:
-	if esconder_cursor_no_voo:
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
+	if esconder_cursor_no_voo:
+
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 # Se a ação "ControleVooDebug" não existir no Mapa de Entrada, cria uma com a tecla V
 
-
+# Receber comandos disponíveis
+# ---------------------
+# Trata os comandos que a interface ainda não consumiu.
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		controle_mouse = true
 
+	if event is InputEventMouseMotion:
+
+		controle_mouse = true
 # --- LOOP ---
 # O voo só existe com o modo debug (666) ligado
+
+# Debug ligado
+# ---------------------
+# Processa debug ligado.
 func _debug_ligado() -> bool:
+
 	return jogador != null and jogador.has_method("em_modo_debug") and jogador.em_modo_debug()
 
+# Atualizar a física
+# ---------------------
+# Avança o movimento e as verificações físicas deste nó.
 func _physics_process(delta: float) -> void:
+
 	var permitido := habilitado and _debug_ligado()
 	# Desligou o modo debug no meio do voo: pousa
+
 	if not permitido and forma == Forma.VOANDO:
+
 		_encerrar_voo(true)
+
 	if not permitido and forma == Forma.NORMAL:
+
 		return
+
 	tempo += delta
 
 	if permitido and Input.is_action_just_pressed(ACAO_VOO):
+
 		if forma == Forma.NORMAL:
+
 			_iniciar_voo()
+
 		elif forma == Forma.VOANDO:
+
 			_encerrar_voo(false)
 
 	if forma == Forma.VOANDO:
+
 		_voar(delta)
 
 	_atualizar_efeitos(delta)
-
 # --- VOO LIVRE ---
+
+# Voar
+# ---------------------
+# Processa a rotina deste componente.
 func _voar(delta: float) -> void:
+
 	var desejada := Vector2.ZERO
 	var teclado := Vector2.ZERO
+
 	if usar_teclado:
+
 		teclado = _eixo_teclado()
 
 	if teclado != Vector2.ZERO:
+
 		controle_mouse = false
 		desejada = teclado * velocidade_maxima
+
 	elif controle_mouse:
+
 		var para_mouse: Vector2 = jogador.get_global_mouse_position() - jogador.to_global(centro_corpo)
+
 		if para_mouse.length() > raio_parada:
+
 			desejada = (para_mouse * seguir_forca).limit_length(velocidade_maxima)
 
 	velocidade = velocidade.lerp(desejada, 1.0 - exp(-aceleracao * delta))
 	_mover_corpo(velocidade * delta)
 
+# Mover corpo
+# ---------------------
+# Move corpo.
 func _mover_corpo(mov: Vector2) -> void:
+
 	jogador.velocity = Vector2.ZERO
+
 	if colidir_no_voo:
+
 		var col := jogador.move_and_collide(mov)
+
 		if col != null:
+
 			jogador.move_and_collide(col.get_remainder().slide(col.get_normal()))
+
 	else:
+
 		jogador.global_position += mov
 
+# Eixo teclado
+# ---------------------
+# Processa eixo teclado.
 func _eixo_teclado() -> Vector2:
+
 	var esq: String = "ControleAndarEsquerda"
 	var dir: String = "ControleAndarDireita"
 	var h: float = Input.get_axis(esq, dir)
 	var v: float = Input.get_axis("ControleVooCima", "ControleVooBaixo")
-	if InputMap.has_action("ControlePular") and Input.is_action_pressed("ControlePular"):
-		v -= 1.0
-	return Vector2(clampf(h, -1.0, 1.0), clampf(v, -1.0, 1.0))
 
+	if InputMap.has_action("ControlePular") and Input.is_action_pressed("ControlePular"):
+
+		v -= 1.0
+
+	return Vector2(clampf(h, -1.0, 1.0), clampf(v, -1.0, 1.0))
 # --- BONECA -> LUZ ---
+
+# Iniciar voo
+# ---------------------
+# Inicia voo.
 func _iniciar_voo() -> void:
+
 	forma = Forma.ENTRANDO
 	velocidade = Vector2.ZERO
 	controle_mouse = false # fica flutuando no lugar até você mexer o mouse (ou apertar uma tecla)
 	_desligar_boneca()
-	if esconder_cursor_no_voo:
-		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-	voo_iniciado.emit()
 
+	if esconder_cursor_no_voo:
+
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+
+	voo_iniciado.emit()
 	# Animação própria do sprite (opcional): toca primeiro, depois ela vira luz
 	var dur_anim: float = _duracao_anim(anim_para_luz)
+
 	if dur_anim > 0.0:
+
 		sprite.play(anim_para_luz)
 		await get_tree().create_timer(dur_anim).timeout
 
@@ -182,83 +247,124 @@ func _iniciar_voo() -> void:
 	_explodir()
 	particulas_voo.emitting = true
 	rastro.emitting = false
-
 	brilho.visible = true
 	brilho.scale = escala_brilho * 0.2
 	brilho.modulate = Color(1.0, 1.0, 1.0, 0.0)
-
 	# A boneca "derrete" em luz (clareia, encolhe e some) enquanto o brilho cresce
 	var tw := create_tween().set_parallel(true)
+
 	for v in visuais:
+
 		tw.tween_property(v, "modulate", Color(2.2, 2.0, 1.6, 0.0), t * 0.8).set_ease(Tween.EASE_IN)
+
 	if sprite != null:
+
 		tw.tween_property(sprite, "scale", escala_sprite * 0.35, t * 0.8) \
 				.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+
 	tw.tween_property(brilho, "scale", escala_brilho, t).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tw.tween_property(brilho, "modulate:a", 1.0, t * 0.5)
 	await tw.finished
 
 	for v in visuais:
+
 		v.visible = false
 		v.modulate = modulate_original[v]
-	if sprite != null:
-		sprite.scale = escala_sprite
-	forma = Forma.VOANDO
 
+	if sprite != null:
+
+		sprite.scale = escala_sprite
+
+	forma = Forma.VOANDO
 # Pausa o OPHELIA e o lenço sem alterar os scripts deles
+
+# Desligar boneca
+# ---------------------
+# Desliga boneca.
 func _desligar_boneca() -> void:
+
 	jogador.limpar_comandos()
 	jogador.entrada.habilitada = false
 	jogador.set_physics_process(false)
 	jogador.velocity = Vector2.ZERO
+
 	for nome in ["planando", "esta_levantando", "esta_sentada"]:
+
 		if nome in jogador:
+
 			jogador.set(nome, false)
+
 	if jogador.has_method("cancelar_reacao"):
+
 		jogador.cancelar_reacao()
 
 	if lenco != null:
-		lenco.soltar_tudo()
-		if "estado_atual" in lenco and "EstadoLenco" in lenco:
-			lenco.estado_atual = lenco.EstadoLenco.REPOUSO
-			if "acao_pendente" in lenco:
-				lenco.acao_pendente = lenco.EstadoLenco.REPOUSO
-		if "corda_esticada" in lenco:
-			lenco.corda_esticada = false
-		lenco.process_mode = Node.PROCESS_MODE_DISABLED
 
+		lenco.soltar_tudo()
+
+		if "estado_atual" in lenco and "EstadoLenco" in lenco:
+
+			lenco.estado_atual = lenco.EstadoLenco.REPOUSO
+
+			if "acao_pendente" in lenco:
+
+				lenco.acao_pendente = lenco.EstadoLenco.REPOUSO
+
+		if "corda_esticada" in lenco:
+
+			lenco.corda_esticada = false
+
+		lenco.process_mode = Node.PROCESS_MODE_DISABLED
 # --- LUZ -> BONECA ---
+
+# Encerrar voo
+# ---------------------
+# Encerra voo.
 func _encerrar_voo(forcar: bool) -> void:
+
 	if forma != Forma.VOANDO:
+
 		return
 
 	var destino: Vector2 = _achar_ponto_livre()
+
 	if destino == Vector2.INF:
+
 		if not forcar:
+
 			_recusar_pouso()
 			return
-		destino = jogador.global_position
-	jogador.global_position = destino
 
+		destino = jogador.global_position
+
+	jogador.global_position = destino
 	forma = Forma.SAINDO
 	velocidade = Vector2.ZERO
 	particulas_voo.emitting = false
+
 	if esconder_cursor_no_voo:
+
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
 	_mostrar_boneca()
 	intensidade_resquicios = 1.0 # os brilhos vão sobrar por um tempo e diminuir
 	_explodir()
-
 	var t: float = maxf(duracao_troca, 0.1)
 	var dur_anim: float = _duracao_anim(anim_para_boneca)
-	if dur_anim > 0.0:
-		sprite.play(anim_para_boneca)
 
+	if dur_anim > 0.0:
+
+		sprite.play(anim_para_boneca)
 	# A boneca surge da luz (começa clara e volta ao normal) e o brilho dá um clarão e some
+
 	var tw := create_tween().set_parallel(true)
+
 	for v in visuais:
+
 		tw.tween_property(v, "modulate", modulate_original[v], t * 0.9).set_ease(Tween.EASE_OUT)
+
 	if sprite != null:
+
 		tw.tween_property(sprite, "scale", escala_sprite, t * 0.9) \
 				.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
@@ -266,84 +372,140 @@ func _encerrar_voo(forcar: bool) -> void:
 	tg.tween_property(brilho, "scale", escala_brilho * 2.6, t * 0.25).set_ease(Tween.EASE_OUT)
 	tg.tween_property(brilho, "scale", Vector2.ZERO, t * 0.6).set_ease(Tween.EASE_IN)
 	tg.parallel().tween_property(brilho, "modulate:a", 0.0, t * 0.6)
-
 	# Se há animação própria, o OPHELIA só volta a agir depois que ela termina
+
 	if dur_anim > 0.0:
+
 		await get_tree().create_timer(dur_anim).timeout
+
 	jogador.velocity = Vector2.ZERO
 	jogador.set_physics_process(true)
-
 	await tw.finished
 	brilho.visible = false
 	forma = Forma.NORMAL
 	voo_encerrado.emit()
-
 # Deixa a boneca visível de novo (transparente e clara) e retoma o lenço do zero
+
+# Mostrar boneca
+# ---------------------
+# Mostra boneca.
 func _mostrar_boneca() -> void:
+
 	jogador.limpar_comandos()
 	jogador.entrada.habilitada = true
+
 	for v in visuais:
+
 		v.visible = true
 		v.modulate = Color(2.2, 2.0, 1.6, 0.0)
-	if sprite != null:
-		sprite.scale = escala_sprite * 0.5
-	if lenco != null:
-		if "origem_inicializada" in lenco:
-			lenco.origem_inicializada = false # o lenço reinicia junto da boneca, sem rabo esticado
-		lenco.process_mode = Node.PROCESS_MODE_INHERIT
 
+	if sprite != null:
+
+		sprite.scale = escala_sprite * 0.5
+
+	if lenco != null:
+
+		if "origem_inicializada" in lenco:
+
+			lenco.origem_inicializada = false # o lenço reinicia junto da boneca, sem rabo esticado
+
+		lenco.process_mode = Node.PROCESS_MODE_INHERIT
 # Pouso seguro: se a boneca ficaria dentro de algo, procura um espaço livre acima
+
+# Achar ponto livre
+# ---------------------
+# Procura ponto livre.
 func _achar_ponto_livre() -> Vector2:
+
 	var base: Transform2D = jogador.global_transform
 	var passos: int = int(altura_busca_pouso / 8.0)
+
 	for i in range(passos + 1):
+
 		var teste: Transform2D = base
 		teste.origin += Vector2(0.0, -8.0 * float(i))
+
 		if not jogador.test_move(teste, Vector2.ZERO, null, 0.08, true):
+
 			return teste.origin
+
 	return Vector2.INF
 
+# Recusar pouso
+# ---------------------
+# Recusa pouso.
 func _recusar_pouso() -> void:
+
 	brilho.modulate = Color(1.0, 0.4, 0.4, 1.0)
 	var tw := create_tween()
 	tw.tween_property(brilho, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.35)
 
+# Duração anim
+# ---------------------
+# Processa duração anim.
 func _duracao_anim(nome: String) -> float:
+
 	if sprite == null or sprite.sprite_frames == null or not sprite.sprite_frames.has_animation(nome):
+
 		return 0.0
+
 	var frames: SpriteFrames = sprite.sprite_frames
 	var soma: float = 0.0
-	for i in range(frames.get_frame_count(nome)):
-		soma += frames.get_frame_duration(nome, i)
-	return soma / maxf(frames.get_animation_speed(nome), 0.01)
 
+	for i in range(frames.get_frame_count(nome)):
+
+		soma += frames.get_frame_duration(nome, i)
+
+	return soma / maxf(frames.get_animation_speed(nome), 0.01)
 # --- EFEITOS (brilho, faíscas e resquícios) ---
+
+# Medir corpo
+# ---------------------
+# Mede corpo.
 func _medir_corpo() -> void:
+
 	var caixa := Rect2(Vector2(-8.0, -32.0), Vector2(16.0, 32.0))
+
 	for filho in [%ColisaoCorpo]:
+
 		var cs := filho as CollisionShape2D
+
 		if cs == null or cs.shape == null or cs.disabled:
+
 			continue
+
 		var centro: Vector2 = jogador.to_local(cs.global_position)
 		var meia: Vector2 = Vector2(8.0, 16.0)
 		var circulo := cs.shape as CircleShape2D
 		var retangulo := cs.shape as RectangleShape2D
 		var capsula := cs.shape as CapsuleShape2D
+
 		if circulo != null:
+
 			meia = Vector2(circulo.radius, circulo.radius)
+
 		elif retangulo != null:
+
 			meia = retangulo.size * 0.5
+
 		elif capsula != null:
+
 			meia = Vector2(capsula.radius, capsula.height * 0.5)
+
 		meia = meia * cs.global_scale.abs()
 		caixa = Rect2(centro - meia, meia * 2.0)
 		break
+
 	centro_corpo = caixa.get_center()
 	pes_corpo = Vector2(caixa.position.x + caixa.size.x * 0.5, caixa.end.y)
-
 # Os efeitos são filhos deste nó (e não do OPHELIA), então não herdam o fade/escala da boneca.
 # Por isso a posição deles é atualizada manualmente em _atualizar_efeitos.
+
+# Criar efeitos
+# ---------------------
+# Cria efeitos.
 func _criar_efeitos() -> void:
+
 	brilho = Sprite2D.new()
 	brilho.name = "Brilho"
 	brilho.texture = _textura_brilho(TAM_TEXTURA, cor_brilho)
@@ -355,46 +517,55 @@ func _criar_efeitos() -> void:
 	brilho.z_index = 50
 	brilho.visible = false
 	add_child(brilho)
-
 	particulas_voo = _criar_particulas("ParticulasVoo", 36, 1.0, 8.0, 40.0, 0.18, 0.5, 6.0, Vector2(0.0, -18.0))
 	add_child(particulas_voo)
-
 	explosao = _criar_particulas("Explosao", 48, 1.2, 40.0, 140.0, 0.15, 0.5, 6.0, Vector2(0.0, -30.0))
 	explosao.one_shot = true
 	explosao.explosiveness = 1.0
 	add_child(explosao)
-
 	rastro = _criar_particulas("Resquicios", 22, 1.1, 4.0, 22.0, 0.12, 0.35, 5.0, Vector2(0.0, -14.0))
 	rastro_min = rastro.scale_amount_min
 	rastro_max = rastro.scale_amount_max
 	add_child(rastro)
-
 	particulas_voo.emitting = false
 	explosao.emitting = false
 	rastro.emitting = false
 
+# Explodir
+# ---------------------
+# Processa explodir.
 func _explodir() -> void:
+
 	explosao.global_position = jogador.to_global(centro_corpo)
 	explosao.restart()
 	explosao.emitting = true
 
+# Atualizar efeitos
+# ---------------------
+# Atualiza efeitos.
 func _atualizar_efeitos(delta: float) -> void:
+
 	if jogador == null:
+
 		return
+
 	var centro_global: Vector2 = jogador.to_global(centro_corpo)
 	var em_voo: bool = forma == Forma.VOANDO
-
 	brilho.global_position = centro_global + Vector2(0.0, sin(tempo * 3.0) * 5.0)
 	particulas_voo.global_position = centro_global
 	rastro.global_position = jogador.to_global(pes_corpo)
+
 	if em_voo:
+
 		var pulso: float = 1.0 + sin(tempo * 7.0) * pulso_brilho + sin(tempo * 11.3) * pulso_brilho * 0.5
 		brilho.scale = escala_brilho * pulso
-
 	# Resquícios depois de virar boneca: sobem dos pés enquanto ela anda ou está no ar e vão diminuindo
+
 	if forma == Forma.VOANDO or forma == Forma.ENTRANDO:
+
 		rastro.emitting = false
 		return
+
 	intensidade_resquicios = maxf(intensidade_resquicios - delta / maxf(duracao_resquicios, 0.1), 0.0)
 	var movendo: bool = absf(jogador.velocity.x) > 12.0
 	var no_ar: bool = not jogador.is_on_floor()
@@ -402,14 +573,26 @@ func _atualizar_efeitos(delta: float) -> void:
 	rastro.scale_amount_min = rastro_min * intensidade_resquicios
 	rastro.scale_amount_max = rastro_max * intensidade_resquicios
 
+# Textura brilho
+# ---------------------
+# Retorna textura brilho.
 func _textura_brilho(tamanho: int, cor: Color) -> GradientTexture2D:
+
 	return OpheliaEfeitosComuns.textura_radial(tamanho, cor)
 
+# Material aditivo
+# ---------------------
+# Retorna material aditivo.
 func _material_aditivo() -> CanvasItemMaterial:
+
 	return OpheliaEfeitosComuns.material_aditivo()
 
+# Criar partículas
+# ---------------------
+# Cria partículas.
 func _criar_particulas(nome: String, quantidade: int, vida: float, vel_min: float, vel_max: float,
 		escala_min: float, escala_max: float, raio_emissao: float, gravidade: Vector2) -> CPUParticles2D:
+
 	var p := CPUParticles2D.new()
 	OpheliaEfeitosComuns.configurar_emissor(p, 32)
 	p.name = nome
@@ -430,8 +613,6 @@ func _criar_particulas(nome: String, quantidade: int, vida: float, vel_min: floa
 	p.scale_amount_max = escala_max
 	p.z_as_relative = false
 	p.z_index = 49
-
 	p.scale_amount_curve = OpheliaEfeitosComuns.curva_encolher()
-
 	p.color_ramp = OpheliaEfeitosComuns.gradiente_cintilo()
 	return p

@@ -10,70 +10,129 @@ var _restante: float = -1.0
 var _modo_anterior: ProcessMode
 var _visibilidade: Array[bool] = []
 
+# Preparar o nó
+# ---------------------
+# Configura referências, sinais e estado inicial.
 func _ready() -> void:
+
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	_corpo = get_parent() as CharacterBody2D
+
 	if vitalidade == null:
+
 		vitalidade = get_parent().get_node_or_null("Vitalidade")
+
 	if _corpo == null or vitalidade == null:
+
 		push_error("CicloVida deve ser filho da OPHELIA e receber Vitalidade.")
 		return
+
 	for caminho in ["Visual/SpritePersonagem", "Visual/Asas", "Visual/Sombra", "Visual/FitaTras", "Visual/FitaFrente", "Visual/EfeitosTras", "Lenco"]:
+
 		var visual: CanvasItem = _corpo.get_node_or_null(caminho) as CanvasItem
+
 		if visual != null and not visuais.has(visual):
+
 			visuais.append(visual)
+
 	_inicio = _corpo.global_position
 	vitalidade.morreu.connect(_ao_morrer)
 
+# Ocultar a personagem ao morrer
+# ---------------------
+# Interrompe a personagem e oculta seus visuais até o renascimento.
 func _ao_morrer() -> void:
+
 	if _restante >= 0.0:
+
 		return
+
 	_restante = espera_renascimento
 	_modo_anterior = _corpo.process_mode
 	_corpo.velocity = Vector2.ZERO
 	_corpo.process_mode = Node.PROCESS_MODE_DISABLED
 	_visibilidade.clear()
+
 	for visual in visuais:
+
 		_visibilidade.append(visual.visible if is_instance_valid(visual) else false)
+
 		if is_instance_valid(visual):
+
 			visual.hide()
+
 	_limpar_estado()
 
+# Atualizar a cada quadro
+# ---------------------
+# Atualiza os temporizadores, a interface ou os efeitos deste nó.
 func _process(delta: float) -> void:
+
 	if _restante < 0.0:
+
 		return
+
 	_restante -= delta
+
 	if _restante <= 0.0:
+
 		_renascer()
 
+# Renascer
+# ---------------------
+# Processa renascer.
 func _renascer() -> void:
+
 	_restante = -1.0
 	_corpo.global_position = ponto_renascimento.global_position if is_instance_valid(ponto_renascimento) else _inicio
 	_corpo.velocity = Vector2.ZERO
 	_limpar_estado()
 	vitalidade.call("restaurar")
+
 	for i in range(visuais.size()):
+
 		if is_instance_valid(visuais[i]):
+
 			visuais[i].visible = _visibilidade[i]
+
 	_corpo.process_mode = _modo_anterior
 	call_deferred("_reposicionar_camera")
 
+# Limpar estado
+# ---------------------
+# Limpa estado.
 func _limpar_estado() -> void:
+
 	if _corpo.has_method("limpar_comandos"):
+
 		_corpo.call("limpar_comandos")
+
 	var lenco: Node = _corpo.get_node_or_null("Lenco")
+
 	if lenco != null and lenco.has_method("soltar_tudo"):
+
 		lenco.call("soltar_tudo")
 	# Só redefine propriedades existentes, sem exigir uma versão antiga de Ophelia.gd.
+
 	var valores: Dictionary = {"esta_sentada": false, "sentou_por_inatividade": false, "esta_levantando": false, "planando": false, "tempo_coyote": 0.0, "tempo_jump_buffer": 0.0, "tempo_embalo": 0.0, "tempo_ocioso": 0.0, "tempo_frontal_imovel": 0.0, "estado_pose": 0, "reacao_atual": &"", "reacao_pendente": &"", "pulo_apos_transicao": false, "tempo_transicao_pose": 0.0}
+
 	for propriedade in _corpo.get_property_list():
+
 		var nome: String = propriedade["name"]
+
 		if valores.has(nome):
+
 			_corpo.set(nome, valores[nome])
 
+# Reposicionar camera
+# ---------------------
+# Reposiciona camera.
 func _reposicionar_camera() -> void:
+
 	var camera: Camera2D = get_viewport().get_camera_2d()
+
 	if camera != null:
+
 		camera.global_position = _corpo.global_position
 		camera.reset_smoothing()
 		camera.force_update_scroll()

@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://kqvun14pta7y"]
+
+[ext_resource type="Script" uid="uid://c1xbvv80fdabv" path="res://Scenes/Interactables/Frutas/GalhoFrutas.gd" id="1"]
+
+[node name="GalhoFrutas" type="Node2D" unique_id=1250118422]
+script = ExtResource("1")
+largura_linha = 1.0
+tamanho_ponta = 10.0
+vento = 0.0
+
+[node name="Linha" type="Line2D" parent="." unique_id=24353628]
+points = PackedVector2Array(0, 0, 0, 110)
+width = 1.0
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Ponta" type="Sprite2D" parent="." unique_id=2139287309]
+position = Vector2(0, 110)
+
+[node name="Frutos" type="Node2D" parent="." unique_id=904779136]
+
+[node name="AreaCorte" type="Area2D" parent="." unique_id=1348015027]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+
+[node name="Forma" type="CollisionPolygon2D" parent="AreaCorte" unique_id=1131108297]
+polygon = PackedVector2Array(-5, 0, -5, 110, 5, 110, 5, 0)
+
+[node name="Visibilidade" type="VisibleOnScreenNotifier2D" parent="." unique_id=23752528]
+position = Vector2(0, 30)
+rect = Rect2(-100, -30, 200, 200)
+
+[node name="ParticulasCorte" type="CPUParticles2D" parent="." unique_id=1595641885]
+emitting = false
+one_shot = true
+
+[node name="SomCorte" type="AudioStreamPlayer2D" parent="." unique_id=45160206]

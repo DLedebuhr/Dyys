@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://cp1hn5qtbwfwr"]
 
 [ext_resource type="Script" uid="uid://rscpk6hll1ex" path="res://Scenes/Interactables/Portal/Portal.gd" id="1_2m1tr"]
-[ext_resource type="Texture2D" uid="uid://1qk38ce0lmxb" path="res://assets/textures/Interativeis/Portal/Frame 23.png" id="2_h4lfw"]
-[ext_resource type="Texture2D" uid="uid://ppv2ale2lqk2" path="res://assets/textures/Interativeis/Portal/Frame 22.png" id="3_6214b"]
-[ext_resource type="Texture2D" uid="uid://cfrnvy73l7p0m" path="res://assets/textures/Interativeis/Portal/Frame 26.png" id="4_6214b"]
-[ext_resource type="Texture2D" uid="uid://jmbhfhqhulw5" path="res://assets/textures/Interativeis/Portal/Frame 29.png" id="4_ixuks"]
-[ext_resource type="Texture2D" uid="uid://cv8d7ifvdynu1" path="res://assets/textures/Interativeis/Portal/Frame 21.png" id="5_ltde1"]
-[ext_resource type="Texture2D" uid="uid://cue46vtwop77" path="res://assets/textures/Interativeis/Portal/Frame 20.png" id="6_nsqgk"]
-[ext_resource type="Texture2D" uid="uid://xe5m5u36ifn4" path="res://assets/textures/Interativeis/Portal/Frame 25.png" id="7_6hy68"]
-[ext_resource type="Texture2D" uid="uid://crh61537lmjf2" path="res://assets/textures/Interativeis/Portal/Frame 24.png" id="8_5qgwy"]
+[ext_resource type="Texture2D" uid="uid://1qk38ce0lmxb" path="res://Assets/Textures/Interativeis/Portal/Frame 23.png" id="2_h4lfw"]
+[ext_resource type="Texture2D" uid="uid://ppv2ale2lqk2" path="res://Assets/Textures/Interativeis/Portal/Frame 22.png" id="3_6214b"]
+[ext_resource type="Texture2D" uid="uid://cfrnvy73l7p0m" path="res://Assets/Textures/Interativeis/Portal/Frame 26.png" id="4_6214b"]
+[ext_resource type="Texture2D" uid="uid://jmbhfhqhulw5" path="res://Assets/Textures/Interativeis/Portal/Frame 29.png" id="4_ixuks"]
+[ext_resource type="Texture2D" uid="uid://cv8d7ifvdynu1" path="res://Assets/Textures/Interativeis/Portal/Frame 21.png" id="5_ltde1"]
+[ext_resource type="Texture2D" uid="uid://cue46vtwop77" path="res://Assets/Textures/Interativeis/Portal/Frame 20.png" id="6_nsqgk"]
+[ext_resource type="Texture2D" uid="uid://xe5m5u36ifn4" path="res://Assets/Textures/Interativeis/Portal/Frame 25.png" id="7_6hy68"]
+[ext_resource type="Texture2D" uid="uid://crh61537lmjf2" path="res://Assets/Textures/Interativeis/Portal/Frame 24.png" id="8_5qgwy"]
 
 [sub_resource type="Gradient" id="Gradient_bdmtu"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -144,6 +144,8 @@ texture = ExtResource("8_5qgwy")
 position = Vector2(0, -156)
 
 [node name="ZonaAbrir" type="Area2D" parent="." unique_id=888624028]
+collision_mask = 2
+collision_layer = 64
 position = Vector2(0, -30)
 scale = Vector2(1.3923002, 1)
 
@@ -153,6 +155,8 @@ scale = Vector2(0.99999994, 1)
 shape = SubResource("RectangleShape2D_f2yoi")
 
 [node name="ZonaEntrada" type="Area2D" parent="." unique_id=2015966356]
+collision_mask = 2
+collision_layer = 64
 position = Vector2(0, -54)
 scale = Vector2(1.3923002, 1)
 

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://crggkaj7l2xhf"]
 
 [ext_resource type="Script" uid="uid://cm828ge4jq01v" path="res://Scenes/UI/Telas/Tela_Selecao_Save/SlotSave.gd" id="1_0tph2"]
-[ext_resource type="Texture2D" uid="uid://dxmlg23l0npk8" path="res://assets/textures/UI/Tela_Save/V10.png" id="2_qo3tu"]
-[ext_resource type="Texture2D" path="res://assets/textures/UI/Ponteiro.png" id="3_i52tn"]
+[ext_resource type="Texture2D" uid="uid://dxmlg23l0npk8" path="res://Assets/Textures/UI/Tela_Save/V10.png" id="2_qo3tu"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Ponteiro.png" id="3_i52tn"]
 
 [node name="SlotSave" type="Control" unique_id=355676428]
 layout_mode = 3

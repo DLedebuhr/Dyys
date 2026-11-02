@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cxmv3llmkuy6q"]
+
+[ext_resource type="Script" uid="uid://bmfdt6uy6h6h4" path="res://Scenes/Interactables/Aumentar_Vida/AumentarVida.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://ejuc2xpsw0fj" path="res://Assets/Textures/Interativeis/FrutasVida/CoracaoBarraVida.png" id="2_y0b5u"]
+
+[sub_resource type="CircleShape2D" id="Proximidade"]
+radius = 85.0
+
+[node name="AumentarVida" type="Area2D" unique_id=1881217007]
+collision_layer = 64
+collision_mask = 2
+script = ExtResource("1")
+
+[node name="Forma" type="CollisionShape2D" parent="." unique_id=502658602]
+shape = SubResource("Proximidade")
+
+[node name="Visual" type="Node2D" parent="." unique_id=1427551756]
+scale = Vector2(0.5, 0.5)
+
+[node name="Simbolo" type="Sprite2D" parent="Visual" unique_id=1534692871]
+texture = ExtResource("2_y0b5u")
+
+[node name="SomColeta" type="AudioStreamPlayer2D" parent="." unique_id=974705205]

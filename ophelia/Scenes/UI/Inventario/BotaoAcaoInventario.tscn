@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bi2slnccoyxfs"]
+
+[ext_resource type="Script" uid="uid://gbt48m24xby2" path="res://Scenes/UI/Inventario/BotaoAcaoInventario.gd" id="1"]
+
+[node name="BotaoAcaoInventario" type="TextureButton" unique_id=2075776223]
+custom_minimum_size = Vector2(270, 0)
+offset_right = 96.0
+offset_bottom = 64.0
+pivot_offset = Vector2(48, 32)
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("1")
+
+[node name="SoundHover" type="AudioStreamPlayer" parent="." unique_id=1434767777]
+
+[node name="SoundClick" type="AudioStreamPlayer" parent="." unique_id=2144996732]

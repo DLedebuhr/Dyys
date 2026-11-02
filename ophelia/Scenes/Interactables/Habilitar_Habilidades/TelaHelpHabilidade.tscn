@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://vm3vxgq2qdwa" path="res://Scenes/Interactables/Habilitar_Habilidades/TelaHelpHabilidade.gd" id="1_k5s3o"]
 [ext_resource type="Script" uid="uid://ds831agbwpgfj" path="res://Scenes/Interactables/Habilitar_Habilidades/DadosAjudaHabilidade.gd" id="2_v8ce4"]
-[ext_resource type="Texture2D" uid="uid://cwwwdrbe2v8hj" path="res://assets/textures/UI/Tela_Aprender_Habilidades/Tela Corte de Cetim.png" id="3_nhluv"]
-[ext_resource type="Texture2D" uid="uid://n82n33a6bi7u" path="res://assets/textures/UI/Tela_Aprender_Habilidades/Tela Sopro de Cetim.png" id="4_43mls"]
+[ext_resource type="Texture2D" uid="uid://cwwwdrbe2v8hj" path="res://Assets/Textures/UI/Tela_Aprender_Habilidades/Tela Corte de Cetim.png" id="3_nhluv"]
+[ext_resource type="Texture2D" uid="uid://n82n33a6bi7u" path="res://Assets/Textures/UI/Tela_Aprender_Habilidades/Tela Sopro de Cetim.png" id="4_43mls"]
 [ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://Scenes/UI/BotaoMenu.tscn" id="5_4r7qe"]
-[ext_resource type="Texture2D" uid="uid://dj6683u3wv1it" path="res://assets/textures/UI/Tela_Aprender_Habilidades/OK.png" id="6_pihsx"]
-[ext_resource type="Texture2D" uid="uid://cqkcnqqpmqou" path="res://assets/textures/UI/Tela_Aprender_Habilidades/OK2.png" id="7_51lil"]
-[ext_resource type="Texture2D" uid="uid://dscc6jvgi0i2e" path="res://assets/textures/UI/Tela_Aprender_Habilidades/OK3.png" id="8_lsdmu"]
+[ext_resource type="Texture2D" uid="uid://dj6683u3wv1it" path="res://Assets/Textures/UI/Tela_Aprender_Habilidades/OK.png" id="6_pihsx"]
+[ext_resource type="Texture2D" uid="uid://cqkcnqqpmqou" path="res://Assets/Textures/UI/Tela_Aprender_Habilidades/OK2.png" id="7_51lil"]
+[ext_resource type="Texture2D" uid="uid://dscc6jvgi0i2e" path="res://Assets/Textures/UI/Tela_Aprender_Habilidades/OK3.png" id="8_lsdmu"]
 
 [sub_resource type="Resource" id="Resource_f56d6"]
 script = ExtResource("2_v8ce4")

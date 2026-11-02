@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://4styg8rs3i4o"]
+
+[ext_resource type="Script" uid="uid://clp4xckh7n1qw" path="res://Scenes/UI/IndicadorInteracao/IndicadorInteracao.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://Assets/Fonts/tt-milks-casual-pie-line.ttf" id="2"]
+[ext_resource type="Texture2D" uid="uid://dqiaypu23wfuw" path="res://Assets/Textures/Interativeis/FrutasVida/Frame 40.png" id="3_bstjx"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_co80e"]
+font = ExtResource("2")
+font_size = 22
+outline_size = 1
+shadow_size = 0
+
+[node name="IndicadorInteracao" type="CanvasLayer" unique_id=1749826466]
+process_mode = 3
+layer = 11
+script = ExtResource("1")
+
+[node name="Margem" type="Control" parent="." unique_id=1811884336]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Texto" type="Label" parent="Margem" unique_id=577648242]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1840.0
+offset_top = 195.0
+offset_right = -1340.0
+offset_bottom = 243.0
+grow_horizontal = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 24
+label_settings = SubResource("LabelSettings_co80e")
+
+[node name="TextureRect" type="TextureRect" parent="Margem" unique_id=1567027291]
+layout_mode = 0
+offset_top = 180.0
+offset_right = 72.0
+offset_bottom = 233.0
+texture = ExtResource("3_bstjx")

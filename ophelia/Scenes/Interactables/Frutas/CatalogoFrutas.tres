@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CatalogoFrutasOphelia" format=3 uid="uid://cxigvikax63k5"]
+
+[ext_resource type="Script" uid="uid://b22t1w7p04kkw" path="res://Scenes/Interactables/Frutas/CatalogoFrutas.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://c0f54fqrbidrc" path="res://Assets/Textures/Interativeis/FrutasVida/FrutaA.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dnafe4sf2qh61" path="res://Assets/Textures/Interativeis/FrutasVida/FrutaB.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://bw4l1qnvrr4je" path="res://Assets/Textures/Interativeis/FrutasVida/FrutaC.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://bo0vuwgv4j4pn" path="res://Assets/Textures/Interativeis/FrutasVida/FrutaD.png" id="5"]
+
+[resource]
+script = ExtResource("1")
+primavera = ExtResource("5")
+verao = ExtResource("2")
+outono = ExtResource("3")
+inverno = ExtResource("4")
+cor_primavera = Color(0.42745098, 0.03529412, 0.32156864, 1)
+cor_verao = Color(0.7529412, 0, 0.20392157, 1)
+cor_outono = Color(0.7764706, 0.24313726, 0.050980393, 1)
+cor_inverno = Color(0.07058824, 0.07058824, 0.13333334, 1)

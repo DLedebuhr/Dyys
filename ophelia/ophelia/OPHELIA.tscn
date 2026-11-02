@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dpbpqnw1eajnd" path="res://Ophelia/Ophelia.gd" id="1_bu2em"]
 [ext_resource type="Script" uid="uid://bnxglrwcod5qw" path="res://Ophelia/Componentes/EntradaOphelia.gd" id="2_pl81g"]
 [ext_resource type="Script" uid="uid://bfj3814r0kctd" path="res://Ophelia/Componentes/HabilidadesOphelia.gd" id="3_53dpe"]
-[ext_resource type="Script" uid="uid://cvn4b0duwi2bc" path="res://Ophelia/Combate/VitalidadeOphelia.gd" id="4_pl81g"]
+[ext_resource type="Script" uid="uid://1pqfivmqvyin" path="res://Ophelia/Combate/VitalidadeOphelia.gd" id="4_pl81g"]
 [ext_resource type="Script" uid="uid://djdnhag7y6fs0" path="res://Ophelia/Vitalidade/CicloVida.gd" id="5_tbhi1"]
 [ext_resource type="Script" uid="uid://c23yer1glvp4e" path="res://Ophelia/Efeitos/Sombra.gd" id="6_pl81g"]
 [ext_resource type="Texture2D" uid="uid://bbdpdoobml0ab" path="res://Assets/Textures/Characters/Ophelia/SpritesParada/Frame 2.png" id="6_vg6gq"]
@@ -64,6 +64,8 @@
 [ext_resource type="Texture2D" uid="uid://c5ert5td6kbqw" path="res://Assets/Textures/Characters/Ophelia/SpritesParada/Frame 3.png" id="61_ebu72"]
 [ext_resource type="Texture2D" uid="uid://drp6cubqnex8y" path="res://Assets/Textures/Characters/Ophelia/SpritesPular/Frame 63.png" id="62_f0ls4"]
 [ext_resource type="Texture2D" uid="uid://dd78h3dt4oaku" path="res://Assets/Textures/Characters/Ophelia/SpritesPular/Frame 61.png" id="63_mwp7h"]
+[ext_resource type="Texture2D" uid="uid://dj7p3fei25j8r" path="res://Assets/Textures/Characters/Ophelia/SpritesPegar/Frame 127.png" id="63_rskug"]
+[ext_resource type="Texture2D" uid="uid://dm1tjkus2j0hp" path="res://Assets/Textures/Characters/Ophelia/SpritesPegar/Frame 126.png" id="64_7y0e4"]
 [ext_resource type="Texture2D" uid="uid://bu6cuojwpr4cq" path="res://Assets/Textures/Characters/Ophelia/SpritesParada/Frame 6.png" id="64_no72y"]
 [ext_resource type="Texture2D" uid="uid://s35qo55eyeu" path="res://Assets/Textures/Characters/Ophelia/SpritesParada/Frame 110.png" id="65_r25lg"]
 [ext_resource type="Texture2D" uid="uid://cxae46oihrvj1" path="res://Assets/Textures/Characters/Ophelia/SpritesPlanar/Frame 99.png" id="66_woves"]
@@ -75,6 +77,7 @@
 [ext_resource type="Script" uid="uid://b1prir8328gis" path="res://Ophelia/Efeitos/EfeitosLenco.gd" id="73_rskug"]
 [ext_resource type="Script" uid="uid://bwihjrkh5e0k4" path="res://Ophelia/Ferramentas/VooDebug.gd" id="74_pl81g"]
 [ext_resource type="Script" uid="uid://cnm3lbsrvve83" path="res://Ophelia/Ferramentas/AtalhosDebug.gd" id="75_53dpe"]
+[ext_resource type="Script" uid="uid://b7mgr4lgphf8w" path="res://Scenes/UI/Inventario/InventarioOphelia.gd" id="78_7y0e4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ktjr4"]
 resource_local_to_scene = true
@@ -99,7 +102,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"AgradecerBase",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -200,7 +203,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"CorrerBase",
-"speed": 5.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -229,7 +232,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"CorrerChapeu",
-"speed": 5.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -246,7 +249,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"EsperarBase",
-"speed": 3.0
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -263,7 +266,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"EsperarChapeu",
-"speed": 3.0
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -271,7 +274,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"EsperarMovimentoBase",
-"speed": 5.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -279,7 +282,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"EsperarMovimentoChapeu",
-"speed": 5.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -293,7 +296,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"IrritadaBase",
-"speed": 2.0
+"speed": 3.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -307,7 +310,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"IrritadaChapeu",
-"speed": 2.0
+"speed": 3.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -321,7 +324,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"LevantarBase",
-"speed": 6.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -335,7 +338,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"LevantarChapeu",
-"speed": 6.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -351,6 +354,34 @@ animations = [{
 }],
 "loop": 1,
 "name": &"ParadoChapeu",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("56_3hs3j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("55_g7taw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("63_rskug")
+}],
+"loop": 2,
+"name": &"PegarBase",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("59_d0sua")
+}, {
+"duration": 1.0,
+"texture": ExtResource("58_p7rw8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("64_7y0e4")
+}],
+"loop": 2,
+"name": &"PegarChapeu",
 "speed": 5.0
 }, {
 "frames": [{
@@ -381,7 +412,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"SentarBase",
-"speed": 6.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -395,7 +426,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"SentarChapeu",
-"speed": 6.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 0.5,
@@ -403,7 +434,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"TransicaoBase",
-"speed": 5.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 0.5,
@@ -411,7 +442,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"TransicaoChapeu",
-"speed": 5.0
+"speed": 6.0
 }]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y7lai"]
@@ -444,17 +475,39 @@ radius = 92.0
 [node name="OPHELIA" type="CharacterBody2D" unique_id=511665532]
 z_index = 1
 collision_layer = 2
-collision_mask = 5
+collision_mask = 13
 script = ExtResource("1_bu2em")
 velocidade_andar = 200.0
 velocidade_correr = 400.0
+aceleracao = null
+atrito = null
 forca_pulo = -690.0
+gravidade_multiplicador_queda = null
+coyote_time_limite = null
+jump_buffer_limite = null
 planar_gravidade = 0.5
 velocidade_queda_planando = 100.0
+planar_segurando_tecla = null
+duracao_irritada = null
+duracao_agradecer = null
 tempo_parada = 10.0
+espera_maxima_reacao = null
+mascara_sensor = null
+imprimir_reacoes = null
+quadros_transicao_base = null
+quadros_transicao_chapeu = null
 duracao_transicao_pose = 0.1
+brilho_batida_ativo = null
 frame_batida_pe = 2
+deslocamento_pe_batida = null
 cor_brilho_batida = Color(1, 1, 1, 1)
+quantidade_brilho_batida = null
+alcance_brilho_batida = null
+duracao_brilho_batida = null
+tamanho_brilho_batida = null
+espalhamento_brilho_batida = null
+limite_fila_acoes = null
+catalogo_completo = null
 
 [node name="ColisaoCorpo" type="CollisionShape2D" parent="." unique_id=586319030]
 unique_name_in_owner = true
@@ -472,6 +525,7 @@ script = ExtResource("3_53dpe")
 [node name="Vitalidade" type="Node" parent="." unique_id=585439045]
 unique_name_in_owner = true
 script = ExtResource("4_pl81g")
+usar_estoque_teste = true
 
 [node name="CicloVida" type="Node" parent="." unique_id=1565069735 node_paths=PackedStringArray("vitalidade", "visuais")]
 script = ExtResource("5_tbhi1")
@@ -483,15 +537,11 @@ visuais = [NodePath("../Visual/SpritePersonagem"), NodePath("../Visual/Asas"), N
 [node name="Visual" type="Node2D" parent="." unique_id=1741532425]
 
 [node name="Sombra" type="Sprite2D" parent="Visual" unique_id=294193294]
-z_index = -3
 script = ExtResource("6_pl81g")
-
-[node name="EfeitosTras" type="Node2D" parent="Visual" unique_id=1397652339]
-unique_name_in_owner = true
-z_index = 1
 
 [node name="FitaTras" type="Line2D" parent="Visual" unique_id=289066063]
 unique_name_in_owner = true
+z_index = -1
 position = Vector2(-0.42520142, 0)
 scale = Vector2(1.1417323, 1)
 width = 3.0
@@ -500,13 +550,18 @@ joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 
+[node name="EfeitosTras" type="Node2D" parent="Visual" unique_id=1397652339]
+unique_name_in_owner = true
+z_index = -1
+
 [node name="SpritePersonagem" type="AnimatedSprite2D" parent="Visual" unique_id=1259556965]
 unique_name_in_owner = true
 position = Vector2(0, -18.000002)
 scale = Vector2(0.35, 0.35)
 sprite_frames = SubResource("SpriteFrames_15tap")
-animation = &"EsperarChapeu"
-frame_progress = 0.50324816
+animation = &"PegarBase"
+frame = 2
+frame_progress = 1.0
 
 [node name="Asas" type="AnimatedSprite2D" parent="Visual" unique_id=1948469383 node_paths=PackedStringArray("jogador", "sprite_principal", "marcador_origem", "marcador_ponta")]
 z_index = 1
@@ -520,6 +575,10 @@ sprite_principal = NodePath("../SpritePersonagem")
 marcador_origem = NodePath("OrigemAsa")
 marcador_ponta = NodePath("PontaAsa")
 cor_brilho = Color(1, 1, 1, 1)
+intensidade_brilho = 3.0
+brilho_vivo = 1.0
+tamanho_brilho = 4.0
+vida_brilho = 1.0
 debug = false
 
 [node name="OrigemAsa" type="Marker2D" parent="Visual/Asas" unique_id=1526744633]
@@ -540,25 +599,30 @@ begin_cap_mode = 2
 end_cap_mode = 2
 
 [node name="EfeitosVida" type="Node2D" parent="Visual" unique_id=809097257 node_paths=PackedStringArray("vitalidade", "sprite")]
+position = Vector2(0, 87)
 script = ExtResource("69_d4tuq")
 vitalidade = NodePath("../../Vitalidade")
 sprite = NodePath("../SpritePersonagem")
+
+[node name="PontoPeito" type="Marker2D" parent="Visual" unique_id=377568923]
+position = Vector2(0, 34)
 
 [node name="Sensores" type="Node2D" parent="." unique_id=1042133782]
 
 [node name="SensorTeto" type="RayCast2D" parent="Sensores" unique_id=1175246645]
 unique_name_in_owner = true
 target_position = Vector2(0, -19)
+collision_mask = 13
 
 [node name="SensorGancho" type="RayCast2D" parent="Sensores" unique_id=329236655]
 unique_name_in_owner = true
 target_position = Vector2(700, 0)
-collision_mask = 5
+collision_mask = 261
 
 [node name="SensorInteracao" type="Area2D" parent="Sensores" unique_id=258312846]
 unique_name_in_owner = true
 collision_layer = 0
-collision_mask = 65
+collision_mask = 64
 monitorable = false
 
 [node name="FormaInteracao" type="CollisionShape2D" parent="Sensores/SensorInteracao" unique_id=1722084914]
@@ -572,21 +636,21 @@ script = ExtResource("68_tp1tx")
 alcance_ataque = 200.0
 alcance_gancho = 700.0
 textura_ponta = ExtResource("69_mjpo0")
-mascara_dano = 4
+dano_projetil = 20
 
 [node name="OrigemLenco" type="Marker2D" parent="Lenco" unique_id=2125281861]
 
 [node name="AreaAtaque" type="Area2D" parent="Lenco" unique_id=1552353362]
-collision_layer = 0
-collision_mask = 4
+collision_layer = 512
+collision_mask = 16
 monitoring = false
 
 [node name="FormaAtaque" type="CollisionShape2D" parent="Lenco/AreaAtaque" unique_id=1762813352]
 shape = SubResource("FormaAtaque")
 
 [node name="AreaDefesa" type="Area2D" parent="Lenco" unique_id=268838500]
-collision_layer = 128
-collision_mask = 16
+collision_layer = 1024
+collision_mask = 2048
 monitoring = false
 monitorable = false
 script = ExtResource("72_53dpe")
@@ -598,6 +662,8 @@ shape = SubResource("FormaDefesa")
 z_index = 3
 script = ExtResource("73_rskug")
 cor_manual = Color(0.21176471, 0.21568628, 0.3764706, 1)
+tamanho_explosao = 1.5
+tamanho_jato = 1.5
 
 [node name="Ferramentas" type="Node" parent="." unique_id=934907114]
 
@@ -610,4 +676,8 @@ cor_brilho = Color(1, 1, 1, 1)
 script = ExtResource("75_53dpe")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=1406233251]
-position = Vector2(0, 46)
+position = Vector2(0, 43)
+
+[node name="Inventario" type="Node" parent="." unique_id=325575374]
+script = ExtResource("78_7y0e4")
+adicionar_itens_teste = true
