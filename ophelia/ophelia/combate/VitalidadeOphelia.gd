@@ -135,33 +135,50 @@ func curar(quantidade: float, automatica: bool = false) -> float:
 	cura_recebida.emit(recuperado, automatica)
 	return recuperado
 
-# Usar fruta
+# Consumir uma fruta do inventário
 # ---------------------
-# Usa fruta.
+# Usa o mesmo estoque exibido na interface, mantendo o atalho em jogo.
 func usar_fruta(estacao: StringName) -> bool:
 
-	# Trocar apenas este estoque pela futura transação do inventário.
-
-	if not ESTACOES.has(estacao) or quantidade_frutas(estacao) <= 0:
+	if not ESTACOES.has(estacao) or not esta_viva():
 
 		return false
 
-	if not esta_viva() or vida_atual >= float(vida_maxima):
+	var inventario: Node = get_parent().get_node_or_null("Inventario")
+
+	if inventario == null:
 
 		return false
 
-	_estoque[estacao] = quantidade_frutas(estacao) - 1
+	var consumiu: bool = bool(inventario.call("usar_fruta_estacao", estacao))
+
+	if consumiu:
+
+		estoque_alterado.emit(estacao, quantidade_frutas(estacao))
+
+	return consumiu
+
+# Aplicar a cura da fruta
+# ---------------------
+# O inventário controla o consumo; a Vitalidade aplica a cura e seus efeitos.
+func aplicar_cura_fruta(estacao: StringName) -> bool:
+
+	if not ESTACOES.has(estacao) or not esta_viva():
+
+		return false
+
 	_consumindo_fruta = true
+
 	var recuperado: float = curar(0.5)
+
 	_consumindo_fruta = false
 
 	if recuperado <= 0.0:
 
-		_estoque[estacao] = quantidade_frutas(estacao) + 1
 		return false
 
 	fruta_consumida.emit(estacao, recuperado)
-	estoque_alterado.emit(estacao, quantidade_frutas(estacao))
+
 	return true
 
 # Consumir uma fruta disponível
@@ -191,25 +208,44 @@ func esta_consumindo_fruta() -> bool:
 	# Consultado pelos efeitos durante o sinal vida_alterada da cura.
 	return _consumindo_fruta
 
-# Receber uma fruta coletada
+# Guardar a fruta coletada
 # ---------------------
-# Empilha no estoque provisório da estação sem aplicar cura.
+# Adiciona ao inventário real e recusa a coleta se não houver espaço.
 func adicionar_fruta(estacao: StringName, quantidade: int = 1) -> bool:
 
 	if not ESTACOES.has(estacao) or quantidade <= 0 or not esta_viva():
 
 		return false
 
-	_estoque[estacao] = quantidade_frutas(estacao) + quantidade
-	estoque_alterado.emit(estacao, quantidade_frutas(estacao))
-	return true
+	var inventario: Node = get_parent().get_node_or_null("Inventario")
 
-# Quantidade frutas
+	if inventario == null:
+
+		return false
+
+	var id: StringName = StringName("Fruta" + String(estacao))
+	var adicionou: bool = bool(inventario.call("adicionar", id, quantidade))
+
+	if adicionou:
+
+		estoque_alterado.emit(estacao, quantidade_frutas(estacao))
+
+	return adicionou
+
+# Contar frutas guardadas
 # ---------------------
-# Retorna quantidade frutas.
+# Consulta a quantidade da estação no inventário real.
 func quantidade_frutas(estacao: StringName) -> int:
 
-	return int(_estoque.get(estacao, 0))
+	var inventario: Node = get_parent().get_node_or_null("Inventario")
+
+	if inventario == null:
+
+		return 0
+
+	var id: StringName = StringName("Fruta" + String(estacao))
+
+	return int(inventario.call("quantidade", id))
 
 # Aumentar vida maxima
 # ---------------------
