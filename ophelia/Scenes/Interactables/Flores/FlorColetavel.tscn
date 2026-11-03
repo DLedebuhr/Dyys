@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bnsa2raj4m1hk"]
+
+[ext_resource type="Script" uid="uid://cdd6de66afi3v" path="res://Scenes/Interactables/Flores/FlorColetavel.gd" id="1"]
+
+[node name="FlorColetavel" type="Node2D" unique_id=936577313]
+script = ExtResource("1")
+distancia_coleta = 150.0
+
+[node name="Imagem" type="Sprite2D" parent="." unique_id=789506585]
+
+[node name="PontosColeta" type="Node2D" parent="." unique_id=119372216]

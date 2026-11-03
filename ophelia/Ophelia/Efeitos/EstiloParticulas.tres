@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="EstiloParticulasOphelia" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="EstiloParticulasOphelia" format=3 uid="uid://dt24crksgomvk"]
 
-[ext_resource type="Script" path="EstiloParticulas.gd" id="1"]
+[ext_resource type="Script" uid="uid://cyfdy6ybbgmwn" path="res://Ophelia/Efeitos/EstiloParticulas.gd" id="1"]
 
 [resource]
 script = ExtResource("1")

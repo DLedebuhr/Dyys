@@ -26,6 +26,11 @@
 [ext_resource type="Texture2D" uid="uid://dj2sh8jv1fytl" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCólquicoEncapsulada.png" id="21_0xl8f"]
 [ext_resource type="Texture2D" uid="uid://d6dnuq37r4m2" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconePrincesa.png" id="22_062ea"]
 [ext_resource type="Texture2D" uid="uid://7j3h4flf3xxo" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconePrincesaEncapsulada.png" id="23_qjbj4"]
+[ext_resource type="Texture2D" uid="uid://d2psstmyx86xq" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeAzaleia.png" id="26_as0lh"]
+[ext_resource type="Texture2D" uid="uid://c5x33e5hxovrj" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeAzaleiaEncapsulada.png" id="27_3bw2w"]
+[ext_resource type="Texture2D" uid="uid://c07eauw8mhy3p" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeDália.png" id="28_gefyh"]
+[ext_resource type="Texture2D" uid="uid://w3symljiph0r" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeDáliaEncapsulada.png" id="29_f4wnp"]
+[ext_resource type="Texture2D" uid="uid://dek12ki0o7la0" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCamélia.png" id="30_0xl8f"]
 
 [sub_resource type="Resource" id="Item0"]
 resource_name = "Fruta de primavera"
@@ -311,6 +316,7 @@ resource_name = "Azaleia"
 script = ExtResource("2")
 id = &"FlorAzaleia"
 nome = "Azaleia"
+icone = ExtResource("26_as0lh")
 arquivo_icone = "InventarioAzaleia"
 subtitulo = "Alegria • Cuidado • Harmonia"
 descricao = "Flor do outono. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
@@ -323,6 +329,7 @@ resource_name = "Azaleia encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaAzaleia"
 nome = "Azaleia encapsulada"
+icone = ExtResource("27_3bw2w")
 arquivo_icone = "InventarioCapsulaAzaleia"
 subtitulo = "Alegria • Cuidado • Harmonia"
 descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
@@ -335,6 +342,7 @@ resource_name = "Dália"
 script = ExtResource("2")
 id = &"FlorDalia"
 nome = "Dália"
+icone = ExtResource("28_gefyh")
 arquivo_icone = "InventarioDalia"
 subtitulo = "Força • Elegância • Gratidão"
 descricao = "Flor do outono. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
@@ -347,6 +355,7 @@ resource_name = "Dália encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaDalia"
 nome = "Dália encapsulada"
+icone = ExtResource("29_f4wnp")
 arquivo_icone = "InventarioCapsulaDalia"
 subtitulo = "Força • Elegância • Gratidão"
 descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
@@ -407,9 +416,12 @@ resource_name = "Camélia"
 script = ExtResource("2")
 id = &"FlorCamelia"
 nome = "Camélia"
+icone = ExtResource("30_0xl8f")
 arquivo_icone = "InventarioCamelia"
 subtitulo = "Admiração • Beleza • Dedicação"
-descricao = "Flor do inverno. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do inverno. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Inverno"
 especie = &"Camelia"

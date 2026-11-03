@@ -36,6 +36,7 @@ script = ExtResource("1_k5s3o")
 conteudos = Array[ExtResource("2_v8ce4")]([SubResource("Resource_f56d6"), SubResource("Resource_5mw60"), null, null, null, null])
 
 [node name="Tela" type="Control" parent="." unique_id=654690624]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

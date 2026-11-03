@@ -49,6 +49,7 @@ botao_catalogo = NodePath("Painel/Navegacao/Catalogo")
 botao_mapa = NodePath("Painel/Navegacao/Mapa")
 
 [node name="Painel" type="Control" parent="." unique_id=233850509]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
