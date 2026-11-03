@@ -31,6 +31,25 @@
 [ext_resource type="Texture2D" uid="uid://c07eauw8mhy3p" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeDália.png" id="28_gefyh"]
 [ext_resource type="Texture2D" uid="uid://w3symljiph0r" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeDáliaEncapsulada.png" id="29_f4wnp"]
 [ext_resource type="Texture2D" uid="uid://dek12ki0o7la0" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCamélia.png" id="30_0xl8f"]
+[ext_resource type="Texture2D" uid="uid://by63mwqcioifi" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeHeléboro.png" id="30_pmbdm"]
+[ext_resource type="Texture2D" uid="uid://qalnnvyksm85" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeHeléboroEncapsulada.png" id="31_cuy77"]
+[ext_resource type="Texture2D" uid="uid://o57cfdd5mh6x" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCiclame.png" id="32_owkh3"]
+[ext_resource type="Texture2D" uid="uid://1yoom2g0aajp" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCiclameEncapsulada.png" id="33_og7dx"]
+[ext_resource type="Texture2D" uid="uid://cbfnrd0gxyu0w" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCaméliaEncapsulada.png" id="35_ynlxl"]
+[ext_resource type="Texture2D" uid="uid://dhsia8vhr3swc" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconePrímula.png" id="36_n5ps5"]
+[ext_resource type="Texture2D" uid="uid://ctey5x5ifyhar" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconePrímulaEncapsulada.png" id="37_8ieqn"]
+[ext_resource type="Texture2D" uid="uid://c6h3ool5n36tt" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeFlocoNeve.png" id="38_5reld"]
+[ext_resource type="Texture2D" uid="uid://celrykhe5q257" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeFlocoNeveEncapsulada.png" id="39_ao1qq"]
+[ext_resource type="Texture2D" uid="uid://ceuc7246lcqvo" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeTulipa.png" id="40_oy5uj"]
+[ext_resource type="Texture2D" uid="uid://uwbaqg1iasxy" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeTulipaEncapsulada.png" id="41_ndol8"]
+[ext_resource type="Texture2D" uid="uid://tlkfyy561efs" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeMuguet.png" id="42_3jhas"]
+[ext_resource type="Texture2D" uid="uid://21h7vpk502eu" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeMuguetEncapsulada.png" id="43_5reld"]
+[ext_resource type="Texture2D" uid="uid://ce04osqok87il" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconenÍris.png" id="44_ao1qq"]
+[ext_resource type="Texture2D" uid="uid://cgmnlgju1svft" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconenÍrisEncapsulada.png" id="45_oy5uj"]
+[ext_resource type="Texture2D" uid="uid://e4y6dattl5p" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeNarciso.png" id="46_ndol8"]
+[ext_resource type="Texture2D" uid="uid://datm7ff0p83bj" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeNarcisoEncapsulada.png" id="47_3jhas"]
+[ext_resource type="Texture2D" uid="uid://ukva68f27ml5" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeSakura.png" id="48_sxhw0"]
+[ext_resource type="Texture2D" uid="uid://dy7eg6dt60q7x" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeSakuraEncapsulada.png" id="49_fs56l"]
 
 [sub_resource type="Resource" id="Item0"]
 resource_name = "Fruta de primavera"
@@ -39,7 +58,9 @@ id = &"FrutaPrimavera"
 nome = "Fruta de primavera"
 icone = ExtResource("2_ko368")
 arquivo_icone = "InventarioFrutaPrimavera"
-descricao = "Fruta da primavera. Consuma durante a aventura para recuperar meio coração."
+descricao = "Fruta da primavera. 
+
+Consuma durante a aventura para recuperar meio coração."
 estacao = &"Primavera"
 
 [sub_resource type="Resource" id="Item1"]
@@ -49,7 +70,9 @@ id = &"FrutaVerao"
 nome = "Fruta de verão"
 icone = ExtResource("3_12cq0")
 arquivo_icone = "InventarioFrutaVerao"
-descricao = "Fruta do verão. Consuma durante a aventura para recuperar meio coração."
+descricao = "Fruta do verão. 
+
+Consuma durante a aventura para recuperar meio coração."
 estacao = &"Verao"
 
 [sub_resource type="Resource" id="Item2"]
@@ -59,7 +82,9 @@ id = &"FrutaOutono"
 nome = "Fruta de outono"
 icone = ExtResource("4_2id4m")
 arquivo_icone = "InventarioFrutaOutono"
-descricao = "Fruta do outono. Consuma durante a aventura para recuperar meio coração."
+descricao = "Fruta do outono. 
+
+Consuma durante a aventura para recuperar meio coração."
 estacao = &"Outono"
 
 [sub_resource type="Resource" id="Item3"]
@@ -69,7 +94,9 @@ id = &"FrutaInverno"
 nome = "Fruta de inverno"
 icone = ExtResource("5_8ax55")
 arquivo_icone = "InventarioFrutaInverno"
-descricao = "Fruta do inverno. Consuma durante a aventura para recuperar meio coração."
+descricao = "Fruta do inverno. 
+
+Consuma durante a aventura para recuperar meio coração."
 estacao = &"Inverno"
 
 [sub_resource type="Resource" id="Item4"]
@@ -79,7 +106,9 @@ id = &"Ramo"
 nome = "Ramo"
 icone = ExtResource("6_mgkke")
 arquivo_icone = "InventarioRamo"
-descricao = "Pequeno ramo usado na oficina. Combine duas unidades para montar uma cápsula vazia."
+descricao = "Pequeno ramo usado na oficina. 
+
+Combine duas unidades para montar uma cápsula vazia."
 tipo = 1
 
 [sub_resource type="Resource" id="Item5"]
@@ -89,7 +118,9 @@ id = &"Capsula"
 nome = "Cápsula vazia"
 icone = ExtResource("6_8ax55")
 arquivo_icone = "InventarioCapsula"
-descricao = "Recipiente usado para preservar flores. Encha-o com seiva antes de utilizá-lo na oficina."
+descricao = "Recipiente usado para preservar flores. 
+
+Encha-o com seiva antes de utilizá-lo na oficina."
 tipo = 2
 
 [sub_resource type="Resource" id="Item6"]
@@ -99,7 +130,9 @@ id = &"CapsulaSeiva"
 nome = "Cápsula com seiva"
 icone = ExtResource("7_dyyam")
 arquivo_icone = "InventarioCapsulaSeiva"
-descricao = "Cápsula preenchida com seiva. Combine-a com uma flor na oficina para preservar a espécie."
+descricao = "Cápsula preenchida com seiva. 
+
+Combine-a com uma flor na oficina para preservar a espécie."
 tipo = 3
 
 [sub_resource type="Resource" id="Item7"]
@@ -111,7 +144,9 @@ icone = ExtResource("8_rlwvs")
 imagem_informacao = ExtResource("10_ythsk")
 arquivo_icone = "InventarioCalla"
 subtitulo = "Elegância • Pureza • Renovação"
-descricao = "Flor do verão. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do verão. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Verao"
 especie = &"Calla"
@@ -124,7 +159,9 @@ nome = "Calla encapsulada"
 icone = ExtResource("9_dyyam")
 arquivo_icone = "InventarioCapsulaCalla"
 subtitulo = "Elegância • Pureza • Renovação"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Verao"
 especie = &"Calla"
@@ -137,7 +174,9 @@ nome = "Lavanda"
 icone = ExtResource("10_83yuc")
 arquivo_icone = "InventarioLavanda"
 subtitulo = "Tranquilidade • Serenidade • Proteção"
-descricao = "Flor do verão. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do verão. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Verao"
 especie = &"Lavanda"
@@ -150,7 +189,9 @@ nome = "Lavanda encapsulada"
 icone = ExtResource("11_mgkke")
 arquivo_icone = "InventarioCapsulaLavanda"
 subtitulo = "Tranquilidade • Serenidade • Proteção"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Verao"
 especie = &"Lavanda"
@@ -163,7 +204,9 @@ nome = "Cosmos"
 icone = ExtResource("12_ythsk")
 arquivo_icone = "InventarioCosmos"
 subtitulo = "Harmonia • Equilíbrio • Delicadeza"
-descricao = "Flor do verão. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do verão. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Verao"
 especie = &"Cosmos"
@@ -176,7 +219,9 @@ nome = "Cosmos encapsulada"
 icone = ExtResource("13_1bslm")
 arquivo_icone = "InventarioCapsulaCosmos"
 subtitulo = "Harmonia • Equilíbrio • Delicadeza"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Verao"
 especie = &"Cosmos"
@@ -189,7 +234,9 @@ nome = "Lótus"
 icone = ExtResource("14_pt573")
 arquivo_icone = "InventarioLotus"
 subtitulo = "Renascimento • Pureza • Superação"
-descricao = "Flor do verão. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do verão. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Verao"
 especie = &"Lotus"
@@ -202,7 +249,9 @@ nome = "Lótus encapsulada"
 icone = ExtResource("15_yepf6")
 arquivo_icone = "InventarioCapsulaLotus"
 subtitulo = "Renascimento • Pureza • Superação"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Verao"
 especie = &"Lotus"
@@ -215,7 +264,9 @@ nome = "Lírio"
 icone = ExtResource("16_a1lh2")
 arquivo_icone = "InventarioLirio"
 subtitulo = "Pureza • Nobreza • Esperança"
-descricao = "Flor do verão. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do verão.
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Verao"
 especie = &"Lirio"
@@ -228,7 +279,9 @@ nome = "Lírio encapsulada"
 icone = ExtResource("17_as0lh")
 arquivo_icone = "InventarioCapsulaLirio"
 subtitulo = "Pureza • Nobreza • Esperança"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Verao"
 especie = &"Lirio"
@@ -241,7 +294,9 @@ nome = "Viola"
 icone = ExtResource("18_3bw2w")
 arquivo_icone = "InventarioViola"
 subtitulo = "Afeto • Lealdade • Sensibilidade"
-descricao = "Flor do outono. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do outono. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Outono"
 especie = &"Viola"
@@ -254,7 +309,9 @@ nome = "Viola encapsulada"
 icone = ExtResource("19_gefyh")
 arquivo_icone = "InventarioCapsulaViola"
 subtitulo = "Afeto • Lealdade • Sensibilidade"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Outono"
 especie = &"Viola"
@@ -267,7 +324,9 @@ nome = "Cólquico"
 icone = ExtResource("20_f4wnp")
 arquivo_icone = "InventarioColquico"
 subtitulo = "Mistério • Resistência • Renovação"
-descricao = "Flor do outono. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do outono. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Outono"
 especie = &"Colquico"
@@ -280,7 +339,9 @@ nome = "Cólquico encapsulada"
 icone = ExtResource("21_0xl8f")
 arquivo_icone = "InventarioCapsulaColquico"
 subtitulo = "Mistério • Resistência • Renovação"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Outono"
 especie = &"Colquico"
@@ -293,7 +354,9 @@ nome = "Princesa"
 icone = ExtResource("22_062ea")
 arquivo_icone = "InventarioPrincesa"
 subtitulo = "Encanto • Delicadeza • Nobreza"
-descricao = "Flor do outono. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do outono. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Outono"
 especie = &"Princesa"
@@ -306,7 +369,9 @@ nome = "Princesa encapsulada"
 icone = ExtResource("23_qjbj4")
 arquivo_icone = "InventarioCapsulaPrincesa"
 subtitulo = "Encanto • Delicadeza • Nobreza"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Outono"
 especie = &"Princesa"
@@ -319,7 +384,9 @@ nome = "Azaleia"
 icone = ExtResource("26_as0lh")
 arquivo_icone = "InventarioAzaleia"
 subtitulo = "Alegria • Cuidado • Harmonia"
-descricao = "Flor do outono. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do outono. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Outono"
 especie = &"Azaleia"
@@ -332,7 +399,9 @@ nome = "Azaleia encapsulada"
 icone = ExtResource("27_3bw2w")
 arquivo_icone = "InventarioCapsulaAzaleia"
 subtitulo = "Alegria • Cuidado • Harmonia"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula.
+
+ Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Outono"
 especie = &"Azaleia"
@@ -345,7 +414,9 @@ nome = "Dália"
 icone = ExtResource("28_gefyh")
 arquivo_icone = "InventarioDalia"
 subtitulo = "Força • Elegância • Gratidão"
-descricao = "Flor do outono. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do outono. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Outono"
 especie = &"Dalia"
@@ -358,7 +429,9 @@ nome = "Dália encapsulada"
 icone = ExtResource("29_f4wnp")
 arquivo_icone = "InventarioCapsulaDalia"
 subtitulo = "Força • Elegância • Gratidão"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Outono"
 especie = &"Dalia"
@@ -368,9 +441,12 @@ resource_name = "Heléboro"
 script = ExtResource("2")
 id = &"FlorHeleboro"
 nome = "Heléboro"
+icone = ExtResource("30_pmbdm")
 arquivo_icone = "InventarioHeleboro"
 subtitulo = "Resistência • Esperança • Proteção"
-descricao = "Flor do inverno. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do inverno. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Inverno"
 especie = &"Heleboro"
@@ -380,9 +456,12 @@ resource_name = "Heléboro encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaHeleboro"
 nome = "Heléboro encapsulada"
+icone = ExtResource("31_cuy77")
 arquivo_icone = "InventarioCapsulaHeleboro"
 subtitulo = "Resistência • Esperança • Proteção"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Inverno"
 especie = &"Heleboro"
@@ -392,9 +471,12 @@ resource_name = "Ciclame"
 script = ExtResource("2")
 id = &"FlorCiclame"
 nome = "Ciclame"
+icone = ExtResource("32_owkh3")
 arquivo_icone = "InventarioCiclame"
 subtitulo = "Renovação • Afeto • Persistência"
-descricao = "Flor do inverno. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do inverno. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Inverno"
 especie = &"Ciclame"
@@ -404,9 +486,12 @@ resource_name = "Ciclame encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaCiclame"
 nome = "Ciclame encapsulada"
+icone = ExtResource("33_og7dx")
 arquivo_icone = "InventarioCapsulaCiclame"
 subtitulo = "Renovação • Afeto • Persistência"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Inverno"
 especie = &"Ciclame"
@@ -431,9 +516,12 @@ resource_name = "Camélia encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaCamelia"
 nome = "Camélia encapsulada"
+icone = ExtResource("35_ynlxl")
 arquivo_icone = "InventarioCapsulaCamelia"
 subtitulo = "Admiração • Beleza • Dedicação"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Inverno"
 especie = &"Camelia"
@@ -443,9 +531,12 @@ resource_name = "Prímula"
 script = ExtResource("2")
 id = &"FlorPrimula"
 nome = "Prímula"
+icone = ExtResource("36_n5ps5")
 arquivo_icone = "InventarioPrimula"
 subtitulo = "Começo • Juventude • Esperança"
-descricao = "Flor do inverno. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do inverno. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Inverno"
 especie = &"Primula"
@@ -455,9 +546,12 @@ resource_name = "Prímula encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaPrimula"
 nome = "Prímula encapsulada"
+icone = ExtResource("37_8ieqn")
 arquivo_icone = "InventarioCapsulaPrimula"
 subtitulo = "Começo • Juventude • Esperança"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Inverno"
 especie = &"Primula"
@@ -467,9 +561,12 @@ resource_name = "FlocoNeve"
 script = ExtResource("2")
 id = &"FlorFlocoNeve"
 nome = "FlocoNeve"
+icone = ExtResource("38_5reld")
 arquivo_icone = "InventarioFlocoNeve"
 subtitulo = "Coragem • Renovação • Esperança"
-descricao = "Flor do inverno. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor do inverno. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Inverno"
 especie = &"FlocoNeve"
@@ -479,9 +576,12 @@ resource_name = "FlocoNeve encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaFlocoNeve"
 nome = "FlocoNeve encapsulada"
+icone = ExtResource("39_ao1qq")
 arquivo_icone = "InventarioCapsulaFlocoNeve"
 subtitulo = "Coragem • Renovação • Esperança"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Inverno"
 especie = &"FlocoNeve"
@@ -491,9 +591,12 @@ resource_name = "Tulipa"
 script = ExtResource("2")
 id = &"FlorTulipa"
 nome = "Tulipa"
+icone = ExtResource("40_oy5uj")
 arquivo_icone = "InventarioTulipa"
 subtitulo = "Amor • Beleza • Renovação"
-descricao = "Flor da primavera. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor da primavera. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Primavera"
 especie = &"Tulipa"
@@ -503,9 +606,12 @@ resource_name = "Tulipa encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaTulipa"
 nome = "Tulipa encapsulada"
+icone = ExtResource("41_ndol8")
 arquivo_icone = "InventarioCapsulaTulipa"
 subtitulo = "Amor • Beleza • Renovação"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Primavera"
 especie = &"Tulipa"
@@ -515,9 +621,12 @@ resource_name = "Muguet"
 script = ExtResource("2")
 id = &"FlorMuguet"
 nome = "Muguet"
+icone = ExtResource("42_3jhas")
 arquivo_icone = "InventarioMuguet"
 subtitulo = "Felicidade • Sorte • Delicadeza"
-descricao = "Flor da primavera. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor da primavera. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Primavera"
 especie = &"Muguet"
@@ -527,9 +636,12 @@ resource_name = "Muguet encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaMuguet"
 nome = "Muguet encapsulada"
+icone = ExtResource("43_5reld")
 arquivo_icone = "InventarioCapsulaMuguet"
 subtitulo = "Felicidade • Sorte • Delicadeza"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula.
+
+ Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Primavera"
 especie = &"Muguet"
@@ -539,9 +651,12 @@ resource_name = "Íris"
 script = ExtResource("2")
 id = &"FlorIris"
 nome = "Íris"
+icone = ExtResource("44_ao1qq")
 arquivo_icone = "InventarioIris"
 subtitulo = "Sabedoria • Coragem • Esperança"
-descricao = "Flor da primavera. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor da primavera. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Primavera"
 especie = &"Iris"
@@ -551,9 +666,12 @@ resource_name = "Íris encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaIris"
 nome = "Íris encapsulada"
+icone = ExtResource("45_oy5uj")
 arquivo_icone = "InventarioCapsulaIris"
 subtitulo = "Sabedoria • Coragem • Esperança"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Primavera"
 especie = &"Iris"
@@ -563,9 +681,12 @@ resource_name = "Narciso"
 script = ExtResource("2")
 id = &"FlorNarciso"
 nome = "Narciso"
+icone = ExtResource("46_ndol8")
 arquivo_icone = "InventarioNarciso"
 subtitulo = "Renovação • Confiança • Vitalidade"
-descricao = "Flor da primavera. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor da primavera. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Primavera"
 especie = &"Narciso"
@@ -575,9 +696,12 @@ resource_name = "Narciso encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaNarciso"
 nome = "Narciso encapsulada"
+icone = ExtResource("47_3jhas")
 arquivo_icone = "InventarioCapsulaNarciso"
 subtitulo = "Renovação • Confiança • Vitalidade"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula. 
+
+Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Primavera"
 especie = &"Narciso"
@@ -587,9 +711,12 @@ resource_name = "Sakura"
 script = ExtResource("2")
 id = &"FlorSakura"
 nome = "Sakura"
+icone = ExtResource("48_sxhw0")
 arquivo_icone = "InventarioSakura"
 subtitulo = "Beleza • Renovação • Transitoriedade"
-descricao = "Flor da primavera. Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
+descricao = "Flor da primavera. 
+
+Combine-a com uma cápsula com seiva na oficina para preservá-la e depois registrá-la no catálogo."
 tipo = 4
 estacao = &"Primavera"
 especie = &"Sakura"
@@ -599,9 +726,12 @@ resource_name = "Sakura encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaSakura"
 nome = "Sakura encapsulada"
+icone = ExtResource("49_fs56l")
 arquivo_icone = "InventarioCapsulaSakura"
 subtitulo = "Beleza • Renovação • Transitoriedade"
-descricao = "Flor preservada em cápsula. Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
+descricao = "Flor preservada em cápsula.
+
+ Use a opção Catalogar na oficina para registrar esta espécie no catálogo."
 tipo = 5
 estacao = &"Primavera"
 especie = &"Sakura"
