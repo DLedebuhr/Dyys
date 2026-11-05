@@ -1,0 +1,32 @@
+<svg width="650" height="650" viewBox="0 0 650 650" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Repeat group 7_inner" data-figma-trr="r6u1.3-0f">
+<path d="M203.831 147.988C167.617 211.391 304.385 272.111 324.922 295.716C345.857 269.863 482.351 212.318 444.709 147.988C394.42 62.0447 324.922 131.911 324.922 131.911C324.922 131.911 254.643 59.0294 203.831 147.988Z" fill="url(#paint0_linear_2792_2923)"/>
+</g>
+<use xlink:href="#Repeat%20group%207_inner" transform="translate(443.275 -118.775) rotate(60)"/>
+<use xlink:href="#Repeat%20group%207_inner" transform="translate(767.775 205.725) rotate(120)"/>
+<use xlink:href="#Repeat%20group%207_inner" transform="translate(649 649) rotate(-180)"/>
+<use xlink:href="#Repeat%20group%207_inner" transform="translate(205.725 767.775) rotate(-120)"/>
+<use xlink:href="#Repeat%20group%207_inner" transform="translate(-118.775 443.275) rotate(-60)"/>
+<g id="Repeat group 8_inner" data-figma-trr="r6u1.2-0f">
+<path d="M282.689 281.665C282.689 262.709 304.454 237.121 324.991 226.567C345.926 238.126 367.301 262.709 367.301 281.665C367.301 300.621 348.36 315.988 324.995 315.988C301.63 315.988 282.689 300.621 282.689 281.665Z" fill="#5C1B3B"/>
+</g>
+<use xlink:href="#Repeat%20group%208_inner" transform="translate(443.896 -118.989) rotate(60)"/>
+<use xlink:href="#Repeat%20group%208_inner" transform="translate(768.892 205.942) rotate(120)"/>
+<use xlink:href="#Repeat%20group%208_inner" transform="translate(649.991 649.862) rotate(-180)"/>
+<use xlink:href="#Repeat%20group%208_inner" transform="translate(206.095 768.851) rotate(-120)"/>
+<use xlink:href="#Repeat%20group%208_inner" transform="translate(-118.901 443.92) rotate(-60)"/>
+<g id="Repeat group 9_inner" data-figma-trr="r6u1.1-0f">
+<path d="M316.56 317.203C316.56 313.528 320.78 308.565 324.763 306.519C328.823 308.76 332.968 313.528 332.968 317.203C332.968 320.879 329.295 323.859 324.764 323.859C320.233 323.859 316.56 320.879 316.56 317.203Z" fill="white"/>
+</g>
+<use xlink:href="#Repeat%20group%209_inner" transform="translate(443.605 -118.889) rotate(60)"/>
+<use xlink:href="#Repeat%20group%209_inner" transform="translate(768.368 205.839) rotate(120)"/>
+<use xlink:href="#Repeat%20group%209_inner" transform="translate(649.527 649.457) rotate(-180)"/>
+<use xlink:href="#Repeat%20group%209_inner" transform="translate(205.922 768.346) rotate(-120)"/>
+<use xlink:href="#Repeat%20group%209_inner" transform="translate(-118.841 443.618) rotate(-60)"/>
+<defs>
+<linearGradient id="paint0_linear_2792_2923" x1="325.686" y1="293.705" x2="326.576" y2="92.1673" gradientUnits="userSpaceOnUse">
+<stop stop-color="#5C1B3B"/>
+<stop offset="1" stop-color="#873C57"/>
+</linearGradient>
+</defs>
+</svg>

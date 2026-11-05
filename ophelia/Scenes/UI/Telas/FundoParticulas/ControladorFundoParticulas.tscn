@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://mfjhkgwd1d4c"]
+
+[ext_resource type="Script" uid="uid://bu8tcqvdln56r" path="res://Scenes/UI/Telas/FundoParticulas/ControladorFundoParticulas.gd" id="1_controlador"]
+
+[node name="ControladorFundoParticulas" type="Node" unique_id=851331160]
+script = ExtResource("1_controlador")
+caminho_fundo = "uid://b1mfwjlapwre6"

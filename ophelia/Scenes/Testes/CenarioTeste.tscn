@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cp1hn5qtbwfwr" path="res://Scenes/Interactables/Portal/Portal.tscn" id="2_v2c4o"]
 [ext_resource type="PackedScene" uid="uid://cn288il5ik5ex" path="res://Ophelia/OPHELIA.tscn" id="3_v2tty"]
 [ext_resource type="PackedScene" uid="uid://bgr2cm7yllk3e" path="res://Scenes/Cameras/CameraJogador.tscn" id="4_co80e"]
-[ext_resource type="PackedScene" uid="uid://ckbvdb0vgnks0" path="res://Scenes/UI/Telas/HUB/HUB.tscn" id="5_i0ak4"]
+[ext_resource type="PackedScene" uid="uid://ckbvdb0vgnks0" path="res://Scenes/UI/HUB/HUB.tscn" id="5_i0ak4"]
 [ext_resource type="PackedScene" uid="uid://t38mgiq6mgta" path="res://Scenes/Testes/ArmadilhaDano.tscn" id="6_34855"]
 [ext_resource type="Script" uid="uid://c5qvc1brb63fs" path="res://Scenes/Testes/AlvoTeste.gd" id="7_mr7of"]
 [ext_resource type="PackedScene" uid="uid://bp6xokbwwm2sx" path="res://Scenes/Interactables/Habilitar_Habilidades/HabilitarHabilidade.tscn" id="8_14t7l"]
@@ -38,13 +38,12 @@
 [ext_resource type="Texture2D" uid="uid://bh3grnwaocvvw" path="res://Assets/Textures/Flowers/Teste/Calla3.png" id="36_6s8hn"]
 [ext_resource type="Texture2D" uid="uid://ofdcla8k4hfo" path="res://Assets/Textures/Flowers/Teste/Cosmos.png" id="37_84tid"]
 [ext_resource type="Texture2D" uid="uid://b567tub2ib420" path="res://Assets/Textures/Flowers/Teste/Lótus1.png" id="38_tegcm"]
-[ext_resource type="Texture2D" uid="uid://e5ph17tjbhq" path="res://Assets/Textures/Flowers/Teste/Lirio5.png" id="39_72wyr"]
-[ext_resource type="PackedScene" uid="uid://bnsa2raj4m1hk" path="res://Scenes/Interactables/Flores/FlorColetavel.tscn" id="40_6s8hn"]
-[ext_resource type="Texture2D" uid="uid://cuil7g0robdu8" path="res://Assets/Textures/Flowers/Teste/Lirio4.png" id="40_84tid"]
-[ext_resource type="Texture2D" uid="uid://cpu3hbnjdsiql" path="res://Assets/Textures/Flowers/Lirio/Lirio5.png" id="42_72wyr"]
-[ext_resource type="Script" uid="uid://ddnodgxf40s8y" path="res://Scenes/Interactables/Flores/PontoColetaFlor.gd" id="43_fos07"]
-[ext_resource type="Texture2D" uid="uid://iefkbkevamhd" path="res://Assets/Textures/Flowers/Camelia/Camelia3.png" id="44_fos07"]
-[ext_resource type="Texture2D" uid="uid://bf1oca6033iqo" path="res://Assets/Textures/Flowers/Iris/Iris3.png" id="45_8xhb7"]
+[ext_resource type="PackedScene" uid="uid://b6csr14kv0ww8" path="res://Scenes/Interactables/Flowers/Colquico/Colquico.tscn" id="39_tegcm"]
+[ext_resource type="PackedScene" uid="uid://3hvxmelx2uk8" path="res://Scenes/Interactables/Flowers/Lirio/Lirio.tscn" id="40_6s8hn"]
+[ext_resource type="PackedScene" uid="uid://6dubcbumnifa" path="res://Scenes/Interactables/Flowers/Camelia/Camelia.tscn" id="41_84tid"]
+[ext_resource type="PackedScene" uid="uid://csvqq4hrd1xd3" path="res://Scenes/Interactables/Flowers/Princesa/Princesa.tscn" id="42_fos07"]
+[ext_resource type="PackedScene" uid="uid://bc8ijkywanh54" path="res://Scenes/Interactables/Flowers/Azaleia/Azaleia.tscn" id="43_8xhb7"]
+[ext_resource type="PackedScene" uid="uid://b5dglycjgkxk4" path="res://Scenes/Interactables/Flowers/Dalia/Dalia.tscn" id="44_n5tun"]
 
 [sub_resource type="RectangleShape2D" id="Chao"]
 size = Vector2(2500, 64)
@@ -65,7 +64,7 @@ position = Vector2(3744, 896)
 position = Vector2(1267, 509)
 
 [node name="CameraJogador" parent="." unique_id=701648686 node_paths=PackedStringArray("jogador") instance=ExtResource("4_co80e")]
-zoom = Vector2(0.8, 0.8)
+zoom = Vector2(1.2, 1.2)
 limit_left = -6000
 limit_top = -500
 limit_right = 4500
@@ -234,6 +233,7 @@ posicoes_frutas = Array[Vector2]([Vector2(0, -40), Vector2(0, -80), Vector2(0, -
 comprimento = 342.0
 segmentos = 20
 textura_ponta = ExtResource("19_co80e")
+vento = 49.0
 
 [node name="AumentarVida" parent="." unique_id=560466280 instance=ExtResource("19_v2tty")]
 position = Vector2(2384, 816)
@@ -369,17 +369,17 @@ offset_bottom = 2500.0
 texture = ExtResource("30_86ncb")
 
 [node name="TextureRect14" type="TextureRect" parent="." unique_id=264488455]
-offset_left = -2768.0
-offset_top = 2256.0
-offset_right = -2573.0
-offset_bottom = 2498.0
+offset_left = -2312.0
+offset_top = 2264.0
+offset_right = -2117.0
+offset_bottom = 2506.0
 texture = ExtResource("31_k7xhp")
 
 [node name="TextureRect15" type="TextureRect" parent="." unique_id=743251688]
-offset_left = -2288.0
-offset_top = 2320.0
-offset_right = -2132.0
-offset_bottom = 2502.0
+offset_left = -2080.0
+offset_top = 2328.0
+offset_right = -1924.0
+offset_bottom = 2510.0
 texture = ExtResource("32_h2wjx")
 
 [node name="TextureRect16" type="TextureRect" parent="." unique_id=1757439914]
@@ -424,6 +424,20 @@ position = Vector2(2160, 240)
 color = Color(0.18, 0.25, 0.29, 1)
 polygon = PackedVector2Array(-1250, -32, 1250, -32, 1250, 32, -1250, 32)
 
+[node name="Chao9" type="StaticBody2D" parent="." unique_id=394490391]
+z_index = -1
+position = Vector2(160, 1728)
+collision_mask = 0
+
+[node name="FormaChao" type="CollisionShape2D" parent="Chao9" unique_id=678178525]
+position = Vector2(2152, 240)
+shape = SubResource("Chao")
+
+[node name="DesenhoChao" type="Polygon2D" parent="Chao9" unique_id=1597162914]
+position = Vector2(2160, 240)
+color = Color(0.18, 0.25, 0.29, 1)
+polygon = PackedVector2Array(-1250, -32, 1250, -32, 1250, 32, -1250, 32)
+
 [node name="TextureRect18" type="TextureRect" parent="." unique_id=1088755427]
 offset_left = -5736.0
 offset_top = 1672.0
@@ -452,128 +466,21 @@ offset_right = -3725.0
 offset_bottom = 2248.0
 texture = ExtResource("38_tegcm")
 
-[node name="TextureRect22" type="TextureRect" parent="." unique_id=311354575]
-offset_left = 1608.0
-offset_top = 984.0
-offset_right = 1823.0
-offset_bottom = 1301.0
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("39_72wyr")
+[node name="Colquico" parent="." unique_id=1261910721 instance=ExtResource("39_tegcm")]
+position = Vector2(1832, 1936)
+amplitude_vento = 6.0
 
-[node name="TextureRect23" type="TextureRect" parent="." unique_id=327581497]
-offset_left = 904.0
-offset_top = 1000.0
-offset_right = 3124.0
-offset_bottom = 3857.0
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("40_84tid")
+[node name="Lirio" parent="." unique_id=2023322066 instance=ExtResource("40_6s8hn")]
+position = Vector2(2156, 1936)
 
-[node name="FlorColetavel" parent="." unique_id=936577313 instance=ExtResource("40_6s8hn")]
-position = Vector2(1352, 1128)
-especie = "Lirio"
-segundos_regeneracao = 5.0
-cor_particulas = Color(1, 1, 1, 1)
-quantidade_brilho = 30
-alcance_brilho = 121.0
-duracao_brilho = 0.9
-tamanho_brilho = 0.5
+[node name="Camelia" parent="." unique_id=637216100 instance=ExtResource("41_84tid")]
+position = Vector2(2577, 1936)
 
-[node name="Imagem" parent="FlorColetavel" index="0" unique_id=789506585]
-texture = ExtResource("42_72wyr")
+[node name="Princesa" parent="." unique_id=1360995483 instance=ExtResource("42_fos07")]
+position = Vector2(2975, 1922)
 
-[node name="Flor1" type="Marker2D" parent="FlorColetavel/PontosColeta" parent_id_path=PackedInt32Array(936577313, 119372216) index="0" unique_id=942243834]
-position = Vector2(0, 8)
-script = ExtResource("43_fos07")
+[node name="Azaleia" parent="." unique_id=1945001714 instance=ExtResource("43_8xhb7")]
+position = Vector2(1566, 1948)
 
-[node name="Flor2" type="Marker2D" parent="FlorColetavel/PontosColeta" parent_id_path=PackedInt32Array(936577313, 119372216) index="1" unique_id=26256503]
-position = Vector2(48, 48)
-script = ExtResource("43_fos07")
-
-[node name="Flor3" type="Marker2D" parent="FlorColetavel/PontosColeta" parent_id_path=PackedInt32Array(936577313, 119372216) index="2" unique_id=51601983]
-position = Vector2(-56, 24)
-script = ExtResource("43_fos07")
-
-[node name="Flor4" type="Marker2D" parent="FlorColetavel/PontosColeta" parent_id_path=PackedInt32Array(936577313, 119372216) index="3" unique_id=1809008042]
-position = Vector2(40, -48)
-script = ExtResource("43_fos07")
-
-[node name="Flor5" type="Marker2D" parent="FlorColetavel/PontosColeta" parent_id_path=PackedInt32Array(936577313, 119372216) index="4" unique_id=1856822236]
-position = Vector2(-32, -72)
-gizmo_extents = 51.0
-script = ExtResource("43_fos07")
-
-[node name="FlorColetavel2" parent="." unique_id=1903583651 instance=ExtResource("40_6s8hn")]
-position = Vector2(2408, 1224)
-especie = "Camelia"
-segundos_regeneracao = 5.0
-cor_particulas = Color(1, 1, 1, 1)
-quantidade_brilho = 30
-alcance_brilho = 121.0
-duracao_brilho = 0.9
-tamanho_brilho = 0.5
-
-[node name="Imagem" parent="FlorColetavel2" index="0" unique_id=789506585]
-texture = ExtResource("44_fos07")
-
-[node name="Flor1" type="Marker2D" parent="FlorColetavel2/PontosColeta" parent_id_path=PackedInt32Array(1903583651, 119372216) index="0" unique_id=1153166071]
-position = Vector2(0, -40)
-script = ExtResource("43_fos07")
-
-[node name="Flor2" type="Marker2D" parent="FlorColetavel2/PontosColeta" parent_id_path=PackedInt32Array(1903583651, 119372216) index="1" unique_id=1069513037]
-position = Vector2(96, -40)
-script = ExtResource("43_fos07")
-
-[node name="Flor3" type="Marker2D" parent="FlorColetavel2/PontosColeta" parent_id_path=PackedInt32Array(1903583651, 119372216) index="2" unique_id=970863517]
-position = Vector2(-96, -40)
-script = ExtResource("43_fos07")
-
-[node name="Flor4" type="Marker2D" parent="FlorColetavel2/PontosColeta" parent_id_path=PackedInt32Array(1903583651, 119372216) index="3" unique_id=497937863]
-visible = false
-position = Vector2(40, -48)
-script = ExtResource("43_fos07")
-
-[node name="Flor5" type="Marker2D" parent="FlorColetavel2/PontosColeta" parent_id_path=PackedInt32Array(1903583651, 119372216) index="4" unique_id=558405018]
-visible = false
-position = Vector2(-32, -72)
-gizmo_extents = 51.0
-script = ExtResource("43_fos07")
-
-[node name="FlorColetavel3" parent="." unique_id=1586982782 instance=ExtResource("40_6s8hn")]
-position = Vector2(2904, 1168)
-especie = "Iris"
-segundos_regeneracao = 5.0
-cor_particulas = Color(1, 1, 1, 1)
-quantidade_brilho = 30
-alcance_brilho = 121.0
-duracao_brilho = 0.9
-tamanho_brilho = 0.5
-
-[node name="Imagem" parent="FlorColetavel3" index="0" unique_id=789506585]
-texture = ExtResource("45_8xhb7")
-
-[node name="Flor1" type="Marker2D" parent="FlorColetavel3/PontosColeta" parent_id_path=PackedInt32Array(1586982782, 119372216) index="0" unique_id=5517372]
-position = Vector2(0, -40)
-script = ExtResource("43_fos07")
-
-[node name="Flor2" type="Marker2D" parent="FlorColetavel3/PontosColeta" parent_id_path=PackedInt32Array(1586982782, 119372216) index="1" unique_id=1742986753]
-position = Vector2(96, -40)
-script = ExtResource("43_fos07")
-
-[node name="Flor3" type="Marker2D" parent="FlorColetavel3/PontosColeta" parent_id_path=PackedInt32Array(1586982782, 119372216) index="2" unique_id=1108577730]
-position = Vector2(-96, -40)
-script = ExtResource("43_fos07")
-
-[node name="Flor4" type="Marker2D" parent="FlorColetavel3/PontosColeta" parent_id_path=PackedInt32Array(1586982782, 119372216) index="3" unique_id=149804173]
-visible = false
-position = Vector2(40, -48)
-script = ExtResource("43_fos07")
-
-[node name="Flor5" type="Marker2D" parent="FlorColetavel3/PontosColeta" parent_id_path=PackedInt32Array(1586982782, 119372216) index="4" unique_id=2104462633]
-visible = false
-position = Vector2(-32, -72)
-gizmo_extents = 51.0
-script = ExtResource("43_fos07")
-
-[editable path="FlorColetavel"]
-[editable path="FlorColetavel2"]
-[editable path="FlorColetavel3"]
+[node name="Dalia" parent="." unique_id=1136325378 instance=ExtResource("44_n5tun")]
+position = Vector2(1254, 1944)

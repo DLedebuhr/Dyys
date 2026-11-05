@@ -1,37 +1,14 @@
 [gd_scene format=3 uid="uid://ch6wdpexclpnt"]
 
 [ext_resource type="Script" uid="uid://bj1kncpy1y16v" path="res://Scenes/UI/Telas/Tela_Principal/TelaPrincipal.gd" id="1_2rywl"]
-[ext_resource type="PackedScene" uid="uid://dgi2kuhnnrr52" path="res://Scenes/UI/FundoParticulasEx.tscn" id="2_p6ytx"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/MenuElemento1.png" id="3_2t2su"]
-[ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://Assets/Fonts/tt-milks-casual-pie-line.ttf" id="4_efwt7"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/MenuLine.png" id="5_cxqjg"]
-[ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://Scenes/UI/BotaoMenu.tscn" id="6_6b2b5"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/INICIAR1.png" id="7_xf185"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/INICIAR2.png" id="8_rhctv"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/INICIAR3.png" id="9_5qd5h"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/AJUSTES1.png" id="10_fv8f4"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/AJUSTES2.png" id="11_c2xgj"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/AJUSTES3.png" id="12_drnux"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/SAIR1.png" id="13_ctp6v"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/SAIR2.png" id="14_ngfks"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/SAIR3.png" id="15_rg8pj"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/LogoDyys.png" id="16_vl2f1"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_smqre"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-draw_center = false
-border_width_top = 18
-border_color = Color(0.8, 0.8, 0.8, 0)
-
-[sub_resource type="LabelSettings" id="LabelSettings_ivfkq"]
-font = ExtResource("4_efwt7")
-font_size = 150
-shadow_size = 0
-
-[sub_resource type="LabelSettings" id="LabelSettings_ludo5"]
-font = ExtResource("4_efwt7")
-font_size = 24
-outline_size = 1
+[ext_resource type="Texture2D" uid="uid://4o6qht0eyito" path="res://Assets/Textures/UI/Tela_Principal/Elementos Tela Principal.svg" id="5_7nc1l"]
+[ext_resource type="Texture2D" uid="uid://ccnt2unct0gn5" path="res://Assets/Textures/UI/Tela_Principal/INICIAR1.svg" id="5_b5y0b"]
+[ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://Scenes/UI/Botao/BotaoMenu.tscn" id="6_6b2b5"]
+[ext_resource type="Texture2D" uid="uid://bnx7ne0xium7u" path="res://Assets/Textures/UI/Tela_Principal/INICIAR2.svg" id="6_esu74"]
+[ext_resource type="Texture2D" uid="uid://cog4nmdh2qb4c" path="res://Assets/Textures/UI/Tela_Principal/AJUSTES1.svg" id="7_ujkn2"]
+[ext_resource type="Texture2D" uid="uid://bti2hkbmr4ypw" path="res://Assets/Textures/UI/Tela_Principal/SAIR1.svg" id="8_fvqsw"]
+[ext_resource type="Texture2D" uid="uid://bsrwgssotmjo3" path="res://Assets/Textures/UI/Tela_Principal/AJUSTES2.svg" id="8_jndpu"]
+[ext_resource type="Texture2D" uid="uid://bo31bv8feix8j" path="res://Assets/Textures/UI/Tela_Principal/SAIR2.svg" id="10_q8bcy"]
 
 [node name="Control" type="Control" unique_id=1771883679]
 layout_mode = 3
@@ -42,74 +19,32 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2rywl")
 
-[node name="FundoParticulas" parent="." unique_id=1316474068 instance=ExtResource("2_p6ytx")]
-visible = false
-scale = Vector2(1.0044262, 1)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1961867427]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=855494373]
 layout_mode = 0
-offset_left = 480.0
-offset_top = -2.0
-offset_right = 1512.0
-offset_bottom = 960.0
-theme_override_constants/separation = 10
-alignment = 1
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("5_7nc1l")
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=1062321784]
-layout_mode = 2
-texture = ExtResource("3_2t2su")
-
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=1078311457]
-layout_mode = 2
-size_flags_stretch_ratio = 0.0
-theme_override_styles/normal = SubResource("StyleBoxFlat_smqre")
-text = "OPHELIA"
-label_settings = SubResource("LabelSettings_ivfkq")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer" unique_id=18323524]
-layout_mode = 2
-texture = ExtResource("5_cxqjg")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1695543431]
-layout_mode = 2
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1695543431]
+layout_mode = 0
+offset_left = 510.0
+offset_top = 708.0
+offset_right = 1410.0
+offset_bottom = 762.0
 theme_override_constants/separation = 150
 alignment = 1
 
-[node name="Iniciar" parent="VBoxContainer/HBoxContainer" unique_id=2136383047 instance=ExtResource("6_6b2b5")]
+[node name="Iniciar" parent="HBoxContainer" unique_id=2136383047 instance=ExtResource("6_6b2b5")]
 layout_mode = 2
-imagem_normal = ExtResource("7_xf185")
-imagem_hover = ExtResource("8_rhctv")
-imagem_pressed = ExtResource("9_5qd5h")
+imagem_normal = ExtResource("5_b5y0b")
+imagem_hover = ExtResource("6_esu74")
 
-[node name="Ajustes" parent="VBoxContainer/HBoxContainer" unique_id=980150676 instance=ExtResource("6_6b2b5")]
+[node name="Ajustes" parent="HBoxContainer" unique_id=980150676 instance=ExtResource("6_6b2b5")]
 layout_mode = 2
-imagem_normal = ExtResource("10_fv8f4")
-imagem_hover = ExtResource("11_c2xgj")
-imagem_pressed = ExtResource("12_drnux")
+imagem_normal = ExtResource("7_ujkn2")
+imagem_hover = ExtResource("8_jndpu")
 
-[node name="Sair" parent="VBoxContainer/HBoxContainer" unique_id=756087200 instance=ExtResource("6_6b2b5")]
+[node name="Sair" parent="HBoxContainer" unique_id=756087200 instance=ExtResource("6_6b2b5")]
 layout_mode = 2
-imagem_normal = ExtResource("13_ctp6v")
-imagem_hover = ExtResource("14_ngfks")
-imagem_pressed = ExtResource("15_rg8pj")
-
-[node name="Logo" type="TextureRect" parent="." unique_id=1519859337]
-layout_mode = 0
-offset_left = 1708.0
-offset_top = 912.0
-offset_right = 1841.0
-offset_bottom = 1000.0
-texture = ExtResource("16_vl2f1")
-
-[node name="DYYS" type="Label" parent="." unique_id=107542021]
-layout_mode = 0
-offset_left = 1742.0
-offset_top = 995.0
-offset_right = 1804.0
-offset_bottom = 1035.0
-text = "DYYS"
-label_settings = SubResource("LabelSettings_ludo5")
-horizontal_alignment = 1
-vertical_alignment = 1
+imagem_normal = ExtResource("8_fvqsw")
+imagem_hover = ExtResource("10_q8bcy")

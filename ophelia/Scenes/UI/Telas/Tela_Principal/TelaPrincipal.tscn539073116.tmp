@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://ch6wdpexclpnt"]
+
+[ext_resource type="Script" uid="uid://bj1kncpy1y16v" path="res://Scenes/UI/Telas/Tela_Principal/TelaPrincipal.gd" id="1_2rywl"]
+[ext_resource type="PackedScene" uid="uid://dgi2kuhnnrr52" path="res://Scenes/UI/FundoParticulasEx.tscn" id="2_p6ytx"]
+[ext_resource type="Texture2D" uid="uid://4o6qht0eyito" path="res://Assets/Textures/UI/Tela_Principal/Elementos Tela Principal.svg" id="5_7nc1l"]
+[ext_resource type="Texture2D" uid="uid://ccnt2unct0gn5" path="res://Assets/Textures/UI/Tela_Principal/INICIAR1.svg" id="5_b5y0b"]
+[ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://Scenes/UI/BotaoMenu.tscn" id="6_6b2b5"]
+[ext_resource type="Texture2D" uid="uid://bnx7ne0xium7u" path="res://Assets/Textures/UI/Tela_Principal/INICIAR2.svg" id="6_esu74"]
+[ext_resource type="Texture2D" uid="uid://cog4nmdh2qb4c" path="res://Assets/Textures/UI/Tela_Principal/AJUSTES1.svg" id="7_ujkn2"]
+[ext_resource type="Texture2D" uid="uid://bti2hkbmr4ypw" path="res://Assets/Textures/UI/Tela_Principal/SAIR1.svg" id="8_fvqsw"]
+[ext_resource type="Texture2D" uid="uid://bsrwgssotmjo3" path="res://Assets/Textures/UI/Tela_Principal/AJUSTES2.svg" id="8_jndpu"]
+[ext_resource type="Texture2D" uid="uid://bo31bv8feix8j" path="res://Assets/Textures/UI/Tela_Principal/SAIR2.svg" id="10_q8bcy"]
+
+[node name="Control" type="Control" unique_id=1771883679]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2rywl")
+
+[node name="FundoParticulas" parent="." unique_id=1316474068 instance=ExtResource("2_p6ytx")]
+visible = true
+scale = Vector2(1.0044262, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=855494373]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("5_7nc1l")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1695543431]
+layout_mode = 0
+offset_left = 510.0
+offset_top = 708.0
+offset_right = 1410.0
+offset_bottom = 762.0
+theme_override_constants/separation = 150
+alignment = 1
+
+[node name="Iniciar" parent="HBoxContainer" unique_id=2136383047 instance=ExtResource("6_6b2b5")]
+layout_mode = 2
+imagem_normal = ExtResource("5_b5y0b")
+imagem_hover = ExtResource("6_esu74")
+
+[node name="Ajustes" parent="HBoxContainer" unique_id=980150676 instance=ExtResource("6_6b2b5")]
+layout_mode = 2
+imagem_normal = ExtResource("7_ujkn2")
+imagem_hover = ExtResource("8_jndpu")
+
+[node name="Sair" parent="HBoxContainer" unique_id=756087200 instance=ExtResource("6_6b2b5")]
+layout_mode = 2
+imagem_normal = ExtResource("8_fvqsw")
+imagem_hover = ExtResource("10_q8bcy")

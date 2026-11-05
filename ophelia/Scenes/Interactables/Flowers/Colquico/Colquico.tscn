@@ -1,0 +1,365 @@
+[gd_scene format=3 uid="uid://b6csr14kv0ww8"]
+
+[ext_resource type="Script" uid="uid://djs6ggo7i82lp" path="res://Scenes/Interactables/Flowers/Colquico/Colquico.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://2jp5xafr24pt" path="res://Assets/Textures/FlowersSVG/Colquico/CólquicoV1.svg" id="2"]
+[ext_resource type="Texture2D" uid="uid://dabntq54a8any" path="res://Assets/Textures/FlowersSVG/Colquico/CólquicoV2.svg" id="3"]
+[ext_resource type="Texture2D" uid="uid://ti5vaqdwqd57" path="res://Assets/Textures/FlowersSVG/Colquico/CólquicoV3.svg" id="4"]
+[ext_resource type="Script" uid="uid://drecwfa4x0bu6" path="res://Scenes/Interactables/Flowers/Comum/PontoFlor.gd" id="5"]
+
+[sub_resource type="Shader" id="Shader_dkl5n"]
+code = "shader_type canvas_item;
+uniform vec2 pontos[32];
+uniform int quantidade = 0;
+uniform vec2 tamanho_textura;
+varying vec4 cor_no;
+void vertex() { cor_no = COLOR; }
+void fragment() {
+    vec2 p = UV * tamanho_textura;
+    bool dentro = false;
+    int j = quantidade - 1;
+    for (int i = 0; i < quantidade; i++) {
+        vec2 a = pontos[i];
+        vec2 b = pontos[j];
+        if ((a.y > p.y) != (b.y > p.y)) {
+            float cruzamento = (b.x - a.x) * (p.y - a.y) / (b.y - a.y) + a.x;
+            if (p.x < cruzamento) { dentro = !dentro; }
+        }
+        j = i;
+    }
+    COLOR = texture(TEXTURE, UV) * cor_no;
+    if (dentro) { COLOR.a = 0.0; }
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0pqf6"]
+shader = SubResource("Shader_dkl5n")
+shader_parameter/pontos = PackedVector2Array(284.615, 458.539, 324.236, 458.539, 363.857, 458.539, 324.236, 478.565, 284.615, 458.539, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/quantidade = 5
+shader_parameter/tamanho_textura = Vector2(650, 650)
+
+[sub_resource type="Shader" id="Shader_i67no"]
+code = "shader_type canvas_item;
+uniform vec2 pontos[32];
+uniform int quantidade = 0;
+uniform vec2 tamanho_textura;
+varying vec4 cor_no;
+void vertex() { cor_no = COLOR; }
+void fragment() {
+    vec2 p = UV * tamanho_textura;
+    bool dentro = false;
+    int j = quantidade - 1;
+    for (int i = 0; i < quantidade; i++) {
+        vec2 a = pontos[i];
+        vec2 b = pontos[j];
+        if ((a.y > p.y) != (b.y > p.y)) {
+            float cruzamento = (b.x - a.x) * (p.y - a.y) / (b.y - a.y) + a.x;
+            if (p.x < cruzamento) { dentro = !dentro; }
+        }
+        j = i;
+    }
+    COLOR = texture(TEXTURE, UV) * cor_no;
+    if (dentro) { COLOR.a = 0.0; }
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gssyp"]
+shader = SubResource("Shader_i67no")
+shader_parameter/pontos = PackedVector2Array(332.211, 450.305, 363.941, 435.715, 395.671, 421.126, 371.883, 451.415, 332.211, 450.305, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/quantidade = 5
+shader_parameter/tamanho_textura = Vector2(650, 650)
+
+[sub_resource type="Shader" id="Shader_26t4t"]
+code = "shader_type canvas_item;
+uniform vec2 pontos[32];
+uniform int quantidade = 0;
+uniform vec2 tamanho_textura;
+varying vec4 cor_no;
+void vertex() { cor_no = COLOR; }
+void fragment() {
+    vec2 p = UV * tamanho_textura;
+    bool dentro = false;
+    int j = quantidade - 1;
+    for (int i = 0; i < quantidade; i++) {
+        vec2 a = pontos[i];
+        vec2 b = pontos[j];
+        if ((a.y > p.y) != (b.y > p.y)) {
+            float cruzamento = (b.x - a.x) * (p.y - a.y) / (b.y - a.y) + a.x;
+            if (p.x < cruzamento) { dentro = !dentro; }
+        }
+        j = i;
+    }
+    COLOR = texture(TEXTURE, UV) * cor_no;
+    if (dentro) { COLOR.a = 0.0; }
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_exjnm"]
+shader = SubResource("Shader_26t4t")
+shader_parameter/pontos = PackedVector2Array(332.211, 450.305, 363.941, 435.715, 395.671, 421.126, 371.883, 451.415, 332.211, 450.305, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/quantidade = 5
+shader_parameter/tamanho_textura = Vector2(650, 650)
+
+[sub_resource type="Shader" id="Shader_3scsn"]
+code = "shader_type canvas_item;
+uniform vec2 pontos[32];
+uniform int quantidade = 0;
+uniform vec2 tamanho_textura;
+varying vec4 cor_no;
+void vertex() { cor_no = COLOR; }
+void fragment() {
+    vec2 p = UV * tamanho_textura;
+    bool dentro = false;
+    int j = quantidade - 1;
+    for (int i = 0; i < quantidade; i++) {
+        vec2 a = pontos[i];
+        vec2 b = pontos[j];
+        if ((a.y > p.y) != (b.y > p.y)) {
+            float cruzamento = (b.x - a.x) * (p.y - a.y) / (b.y - a.y) + a.x;
+            if (p.x < cruzamento) { dentro = !dentro; }
+        }
+        j = i;
+    }
+    COLOR = texture(TEXTURE, UV) * cor_no;
+    if (dentro) { COLOR.a = 0.0; }
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q4pil"]
+shader = SubResource("Shader_3scsn")
+shader_parameter/pontos = PackedVector2Array(430.26, 313.176, 428.318, 339.711, 426.377, 366.246, 446.032, 341.263, 430.26, 313.176, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/quantidade = 5
+shader_parameter/tamanho_textura = Vector2(650, 650)
+
+[sub_resource type="Shader" id="Shader_y3ddj"]
+code = "shader_type canvas_item;
+uniform vec2 pontos[32];
+uniform int quantidade = 0;
+uniform vec2 tamanho_textura;
+varying vec4 cor_no;
+void vertex() { cor_no = COLOR; }
+void fragment() {
+    vec2 p = UV * tamanho_textura;
+    bool dentro = false;
+    int j = quantidade - 1;
+    for (int i = 0; i < quantidade; i++) {
+        vec2 a = pontos[i];
+        vec2 b = pontos[j];
+        if ((a.y > p.y) != (b.y > p.y)) {
+            float cruzamento = (b.x - a.x) * (p.y - a.y) / (b.y - a.y) + a.x;
+            if (p.x < cruzamento) { dentro = !dentro; }
+        }
+        j = i;
+    }
+    COLOR = texture(TEXTURE, UV) * cor_no;
+    if (dentro) { COLOR.a = 0.0; }
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e6p2t"]
+shader = SubResource("Shader_y3ddj")
+shader_parameter/pontos = PackedVector2Array(284.615, 458.539, 324.236, 458.539, 363.857, 458.539, 324.236, 478.565, 284.615, 458.539, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/quantidade = 5
+shader_parameter/tamanho_textura = Vector2(650, 650)
+
+[sub_resource type="Shader" id="Shader_h8ye2"]
+code = "shader_type canvas_item;
+uniform vec2 pontos[32];
+uniform int quantidade = 0;
+uniform vec2 tamanho_textura;
+varying vec4 cor_no;
+void vertex() { cor_no = COLOR; }
+void fragment() {
+    vec2 p = UV * tamanho_textura;
+    bool dentro = false;
+    int j = quantidade - 1;
+    for (int i = 0; i < quantidade; i++) {
+        vec2 a = pontos[i];
+        vec2 b = pontos[j];
+        if ((a.y > p.y) != (b.y > p.y)) {
+            float cruzamento = (b.x - a.x) * (p.y - a.y) / (b.y - a.y) + a.x;
+            if (p.x < cruzamento) { dentro = !dentro; }
+        }
+        j = i;
+    }
+    COLOR = texture(TEXTURE, UV) * cor_no;
+    if (dentro) { COLOR.a = 0.0; }
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ojyhe"]
+shader = SubResource("Shader_h8ye2")
+shader_parameter/pontos = PackedVector2Array(430.26, 313.176, 428.318, 339.711, 426.377, 366.246, 446.032, 341.263, 430.26, 313.176, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/quantidade = 5
+shader_parameter/tamanho_textura = Vector2(650, 650)
+
+[node name="Colquico" type="Node2D" unique_id=1936013509]
+texture_filter = 2
+script = ExtResource("1")
+mostrar_vento_no_editor = true
+id_item = &"FlorColquico"
+
+[node name="Galhos" type="Node2D" parent="." unique_id=450058898]
+
+[node name="Galho1" type="Line2D" parent="Galhos" unique_id=2001367630]
+points = PackedVector2Array(0.3595, 0.0575, 0.28139448, -2.690689, 0.21727417, -5.439239, 0.1673271, -8.188084, 0.13110763, -10.937143, 0.10790482, -13.686342, 0.09830007, -16.435623, 0.101200916, -19.184921, 0.116653696, -21.93418, 0.1447194, -24.683344, 0.1846874, -27.432371, 0.23689337, -30.181206, 0.3009851, -32.929806, 0.37657338, -35.678135, 0.46425787, -38.426132, 0.56329405, -41.173782, 0.6738129, -43.921036, 0.79603535, -46.667843, 0.9294294, -49.41419, 1.0745578, -52.16001, 1.2310072, -54.905293, 1.398915, -57.64999, 1.5785104, -60.39405, 1.7694517, -63.137466, 1.9724262, -65.88016, 2.1868432, -68.622116, 2.413543, -71.363266, 2.651962, -74.1036, 2.9029717, -76.843025, 3.1661336, -79.58153, 3.4421723, -82.319016, 3.7310538, -85.05546, 4.033011, -87.79079, 4.348786, -90.52489, 4.6783147, -93.25772, 5.0220594, -95.9892, 5.38074, -98.719185, 5.7548165, -101.44757, 6.1447835, -104.17425, 6.551364, -106.89905, 6.975373, -109.621796, 7.4177327, -112.342285, 7.8794956, -115.06027, 8.361918, -117.77547, 8.866767, -120.487465, 9.395545, -123.19587, 9.95061, -125.900085, 10.534623, -128.59941, 11.151416, -131.2928, 11.805353, -133.979, 12.502997, -136.65602, 13.252852, -139.32109, 14.068358, -141.96953, 14.971193, -144.59303, 15.999152, -147.175)
+width = 1.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Galho2" type="Line2D" parent="Galhos" unique_id=312253313]
+points = PackedVector2Array(-0.04915, -0.0785, -0.2005475, -2.318804, -0.35624656, -4.558724, -0.51745933, -6.798175, -0.68494153, -9.037086, -0.85935766, -11.275384, -1.0413713, -13.512988, -1.2316897, -15.749803, -1.4308168, -17.985743, -1.6392449, -20.220713, -1.8574864, -22.454615, -2.086037, -24.68734, -2.3253732, -26.918772, -2.5759652, -29.148787, -2.8382726, -31.377254, -3.1127534, -33.604034, -3.3999393, -35.82897, -3.7003198, -38.051895, -4.014334, -40.27264, -4.3424067, -42.491028, -4.685015, -44.70686, -5.04264, -46.91993, -5.415838, -49.13, -5.8053246, -51.336792, -6.211539, -53.540054, -6.6348968, -55.739532, -7.0759616, -57.93493, -7.535429, -60.125893, -8.014147, -62.312016, -8.512566, -64.49296, -9.031206, -66.66834, -9.570749, -68.83774, -10.132175, -71.00059, -10.716354, -73.15634, -11.323714, -75.304535, -11.955022, -77.44458, -12.611106, -79.575836, -13.293185, -81.69749, -14.002157, -83.808754, -14.738595, -85.90894, -15.5034485, -87.99717, -16.297693, -90.072495, -17.122406, -92.13386, -17.978848, -94.180046, -18.868, -96.20986, -19.79067, -98.22215, -20.747923, -100.21552, -21.740826, -102.1885, -22.770433, -104.139496, -23.837795, -106.06682, -24.943918, -107.968666, -26.089775, -109.84311, -27.276278, -111.68813, -28.504265, -113.501595, -29.774485, -115.28125)
+width = 1.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Galho3" type="Line2D" parent="Galhos" unique_id=412667654]
+points = PackedVector2Array(-0.02625, -0.1455, 0.06306651, -1.829893, 0.18579248, -3.512389, 0.3402276, -5.192516, 0.5251754, -6.869844, 0.7396771, -8.543982, 0.98293954, -10.214562, 1.2553651, -11.881069, 1.5572284, -13.542963, 1.886538, -15.200139, 2.2440672, -16.85203, 2.6310205, -18.497894, 3.0446992, -20.137901, 3.4883378, -21.770807, 3.959607, -23.396723, 4.459664, -25.014877, 4.98899, -26.624617, 5.5465927, -28.225767, 6.1346064, -29.817085, 6.751004, -31.398766, 7.3984365, -32.969254, 8.0749445, -34.52875, 8.782561, -36.07582, 9.520502, -37.610188, 10.289046, -39.131077, 11.089686, -40.6371, 11.919811, -42.12889, 12.784295, -43.60312, 13.677961, -45.061886, 14.605778, -46.501495, 15.564647, -47.92299, 16.555094, -49.325184, 17.579695, -50.70542, 18.634222, -52.065704, 19.723045, -53.401814, 20.843435, -54.714764, 21.99399, -56.004677, 23.179508, -57.266277, 24.394712, -58.502975, 25.640057, -59.713234, 26.91886, -60.89243, 28.226202, -62.04415, 29.5621, -63.167145, 30.930056, -64.25589, 32.325016, -65.3147, 33.746414, -66.34289, 35.196484, -67.335846, 36.672726, -68.295166, 38.173153, -69.222, 39.69701, -70.11588, 41.246056, -70.97196, 42.817177, -71.793396, 44.40892, -72.58084, 46.020397, -73.33409, 47.65068, -74.053)
+width = 1.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Galho4" type="Line2D" parent="Galhos" unique_id=620178806]
+points = PackedVector2Array(0.26195, -0.7945, 0.2816234, -2.92192, 0.33654773, -5.048845, 0.42422923, -7.174864, 0.5427791, -9.299632, 0.6905878, -11.422854, 0.8662474, -13.544283, 1.0685127, -15.663704, 1.2962776, -17.780931, 1.5485568, -19.895805, 1.8244693, -22.00818, 2.123231, -24.11793, 2.4441407, -26.224936, 2.7866476, -28.32908, 3.1504984, -30.43021, 3.5348516, -32.528282, 3.9392705, -34.6232, 4.3633714, -36.714878, 4.807079, -38.803165, 5.2701583, -40.887962, 5.752067, -42.969227, 6.2526007, -45.046864, 6.7719445, -47.12069, 7.309881, -49.190613, 7.8660636, -51.256577, 8.4404335, -53.318462, 9.033545, -55.375996, 9.644867, -57.429165, 10.274415, -59.477837, 10.922435, -61.521797, 11.589282, -63.560802, 12.2746725, -65.59478, 12.978783, -67.623535, 13.701986, -69.64679, 14.444732, -71.66423, 15.206938, -73.67572, 15.9889345, -75.680954, 16.791098, -77.67963, 17.613941, -79.67134, 18.458088, -81.655655, 19.323778, -83.63225, 20.211592, -85.60064, 21.122166, -87.56031, 22.056211, -89.51067, 23.014515, -91.45107, 23.997942, -93.38078, 25.007444, -95.29897, 26.044075, -97.20472, 27.108995, -99.09698, 28.203669, -100.974464, 29.32988, -102.83562, 30.488811, -104.67908, 31.682253, -106.50301, 32.91339, -108.30458, 34.183266, -110.082)
+width = 1.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Galho5" type="Line2D" parent="Galhos" unique_id=173037597]
+points = PackedVector2Array(-0.19, 0.059, -0.18950175, -1.399481, -0.18504387, -2.857963, -0.1774862, -4.316444, -0.16718312, -5.774926, -0.15434964, -7.233407, -0.13913663, -8.691889, -0.12165297, -10.15037, -0.10198219, -11.608852, -0.080193214, -13.067333, -0.056339208, -14.525815, -0.030463703, -15.984296, -0.0026058727, -17.442778, 0.027203916, -18.901258, 0.05893977, -20.359741, 0.09257636, -21.818222, 0.12809418, -23.276705, 0.16547583, -24.735186, 0.20470248, -26.193666, 0.24575955, -27.652147, 0.2886331, -29.11063, 0.33330664, -30.56911, 0.37976673, -32.02759, 0.4279997, -33.486073, 0.47798842, -34.944557, 0.52971804, -36.403038, 0.58317256, -37.86152, 0.6383321, -39.32, 0.6951782, -40.77848, 0.7536908, -42.23696, 0.81384504, -43.695442, 0.87561727, -45.153927, 0.9389814, -46.612408, 1.0039064, -48.07089, 1.0703613, -49.52937, 1.1383128, -50.98785, 1.207722, -52.446335, 1.2785494, -53.904816, 1.350753, -55.363297, 1.4242842, -56.821777, 1.4990941, -58.28026, 1.5751303, -59.738743, 1.652334, -61.197224, 1.7306448, -62.655704, 1.8099993, -64.11418, 1.8903265, -65.57267, 1.9715544, -67.03115, 2.0536067, -68.48963, 2.1363997, -69.94811, 2.2198486, -71.40659, 2.303863, -72.865074, 2.3883462, -74.323555, 2.4731984, -75.782036, 2.558316, -77.24052, 2.643587, -78.699)
+width = 1.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Galho6" type="Line2D" parent="Galhos" unique_id=491635524]
+points = PackedVector2Array(0.09515, 0.0805, -0.041075632, -1.797936, -0.19967557, -3.674204, -0.38003704, -5.548081, -0.5812244, -7.419382, -0.80233765, -9.287949, -1.0429313, -11.15359, -1.3024504, -13.016142, -1.579801, -14.875551, -1.8748678, -16.731632, -2.1874223, -18.584215, -2.5165415, -20.433285, -2.8627222, -22.278553, -3.2251055, -24.12001, -3.603962, -25.957424, -3.9990792, -27.790655, -4.410287, -29.619576, -4.8379884, -31.4439, -5.2817783, -33.263554, -5.7422395, -35.0782, -6.2191267, -36.887722, -6.7130356, -38.691753, -7.2239313, -40.490112, -7.7524047, -42.282406, -8.298641, -44.068363, -8.863228, -45.84756, -9.446597, -47.619614, -10.0494375, -49.384018, -10.672323, -51.140293, -11.316052, -52.887833, -11.981213, -54.62609, -12.668834, -56.354298, -13.380252, -58.071487, -14.116239, -59.776894, -14.878229, -61.46937, -15.667489, -63.147778, -16.485662, -64.81067, -17.334414, -66.456474, -18.215738, -68.08329, -19.131737, -69.68896, -20.0848, -71.270905, -21.077576, -72.82612, -22.113028, -74.35098, -23.194479, -75.841125, -24.325436, -77.29143, -25.509974, -78.69544, -26.75214, -80.04562, -28.056246, -81.33267, -29.42671, -82.54505, -30.867315, -83.66903, -32.38086, -84.688095, -33.968292, -85.58269, -35.62715, -86.331154, -37.350304, -86.9109, -39.12492, -87.30075)
+width = 1.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Flores" type="Node2D" parent="." unique_id=285463183]
+
+[node name="Flor1" type="Node2D" parent="Flores" unique_id=840050009]
+position = Vector2(15.999152, -147.175)
+rotation = 0.028602632
+script = ExtResource("5")
+base_preservada = PackedVector2Array(284.615, 458.539, 324.236, 458.539, 363.857, 458.539, 324.236, 478.565, 284.615, 458.539)
+metadata/variacao = 1
+
+[node name="Triangulo" type="Polygon2D" parent="Flores/Flor1" unique_id=839083822]
+antialiased = true
+polygon = PackedVector2Array(-4.09465, -2.5203, 0.40105, -1.2894, 4.89675, -0.0585, -0.26805, 0.8634)
+
+[node name="Ponta" type="Sprite2D" parent="Flores/Flor1" unique_id=1251140428]
+material = SubResource("ShaderMaterial_0pqf6")
+position = Vector2(-21.046812, -60.732365)
+rotation = 0.26726118
+scale = Vector2(0.117645256, 0.11273946)
+skew = 0.0340693
+texture = ExtResource("2")
+centered = false
+
+[node name="Flor2" type="Node2D" parent="Flores" unique_id=262723126]
+position = Vector2(-29.774485, -115.28125)
+rotation = 0.035893098
+script = ExtResource("5")
+base_preservada = PackedVector2Array(332.211, 450.305, 363.941, 435.715, 395.671, 421.126, 371.883, 451.415, 332.211, 450.305)
+metadata/variacao = 2
+
+[node name="Triangulo" type="Polygon2D" parent="Flores/Flor2" unique_id=429549267]
+antialiased = true
+polygon = PackedVector2Array(-4.2676, 0.89845, -0.0704, -1.03145, 4.1269, -2.96135, 0.9802, 1.04525)
+
+[node name="Ponta" type="Sprite2D" parent="Flores/Flor2" unique_id=1087726315]
+material = SubResource("ShaderMaterial_gssyp")
+position = Vector2(-48.212444, -58.66802)
+scale = Vector2(0.13228014, 0.13228026)
+texture = ExtResource("3")
+centered = false
+
+[node name="Flor3" type="Node2D" parent="Flores" unique_id=1555869321]
+position = Vector2(47.65068, -74.053)
+rotation = 0.025009671
+script = ExtResource("5")
+base_preservada = PackedVector2Array(332.211, 450.305, 363.941, 435.715, 395.671, 421.126, 371.883, 451.415, 332.211, 450.305)
+metadata/variacao = 2
+
+[node name="Triangulo" type="Polygon2D" parent="Flores/Flor3" unique_id=1186755628]
+antialiased = true
+polygon = PackedVector2Array(4.1775, 2.615, 1.7885, -1.155, -0.6005, -4.925, -0.3015, 0.044)
+
+[node name="Ponta" type="Sprite2D" parent="Flores/Flor3" unique_id=2058804158]
+material = SubResource("ShaderMaterial_exjnm")
+position = Vector2(75.67739, -24.689442)
+rotation = -2.5914683
+scale = Vector2(0.1299012, -0.13493071)
+skew = 0.05798602
+texture = ExtResource("3")
+centered = false
+
+[node name="Flor4" type="Node2D" parent="Flores" unique_id=1384336812]
+position = Vector2(34.183266, -110.082)
+rotation = 0.03853807
+script = ExtResource("5")
+base_preservada = PackedVector2Array(430.26, 313.176, 428.318, 339.711, 426.377, 366.246, 446.032, 341.263, 430.26, 313.176)
+metadata/variacao = 3
+
+[node name="Triangulo" type="Polygon2D" parent="Flores/Flor4" unique_id=1698908826]
+antialiased = true
+polygon = PackedVector2Array(-2.2675, -3.3477, 0.6735, -0.9886, 3.6135, 1.3705, -0.8595, 0.78)
+
+[node name="Ponta" type="Sprite2D" parent="Flores/Flor4" unique_id=1617698392]
+material = SubResource("ShaderMaterial_q4pil")
+position = Vector2(6.165586, -72.400276)
+rotation = 2.3782883
+scale = Vector2(0.13230652, -0.14113313)
+skew = -0.063361764
+texture = ExtResource("4")
+centered = false
+
+[node name="Flor5" type="Node2D" parent="Flores" unique_id=1588097018]
+position = Vector2(2.643587, -78.699)
+rotation = 0.06022783
+script = ExtResource("5")
+base_preservada = PackedVector2Array(284.615, 458.539, 324.236, 458.539, 363.857, 458.539, 324.236, 478.565, 284.615, 458.539)
+metadata/variacao = 1
+
+[node name="Triangulo" type="Polygon2D" parent="Flores/Flor5" unique_id=1539614140]
+antialiased = true
+polygon = PackedVector2Array(-4.6836, -1.344, -0.0005, -1.344, 4.6826, -1.344, -0.0005, 0.902)
+
+[node name="Ponta" type="Sprite2D" parent="Flores/Flor5" unique_id=1024999164]
+material = SubResource("ShaderMaterial_e6p2t")
+position = Vector2(-38.323936, -52.773937)
+scale = Vector2(0.118197985, 0.11216107)
+texture = ExtResource("2")
+centered = false
+
+[node name="Flor6" type="Node2D" parent="Flores" unique_id=673119021]
+position = Vector2(-39.12492, -87.30075)
+rotation = 0.0076686367
+script = ExtResource("5")
+base_preservada = PackedVector2Array(430.26, 313.176, 428.318, 339.711, 426.377, 366.246, 446.032, 341.263, 430.26, 313.176)
+metadata/variacao = 3
+
+[node name="Triangulo" type="Polygon2D" parent="Flores/Flor6" unique_id=747238848]
+antialiased = true
+polygon = PackedVector2Array(-1.47845, -3.86725, -1.74355, -0.24485, -2.00865, 3.37755, 0.67465, -0.03305)
+
+[node name="Ponta" type="Sprite2D" parent="Flores/Flor6" unique_id=495143574]
+material = SubResource("ShaderMaterial_ojyhe")
+position = Vector2(-60.21417, -46.61984)
+scale = Vector2(0.13651232, 0.13651392)
+texture = ExtResource("4")
+centered = false

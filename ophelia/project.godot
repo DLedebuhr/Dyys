@@ -16,8 +16,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-FundoParticulas="*uid://b1mfwjlapwre6"
 ConfJanela="*uid://csiheuo5err8o"
+FundoParticulas="*uid://mfjhkgwd1d4c"
 
 [display]
 
@@ -254,3 +254,4 @@ ControleInventario={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+anti_aliasing/quality/msaa_2d=2

@@ -680,3 +680,4 @@ position = Vector2(0, 43)
 
 [node name="Inventario" type="Node" parent="." unique_id=325575374]
 script = ExtResource("78_7y0e4")
+adicionar_itens_teste = true

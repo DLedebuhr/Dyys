@@ -1,12 +1,15 @@
 extends Control
 const CENA_AJUSTES := "res://Scenes/UI/Telas/Tela_Ajustes/TelaAjustes.tscn" # Confirme o seu caminho
-@onready var botao_ajustes: TextureButton = $VBoxContainer/HBoxContainer/Ajustes # Confirme a hierarquia
+@onready var botao_ajustes: TextureButton = $HBoxContainer/Ajustes # Confirme a hierarquia
+
 
 # Preparar o nó
 # ---------------------
 # Configura referências, sinais e estado inicial.
 func _ready() -> void:
-
+	
+	FundoParticulas.ativar()
+	
 	# Efeito de Entrada (Fade In): começa invisível e surge suavemente
 	modulate.a = 0.0
 	var fade_in = create_tween()

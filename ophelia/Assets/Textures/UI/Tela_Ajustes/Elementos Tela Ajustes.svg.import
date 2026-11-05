@@ -1,0 +1,20 @@
+[remap]
+
+importer="svg"
+type="DPITexture"
+uid="uid://8x8gjom201sg"
+path="res://.godot/imported/Elementos Tela Ajustes.svg-69171e9736cb1215f4e393f5259f1749.dpitex"
+
+[deps]
+
+source_file="res://Assets/Textures/UI/Tela_Ajustes/Elementos Tela Ajustes.svg"
+dest_files=["res://.godot/imported/Elementos Tela Ajustes.svg-69171e9736cb1215f4e393f5259f1749.dpitex"]
+
+[params]
+
+base_scale=1.0
+saturation=1.0
+color_map={}
+fix_alpha_border=false
+premult_alpha=false
+compress=true

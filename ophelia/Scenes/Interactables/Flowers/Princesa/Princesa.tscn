@@ -1,0 +1,256 @@
+[gd_scene format=3 uid="uid://csvqq4hrd1xd3"]
+
+[ext_resource type="Script" uid="uid://d43oesnnegdd" path="res://Scenes/Interactables/Flowers/Princesa/Princesa.gd" id="1"]
+[ext_resource type="Script" uid="uid://drecwfa4x0bu6" path="res://Scenes/Interactables/Flowers/Comum/PontoFlor.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://c8qc170bn3qki" path="res://Assets/Textures/FlowersSVG/Princesa/PrincesaV1.svg" id="3"]
+[ext_resource type="Texture2D" uid="uid://bcx82tme81rgc" path="res://Assets/Textures/FlowersSVG/Princesa/PrincesaV2.svg" id="4"]
+[ext_resource type="Texture2D" uid="uid://cx2lnfneg0r1h" path="res://Assets/Textures/FlowersSVG/Princesa/PrincesaV3.svg" id="5"]
+[ext_resource type="Texture2D" uid="uid://dv03kjsnw022c" path="res://Assets/Textures/FlowersSVG/Princesa/PrincesaV4.svg" id="6"]
+
+[sub_resource type="Shader" id="Shader_2cr63"]
+code = "shader_type canvas_item;
+uniform vec2 pontos[32];
+uniform int quantidade = 0;
+uniform vec2 tamanho_textura;
+varying vec4 cor_no;
+void vertex() { cor_no = COLOR; }
+void fragment() {
+    vec2 p = UV * tamanho_textura;
+    bool dentro = false;
+    int j = quantidade - 1;
+    for (int i = 0; i < quantidade; i++) {
+        vec2 a = pontos[i];
+        vec2 b = pontos[j];
+        if ((a.y > p.y) != (b.y > p.y)) {
+            float cruzamento = (b.x - a.x) * (p.y - a.y) / (b.y - a.y) + a.x;
+            if (p.x < cruzamento) { dentro = !dentro; }
+        }
+        j = i;
+    }
+    COLOR = texture(TEXTURE, UV) * cor_no;
+    if (dentro) { COLOR.a = 0.0; }
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r6nvc"]
+shader = SubResource("Shader_2cr63")
+shader_parameter/pontos = PackedVector2Array(0, 0, 650, 0, 650, 143.47, 0, 143.47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/quantidade = 4
+shader_parameter/tamanho_textura = Vector2(650, 650)
+
+[sub_resource type="Shader" id="Shader_35vx5"]
+code = "shader_type canvas_item;
+uniform vec2 pontos[32];
+uniform int quantidade = 0;
+uniform vec2 tamanho_textura;
+varying vec4 cor_no;
+void vertex() { cor_no = COLOR; }
+void fragment() {
+    vec2 p = UV * tamanho_textura;
+    bool dentro = false;
+    int j = quantidade - 1;
+    for (int i = 0; i < quantidade; i++) {
+        vec2 a = pontos[i];
+        vec2 b = pontos[j];
+        if ((a.y > p.y) != (b.y > p.y)) {
+            float cruzamento = (b.x - a.x) * (p.y - a.y) / (b.y - a.y) + a.x;
+            if (p.x < cruzamento) { dentro = !dentro; }
+        }
+        j = i;
+    }
+    COLOR = texture(TEXTURE, UV) * cor_no;
+    if (dentro) { COLOR.a = 0.0; }
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_us7wr"]
+shader = SubResource("Shader_35vx5")
+shader_parameter/pontos = PackedVector2Array(0, 0, 650, 0, 650, 144.612, 0, 144.612, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/quantidade = 4
+shader_parameter/tamanho_textura = Vector2(650, 650)
+
+[sub_resource type="Shader" id="Shader_ta5sy"]
+code = "shader_type canvas_item;
+uniform vec2 pontos[32];
+uniform int quantidade = 0;
+uniform vec2 tamanho_textura;
+varying vec4 cor_no;
+void vertex() { cor_no = COLOR; }
+void fragment() {
+    vec2 p = UV * tamanho_textura;
+    bool dentro = false;
+    int j = quantidade - 1;
+    for (int i = 0; i < quantidade; i++) {
+        vec2 a = pontos[i];
+        vec2 b = pontos[j];
+        if ((a.y > p.y) != (b.y > p.y)) {
+            float cruzamento = (b.x - a.x) * (p.y - a.y) / (b.y - a.y) + a.x;
+            if (p.x < cruzamento) { dentro = !dentro; }
+        }
+        j = i;
+    }
+    COLOR = texture(TEXTURE, UV) * cor_no;
+    if (dentro) { COLOR.a = 0.0; }
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r7mnt"]
+shader = SubResource("Shader_ta5sy")
+shader_parameter/pontos = PackedVector2Array(0, 0, 650, 0, 650, 145.043, 0, 145.043, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/quantidade = 4
+shader_parameter/tamanho_textura = Vector2(650, 650)
+
+[sub_resource type="Shader" id="Shader_uvil5"]
+code = "shader_type canvas_item;
+uniform vec2 pontos[32];
+uniform int quantidade = 0;
+uniform vec2 tamanho_textura;
+varying vec4 cor_no;
+void vertex() { cor_no = COLOR; }
+void fragment() {
+    vec2 p = UV * tamanho_textura;
+    bool dentro = false;
+    int j = quantidade - 1;
+    for (int i = 0; i < quantidade; i++) {
+        vec2 a = pontos[i];
+        vec2 b = pontos[j];
+        if ((a.y > p.y) != (b.y > p.y)) {
+            float cruzamento = (b.x - a.x) * (p.y - a.y) / (b.y - a.y) + a.x;
+            if (p.x < cruzamento) { dentro = !dentro; }
+        }
+        j = i;
+    }
+    COLOR = texture(TEXTURE, UV) * cor_no;
+    if (dentro) { COLOR.a = 0.0; }
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p0foo"]
+shader = SubResource("Shader_uvil5")
+shader_parameter/pontos = PackedVector2Array(0, 0, 650, 0, 650, 205.1, 0, 205.1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/quantidade = 4
+shader_parameter/tamanho_textura = Vector2(650, 650)
+
+[node name="Princesa" type="Node2D" unique_id=1360995483]
+script = ExtResource("1")
+id_item = &"FlorPrincesa"
+
+[node name="Caule" type="Line2D" parent="." unique_id=1156509330]
+points = PackedVector2Array(0, 0, -1.52655, -23.43383, -2.66582, -46.05546, -3.43012, -67.87954, -3.83177, -88.92073, -3.88306, -109.19369, -3.59631, -128.7131, -2.98382, -147.4936, -2.0579, -165.54988, -0.83086, -182.89658, 0.68499, -199.54836, 2.47735, -215.5199, 4.53391, -230.82585, 6.84236, -245.48087, 9.3904, -259.49963, 12.16571, -272.8968, 15.15599, -285.687, 18.34893, -297.88498, 21.73223, -309.5053, 25.29357, -320.5627, 29.02065, -331.07178, 32.90117, -341.04727, 36.92281, -350.50378, 41.07326, -359.456, 45.34022, -367.91855, 49.71138, -375.90616, 54.17444, -383.4334, 58.71709, -390.51505, 63.32701, -397.16568, 67.9919, -403.4, 72.69781, -409.15552, 77.43492, -414.51425, 82.1909, -419.4904, 86.95342, -424.0981, 91.71015, -428.3516, 96.44879, -432.26495, 101.15699, -435.8524, 105.82243, -439.1281, 110.43279, -442.10623, 114.97575, -444.80096, 119.43897, -447.22644, 123.81013, -449.39688, 128.0769, -451.3264, 132.22697, -453.02917, 136.24802, -454.51944, 140.1277, -455.8113, 143.85368, -456.91895, 147.41368, -457.85654, 150.79533, -458.63828, 153.98631, -459.27832, 156.97433, -459.7908, 159.74702, -460.18994, 162.29208, -460.48987, 164.59718, -460.70477, 166.65, -460.84885, 168.43822, -460.93622, 169.94948, -460.9811, 171.17148, -460.99765, 172.0919, -461)
+width = 4.0
+joint_mode = 2
+antialiased = true
+
+[node name="Juncao" type="Polygon2D" parent="." unique_id=1018395941]
+antialiased = true
+polygon = PackedVector2Array(182.7586, -461, 182.66734, -459.60773, 182.39514, -458.23926, 181.94666, -456.91803, 181.32953, -455.66666, 180.55437, -454.50653, 179.6344, -453.4575, 178.58537, -452.53754, 177.42525, -451.76236, 176.17387, -451.14526, 174.85265, -450.69675, 173.48418, -450.42456, 172.0919, -450.3333, 170.69962, -450.42456, 169.33115, -450.69675, 168.00993, -451.14526, 166.75854, -451.76236, 165.59842, -452.53754, 164.5494, -453.4575, 163.62944, -454.50653, 162.85426, -455.66666, 162.23715, -456.91803, 161.78867, -458.23926, 161.51646, -459.60773, 161.4252, -461, 161.51646, -462.39227, 161.78867, -463.76074, 162.23715, -465.08197, 162.85426, -466.33334, 163.62944, -467.49347, 164.5494, -468.5425, 165.59842, -469.46246, 166.75854, -470.23764, 168.00993, -470.85474, 169.33115, -471.30325, 170.69962, -471.57544, 172.0919, -471.6667, 173.48418, -471.57544, 174.85265, -471.30325, 176.17387, -470.85474, 177.42525, -470.23764, 178.58537, -469.46246, 179.6344, -468.5425, 180.55437, -467.49347, 181.32953, -466.33334, 181.94666, -465.08197, 182.39514, -463.76074, 182.66734, -462.39227)
+
+[node name="Galhos" type="Node2D" parent="." unique_id=1736690965]
+
+[node name="Galho1" type="Line2D" parent="Galhos" unique_id=1881944778]
+points = PackedVector2Array(172.3969, -462, 174.72075, -461.38428, 177.15977, -460.64917, 179.69969, -459.79285, 182.32617, -458.8135, 185.02492, -457.70935, 187.7816, -456.4785, 190.58194, -455.11914, 193.4116, -453.62952, 196.2563, -452.00775, 199.10172, -450.25204, 201.93353, -448.36053, 204.73746, -446.33148, 207.49916, -444.163, 210.20435, -441.8533, 212.83871, -439.40057, 215.38792, -436.80295, 217.8377, -434.05865, 220.17374, -431.16583, 222.3817, -428.1227, 224.4473, -424.92743, 226.35619, -421.5782, 228.09412, -418.07315, 229.64673, -414.41052, 230.99976, -410.58844, 232.13885, -406.60513, 233.04971, -402.45874, 233.71806, -398.1475, 234.12955, -393.6695, 234.2699, -389.023)
+width = 4.0
+joint_mode = 2
+antialiased = true
+
+[node name="Galho2" type="Line2D" parent="Galhos" unique_id=1758682093]
+points = PackedVector2Array(173.2009, -462, 171.07574, -459.72684, 169.11407, -456.89355, 167.3094, -453.53464, 165.65526, -449.68454, 164.14519, -445.37772, 162.7727, -440.6487, 161.53139, -435.53195, 160.4147, -430.06192, 159.41624, -424.27307, 158.52953, -418.19992, 157.74808, -411.87695, 157.06543, -405.3386, 156.47511, -398.61932, 155.97069, -391.75366, 155.54565, -384.77603, 155.19357, -377.72098, 154.90796, -370.6229, 154.68234, -363.51633, 154.51028, -356.4357, 154.3853, -349.41553, 154.30092, -342.49026, 154.25069, -335.69437, 154.22813, -329.06235, 154.22678, -322.62866, 154.24017, -316.4278, 154.26186, -310.49423, 154.28535, -304.86243, 154.30418, -299.56686, 154.3119, -294.642)
+width = 4.0
+joint_mode = 2
+antialiased = true
+
+[node name="Galho3" type="Line2D" parent="Galhos" unique_id=1144702585]
+points = PackedVector2Array(172.3949, -462, 172.89284, -461.1802, 173.34778, -460.32098, 173.76161, -459.42365, 174.13617, -458.48953, 174.47331, -457.51993, 174.77492, -456.5162, 175.0428, -455.4796, 175.27885, -454.41156, 175.4849, -453.3133, 175.66283, -452.1862, 175.81445, -451.03156, 175.94168, -449.85074, 176.04633, -448.645, 176.13025, -447.4157, 176.19531, -446.16418, 176.24338, -444.89172, 176.2763, -443.59967, 176.29591, -442.28937, 176.3041, -440.9621, 176.3027, -439.6192, 176.29356, -438.26202, 176.27856, -436.89185, 176.25954, -435.51, 176.23836, -434.11783, 176.21684, -432.71667, 176.19691, -431.3078, 176.18036, -429.89258, 176.16907, -428.4723, 176.1649, -427.0483)
+width = 4.0
+joint_mode = 2
+antialiased = true
+
+[node name="Galho4" type="Line2D" parent="Galhos" unique_id=409479360]
+points = PackedVector2Array(171.5899, -460.6328, 169.43259, -459.53516, 167.15147, -458.26242, 164.7611, -456.81943, 162.27592, -455.21094, 159.71051, -453.44174, 157.07933, -451.51666, 154.39693, -449.4405, 151.67776, -447.21802, 148.9364, -444.85406, 146.18732, -442.3534, 143.44502, -439.7208, 140.72404, -436.9611, 138.03888, -434.07907, 135.40404, -431.07956, 132.83403, -427.9673, 130.34337, -424.7471, 127.94656, -421.4238, 125.65811, -418.00217, 123.49254, -414.48697, 121.46435, -410.88306, 119.58805, -407.1952, 117.87815, -403.4282, 116.34916, -399.58685, 115.01559, -395.67593, 113.89196, -391.70026, 112.99276, -387.66464, 112.33251, -383.57388, 111.92572, -379.4327, 111.7869, -375.246)
+width = 4.0
+joint_mode = 2
+antialiased = true
+
+[node name="Flores" type="Node2D" parent="." unique_id=395894885]
+
+[node name="Flor1" type="Node2D" parent="Flores" unique_id=1367157393]
+position = Vector2(234.2699, -389.023)
+script = ExtResource("2")
+base_preservada = PackedVector2Array(0, 0, 650, 0, 650, 143.47, 0, 143.47)
+
+[node name="PontoBranco1" type="Polygon2D" parent="Flores/Flor1" unique_id=1894943653]
+antialiased = true
+polygon = PackedVector2Array(-0.061, -6.489, -0.77899, -6.34999, -1.45157, -6.14468, -2.07938, -5.87654, -2.66305, -5.54906, -3.20321, -5.16573, -3.70048, -4.73003, -4.15549, -4.24545, -4.56888, -3.71548, -4.94128, -3.14359, -5.2733, -2.53329, -5.56559, -1.88804, -5.81877, -1.21135, -6.03347, -0.50668, -6.21032, 0.22246, -6.34995, 0.9726, -6.45299, 1.74025, -6.52007, 2.52192, -6.55181, 3.31413, -6.54885, 4.11339, -6.51181, 4.91622, -6.44134, 5.71913, -6.33804, 6.51863, -6.20256, 7.31124, -6.03552, 8.09348, -5.83756, 8.86185, -5.60929, 9.61287, -5.35136, 10.34307, -5.06438, 11.04894, -4.749, 11.727, -0.061, 11.727, -0.061, -6.489)
+
+[node name="PontoBranco2" type="Polygon2D" parent="Flores/Flor1" unique_id=1951914607]
+antialiased = true
+polygon = PackedVector2Array(-0.059, -6.489, 0.65959, -6.34999, 1.33391, -6.14468, 1.96452, -5.87654, 2.55197, -5.54906, 3.09678, -5.16573, 3.59952, -4.73003, 4.06072, -4.24545, 4.48093, -3.71548, 4.86069, -3.14359, 5.20055, -2.53329, 5.50106, -1.88804, 5.76275, -1.21135, 5.98617, -0.50668, 6.17188, 0.22246, 6.3204, 0.9726, 6.43229, 1.74025, 6.50809, 2.52192, 6.54834, 3.31413, 6.5536, 4.11339, 6.5244, 4.91622, 6.46129, 5.71913, 6.36481, 6.51863, 6.23552, 7.31124, 6.07395, 8.09348, 5.88064, 8.86185, 5.65615, 9.61287, 5.40102, 10.34307, 5.11578, 11.04894, 4.801, 11.727, -0.059, 11.727, -0.059, -6.489)
+
+[node name="Ponta" type="Sprite2D" parent="Flores/Flor1" unique_id=1507463368]
+material = SubResource("ShaderMaterial_r6nvc")
+position = Vector2(-174.72853, 65.50878)
+scale = Vector2(0.29035562, 0.24824803)
+texture = ExtResource("3")
+centered = false
+
+[node name="Flor2" type="Node2D" parent="Flores" unique_id=1545113311]
+position = Vector2(154.3119, -294.642)
+script = ExtResource("2")
+base_preservada = PackedVector2Array(0, 0, 650, 0, 650, 144.612, 0, 144.612)
+
+[node name="PontoBranco1" type="Polygon2D" parent="Flores/Flor2" unique_id=356972373]
+antialiased = true
+polygon = PackedVector2Array(-0.092, -8.768, -0.8164, -8.64987, -1.49499, -8.47537, -2.12841, -8.24748, -2.71729, -7.96916, -3.26226, -7.64336, -3.76397, -7.27306, -4.22304, -6.8612, -4.64011, -6.41076, -5.01582, -5.9247, -5.3508, -5.40598, -5.64569, -4.85756, -5.90113, -4.28241, -6.11774, -3.68348, -6.29616, -3.06375, -6.43703, -2.42616, -6.54099, -1.77369, -6.60866, -1.1093, -6.64069, -0.43595, -6.6377, 0.2434, -6.60034, 0.92578, -6.52924, 1.60824, -6.42504, 2.2878, -6.28836, 2.96152, -6.11985, 3.62642, -5.92014, 4.27954, -5.68986, 4.91792, -5.42966, 5.5386, -5.14016, 6.13861, -4.822, 6.715, -0.092, 6.715, -0.092, -8.768)
+
+[node name="PontoBranco2" type="Polygon2D" parent="Flores/Flor2" unique_id=1998924143]
+antialiased = true
+polygon = PackedVector2Array(-0.091, -8.768, 0.6339, -8.64987, 1.31415, -8.47537, 1.9503, -8.24748, 2.5429, -7.96916, 3.09249, -7.64336, 3.59963, -7.27306, 4.06486, -6.8612, 4.48874, -6.41076, 4.87182, -5.9247, 5.21465, -5.40598, 5.51778, -4.85756, 5.78175, -4.28241, 6.00712, -3.68348, 6.19444, -3.06375, 6.34425, -2.42616, 6.45712, -1.77369, 6.53358, -1.1093, 6.57419, -0.43595, 6.5795, 0.2434, 6.55006, 0.92578, 6.48641, 1.60824, 6.38911, 2.2878, 6.25872, 2.96152, 6.09577, 3.62642, 5.90081, 4.27954, 5.67441, 4.91792, 5.41711, 5.5386, 5.12946, 6.13861, 4.812, 6.715, -0.091, 6.715, -0.091, -8.768)
+
+[node name="Ponta" type="Sprite2D" parent="Flores/Flor2" unique_id=1731370925]
+material = SubResource("ShaderMaterial_us7wr")
+position = Vector2(-39.604073, -135.82222)
+scale = Vector2(0.36790305, 0.36790872)
+texture = ExtResource("4")
+centered = false
+
+[node name="Flor3" type="Node2D" parent="Flores" unique_id=758248753]
+position = Vector2(176.1649, -427.0483)
+script = ExtResource("2")
+base_preservada = PackedVector2Array(0, 0, 650, 0, 650, 145.043, 0, 145.043)
+
+[node name="PontoBranco1" type="Polygon2D" parent="Flores/Flor3" unique_id=412625993]
+antialiased = true
+polygon = PackedVector2Array(-0.089, -6.0337, -0.76288, -5.92163, -1.39415, -5.7561, -1.9834, -5.53992, -2.53123, -5.2759, -3.03822, -4.96685, -3.50496, -4.61558, -3.93204, -4.2249, -4.32006, -3.79763, -4.66961, -3.33656, -4.98127, -2.84452, -5.25564, -2.3243, -5.4933, -1.77873, -5.69485, -1.21061, -5.86087, -0.62275, -5.99197, -0.01797, -6.08872, 0.60094, -6.15172, 1.23115, -6.18156, 1.86986, -6.17882, 2.51426, -6.14411, 3.16153, -6.07801, 3.80887, -5.98111, 4.45347, -5.854, 5.09252, -5.69727, 5.7232, -5.51151, 6.34271, -5.29731, 6.94823, -5.05527, 7.53696, -4.78597, 8.10609, -4.49, 8.6528, -0.089, 8.6528, -0.089, -6.0337)
+
+[node name="PontoBranco2" type="Polygon2D" parent="Flores/Flor3" unique_id=2006148609]
+antialiased = true
+polygon = PackedVector2Array(-0.088, -6.0337, 0.58654, -5.92163, 1.21953, -5.7561, 1.81149, -5.53992, 2.36293, -5.2759, 2.87435, -4.96685, 3.34627, -4.61558, 3.77921, -4.2249, 4.17366, -3.79763, 4.53015, -3.33656, 4.84918, -2.84452, 5.13126, -2.3243, 5.37691, -1.77873, 5.58664, -1.21061, 5.76096, -0.62275, 5.90038, -0.01797, 6.00541, 0.60094, 6.07656, 1.23115, 6.11434, 1.86986, 6.11927, 2.51426, 6.09186, 3.16153, 6.03261, 3.80887, 5.94204, 4.45347, 5.82066, 5.09252, 5.66899, 5.7232, 5.48752, 6.34271, 5.27678, 6.94823, 5.03727, 7.53696, 4.76951, 8.10609, 4.474, 8.6528, -0.088, 8.6528, -0.088, -6.0337)
+
+[node name="Ponta" type="Sprite2D" parent="Flores/Flor3" unique_id=614560635]
+material = SubResource("ShaderMaterial_r7mnt")
+position = Vector2(-95.60786, -33.970673)
+scale = Vector2(0.29407495, 0.29406345)
+texture = ExtResource("5")
+centered = false
+
+[node name="Flor4" type="Node2D" parent="Flores" unique_id=485991199]
+position = Vector2(111.7869, -375.246)
+script = ExtResource("2")
+base_preservada = PackedVector2Array(0, 0, 650, 0, 650, 205.1, 0, 205.1)
+
+[node name="PontoBranco1" type="Polygon2D" parent="Flores/Flor4" unique_id=2068128771]
+antialiased = true
+polygon = PackedVector2Array(0.357, -6.719, -0.37648, -6.5816, -1.06289, -6.37878, -1.70293, -6.114, -2.29729, -5.79067, -2.84666, -5.41223, -3.35173, -4.98213, -3.81319, -4.5038, -4.23175, -3.98066, -4.60808, -3.41617, -4.94288, -2.81375, -5.23685, -2.17683, -5.49067, -1.50887, -5.70503, -0.81328, -5.88064, -0.09351, -6.01818, 0.64701, -6.11834, 1.40485, -6.18181, 2.17656, -6.2093, 2.95871, -6.20148, 3.74787, -6.15905, 4.5406, -6.08271, 5.33347, -5.97314, 6.12303, -5.83104, 6.90586, -5.6571, 7.67852, -5.45201, 8.43757, -5.21646, 9.17958, -4.95115, 9.90111, -4.65676, 10.59873, -4.334, 11.269, 0.357, 11.269, 0.357, -6.719)
+
+[node name="PontoBranco2" type="Polygon2D" parent="Flores/Flor4" unique_id=1992769282]
+antialiased = true
+polygon = PackedVector2Array(0.357, -6.719, 1.09102, -6.5816, 1.77883, -6.37878, 2.42104, -6.114, 3.01828, -5.79067, 3.5712, -5.41223, 4.08041, -4.98213, 4.54654, -4.5038, 4.97024, -3.98066, 5.35211, -3.41617, 5.6928, -2.81375, 5.99294, -2.17683, 6.25315, -1.50887, 6.47406, -0.81328, 6.65631, -0.09351, 6.80051, 0.64701, 6.90731, 1.40485, 6.97733, 2.17656, 7.0112, 2.95871, 7.00956, 3.74787, 6.97302, 4.5406, 6.90222, 5.33347, 6.79779, 6.12303, 6.66036, 6.90586, 6.49056, 7.67852, 6.28901, 8.43757, 6.05635, 9.17958, 5.79321, 9.90111, 5.50022, 10.59873, 5.178, 11.269, 0.357, 11.269, 0.357, -6.719)
+
+[node name="Ponta" type="Sprite2D" parent="Flores/Flor4" unique_id=593557656]
+material = SubResource("ShaderMaterial_p0foo")
+position = Vector2(78.70233, -37.909344)
+rotation = 3.1415646
+scale = Vector2(0.24090737, -0.24081936)
+skew = 2.8729439e-05
+texture = ExtResource("6")
+centered = false

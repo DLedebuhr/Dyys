@@ -8,6 +8,7 @@ extends Node2D
 # Configura referências, sinais e estado inicial.
 func _ready() -> void:
 
+	FundoParticulas.desativar()
 	personagem.habilidades.definir_modo_debug(true)
 	personagem.imprimir_reacoes = false
 	queue_redraw()
