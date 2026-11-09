@@ -77,7 +77,7 @@
 [ext_resource type="Script" uid="uid://b1prir8328gis" path="res://Ophelia/Efeitos/EfeitosLenco.gd" id="73_rskug"]
 [ext_resource type="Script" uid="uid://bwihjrkh5e0k4" path="res://Ophelia/Ferramentas/VooDebug.gd" id="74_pl81g"]
 [ext_resource type="Script" uid="uid://cnm3lbsrvve83" path="res://Ophelia/Ferramentas/AtalhosDebug.gd" id="75_53dpe"]
-[ext_resource type="Script" uid="uid://b7mgr4lgphf8w" path="res://Scenes/UI/Inventario/InventarioOphelia.gd" id="78_7y0e4"]
+[ext_resource type="Script" uid="uid://b7mgr4lgphf8w" path="res://Scenes/UI/Telas/Tela_Inventario/InventarioOphelia.gd" id="78_7y0e4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ktjr4"]
 resource_local_to_scene = true
@@ -478,7 +478,7 @@ collision_layer = 2
 collision_mask = 13
 script = ExtResource("1_bu2em")
 velocidade_andar = 200.0
-velocidade_correr = 400.0
+velocidade_correr = 600.0
 aceleracao = null
 atrito = null
 forca_pulo = -690.0

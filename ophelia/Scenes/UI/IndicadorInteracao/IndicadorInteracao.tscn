@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://clp4xckh7n1qw" path="res://Scenes/UI/IndicadorInteracao/IndicadorInteracao.gd" id="1"]
 [ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://Assets/Fonts/tt-milks-casual-pie-line.ttf" id="2"]
-[ext_resource type="Texture2D" uid="uid://dqiaypu23wfuw" path="res://Assets/Textures/Interativeis/FrutasVida/Frame 40.png" id="3_bstjx"]
+[ext_resource type="Texture2D" uid="uid://bka2i6srebtag" path="res://Assets/Textures/UI/HUB/Frame 40.svg" id="3_bstjx"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_co80e"]
 font = ExtResource("2")

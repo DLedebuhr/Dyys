@@ -1,0 +1,20 @@
+[remap]
+
+importer="svg"
+type="DPITexture"
+uid="uid://72no1ypl6y7a"
+path="res://.godot/imported/Tela Laço de Cetim.svg-81419e3f2e4203803103d04862b8f469.dpitex"
+
+[deps]
+
+source_file="res://Assets/Textures/UI/Tela_Aprender_Habilidades/Tela Laço de Cetim.svg"
+dest_files=["res://.godot/imported/Tela Laço de Cetim.svg-81419e3f2e4203803103d04862b8f469.dpitex"]
+
+[params]
+
+base_scale=1.0
+saturation=1.0
+color_map={}
+fix_alpha_border=false
+premult_alpha=false
+compress=true

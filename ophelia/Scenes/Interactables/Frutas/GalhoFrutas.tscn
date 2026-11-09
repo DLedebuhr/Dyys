@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://kqvun14pta7y"]
 
 [ext_resource type="Script" uid="uid://c1xbvv80fdabv" path="res://Scenes/Interactables/Frutas/GalhoFrutas.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://68ke4mvwl40s" path="res://Assets/Textures/Interativeis/Frutas/PontaGalho.svg" id="2_msjiv"]
 
 [node name="GalhoFrutas" type="Node2D" unique_id=1250118422]
 script = ExtResource("1")
@@ -16,8 +17,10 @@ end_cap_mode = 2
 
 [node name="Ponta" type="Sprite2D" parent="." unique_id=2139287309]
 position = Vector2(0, 110)
+texture = ExtResource("2_msjiv")
 
 [node name="Frutos" type="Node2D" parent="." unique_id=904779136]
+visible = false
 
 [node name="AreaCorte" type="Area2D" parent="." unique_id=1348015027]
 collision_layer = 16

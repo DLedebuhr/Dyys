@@ -1,0 +1,20 @@
+[remap]
+
+importer="svg"
+type="DPITexture"
+uid="uid://bka2i6srebtag"
+path="res://.godot/imported/Frame 40.svg-9c05fda1b1898220bf255fd68eb0f99a.dpitex"
+
+[deps]
+
+source_file="res://Assets/Textures/UI/HUB/Frame 40.svg"
+dest_files=["res://.godot/imported/Frame 40.svg-9c05fda1b1898220bf255fd68eb0f99a.dpitex"]
+
+[params]
+
+base_scale=1.0
+saturation=1.0
+color_map={}
+fix_alpha_border=false
+premult_alpha=false
+compress=true

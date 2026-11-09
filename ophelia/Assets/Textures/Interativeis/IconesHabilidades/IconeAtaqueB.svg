@@ -1,0 +1,8 @@
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="80" cy="40" r="8" fill="white"/>
+<circle cx="80" cy="75" r="3" fill="white"/>
+<circle cx="80" cy="60" r="5" fill="white"/>
+<path d="M70 117.324C76.7927 115.123 79.3593 98.3814 80 93C80.6407 98.3814 83.2073 115.123 90 117.324C84.6941 119.071 81.6815 121.619 80 127C78.3185 121.619 75.3059 119.071 70 117.324Z" fill-rule="evenodd" clip-rule="evenodd" fill="white"/>
+<path d="M70 127H89.5" stroke-width="2" stroke="white"/>
+<path d="M80 34V74" stroke="white"/>
+</svg>

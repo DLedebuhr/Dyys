@@ -1,0 +1,20 @@
+[remap]
+
+importer="svg"
+type="DPITexture"
+uid="uid://h5q2bxun8uw4"
+path="res://.godot/imported/Tela Corte de Cetim.svg-83a9f35b62e0861d9c30a369fd08e67f.dpitex"
+
+[deps]
+
+source_file="res://Assets/Textures/UI/Tela_Aprender_Habilidades/Tela Corte de Cetim.svg"
+dest_files=["res://.godot/imported/Tela Corte de Cetim.svg-83a9f35b62e0861d9c30a369fd08e67f.dpitex"]
+
+[params]
+
+base_scale=1.0
+saturation=1.0
+color_map={}
+fix_alpha_border=false
+premult_alpha=false
+compress=true

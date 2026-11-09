@@ -4,40 +4,33 @@
 [ext_resource type="PackedScene" uid="uid://cp1hn5qtbwfwr" path="res://Scenes/Interactables/Portal/Portal.tscn" id="2_v2c4o"]
 [ext_resource type="PackedScene" uid="uid://cn288il5ik5ex" path="res://Ophelia/OPHELIA.tscn" id="3_v2tty"]
 [ext_resource type="PackedScene" uid="uid://bgr2cm7yllk3e" path="res://Scenes/Cameras/CameraJogador.tscn" id="4_co80e"]
-[ext_resource type="PackedScene" uid="uid://ckbvdb0vgnks0" path="res://Scenes/UI/HUB/HUB.tscn" id="5_i0ak4"]
+[ext_resource type="PackedScene" uid="uid://ckbvdb0vgnks0" path="res://Scenes/UI/Telas/HUB/HUB.tscn" id="5_i0ak4"]
 [ext_resource type="PackedScene" uid="uid://t38mgiq6mgta" path="res://Scenes/Testes/ArmadilhaDano.tscn" id="6_34855"]
 [ext_resource type="Script" uid="uid://c5qvc1brb63fs" path="res://Scenes/Testes/AlvoTeste.gd" id="7_mr7of"]
 [ext_resource type="PackedScene" uid="uid://bp6xokbwwm2sx" path="res://Scenes/Interactables/Habilitar_Habilidades/HabilitarHabilidade.tscn" id="8_14t7l"]
-[ext_resource type="Texture2D" uid="uid://ng1dj35h5y0p" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconeAtaqueA.png" id="9_yuit5"]
-[ext_resource type="Texture2D" uid="uid://buusvjxtt4mwx" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconeImpulso.png" id="10_4q0uu"]
-[ext_resource type="Texture2D" uid="uid://dfjtvvquawjt1" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconeAtaqueB.png" id="11_s0tf4"]
-[ext_resource type="Texture2D" uid="uid://c12i1wy5munn3" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconeDefesa.png" id="12_wj130"]
-[ext_resource type="Texture2D" uid="uid://cwt6wj4sc6nb1" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconePlanar.png" id="13_4ac74"]
-[ext_resource type="Texture2D" uid="uid://rwdbiwsu1gi0" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconePuxar.png" id="14_02kre"]
-[ext_resource type="Texture2D" uid="uid://bbnt0jfljbgvi" path="res://Assets/Textures/Muguet2.png" id="15_4jkx7"]
-[ext_resource type="Texture2D" uid="uid://c02ucnjpfd6f2" path="res://Assets/Textures/Muguet2A.png" id="16_vvilr"]
+[ext_resource type="Texture2D" uid="uid://cg8rvgs2x2a4h" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconeAtaqueA.svg" id="9_fos07"]
+[ext_resource type="Texture2D" uid="uid://csdtlchef1nhj" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconeImpulso.svg" id="10_8xhb7"]
+[ext_resource type="Texture2D" uid="uid://b8c3edkn1hifi" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconeAtaqueB.svg" id="11_n5tun"]
+[ext_resource type="Texture2D" uid="uid://doscy3i4c3a5p" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconeDefesa.svg" id="12_gadqy"]
+[ext_resource type="Texture2D" uid="uid://c7685cafoaqva" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconePlanar.svg" id="13_ebdy6"]
+[ext_resource type="Texture2D" uid="uid://3ojc8kmxgcyl" path="res://Assets/Textures/Interativeis/IconesHabilidades/IconePuxar.svg" id="14_6sfki"]
 [ext_resource type="PackedScene" uid="uid://kqvun14pta7y" path="res://Scenes/Interactables/Frutas/GalhoFrutas.tscn" id="18_v2c4o"]
-[ext_resource type="Texture2D" uid="uid://bk8gnkd2ojuu5" path="res://Assets/Textures/Interativeis/FrutasVida/PontaGalho.png" id="19_co80e"]
 [ext_resource type="PackedScene" uid="uid://cxmv3llmkuy6q" path="res://Scenes/Interactables/Aumentar_Vida/AumentarVida.tscn" id="19_v2tty"]
-[ext_resource type="Texture2D" uid="uid://b1kfnx10nqh1v" path="res://Assets/Textures/Flowers/Teste/Muguet2B.png" id="20_14t7l"]
-[ext_resource type="Texture2D" uid="uid://dq8cab5nt6nco" path="res://Assets/Textures/Flowers/Teste/Frame 2.png" id="21_14t7l"]
-[ext_resource type="Texture2D" uid="uid://dfc7yltkcjbbp" path="res://Assets/Textures/Flowers/Teste/Narciso3.png" id="22_yuit5"]
-[ext_resource type="Texture2D" uid="uid://dipqpe7b6y263" path="res://Assets/Textures/Flowers/Teste/Tulipa5.png" id="23_4q0uu"]
-[ext_resource type="Texture2D" uid="uid://cl47bciccco" path="res://Assets/Textures/Flowers/Teste/Íris3.png" id="24_s0tf4"]
-[ext_resource type="Texture2D" uid="uid://0pmcdkapw64v" path="res://Assets/Textures/Flowers/Teste/FlocoNeve5.png" id="25_wj130"]
-[ext_resource type="Texture2D" uid="uid://cdum0jc3el3e" path="res://Assets/Textures/Flowers/Teste/Prímula5.png" id="26_4ac74"]
-[ext_resource type="Texture2D" uid="uid://ddr6pl2nfbv58" path="res://Assets/Textures/Flowers/Teste/Camélia3.png" id="27_02kre"]
-[ext_resource type="Texture2D" uid="uid://ckyijegmsk0yq" path="res://Assets/Textures/Flowers/Teste/Heléboro5.png" id="28_4jkx7"]
-[ext_resource type="Texture2D" uid="uid://cwg0r56oiwter" path="res://Assets/Textures/Flowers/Teste/Ciclame3.png" id="29_4ac74"]
-[ext_resource type="Texture2D" uid="uid://cwk8eiri2hbwj" path="res://Assets/Textures/Flowers/Teste/Princesa4.png" id="30_86ncb"]
-[ext_resource type="Texture2D" uid="uid://bcoq5qs70s6fq" path="res://Assets/Textures/Flowers/Teste/Viola4.png" id="31_k7xhp"]
-[ext_resource type="Texture2D" uid="uid://ccyqy1kyv0run" path="res://Assets/Textures/Flowers/Teste/Cólquico6.png" id="32_h2wjx"]
-[ext_resource type="Texture2D" uid="uid://c1ad8nwyr4twl" path="res://Assets/Textures/Flowers/Teste/Dália3.png" id="33_8ienk"]
-[ext_resource type="Texture2D" uid="uid://de7trc7u1eed3" path="res://Assets/Textures/Flowers/Teste/Azaleia4.png" id="34_7cbs8"]
-[ext_resource type="Texture2D" uid="uid://b18a40426gaqc" path="res://Assets/Textures/Flowers/Teste/Lavanda6.png" id="35_tegcm"]
-[ext_resource type="Texture2D" uid="uid://bh3grnwaocvvw" path="res://Assets/Textures/Flowers/Teste/Calla3.png" id="36_6s8hn"]
-[ext_resource type="Texture2D" uid="uid://ofdcla8k4hfo" path="res://Assets/Textures/Flowers/Teste/Cosmos.png" id="37_84tid"]
-[ext_resource type="Texture2D" uid="uid://b567tub2ib420" path="res://Assets/Textures/Flowers/Teste/Lótus1.png" id="38_tegcm"]
+[ext_resource type="Texture2D" uid="uid://dv2d1ut3wsd35" path="res://Assets/Frame 32.png" id="23_mr7of"]
+[ext_resource type="PackedScene" uid="uid://v7ln1evgajdr" path="res://Scenes/Interactables/Flowers/Sakura/Sakura.tscn" id="24_14t7l"]
+[ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Viola/Viola.tscn" id="25_4ac74"]
+[ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Lotus/Lotus.tscn" id="26_02kre"]
+[ext_resource type="PackedScene" uid="uid://clwbek1ios8o7" path="res://Scenes/Interactables/Flowers/Lavanda/Lavanda.tscn" id="27_4jkx7"]
+[ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Cosmos/Cosmos.tscn" id="28_vvilr"]
+[ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Calla/Calla.tscn" id="29_sfi0s"]
+[ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Ciclame/Ciclame.tscn" id="30_8ienk"]
+[ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/FlocoNeve/FlocoNeve.tscn" id="31_7cbs8"]
+[ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Heleboro/Heleboro.tscn" id="32_tegcm"]
+[ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Iris/Iris.tscn" id="33_6s8hn"]
+[ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Muguet/Muguet.tscn" id="34_84tid"]
+[ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Narciso/Narciso.tscn" id="35_paosk"]
+[ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Primula/Primula.tscn" id="36_72wyr"]
+[ext_resource type="PackedScene" uid="uid://m5bs3gno514x" path="res://Scenes/Interactables/Flowers/Tulipa/Tulipa.tscn" id="37_fos07"]
 [ext_resource type="PackedScene" uid="uid://b6csr14kv0ww8" path="res://Scenes/Interactables/Flowers/Colquico/Colquico.tscn" id="39_tegcm"]
 [ext_resource type="PackedScene" uid="uid://3hvxmelx2uk8" path="res://Scenes/Interactables/Flowers/Lirio/Lirio.tscn" id="40_6s8hn"]
 [ext_resource type="PackedScene" uid="uid://6dubcbumnifa" path="res://Scenes/Interactables/Flowers/Camelia/Camelia.tscn" id="41_84tid"]
@@ -64,11 +57,11 @@ position = Vector2(3744, 896)
 position = Vector2(1267, 509)
 
 [node name="CameraJogador" parent="." unique_id=701648686 node_paths=PackedStringArray("jogador") instance=ExtResource("4_co80e")]
-zoom = Vector2(1.2, 1.2)
-limit_left = -6000
-limit_top = -500
-limit_right = 4500
-limit_bottom = 3000
+zoom = Vector2(0.8, 0.8)
+limit_left = -6057
+limit_top = -738
+limit_right = 4443
+limit_bottom = 2762
 jogador = NodePath("../OPHELIA")
 
 [node name="HUD" parent="." unique_id=497880551 instance=ExtResource("5_i0ak4")]
@@ -147,13 +140,12 @@ theme_override_font_sizes/font_size = 20
 
 [node name="HabilitarHabilidade" parent="." unique_id=1340296110 instance=ExtResource("8_14t7l")]
 position = Vector2(1442, 589)
-habilidade = "AtaqueLenco"
-textura_simbolo = ExtResource("9_yuit5")
+textura_simbolo = ExtResource("9_fos07")
 
 [node name="HabilitarHabilidade2" parent="." unique_id=167693267 instance=ExtResource("8_14t7l")]
 position = Vector2(2082, 588)
 habilidade = "Propulsor"
-textura_simbolo = ExtResource("10_4q0uu")
+textura_simbolo = ExtResource("10_8xhb7")
 
 [node name="Chao2" type="StaticBody2D" parent="." unique_id=1476602662]
 position = Vector2(1656, 14)
@@ -169,21 +161,22 @@ polygon = PackedVector2Array(-1250, -32, 1250, -32, 1250, 32, -1250, 32)
 [node name="HabilitarHabilidade3" parent="." unique_id=775757093 instance=ExtResource("8_14t7l")]
 position = Vector2(1067, -71)
 habilidade = "AtaqueModificado"
-textura_simbolo = ExtResource("11_s0tf4")
+textura_simbolo = ExtResource("11_n5tun")
 
 [node name="HabilitarHabilidade4" parent="." unique_id=1882137030 instance=ExtResource("8_14t7l")]
 position = Vector2(1689, -87)
 habilidade = "DefesaLenco"
-textura_simbolo = ExtResource("12_wj130")
+textura_simbolo = ExtResource("12_gadqy")
 
 [node name="HabilitarHabilidade5" parent="." unique_id=2106708053 instance=ExtResource("8_14t7l")]
 position = Vector2(2245, -85)
-textura_simbolo = ExtResource("13_4ac74")
+habilidade = "Planar"
+textura_simbolo = ExtResource("13_ebdy6")
 
 [node name="HabilitarHabilidade6" parent="." unique_id=1993345838 instance=ExtResource("8_14t7l")]
 position = Vector2(2743, -75)
 habilidade = "AgarrarObjeto"
-textura_simbolo = ExtResource("14_02kre")
+textura_simbolo = ExtResource("14_6sfki")
 
 [node name="PlataformaDireita2" type="StaticBody2D" parent="." unique_id=273359218]
 position = Vector2(74, 183)
@@ -195,22 +188,6 @@ shape = SubResource("Plataforma")
 [node name="Desenho" type="Polygon2D" parent="PlataformaDireita2" unique_id=605364652]
 color = Color(0.32, 0.43, 0.48, 1)
 polygon = PackedVector2Array(-125, -16, 125, -16, 125, 16, -125, 16)
-
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1277068615]
-offset_left = 631.99994
-offset_top = -351.99997
-offset_right = 2774.0
-offset_bottom = 3175.0
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("15_4jkx7")
-
-[node name="TextureRect2" type="TextureRect" parent="." unique_id=1764395002]
-offset_left = 1247.9999
-offset_top = -367.99997
-offset_right = 1885.9999
-offset_bottom = 641.0
-scale = Vector2(0.35, 0.35)
-texture = ExtResource("16_vvilr")
 
 [node name="Chao3" type="StaticBody2D" parent="." unique_id=287747221]
 z_index = -1
@@ -232,7 +209,6 @@ quantidade_frutas = 3
 posicoes_frutas = Array[Vector2]([Vector2(0, -40), Vector2(0, -80), Vector2(0, -120)])
 comprimento = 342.0
 segmentos = 20
-textura_ponta = ExtResource("19_co80e")
 vento = 49.0
 
 [node name="AumentarVida" parent="." unique_id=560466280 instance=ExtResource("19_v2tty")]
@@ -244,7 +220,6 @@ quantidade_frutas = 4
 posicoes_frutas = Array[Vector2]([Vector2(0, -40), Vector2(0, -80), Vector2(0, -120), Vector2(0, -160)])
 estacao = 3
 comprimento = 262.0
-textura_ponta = ExtResource("19_co80e")
 
 [node name="AumentarVida2" parent="." unique_id=1881217007 instance=ExtResource("19_v2tty")]
 position = Vector2(2928, 808)
@@ -291,114 +266,9 @@ position = Vector2(2160, 240)
 color = Color(0.18, 0.25, 0.29, 1)
 polygon = PackedVector2Array(-1250, -32, 1250, -32, 1250, 32, -1250, 32)
 
-[node name="TextureRect3" type="TextureRect" parent="." unique_id=363249160]
-offset_left = -2664.0
-offset_top = 960.0
-offset_right = -2368.0
-offset_bottom = 1471.0
-texture = ExtResource("20_14t7l")
-
-[node name="TextureRect4" type="TextureRect" parent="." unique_id=349572522]
-offset_left = -3896.0
-offset_top = 584.0
-offset_right = -2836.0
-offset_bottom = 948.0
-texture = ExtResource("21_14t7l")
-
-[node name="TextureRect6" type="TextureRect" parent="." unique_id=557327646]
-offset_left = -3064.0
-offset_top = 1248.0
-offset_right = -2888.0
-offset_bottom = 1470.0
-texture = ExtResource("22_yuit5")
-
-[node name="TextureRect5" type="TextureRect" parent="." unique_id=979970265]
-offset_left = -2096.0
-offset_top = 1344.0
-offset_right = -1734.0
-offset_bottom = 1468.0
-texture = ExtResource("23_4q0uu")
-
-[node name="TextureRect7" type="TextureRect" parent="." unique_id=2009281610]
-offset_left = -3664.0
-offset_top = 1224.0
-offset_right = -3421.0
-offset_bottom = 1477.0
-texture = ExtResource("24_s0tf4")
-
-[node name="TextureRect8" type="TextureRect" parent="." unique_id=1574283521]
-offset_left = -1264.0
-offset_top = 1064.0
-offset_right = -783.0
-offset_bottom = 1677.0
-texture = ExtResource("25_wj130")
-
-[node name="TextureRect9" type="TextureRect" parent="." unique_id=1568373200]
-offset_left = -608.0
-offset_top = 1424.0
-offset_right = -397.0
-offset_bottom = 1675.0
-texture = ExtResource("26_4ac74")
-
-[node name="TextureRect10" type="TextureRect" parent="." unique_id=111632800]
-offset_left = 168.0
-offset_top = 1552.0
-offset_right = 430.0
-offset_bottom = 1675.0
-texture = ExtResource("27_02kre")
-
-[node name="TextureRect11" type="TextureRect" parent="." unique_id=15321030]
-offset_left = 520.0
-offset_top = 1376.0
-offset_right = 714.0
-offset_bottom = 1670.0
-texture = ExtResource("28_4jkx7")
-
-[node name="TextureRect12" type="TextureRect" parent="." unique_id=1827142519]
-offset_left = -200.0
-offset_top = 1408.0
-offset_right = 28.0
-offset_bottom = 1679.0
-texture = ExtResource("29_4ac74")
-
-[node name="TextureRect13" type="TextureRect" parent="." unique_id=1739829555]
-offset_left = -3296.0
-offset_top = 2000.0
-offset_right = -2940.0
-offset_bottom = 2500.0
-texture = ExtResource("30_86ncb")
-
-[node name="TextureRect14" type="TextureRect" parent="." unique_id=264488455]
-offset_left = -2312.0
-offset_top = 2264.0
-offset_right = -2117.0
-offset_bottom = 2506.0
-texture = ExtResource("31_k7xhp")
-
-[node name="TextureRect15" type="TextureRect" parent="." unique_id=743251688]
-offset_left = -2080.0
-offset_top = 2328.0
-offset_right = -1924.0
-offset_bottom = 2510.0
-texture = ExtResource("32_h2wjx")
-
-[node name="TextureRect16" type="TextureRect" parent="." unique_id=1757439914]
-offset_left = -1488.0
-offset_top = 2240.0
-offset_right = -1244.0
-offset_bottom = 2502.0
-texture = ExtResource("33_8ienk")
-
-[node name="TextureRect17" type="TextureRect" parent="." unique_id=673211749]
-offset_left = -1872.0
-offset_top = 2200.0
-offset_right = -1637.0
-offset_bottom = 2512.0
-texture = ExtResource("34_7cbs8")
-
 [node name="Chao7" type="StaticBody2D" parent="." unique_id=664983703]
 z_index = -1
-position = Vector2(-4504, 2296)
+position = Vector2(-4455, 1815)
 collision_mask = 0
 
 [node name="FormaChao" type="CollisionShape2D" parent="Chao7" unique_id=1906674595]
@@ -438,34 +308,6 @@ position = Vector2(2160, 240)
 color = Color(0.18, 0.25, 0.29, 1)
 polygon = PackedVector2Array(-1250, -32, 1250, -32, 1250, 32, -1250, 32)
 
-[node name="TextureRect18" type="TextureRect" parent="." unique_id=1088755427]
-offset_left = -5736.0
-offset_top = 1672.0
-offset_right = -5306.0
-offset_bottom = 2219.0
-texture = ExtResource("35_tegcm")
-
-[node name="TextureRect19" type="TextureRect" parent="." unique_id=708626406]
-offset_left = -5184.0
-offset_top = 1760.0
-offset_right = -4990.0
-offset_bottom = 2222.0
-texture = ExtResource("36_6s8hn")
-
-[node name="TextureRect20" type="TextureRect" parent="." unique_id=1014049609]
-offset_left = -4744.0
-offset_top = 1936.0
-offset_right = -4493.0
-offset_bottom = 2226.0
-texture = ExtResource("37_84tid")
-
-[node name="TextureRect21" type="TextureRect" parent="." unique_id=918373487]
-offset_left = -3832.0
-offset_top = 2184.0
-offset_right = -3725.0
-offset_bottom = 2248.0
-texture = ExtResource("38_tegcm")
-
 [node name="Colquico" parent="." unique_id=1261910721 instance=ExtResource("39_tegcm")]
 position = Vector2(1832, 1936)
 amplitude_vento = 6.0
@@ -484,3 +326,60 @@ position = Vector2(1566, 1948)
 
 [node name="Dalia" parent="." unique_id=1136325378 instance=ExtResource("44_n5tun")]
 position = Vector2(1254, 1944)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=547668541]
+offset_left = -7673.0
+offset_top = -2340.9998
+offset_right = -2967.0
+offset_bottom = 719.00024
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("23_mr7of")
+
+[node name="Sakura" parent="." unique_id=349135607 instance=ExtResource("24_14t7l")]
+position = Vector2(-527, 1101)
+
+[node name="Viola" parent="." unique_id=1257533303 instance=ExtResource("25_4ac74")]
+position = Vector2(464, 1672)
+
+[node name="Lotus" parent="." unique_id=34919658 instance=ExtResource("26_02kre")]
+position = Vector2(125, 1682)
+
+[node name="Lavanda" parent="." unique_id=1765707151 instance=ExtResource("27_4jkx7")]
+position = Vector2(935, 1280)
+
+[node name="Dalia2" parent="." unique_id=1350265990 instance=ExtResource("44_n5tun")]
+position = Vector2(2242, 1280)
+
+[node name="Cosmos" parent="." unique_id=1738797819 instance=ExtResource("28_vvilr")]
+position = Vector2(1333, 1293)
+
+[node name="Colquico2" parent="." unique_id=1936013509 instance=ExtResource("39_tegcm")]
+visible = false
+position = Vector2(685, 1933)
+
+[node name="Calla" parent="." unique_id=1846721297 instance=ExtResource("29_sfi0s")]
+position = Vector2(1639, 1293)
+
+[node name="Ciclame" parent="." unique_id=506145443 instance=ExtResource("30_8ienk")]
+position = Vector2(-1592, 1466)
+
+[node name="FlocoNeve" parent="." unique_id=1106895232 instance=ExtResource("31_7cbs8")]
+position = Vector2(-2067, 1463)
+
+[node name="Heleboro" parent="." unique_id=220034691 instance=ExtResource("32_tegcm")]
+position = Vector2(-2748, 1475)
+
+[node name="Iris" parent="." unique_id=859113135 instance=ExtResource("33_6s8hn")]
+position = Vector2(-3190, 1478)
+
+[node name="Muguet" parent="." unique_id=1555484017 instance=ExtResource("34_84tid")]
+position = Vector2(-3736, 1473)
+
+[node name="Narciso" parent="." unique_id=195713819 instance=ExtResource("35_paosk")]
+position = Vector2(-1788, 2019)
+
+[node name="Primula" parent="." unique_id=234215360 instance=ExtResource("36_72wyr")]
+position = Vector2(-2262, 2023)
+
+[node name="Tulipa" parent="." unique_id=1028891600 instance=ExtResource("37_fos07")]
+position = Vector2(-2732, 2022)

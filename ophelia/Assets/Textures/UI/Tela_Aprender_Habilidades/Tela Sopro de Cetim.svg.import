@@ -1,0 +1,20 @@
+[remap]
+
+importer="svg"
+type="DPITexture"
+uid="uid://c1ocbc7t2wcdp"
+path="res://.godot/imported/Tela Sopro de Cetim.svg-fac09c4a55aa72760f554761542fdc86.dpitex"
+
+[deps]
+
+source_file="res://Assets/Textures/UI/Tela_Aprender_Habilidades/Tela Sopro de Cetim.svg"
+dest_files=["res://.godot/imported/Tela Sopro de Cetim.svg-fac09c4a55aa72760f554761542fdc86.dpitex"]
+
+[params]
+
+base_scale=1.0
+saturation=1.0
+color_map={}
+fix_alpha_border=false
+premult_alpha=false
+compress=true

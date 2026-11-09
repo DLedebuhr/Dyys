@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cxmv3llmkuy6q"]
 
 [ext_resource type="Script" uid="uid://bmfdt6uy6h6h4" path="res://Scenes/Interactables/Aumentar_Vida/AumentarVida.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://ejuc2xpsw0fj" path="res://Assets/Textures/Interativeis/FrutasVida/CoracaoBarraVida.png" id="2_y0b5u"]
+[ext_resource type="Texture2D" uid="uid://dwxqqqukxr0ei" path="res://Assets/Textures/UI/HUB/CoracaoBarraVida.svg" id="2_bvr2m"]
 
 [sub_resource type="CircleShape2D" id="Proximidade"]
 radius = 85.0
@@ -18,6 +18,6 @@ shape = SubResource("Proximidade")
 scale = Vector2(0.5, 0.5)
 
 [node name="Simbolo" type="Sprite2D" parent="Visual" unique_id=1534692871]
-texture = ExtResource("2_y0b5u")
+texture = ExtResource("2_bvr2m")
 
 [node name="SomColeta" type="AudioStreamPlayer2D" parent="." unique_id=974705205]
