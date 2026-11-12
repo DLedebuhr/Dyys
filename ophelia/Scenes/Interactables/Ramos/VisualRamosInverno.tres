@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="VisualRamosOphelia" format=3 uid="uid://byla1tlqojm6e"]
+
+[ext_resource type="Script" uid="uid://dm2wg858rs8qe" path="res://Scenes/Interactables/Ramos/VisualRamos.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cxg8lbg51p20p" path="res://Assets/Textures/Interativeis/Ramos/Ramo1.svg" id="2"]
+[ext_resource type="Texture2D" uid="uid://daw1gvn53gxpa" path="res://Assets/Textures/Interativeis/Ramos/Ramo2.svg" id="3"]
+[ext_resource type="Texture2D" uid="uid://b08rr6ounmyq2" path="res://Assets/Textures/Interativeis/Ramos/Ramo3.svg" id="4"]
+[ext_resource type="Texture2D" uid="uid://b2nu2no6adeqp" path="res://Assets/Textures/Interativeis/Ramos/Ramo4.svg" id="5"]
+
+[resource]
+script = ExtResource("1")
+ramo_1 = ExtResource("2")
+ramo_2 = ExtResource("3")
+ramo_3 = ExtResource("4")
+ramo_4 = ExtResource("5")

@@ -1,0 +1,158 @@
+[gd_scene format=3 uid="uid://cj21pju5s342b"]
+
+[ext_resource type="Script" uid="uid://ds68ly0n01jri" path="res://Scenes/Interactables/Seiva/Seiva.gd" id="1"]
+[ext_resource type="Script" uid="uid://usvefcageo6b" path="res://Scenes/Interactables/Seiva/AnimacaoAgua.gd" id="2"]
+[ext_resource type="Script" uid="uid://bettp7ahiyqwk" path="res://Scenes/Interactables/Seiva/PontoColetaSeiva.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://cubft1tpb3h07" path="res://Assets/Textures/Interativeis/Seiva/Base.svg" id="4"]
+[ext_resource type="Texture2D" uid="uid://dla1sgrr4x2iw" path="res://Assets/Textures/Interativeis/Seiva/Sobreposição.svg" id="5"]
+[ext_resource type="Script" uid="uid://bynyph6f8p3ur" path="res://Scenes/Interactables/Seiva/ReservatorioSeiva.gd" id="6"]
+[ext_resource type="Texture2D" uid="uid://dvi45yqrmjplv" path="res://Assets/Textures/Interativeis/Seiva/SobreposiçãoBorda.svg" id="6_kes7q"]
+[ext_resource type="Script" uid="uid://dra51a13dtibu" path="res://Scenes/Interactables/Seiva/QuedaSeiva.gd" id="7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ivfkq"]
+size = Vector2(496, 8)
+
+[node name="Seiva" type="Node2D" unique_id=2025399844]
+script = ExtResource("1")
+
+[node name="Base" type="Sprite2D" parent="." unique_id=605160903]
+z_index = -2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4")
+centered = false
+
+[node name="Agua" type="Node2D" parent="." unique_id=1754150949]
+position = Vector2(3, 32)
+script = ExtResource("2")
+opacidade_quedas = 0.739
+espessura_inicio_12 = 17.0
+espessura_final_12 = 149.149
+espessura_inicio_23 = 24.0
+espessura_final_23 = 236.815
+clareza_final = 0.0
+extensao_clara = 1.0
+inicio_opacidade_final = 0.0
+opacidade_final = 0.571
+velocidade_na_bacia = 0.046
+velocidade_na_queda = 1.541
+distancia_sem_detalhes = 429.762
+velocidade_fluxo = 2.323
+
+[node name="Ponto1" type="Marker2D" parent="Agua" unique_id=963931566]
+position = Vector2(954, 286)
+
+[node name="Agua" type="Node2D" parent="Agua/Ponto1" unique_id=1763392810]
+z_index = 1
+position = Vector2(-15, 24)
+script = ExtResource("6")
+tamanho = Vector2(275, 17)
+area_calma = Vector2(170, 40)
+integrada = true
+
+[node name="Ponto2" type="Marker2D" parent="Agua" unique_id=1749319472]
+position = Vector2(1226, 793)
+
+[node name="Agua" type="Node2D" parent="Agua/Ponto2" unique_id=1434149547]
+z_index = 1
+position = Vector2(10, 43)
+script = ExtResource("6")
+tamanho = Vector2(380, 24)
+desnivel = -30.0
+integrada = true
+
+[node name="Ponto3" type="Marker2D" parent="Agua" unique_id=1989100294]
+position = Vector2(670, 1270)
+
+[node name="Agua" type="Node2D" parent="Agua/Ponto3" unique_id=768445048]
+z_index = 1
+position = Vector2(58, -30)
+script = ExtResource("6")
+tamanho = Vector2(493, 40)
+
+[node name="Queda12" type="Node2D" parent="Agua" unique_id=1141712748]
+z_index = -1
+position = Vector2(-2, -48)
+script = ExtResource("7")
+inicio = Vector2(1189, 309)
+fim = Vector2(1420, 798)
+espessura_inicio = 17.0
+espessura_final = 149.149
+curva = 0.275
+opacidade = 0.739
+velocidade = 2.323
+atraso_detalhes = 429.762
+velocidade_bacia = 0.046
+velocidade_queda = 1.541
+clareza_final = 0.0
+extensao_clara = 1.0
+inicio_opacidade_final = 0.0
+opacidade_final = 0.571
+
+[node name="Queda23" type="Node2D" parent="Agua" unique_id=1320687791]
+z_index = -1
+position = Vector2(-7, -55)
+script = ExtResource("7")
+inicio = Vector2(1275, 803)
+fim = Vector2(1055, 1294)
+espessura_final = 236.815
+curva = 0.317
+opacidade = 0.739
+velocidade = 2.323
+atraso_detalhes = 429.762
+velocidade_bacia = 0.046
+velocidade_queda = 1.541
+clareza_final = 0.0
+extensao_clara = 1.0
+inicio_opacidade_final = 0.0
+opacidade_final = 0.571
+
+[node name="Inicio12" type="Marker2D" parent="Agua" unique_id=2087245475]
+position = Vector2(1189, 309)
+
+[node name="Fim12" type="Marker2D" parent="Agua" unique_id=1905826033]
+position = Vector2(1420, 798)
+
+[node name="Inicio23" type="Marker2D" parent="Agua" unique_id=1513228030]
+position = Vector2(1275, 803)
+
+[node name="Fim23" type="Marker2D" parent="Agua" unique_id=1256141086]
+position = Vector2(1055, 1294)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1823924334]
+z_index = 1
+position = Vector2(1075, 765)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_kes7q")
+
+[node name="Sobreposicao" type="Sprite2D" parent="." unique_id=533077542]
+z_index = 4
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5")
+centered = false
+
+[node name="Colisoes" type="Node2D" parent="." unique_id=126863602]
+
+[node name="PontosColeta" type="Node2D" parent="." unique_id=1339156561]
+
+[node name="Bacia1" type="Marker2D" parent="PontosColeta" unique_id=2083320232]
+position = Vector2(1079.5, 350.5)
+script = ExtResource("3")
+
+[node name="Bacia2" type="Marker2D" parent="PontosColeta" unique_id=228567088]
+position = Vector2(1429, 880)
+script = ExtResource("3")
+
+[node name="Bacia3" type="Marker2D" parent="PontosColeta" unique_id=228230385]
+position = Vector2(977.5, 1292)
+script = ExtResource("3")
+
+[node name="SomEncher" type="AudioStreamPlayer2D" parent="." unique_id=1194179823]
+max_polyphony = 4
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1880488519]
+position = Vector2(975, 1292)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1541958508]
+position = Vector2(0, 22)
+shape = SubResource("RectangleShape2D_ivfkq")
+one_way_collision = true

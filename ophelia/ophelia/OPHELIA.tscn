@@ -473,7 +473,7 @@ resource_local_to_scene = true
 radius = 92.0
 
 [node name="OPHELIA" type="CharacterBody2D" unique_id=511665532]
-z_index = 1
+z_index = 2
 collision_layer = 2
 collision_mask = 13
 script = ExtResource("1_bu2em")

@@ -27,10 +27,12 @@
 [ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/FlocoNeve/FlocoNeve.tscn" id="31_7cbs8"]
 [ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Heleboro/Heleboro.tscn" id="32_tegcm"]
 [ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Iris/Iris.tscn" id="33_6s8hn"]
-[ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Muguet/Muguet.tscn" id="34_84tid"]
+[ext_resource type="PackedScene" uid="uid://c8mdqrjwd5d47" path="res://Scenes/Interactables/Flowers/Muguet/Muguet.tscn" id="34_84tid"]
 [ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Narciso/Narciso.tscn" id="35_paosk"]
 [ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Primula/Primula.tscn" id="36_72wyr"]
 [ext_resource type="PackedScene" uid="uid://m5bs3gno514x" path="res://Scenes/Interactables/Flowers/Tulipa/Tulipa.tscn" id="37_fos07"]
+[ext_resource type="PackedScene" path="res://Scenes/Interactables/Ramos/Ramos.tscn" id="38_7cbs8"]
+[ext_resource type="PackedScene" uid="uid://cj21pju5s342b" path="res://Scenes/Interactables/Seiva/Seiva.tscn" id="39_6s8hn"]
 [ext_resource type="PackedScene" uid="uid://b6csr14kv0ww8" path="res://Scenes/Interactables/Flowers/Colquico/Colquico.tscn" id="39_tegcm"]
 [ext_resource type="PackedScene" uid="uid://3hvxmelx2uk8" path="res://Scenes/Interactables/Flowers/Lirio/Lirio.tscn" id="40_6s8hn"]
 [ext_resource type="PackedScene" uid="uid://6dubcbumnifa" path="res://Scenes/Interactables/Flowers/Camelia/Camelia.tscn" id="41_84tid"]
@@ -328,10 +330,11 @@ position = Vector2(1566, 1948)
 position = Vector2(1254, 1944)
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=547668541]
-offset_left = -7673.0
-offset_top = -2340.9998
-offset_right = -2967.0
-offset_bottom = 719.00024
+visible = false
+offset_left = -7306.0
+offset_top = -233.00049
+offset_right = -2600.0
+offset_bottom = 2826.9995
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("23_mr7of")
 
@@ -383,3 +386,11 @@ position = Vector2(-2262, 2023)
 
 [node name="Tulipa" parent="." unique_id=1028891600 instance=ExtResource("37_fos07")]
 position = Vector2(-2732, 2022)
+
+[node name="Ramos" parent="." unique_id=11251389 instance=ExtResource("38_7cbs8")]
+position = Vector2(-3381, 2015)
+scale = Vector2(0.3, 0.3)
+mostrar_vento_no_editor = true
+
+[node name="Seiva" parent="." unique_id=2097233405 instance=ExtResource("39_6s8hn")]
+position = Vector2(-6134, 720)
