@@ -1,19 +1,36 @@
-[gd_scene format=3 uid="uid://cj21pju5s342b"]
+[gd_scene format=3 uid="uid://tbteugjkacvq"]
 
 [ext_resource type="Script" uid="uid://ds68ly0n01jri" path="res://Scenes/Interactables/Seiva/Seiva.gd" id="1"]
 [ext_resource type="Script" uid="uid://usvefcageo6b" path="res://Scenes/Interactables/Seiva/AnimacaoAgua.gd" id="2"]
 [ext_resource type="Script" uid="uid://bettp7ahiyqwk" path="res://Scenes/Interactables/Seiva/PontoColetaSeiva.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://cubft1tpb3h07" path="res://Assets/Textures/Interativeis/Seiva/Base.svg" id="4"]
-[ext_resource type="Texture2D" uid="uid://dla1sgrr4x2iw" path="res://Assets/Textures/Interativeis/Seiva/Sobreposição.svg" id="5"]
 [ext_resource type="Script" uid="uid://bynyph6f8p3ur" path="res://Scenes/Interactables/Seiva/ReservatorioSeiva.gd" id="6"]
-[ext_resource type="Texture2D" uid="uid://dvi45yqrmjplv" path="res://Assets/Textures/Interativeis/Seiva/SobreposiçãoBorda.svg" id="6_kes7q"]
+[ext_resource type="Texture2D" uid="uid://bun87eqyenleb" path="res://Assets/Textures/Interativeis/Seiva/BaseB.svg" id="6_3p2os"]
 [ext_resource type="Script" uid="uid://dra51a13dtibu" path="res://Scenes/Interactables/Seiva/QuedaSeiva.gd" id="7"]
+[ext_resource type="Texture2D" uid="uid://teru5n3ra6gp" path="res://Assets/Textures/Interativeis/Seiva/PlantaDeco/Planta1Deco1.svg" id="d1a"]
+[ext_resource type="Texture2D" uid="uid://duy4wb1q18mqx" path="res://Assets/Textures/Interativeis/Seiva/PlantaDeco/Planta1Deco2.svg" id="d1b"]
+[ext_resource type="Texture2D" uid="uid://b3ceaxbrrpyu3" path="res://Assets/Textures/Interativeis/Seiva/PlantaDeco/Planta1Deco3.svg" id="d1c"]
+[ext_resource type="Texture2D" uid="uid://d1rcp63fns1hr" path="res://Assets/Textures/Interativeis/Seiva/PlantaDeco2/Frame 37.svg" id="d2a"]
+[ext_resource type="Texture2D" uid="uid://buduraai7fs10" path="res://Assets/Textures/Interativeis/Seiva/PlantaDeco2/Frame 38.svg" id="d2b"]
+[ext_resource type="Texture2D" uid="uid://bvvgoyks4c25a" path="res://Assets/Textures/Interativeis/Seiva/PlantaDeco2/Frame 39.svg" id="d2c"]
+[ext_resource type="Texture2D" uid="uid://sapppmv23y3n" path="res://Assets/Textures/Interativeis/Seiva/PlantaDeco2/Frame 40.svg" id="d2d"]
+[ext_resource type="Texture2D" uid="uid://b13k5fho2wjyf" path="res://Assets/Textures/Interativeis/Seiva/PlantaDeco2/Frame 41.svg" id="d2e"]
+[ext_resource type="Texture2D" uid="uid://c12kl030gigwg" path="res://Assets/Textures/Interativeis/Seiva/PlantaDeco2/Frame 42.svg" id="d2vaso"]
+[ext_resource type="Texture2D" uid="uid://mmq3svq1mo5f" path="res://Scenes/Interactables/Seiva/CaulesDeco1.svg" id="decocaules"]
+[ext_resource type="PackedScene" uid="uid://c5l48fhvnynkl" path="res://Scenes/Interactables/Seiva/EfeitosBacia.tscn" id="efeitos"]
+[ext_resource type="Script" uid="uid://cdulrtm7nq0e6" path="res://Scenes/Interactables/Seiva/EspumaSeiva.gd" id="foam"]
+[ext_resource type="Script" uid="uid://dpm7okr50p8tt" path="res://Scenes/Interactables/Seiva/BalancoDecoracaoSeiva.gd" id="sway"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ivfkq"]
-size = Vector2(496, 8)
+size = Vector2(862, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o1ryk"]
+size = Vector2(1427, 46)
 
 [node name="Seiva" type="Node2D" unique_id=2025399844]
 script = ExtResource("1")
+distancia_coleta = 200.0
+acompanhar_bacias = false
 
 [node name="Base" type="Sprite2D" parent="." unique_id=605160903]
 z_index = -2
@@ -22,19 +39,20 @@ texture = ExtResource("4")
 centered = false
 
 [node name="Agua" type="Node2D" parent="." unique_id=1754150949]
+z_index = 4
 position = Vector2(3, 32)
 script = ExtResource("2")
 opacidade_quedas = 0.739
-espessura_inicio_12 = 17.0
+espessura_inicio_12 = 19.0
 espessura_final_12 = 149.149
 espessura_inicio_23 = 24.0
 espessura_final_23 = 236.815
 clareza_final = 0.0
 extensao_clara = 1.0
-inicio_opacidade_final = 0.0
-opacidade_final = 0.571
+inicio_opacidade_final = 0.488
+opacidade_final = 0.329
 velocidade_na_bacia = 0.046
-velocidade_na_queda = 1.541
+velocidade_na_queda = 2.393
 distancia_sem_detalhes = 429.762
 velocidade_fluxo = 2.323
 
@@ -42,18 +60,16 @@ velocidade_fluxo = 2.323
 position = Vector2(954, 286)
 
 [node name="Agua" type="Node2D" parent="Agua/Ponto1" unique_id=1763392810]
-z_index = 1
-position = Vector2(-15, 24)
+position = Vector2(-9, -30)
 script = ExtResource("6")
-tamanho = Vector2(275, 17)
+tamanho = Vector2(275, 19)
 area_calma = Vector2(170, 40)
 integrada = true
 
 [node name="Ponto2" type="Marker2D" parent="Agua" unique_id=1749319472]
-position = Vector2(1226, 793)
+position = Vector2(1218, 732)
 
 [node name="Agua" type="Node2D" parent="Agua/Ponto2" unique_id=1434149547]
-z_index = 1
 position = Vector2(10, 43)
 script = ExtResource("6")
 tamanho = Vector2(380, 24)
@@ -64,95 +80,353 @@ integrada = true
 position = Vector2(670, 1270)
 
 [node name="Agua" type="Node2D" parent="Agua/Ponto3" unique_id=768445048]
-z_index = 1
-position = Vector2(58, -30)
+position = Vector2(56, -31)
 script = ExtResource("6")
-tamanho = Vector2(493, 40)
+tamanho = Vector2(493, 22)
 
 [node name="Queda12" type="Node2D" parent="Agua" unique_id=1141712748]
-z_index = -1
-position = Vector2(-2, -48)
+position = Vector2(3, -53)
 script = ExtResource("7")
-inicio = Vector2(1189, 309)
-fim = Vector2(1420, 798)
-espessura_inicio = 17.0
+inicio = Vector2(1185, 312)
+fim = Vector2(1442, 800)
+espessura_inicio = 19.0
 espessura_final = 149.149
 curva = 0.275
 opacidade = 0.739
 velocidade = 2.323
 atraso_detalhes = 429.762
 velocidade_bacia = 0.046
-velocidade_queda = 1.541
+velocidade_queda = 2.393
 clareza_final = 0.0
 extensao_clara = 1.0
-inicio_opacidade_final = 0.0
-opacidade_final = 0.571
+inicio_opacidade_final = 0.488
+opacidade_final = 0.329
 
 [node name="Queda23" type="Node2D" parent="Agua" unique_id=1320687791]
-z_index = -1
 position = Vector2(-7, -55)
 script = ExtResource("7")
 inicio = Vector2(1275, 803)
-fim = Vector2(1055, 1294)
+fim = Vector2(1043, 1298)
 espessura_final = 236.815
 curva = 0.317
 opacidade = 0.739
 velocidade = 2.323
 atraso_detalhes = 429.762
 velocidade_bacia = 0.046
-velocidade_queda = 1.541
+velocidade_queda = 2.393
 clareza_final = 0.0
 extensao_clara = 1.0
-inicio_opacidade_final = 0.0
-opacidade_final = 0.571
+inicio_opacidade_final = 0.488
+opacidade_final = 0.329
 
 [node name="Inicio12" type="Marker2D" parent="Agua" unique_id=2087245475]
-position = Vector2(1189, 309)
+position = Vector2(1185, 312)
 
 [node name="Fim12" type="Marker2D" parent="Agua" unique_id=1905826033]
-position = Vector2(1420, 798)
+position = Vector2(1442, 800)
 
 [node name="Inicio23" type="Marker2D" parent="Agua" unique_id=1513228030]
 position = Vector2(1275, 803)
 
 [node name="Fim23" type="Marker2D" parent="Agua" unique_id=1256141086]
-position = Vector2(1055, 1294)
+position = Vector2(1043, 1298)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1823924334]
-z_index = 1
+z_index = 5
 position = Vector2(1075, 765)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("6_kes7q")
-
-[node name="Sobreposicao" type="Sprite2D" parent="." unique_id=533077542]
-z_index = 4
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("5")
-centered = false
-
-[node name="Colisoes" type="Node2D" parent="." unique_id=126863602]
+texture = ExtResource("6_3p2os")
 
 [node name="PontosColeta" type="Node2D" parent="." unique_id=1339156561]
 
 [node name="Bacia1" type="Marker2D" parent="PontosColeta" unique_id=2083320232]
-position = Vector2(1079.5, 350.5)
+position = Vector2(1085.5, 297.5)
 script = ExtResource("3")
+distancia_coleta = 200.0
 
 [node name="Bacia2" type="Marker2D" parent="PontosColeta" unique_id=228567088]
-position = Vector2(1429, 880)
+position = Vector2(1451, 777)
 script = ExtResource("3")
+distancia_coleta = 300.0
 
 [node name="Bacia3" type="Marker2D" parent="PontosColeta" unique_id=228230385]
-position = Vector2(977.5, 1292)
+position = Vector2(976, 1270)
 script = ExtResource("3")
+distancia_coleta = 400.0
 
 [node name="SomEncher" type="AudioStreamPlayer2D" parent="." unique_id=1194179823]
 max_polyphony = 4
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1880488519]
+[node name="EfeitosAgua" type="Node2D" parent="." unique_id=211817589]
+
+[node name="Bacia1" parent="EfeitosAgua" unique_id=1132470870 instance=ExtResource("efeitos")]
+reservatorio = NodePath("../../Agua/Ponto1/Agua")
+plataforma = NodePath("../../Colisoes/BaciaSuperior")
+intensidade = 0.665
+altura_maxima = 668.843
+
+[node name="Bacia2" parent="EfeitosAgua" unique_id=1968874599 instance=ExtResource("efeitos")]
+reservatorio = NodePath("../../Agua/Ponto2/Agua")
+plataforma = NodePath("../../Colisoes/BaciaMeio")
+chegada_queda = NodePath("../../Agua/Fim12")
+
+[node name="Bacia3" parent="EfeitosAgua" unique_id=49020521 instance=ExtResource("efeitos")]
+reservatorio = NodePath("../../Agua/Ponto3/Agua")
+plataforma = NodePath("../../Colisoes/BaciaInferior")
+chegada_queda = NodePath("../../Agua/Fim23")
+
+[node name="Decoracoes" type="Node2D" parent="." unique_id=1023420224]
+
+[node name="Deco1" type="Node2D" parent="Decoracoes" unique_id=224835639]
+position = Vector2(1830, 938.99994)
+scale = Vector2(0.39, 0.39)
+
+[node name="Desenho" type="Node2D" parent="Decoracoes/Deco1" unique_id=411103478]
+position = Vector2(-450, -755)
+
+[node name="Caules" type="Sprite2D" parent="Decoracoes/Deco1/Desenho" unique_id=2102397048]
+z_index = 5
+z_as_relative = false
+texture = ExtResource("decocaules")
+centered = false
+
+[node name="FolhaEsquerda" type="Sprite2D" parent="Decoracoes/Deco1/Desenho" unique_id=898131725]
+z_index = 6
+z_as_relative = false
+position = Vector2(262, 306)
+texture = ExtResource("d1a")
+centered = false
+offset = Vector2(-262, -306)
+script = ExtResource("sway")
+velocidade = 0.79
+amplitude_graus = 2.3
+fase = 1.3
+
+[node name="FolhaSuperior" type="Sprite2D" parent="Decoracoes/Deco1/Desenho" unique_id=1201870379]
+z_index = 6
+z_as_relative = false
+position = Vector2(462, 155)
+texture = ExtResource("d1b")
+centered = false
+offset = Vector2(-462, -155)
+script = ExtResource("sway")
+velocidade = 0.67
+amplitude_graus = 1.6
+fase = 0.5
+
+[node name="FolhaDireita" type="Sprite2D" parent="Decoracoes/Deco1/Desenho" unique_id=49609019]
+z_index = 6
+z_as_relative = false
+position = Vector2(600, 385)
+texture = ExtResource("d1c")
+centered = false
+offset = Vector2(-600, -385)
+script = ExtResource("sway")
+velocidade = 0.91
+amplitude_graus = 2.1
+fase = 2.5
+
+[node name="Deco2" type="Node2D" parent="Decoracoes" unique_id=343256178]
+position = Vector2(360, 368.00003)
+scale = Vector2(0.42, 0.42)
+
+[node name="Desenho" type="Node2D" parent="Decoracoes/Deco2" unique_id=567656987]
+position = Vector2(-580, -704)
+
+[node name="Vaso" type="Sprite2D" parent="Decoracoes/Deco2/Desenho" unique_id=1469858482]
+z_index = -3
+z_as_relative = false
+position = Vector2(3.0517578e-05, 0)
+scale = Vector2(0.9999998, 0.9999998)
+texture = ExtResource("d2vaso")
+centered = false
+
+[node name="RamoSuperiorEsquerdo" type="Sprite2D" parent="Decoracoes/Deco2/Desenho" unique_id=772344205]
+z_index = 6
+z_as_relative = false
+position = Vector2(558, 416)
+texture = ExtResource("d2a")
+centered = false
+offset = Vector2(-558, -416)
+script = ExtResource("sway")
+velocidade = 0.68
+amplitude_graus = 1.8
+fase = 0.35
+
+[node name="RamoSuperiorDireito" type="Sprite2D" parent="Decoracoes/Deco2/Desenho" unique_id=1520005465]
+z_index = 6
+z_as_relative = false
+position = Vector2(599, 387)
+texture = ExtResource("d2b")
+centered = false
+offset = Vector2(-599, -387)
+script = ExtResource("sway")
+velocidade = 0.82
+amplitude_graus = 2.1
+fase = 1.8
+
+[node name="RamoDireito" type="Sprite2D" parent="Decoracoes/Deco2/Desenho" unique_id=3534595]
+z_index = 6
+z_as_relative = false
+position = Vector2(657, 296)
+texture = ExtResource("d2c")
+centered = false
+offset = Vector2(-657, -296)
+script = ExtResource("sway")
+velocidade = 0.93
+amplitude_graus = 1.4
+fase = 2.9
+
+[node name="RamoCentral" type="Sprite2D" parent="Decoracoes/Deco2/Desenho" unique_id=1229637109]
+z_index = 6
+z_as_relative = false
+position = Vector2(634, 388)
+texture = ExtResource("d2d")
+centered = false
+offset = Vector2(-634, -388)
+script = ExtResource("sway")
+velocidade = 0.75
+amplitude_graus = 2.2
+fase = 1.0
+
+[node name="RamoEsquerdo" type="Sprite2D" parent="Decoracoes/Deco2/Desenho" unique_id=609383427]
+z_index = 6
+z_as_relative = false
+position = Vector2(495, 375)
+texture = ExtResource("d2e")
+centered = false
+offset = Vector2(-495, -375)
+script = ExtResource("sway")
+velocidade = 0.88
+fase = 2.2
+
+[node name="Espuma" type="Node2D" parent="." unique_id=1169464951]
+
+[node name="Bacia2" type="Sprite2D" parent="Espuma" unique_id=1895620914]
+modulate = Color(1, 1, 1, 0.78)
+z_index = 2
+z_as_relative = false
+position = Vector2(1450, 777)
+scale = Vector2(0.242, 0.2)
+centered = false
+offset = Vector2(-520, -148)
+script = ExtResource("foam")
+fase = 0.7
+
+[node name="Bacia3" type="Sprite2D" parent="Espuma" unique_id=52687816]
+modulate = Color(1, 1, 1, 0.78)
+z_index = 2
+z_as_relative = false
+position = Vector2(1040, 1269)
+scale = Vector2(0.4, 0.254)
+centered = false
+offset = Vector2(-520, -148)
+script = ExtResource("foam")
+altura_onda = 62.0
+agitacao = 1.05
+pulsacao = 0.7
+fase = 3.0
+
+[node name="Colisoes" type="Node2D" parent="." unique_id=126863602]
+
+[node name="BaciaSuperior" type="StaticBody2D" parent="Colisoes" unique_id=433798838]
+position = Vector2(1079.5, 358)
+collision_mask = 0
+
+[node name="Forma" type="CollisionPolygon2D" parent="Colisoes/BaciaSuperior" unique_id=223075365]
+position = Vector2(-24.875, -26)
+build_mode = 1
+polygon = PackedVector2Array(-106.625, -25, 135.375, -22, 135.375, 2, 77.375, 57, 77.375, 75, -84.625, 75, -84.625, 58, -76.625, 58, -136.625, -23, -133.625, -48, -106.625, -47)
+
+[node name="BaciaMeio" type="StaticBody2D" parent="Colisoes" unique_id=875171138]
+position = Vector2(1429, 863)
+rotation = -0.07878
+collision_mask = 0
+
+[node name="Forma" type="CollisionPolygon2D" parent="Colisoes/BaciaMeio" unique_id=2021631853]
+position = Vector2(56.324802, 23.50559)
+rotation = 0.07117929
+build_mode = 1
+polygon = PackedVector2Array(-216.40088, -79.64703, 123.61963, -81.062744, 123.81726, -107.06195, 162.82385, -107.7655, 164.58801, -76.75122, 75.72412, 36.5766, 91.72363, 36.698242, 91.56409, 57.69763, -135.43701, 56.97229, -135.26208, 33.97296, -126.26233, 34.04138, -213.64417, -47.625183)
+
+[node name="BaciaInferior" type="StaticBody2D" parent="Colisoes" unique_id=1124200826]
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Colisoes/BaciaInferior" unique_id=804664217]
+build_mode = 1
+polygon = PackedVector2Array(670, 1271, 730, 1272, 730, 1294, 1223, 1294, 1223, 1271, 1281, 1271, 1282, 1311, 1134, 1446, 815, 1446, 670, 1311)
+
+[node name="ColGancho" type="Node2D" parent="." unique_id=529266200]
 position = Vector2(975, 1292)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1541958508]
-position = Vector2(0, 22)
+[node name="PilastraEsquerda" type="StaticBody2D" parent="ColGancho" unique_id=1289310629]
+position = Vector2(-610, -327)
+collision_layer = 256
+collision_mask = 0
+
+[node name="Forma" type="CollisionPolygon2D" parent="ColGancho/PilastraEsquerda" unique_id=96649356]
+position = Vector2(2, -22)
+build_mode = 1
+polygon = PackedVector2Array(-133, 446, -117, 446, -117, -436, -133, -436, -133, -492, 131, -493, 130, -436, 114, -436, 114, 446, 130, 446, 130, 502, 170, 502, 216, 544, 216, 587, -219, 587, -219, 544, -173, 502, -133, 502)
+
+[node name="PilastraDireita" type="StaticBody2D" parent="ColGancho" unique_id=711209241]
+position = Vector2(905, -72)
+collision_layer = 256
+collision_mask = 0
+
+[node name="Forma" type="CollisionPolygon2D" parent="ColGancho/PilastraDireita" unique_id=697921480]
+position = Vector2(8.354988, -12.593623)
+scale = Vector2(0.4665084, 0.46512976)
+build_mode = 1
+polygon = PackedVector2Array(-133.66309, 452.76318, -116.514404, 452.76318, -118.65796, -437.31104, -133.66309, -437.31104, -133.66309, -493.20947, 129.9978, -493.20947, 130, -436, 114, -436, 112.849365, 450.61328, 129.9978, 450.61328, 129.9978, 508.66162, 172.86938, 508.66162, 215.74097, 551.6604, 213.59741, 590.35913, -219.4065, 592.50903, -219.4065, 551.6604, -176.53467, 510.81152, -133.66309, 508.66162)
+
+[node name="CantoEsquerdo" type="StaticBody2D" parent="ColGancho" unique_id=514514879]
+position = Vector2(-432, -766)
+collision_layer = 256
+collision_mask = 0
+
+[node name="Forma" type="CollisionPolygon2D" parent="ColGancho/CantoEsquerdo" unique_id=2104814085]
+position = Vector2(2680, 266)
+scale = Vector2(20.617188, 1)
+polygon = PackedVector2Array(-132.99583, -122, -132.99583, -342, -122.37363, -342)
+
+[node name="CantoDireito" type="StaticBody2D" parent="ColGancho" unique_id=655383408]
+position = Vector2(820, -281)
+collision_layer = 256
+collision_mask = 0
+
+[node name="Forma" type="CollisionPolygon2D" parent="ColGancho/CantoDireito" unique_id=1463329192]
+position = Vector2(2784, 311)
+scale = Vector2(20.617188, 1)
+polygon = PackedVector2Array(-133.18983, -216, -133.18983, -344, -139.34975, -344)
+
+[node name="ChaoPadrao" type="Node2D" parent="." unique_id=1356944886]
+
+[node name="ChaoInferior" type="StaticBody2D" parent="ChaoPadrao" unique_id=1544478275]
+position = Vector2(1118, 1465)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaoPadrao/ChaoInferior" unique_id=1541958508]
+position = Vector2(-1, 0)
 shape = SubResource("RectangleShape2D_ivfkq")
-one_way_collision = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ChaoPadrao/ChaoInferior" unique_id=141432650]
+position = Vector2(209.5, 41)
+shape = SubResource("RectangleShape2D_o1ryk")
+
+[node name="ChaoSuperior" type="StaticBody2D" parent="ChaoPadrao" unique_id=1005686547]
+position = Vector2(655, 445)
+collision_mask = 0
+
+[node name="Forma" type="CollisionPolygon2D" parent="ChaoPadrao/ChaoSuperior" unique_id=656847458]
+position = Vector2(26.15516, -10.839909)
+scale = Vector2(1.4018587, 1.0689101)
+build_mode = 1
+polygon = PackedVector2Array(-346.79327, 15.754272, -380.3202, -22.60257, -380.3202, -62.830444, -70.7312, -61.894928, -70.7312, -26.344696, 339.4385, -25.40915, 339.4385, 1.721283, 322.3184, 14.818726)
+
+[node name="ChaoMeio" type="StaticBody2D" parent="ChaoPadrao" unique_id=1238596465]
+position = Vector2(1650, 963)
+collision_mask = 0
+
+[node name="Forma" type="CollisionPolygon2D" parent="ChaoPadrao/ChaoMeio" unique_id=1608220179]
+build_mode = 1
+polygon = PackedVector2Array(-317, 15, -333, 2, -333, -24, 339, -24, 339, -4, 318, 15)

@@ -1,37 +1,30 @@
 extends Control
-# Altere para o caminho exato da sua cena de Menu Principal
-const CENA_MENU_PRINCIPAL := "res://Scenes/UI/Telas/Tela_Principal/TelaPrincipal.tscn"
-# Substitua pelo caminho do seu botão de voltar na árvore de nós
-@onready var botao_voltar: TextureButton = $Voltar
+const PRINCIPAL := "res://Scenes/UI/Telas/Tela_Principal/TelaPrincipal.tscn"
+const VOLUME := "res://Scenes/UI/Telas/Tela_Volume/AjustesVolume.tscn"
+const CONTROLES := "res://Scenes/UI/Telas/Tela_Controles/TelaControles.tscn"
 
-# Preparar o nó
-# ---------------------
-# Configura referências, sinais e estado inicial.
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	_conectar("HBoxContainer/Volume", &"volume")
+	_conectar("HBoxContainer/Controles", &"controles")
+	_conectar("Navegacao/Volume", &"volume")
+	var voltar: BaseButton = get_node_or_null("Navegacao/Iniciar") as BaseButton
+	if voltar != null:
+		voltar.pressed.connect(_voltar)
 
-	# Efeito de Entrada (Fade In) dos novos elementos ao carregar a tela
-	modulate.a = 0.0
-	var fade_in = create_tween()
-	fade_in.tween_property(self, "modulate:a", 1.0, 0.5)\
-		.set_trans(Tween.TRANS_SINE)\
-		.set_ease(Tween.EASE_OUT)
+func _conectar(caminho: String, destino: StringName) -> void:
+	var botao: BaseButton = get_node_or_null(caminho) as BaseButton
+	if botao != null:
+		botao.pressed.connect(func(): _abrir(destino))
 
-	if botao_voltar:
+func _abrir(destino: StringName) -> void:
+	if get_parent() != null and get_parent().has_method("abrir_subtela"):
+		get_parent().call("abrir_subtela", destino)
+	else:
+		get_tree().change_scene_to_file(VOLUME if destino == &"volume" else CONTROLES)
 
-		botao_voltar.pressed.connect(_on_botao_voltar_pressed)
-
-# Voltar ao menu
-# ---------------------
-# Faz a transição de saída e retorna ao menu principal.
-func _on_botao_voltar_pressed() -> void:
-
-	# Efeito de Saída (Fade Out) ao clicar em Voltar
-	var fade_out = create_tween()
-	fade_out.tween_property(self, "modulate:a", 0.0, 0.5)\
-		.set_trans(Tween.TRANS_SINE)\
-		.set_ease(Tween.EASE_IN)
-
-	fade_out.finished.connect(func():
-
-		get_tree().change_scene_to_file(CENA_MENU_PRINCIPAL)
-	)
+func _voltar() -> void:
+	if get_parent() != null and get_parent().has_method("voltar_ou_fechar"):
+		get_parent().call("voltar_ou_fechar")
+	else:
+		get_tree().change_scene_to_file(PRINCIPAL)

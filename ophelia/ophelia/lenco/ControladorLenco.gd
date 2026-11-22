@@ -10,7 +10,11 @@ var estado_atual: EstadoLenco = EstadoLenco.REPOUSO
 @export var pontos_por_fita: int = 9          # 5 nós base + 4 interpolações
 @export var sensibilidade_arrasto_pulo: float = 0.06 # Reatividade do lenço no pulo/queda
 # --- CONFIGURAÇÕES DO GANCHO ---
-@export var forca_embalo_ar: float = 500.0   # Aceleração horizontal ao balançar com a corda esticada
+@export_group("Pêndulo do gancho")
+@export var forca_embalo_ar: float = 700.0   # Força tangencial com A/D, sem anular a inércia
+@export_range(0.0, 3.0, 0.01) var amortecimento_pendulo: float = 0.22  # Perda de velocidade por segundo (menor = mais balanços)
+@export var limite_velocidade_pendulo: float = 1250.0 # Evita velocidades excessivas sem matar o embalo
+@export var tolerancia_corda: float = 0.75 # Margem em pixels para evitar microtravamentos
 # --- ORIGEM DAS FITAS POR ANIMAÇÃO ---
 # A gola já está no desenho; aqui a ORIGEM DAS FITAS é que acompanha a gola desenhada.
 # Quanto a origem desce (+Y) / desloca (X) em cada FRAME da animação,
@@ -39,14 +43,15 @@ var estado_atual: EstadoLenco = EstadoLenco.REPOUSO
 @export var subdivisoes_curva: int = 4      # Arredondamento das curvas (1 = sem arredondar)
 # --- INDICADOR DE ALCANCE DO GANCHO ---
 @export var indicador_alcance_ativo: bool = true
-@export var alcance_alternar: bool = false      # false: mostra enquanto segura | true: liga/desliga a cada aperto
-@export var duracao_aviso_alcance: float = 1.2  # Segundos visível ao clicar sem ter onde prender
+@export var duracao_aviso_alcance: float = 1.2  # Mostra exclusivamente na tentativa de gancho sem âncora
 @export var cor_alcance: Color = Color(1.0, 1.0, 1.0, 1.0)
-const ACAO_ALCANCE: String = "ControleMostrarAlcance"
 # O ataque à distância acertou algo que o ataque machuca (ligue aqui o dano, se o seu inimigo não reagir sozinho)
+@warning_ignore("unused_signal")
 signal projetil_acertou(alvo: Node)
 @onready var fita_tras: Line2D = %FitaTras
 @onready var fita_frente: Line2D = %FitaFrente
+@onready var ponta_tras: Node2D = %PontaTras
+@onready var ponta_frente: Node2D = %PontaFrente
 @onready var raio_alcance: RayCast2D = %SensorGancho
 @onready var jogador: CharacterBody2D = get_node("..")
 # Nós de Colisão
@@ -83,11 +88,11 @@ signal projetil_acertou(alvo: Node)
 @export var redoma_deslocamento: Vector2 = Vector2.ZERO
 var caminho_defesa_frente: Array[Vector2] = []
 var caminho_defesa_tras: Array[Vector2] = []
-@export_group("Teclas")
-# --- ATAQUE À DISTÂNCIA (Shift troca a forma do ataque) ---
+@export_group("Habilidades")
+# --- PROJÉTEIS (botão direito separado do corte contextual do esquerdo) ---
 # Valores PROVISÓRIOS, ainda não aprovados: ajuste no Inspetor.
-# Com o modo ligado, Q lança um projétil independente sem esconder as pontas do lenço.
-@export_group("Ataque à distância (Shift)")
+# O botão direito dispara o modo escolhido pela roda do mouse.
+@export_group("Ataque à distância (botão direito)")
 @export var textura_projetil: Texture2D
 @export var tamanho_projetil: Vector2 = Vector2(24, 24)
 @export var raio_apoio_projetil: float = 20.0
@@ -137,7 +142,7 @@ var frontal: float = 0.0                         # 0 = de lado | 1 = de frente (
 var frente_defesa: float = 1.0                   # Lado para onde ela olhava ao começar a defesa (+1 direita | -1 esquerda)
 var vertices_redoma: Array[Vector2] = []         # Contorno circular neste quadro (mundo)
 var impulso_propulsor_pendente: bool = false     # O impulso sai só quando a animação chega ao auge
-var modo_distancia: bool = false                 # Shift: false = golpe curto | true = ponta lançada
+var modo_distancia: bool = false                 # false = Corte; true = Projéteis (roda do mouse)
 var ataque_a_distancia: bool = false             # Modo travado no instante em que o ataque começou
 var alvos_atingidos: Array[int] = []
 var projeteis: Array[OpheliaProjetilLenco] = []         # Cada projétil ocupa uma das duas cargas
@@ -197,6 +202,10 @@ var _alvo_comando: Vector2 = Vector2.ZERO
 func _ready() -> void:
 
 	set_physics_process(false)
+	# As pontas são desenhadas na mesma camada relativa de cada fita.
+	# Nunca ficam independentes do Z da Ophelia.
+	ponta_tras.draw.connect(_desenhar_ponta_tras)
+	ponta_frente.draw.connect(_desenhar_ponta_frente)
 
 	for componente in [visual, combate, gancho]:
 
@@ -258,6 +267,16 @@ func solicitar_comando(acao: StringName, mouse: Vector2) -> void:
 
 			_tentar_disparar_gancho(origem_anterior, mouse)
 
+# Clique esquerdo sempre tenta APENAS ancorar; o ataque usa mouse direito.
+func acao_contextual_esquerda(mouse: Vector2) -> void:
+	solicitar_comando(&"ControleFixarLenco", mouse)
+
+func _executar_corte(mouse: Vector2) -> void:
+	if not _pode_usar(OpheliaHabilidades.ATAQUE_LENCO):
+		return
+	modo_distancia = false
+	solicitar_comando(&"ControleAtaqueLenco", mouse)
+
 # Soltar gancho
 # ---------------------
 # Solta gancho.
@@ -307,6 +326,11 @@ func atualizar_fisica(delta: float) -> void:
 
 	impulso_gancho_pendente = false
 
+# Resolver o comprimento da corda após mover o corpo e as colisões.
+func corrigir_restricao_apos_movimento() -> void:
+	if estado_atual == EstadoLenco.GANCHO and gancho != null:
+		gancho.corrigir_restricao_apos_movimento()
+
 # Atualizar visual
 # ---------------------
 # Atualiza visual.
@@ -342,6 +366,8 @@ func atualizar_visual(delta: float) -> void:
 
 	_atualizar_efeitos(delta)
 	_redesenhar_line2d()
+	ponta_tras.queue_redraw()
+	ponta_frente.queue_redraw()
 	queue_redraw()
 
 # Ao mudar estado
@@ -739,12 +765,21 @@ func _desenhar_origens_debug() -> void:
 
 	visual._desenhar_origens_debug()
 
-# Desenhar ponta no ponto
+# Desenhar pontas na MESMA camada das suas fitas
 # ---------------------
-# Desenha ponta no ponto.
-func _desenhar_ponta_no_ponto(ponto_anterior: Vector2, ponto_final: Vector2) -> void:
+func _desenhar_ponta_tras() -> void:
 
-	visual._desenhar_ponta_no_ponto(ponto_anterior, ponto_final)
+	if textura_ponta != null and pontos_tras.size() >= pontos_por_fita:
+
+		visual._desenhar_ponta_no_ponto(ponta_tras, pontos_tras[pontos_por_fita - 2], pontos_tras[pontos_por_fita - 1])
+
+
+func _desenhar_ponta_frente() -> void:
+
+	if textura_ponta != null and pontos_frente.size() >= pontos_por_fita:
+
+		visual._desenhar_ponta_no_ponto(ponta_frente, pontos_frente[pontos_por_fita - 2], pontos_frente[pontos_por_fita - 1])
+
 
 # Centro corpo
 # ---------------------

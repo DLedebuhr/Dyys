@@ -1,0 +1,240 @@
+[gd_scene format=3 uid="uid://cn7q05kd284h7"]
+
+[ext_resource type="Texture2D" uid="uid://b81lwkasfjg2y" path="res://Assets/Textures/UI/Tela_Catalago/ElementoFundoCatalago.svg" id="1_ghex7"]
+[ext_resource type="PackedScene" uid="uid://bi2slnccoyxfs" path="res://Scenes/UI/Telas/Tela_Inventario/BotaoAcaoInventario.tscn" id="2_3vbct"]
+[ext_resource type="Texture2D" uid="uid://cfk04mexot7dj" path="res://Assets/Textures/UI/Tela_Inventario/Elementos/EsquerdaA.svg" id="3_rml18"]
+[ext_resource type="Texture2D" uid="uid://bw5yur882aod8" path="res://Assets/Textures/UI/Tela_Inventario/Elementos/EsquerdaB.svg" id="4_e61ns"]
+[ext_resource type="Texture2D" uid="uid://bci12u2wvwmsi" path="res://Assets/Textures/UI/Tela_Inventario/Elementos/DireitaA.svg" id="5_nigbg"]
+[ext_resource type="Texture2D" uid="uid://m85t35hx2t4v" path="res://Assets/Textures/UI/Tela_Inventario/Elementos/DireitaB.svg" id="6_yglul"]
+[ext_resource type="Script" uid="uid://briye32tiv7kc" path="res://Scenes/UI/Telas/Tela_Catalago/TelaCatalago.gd" id="cat_script"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Telas/HUB/FundoCor.tscn" id="fundo_padrao_catalogo"]
+
+[node name="Control" type="Control" unique_id=317903216]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("cat_script")
+
+[node name="FundoCorPadrao" parent="." instance=ExtResource("fundo_padrao_catalogo")]
+mouse_filter = 2
+
+[node name="FundoCor" type="ColorRect" parent="." unique_id=500194534]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.1
+anchor_top = -0.1
+anchor_right = 1.1
+anchor_bottom = 1.1
+mouse_filter = 2
+color = Color(0.055, 0.055, 0.11, 0.94)
+
+[node name="Fundo" type="TextureRect" parent="." unique_id=1859859532]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_ghex7")
+
+[node name="OpheliaFlor" type="TextureRect" parent="." unique_id=556171703]
+layout_mode = 0
+offset_left = 845.0
+offset_top = 425.0
+offset_right = 1075.0
+offset_bottom = 655.0
+
+[node name="Verao" type="Control" parent="." unique_id=1906039859]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Calla" type="TextureRect" parent="Verao" unique_id=1354170967]
+layout_mode = 0
+offset_left = 410.0
+offset_top = 165.0
+offset_right = 610.0
+offset_bottom = 365.0
+
+[node name="Lotus" type="TextureRect" parent="Verao" unique_id=1449053412]
+layout_mode = 0
+offset_left = 253.0
+offset_top = 244.0
+offset_right = 413.0
+offset_bottom = 404.0
+
+[node name="Lirio" type="TextureRect" parent="Verao" unique_id=1920251536]
+layout_mode = 0
+offset_left = 775.0
+offset_top = 215.0
+offset_right = 955.0
+offset_bottom = 395.0
+
+[node name="Cosmos" type="TextureRect" parent="Verao" unique_id=1130395803]
+layout_mode = 0
+offset_left = 635.0
+offset_top = 355.0
+offset_right = 815.0
+offset_bottom = 535.0
+
+[node name="Lavanda" type="TextureRect" parent="Verao" unique_id=1593095303]
+layout_mode = 0
+offset_left = 380.0
+offset_top = 365.0
+offset_right = 540.0
+offset_bottom = 525.0
+
+[node name="Inverno" type="Control" parent="." unique_id=392576678]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Heleboro" type="TextureRect" parent="Inverno" unique_id=787165620]
+layout_mode = 0
+offset_left = 410.0
+offset_top = 715.0
+offset_right = 610.0
+offset_bottom = 915.0
+
+[node name="Primula" type="TextureRect" parent="Inverno" unique_id=639161362]
+layout_mode = 0
+offset_left = 250.0
+offset_top = 680.0
+offset_right = 410.0
+offset_bottom = 840.0
+
+[node name="FlocoNeve" type="TextureRect" parent="Inverno" unique_id=952952054]
+layout_mode = 0
+offset_left = 380.0
+offset_top = 555.0
+offset_right = 540.0
+offset_bottom = 715.0
+
+[node name="Ciclame" type="TextureRect" parent="Inverno" unique_id=1356699194]
+layout_mode = 0
+offset_left = 775.0
+offset_top = 685.0
+offset_right = 955.0
+offset_bottom = 865.0
+
+[node name="Camelia" type="TextureRect" parent="Inverno" unique_id=1027953576]
+layout_mode = 0
+offset_left = 635.0
+offset_top = 545.0
+offset_right = 815.0
+offset_bottom = 725.0
+
+[node name="Outono" type="Control" parent="." unique_id=201383526]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Colquico" type="TextureRect" parent="Outono" unique_id=376559128]
+layout_mode = 0
+offset_left = 1310.0
+offset_top = 165.0
+offset_right = 1510.0
+offset_bottom = 365.0
+
+[node name="Princesa" type="TextureRect" parent="Outono" unique_id=817539719]
+layout_mode = 0
+offset_left = 1510.0
+offset_top = 240.0
+offset_right = 1670.0
+offset_bottom = 400.0
+
+[node name="Viola" type="TextureRect" parent="Outono" unique_id=440191653]
+layout_mode = 0
+offset_left = 1380.0
+offset_top = 365.0
+offset_right = 1540.0
+offset_bottom = 525.0
+
+[node name="Dalia" type="TextureRect" parent="Outono" unique_id=812152181]
+layout_mode = 0
+offset_left = 965.0
+offset_top = 215.0
+offset_right = 1145.0
+offset_bottom = 395.0
+
+[node name="Azaleia" type="TextureRect" parent="Outono" unique_id=331756246]
+layout_mode = 0
+offset_left = 1105.0
+offset_top = 355.0
+offset_right = 1285.0
+offset_bottom = 535.0
+
+[node name="Primavera" type="Control" parent="." unique_id=1057461740]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Muguet" type="TextureRect" parent="Primavera" unique_id=1981054363]
+layout_mode = 0
+offset_left = 1310.0
+offset_top = 715.0
+offset_right = 1510.0
+offset_bottom = 915.0
+
+[node name="Sakura" type="TextureRect" parent="Primavera" unique_id=68991076]
+layout_mode = 0
+offset_left = 1510.0
+offset_top = 680.0
+offset_right = 1670.0
+offset_bottom = 840.0
+
+[node name="Narciso" type="TextureRect" parent="Primavera" unique_id=300710353]
+layout_mode = 0
+offset_left = 1380.0
+offset_top = 555.0
+offset_right = 1540.0
+offset_bottom = 715.0
+
+[node name="Iris" type="TextureRect" parent="Primavera" unique_id=1165584519]
+layout_mode = 0
+offset_left = 965.0
+offset_top = 685.0
+offset_right = 1145.0
+offset_bottom = 865.0
+
+[node name="Tulipa" type="TextureRect" parent="Primavera" unique_id=1099451526]
+layout_mode = 0
+offset_left = 1105.0
+offset_top = 545.0
+offset_right = 1285.0
+offset_bottom = 725.0
+
+[node name="Navegacao" type="Control" parent="." unique_id=1303714918]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Progresso" parent="Navegacao" unique_id=2075776223 instance=ExtResource("2_3vbct")]
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 0
+offset_top = 460.0
+offset_right = 160.0
+offset_bottom = 620.0
+pivot_offset = Vector2(80, 80)
+texture_normal = ExtResource("3_rml18")
+texture_hover = ExtResource("4_e61ns")
+imagem_normal = ExtResource("3_rml18")
+imagem_hover = ExtResource("4_e61ns")
+
+[node name="Inventario" parent="Navegacao" unique_id=1762637927 instance=ExtResource("2_3vbct")]
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 0
+offset_left = 1760.0
+offset_top = 460.0
+offset_right = 1920.0
+offset_bottom = 620.0
+pivot_offset = Vector2(80, 80)
+texture_normal = ExtResource("5_nigbg")
+texture_hover = ExtResource("6_yglul")
+imagem_normal = ExtResource("5_nigbg")
+imagem_hover = ExtResource("6_yglul")

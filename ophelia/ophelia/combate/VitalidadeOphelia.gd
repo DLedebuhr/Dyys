@@ -14,7 +14,8 @@ const ESTACOES: Array[StringName] = [&"Primavera", &"Verao", &"Outono", &"Invern
 @export_range(0.0, 5.0, 0.05) var invulnerabilidade_apos_dano: float = 1.0
 @export_group("Recuperação automática")
 @export var recuperacao_automatica: bool = true
-@export_range(1.0, 600.0, 1.0) var segundos_por_vida: float = 30.0 # Produção: 300.
+@export_range(1.0, 3600.0, 1.0) var segundos_por_vida: float = 300.0
+@export_range(0.1, 600.0, 0.1) var segundos_por_vida_debug: float = 30.0
 @export_group("Estoque provisório — sem inventário")
 @export var usar_estoque_teste: bool = false
 @export_range(0, 99, 1) var frutas_teste_por_estacao: int = 3
@@ -299,7 +300,9 @@ func _avancar_tempo(delta: float) -> void:
 	while restante_delta > 0.0 and vida_atual < float(vida_maxima):
 
 		var quantidade: float = minf(1.0, ceilf(vida_atual + 0.0001) - vida_atual)
-		var duracao: float = maxf(segundos_por_vida, 0.01) * quantidade
+		var jogador: Node = get_parent()
+		var em_debug: bool = jogador != null and jogador.has_method("em_modo_debug") and jogador.em_modo_debug()
+		var duracao: float = maxf(segundos_por_vida_debug if em_debug else segundos_por_vida, 0.01) * quantidade
 		var passo: float = minf(restante_delta, maxf(0.0, duracao - _tempo_recuperacao))
 		_tempo_recuperacao += passo
 		restante_delta -= passo

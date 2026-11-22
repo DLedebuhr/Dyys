@@ -32,7 +32,7 @@ const INICIAIS := [
 # Só passam a valer depois de aprendidas em um interativo (a ordem aqui é a ordem do save)
 const APRENDIDAS := [ATAQUE_LENCO, ATAQUE_MODIFICADO, DEFESA_LENCO, PLANAR, AGARRAR_OBJETO, PROPULSOR]
 @export var imprimir_eventos: bool = true   # Escreve na Saída cada desbloqueio e troca do modo debug
-@export var sequencia_debug: Array[int] = [6, 6, 6]   # Dígitos que ligam/desligam o modo debug
+@export var sequencia_debug: Array[int] = [6, 6, 6] # Configure Num 0...Num 9 no Input Map, sem teclas comuns.   # Dígitos que ligam/desligam o modo debug
 @export var tempo_entre_digitos: float = 1.5          # Segundos máximos entre um dígito e o próximo
 @export var somente_em_build_debug: bool = false  # true: o 666 só funciona no editor e em builds de debug (opcional; depois entra uma senha mais difícil)
 var _aprendidas: Dictionary = {}   # Desbloqueios REAIS: id -> true

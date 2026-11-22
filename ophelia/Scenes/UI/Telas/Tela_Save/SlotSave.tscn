@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scenes/UI/Telas/Tela_Save/SlotSave.gd" id="1"]
+
+[node name="SlotSave" type="Control"]
+custom_minimum_size = Vector2(300, 500)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("1")
+
+[node name="BotaoSlot" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+ignore_texture_size = true
+stretch_mode = 0
+mouse_filter = 0
+focus_mode = 2
+
+[node name="ImagemProgresso" type="TextureRect" parent="BotaoSlot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5

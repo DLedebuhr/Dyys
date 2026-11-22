@@ -9,7 +9,8 @@ signal flor_coletada(id_item: StringName)
 
 @export_group("Coleta e regeneração")
 @export_range(10.0, 500.0, 1.0) var distancia_coleta: float = 100.0
-@export_range(1.0, 600.0, 1.0) var segundos_regeneracao: float = 10.0
+@export_range(1.0, 3600.0, 1.0) var segundos_regeneracao: float = 120.0
+@export_range(0.1, 600.0, 0.1) var segundos_regeneracao_debug: float = 5.0
 @export_range(0.1, 3.0, 0.05) var duracao_reaparecer: float = 0.65
 
 @export_group("Flor em partículas")
@@ -29,6 +30,16 @@ var _animacoes: Array[Tween] = []
 var _cores_originais: Array[Color] = []
 var _quantidade: int = 0
 var _restante: float = 0.0
+var _duracao_anterior: float = 0.0
+
+func _modo_debug() -> bool:
+	for jogador in get_tree().get_nodes_in_group("jogador"):
+		if jogador.has_method("em_modo_debug") and jogador.em_modo_debug():
+			return true
+	return false
+
+func _intervalo_regeneracao() -> float:
+	return maxf(segundos_regeneracao_debug if _modo_debug() else segundos_regeneracao, 0.01)
 
 # Preparar os encaixes da espécie
 # ---------------------
@@ -56,6 +67,7 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 
 		add_to_group("coletaveis_ophelia")
+		add_to_group("PersistenteSave")
 
 # Atualizar movimento e reposição
 # ---------------------
@@ -68,13 +80,17 @@ func _process(delta: float) -> void:
 
 		return
 
+	var intervalo: float = _intervalo_regeneracao()
+	if _duracao_anterior > 0.0 and not is_equal_approx(_duracao_anterior, intervalo):
+		_restante *= intervalo / _duracao_anterior
+	_duracao_anterior = intervalo
 	_restante -= delta
 
 	while _restante <= 0.0 and _quantidade < _flores.size():
 
 		_recuperar(_quantidade)
 		_quantidade += 1
-		_restante += maxf(segundos_regeneracao, 0.01)
+		_restante += intervalo
 
 # Receber o movimento da espécie
 # ---------------------
@@ -144,7 +160,8 @@ func interagir(jogador: CharacterBody2D) -> bool:
 	efeito.call("iniciar", ponta, tempo_manter_forma, duracao_dispersao, velocidade_dispersao, limite_particulas, base)
 	ponta.hide()
 	ponta.modulate = _cores_originais[indice]
-	_restante = segundos_regeneracao
+	_restante = _intervalo_regeneracao()
+	_duracao_anterior = _restante
 	_apos_coleta(indice)
 	_tocar_som()
 	flor_coletada.emit(id_item)
@@ -186,3 +203,20 @@ func _tocar_som() -> void:
 	add_child(audio)
 	audio.finished.connect(audio.queue_free)
 	audio.play()
+
+
+## O estágio de regeneração da flor persiste no mesmo nível e slot.
+func exportar_estado_save() -> Dictionary:
+	return {"quantidade": _quantidade, "restante": maxf(_restante, 0.0)}
+
+func importar_estado_save(dados: Dictionary) -> void:
+	if _flores.is_empty():
+		return
+	_quantidade = clampi(int(dados.get("quantidade", _flores.size())), 0, _flores.size())
+	_restante = maxf(0.0, float(dados.get("restante", 0.0)))
+	for i in range(_flores.size()):
+		if _animacoes[i] != null and _animacoes[i].is_valid():
+			_animacoes[i].kill()
+		var ponta: Sprite2D = _flores[i].get_node("Ponta")
+		ponta.visible = i < _quantidade
+		ponta.modulate = _cores_originais[i]

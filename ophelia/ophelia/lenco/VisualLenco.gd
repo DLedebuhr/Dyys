@@ -221,22 +221,9 @@ func _atualizar_indicador_alcance(origem: Vector2, delta: float) -> void:
 
 		lenco.alcance_visivel = 0.0
 		return
-	# Botão (segurar ou alternar)
-
-	var botao = false
-
-	if lenco.alcance_alternar:
-
-		if lenco.jogador.entrada.pressionou(lenco.ACAO_ALCANCE):
-
-			lenco.alcance_alternado = not lenco.alcance_alternado
-
-		botao = lenco.alcance_alternado
-
-	else:
-
-		botao = Input.is_action_pressed(lenco.ACAO_ALCANCE)
-	# Aviso temporário (clicou sem ter onde prender)
+	# A exibição manual foi removida; o aviso automático por falha de ancoragem permanece.
+	var botao: bool = false
+	# Apenas a falha de ancoragem do GANCHO liga o indicador. Ataques não o exibem.
 
 	lenco.tempo_aviso_alcance = maxf(lenco.tempo_aviso_alcance - delta, 0.0)
 	var mostrando = botao or lenco.tempo_aviso_alcance > 0.0
@@ -462,18 +449,8 @@ func _draw() -> void:
 	lenco._desenhar_alcance()
 	lenco._desenhar_origens_debug()
 	lenco._desenhar_indicador_modo()
-
-	if not lenco.textura_ponta:
-
-		return
-
-	if lenco.pontos_tras.size() >= lenco.pontos_por_fita:
-
-		lenco._desenhar_ponta_no_ponto(lenco.pontos_tras[lenco.pontos_por_fita - 2], lenco.pontos_tras[lenco.pontos_por_fita - 1])
-
-	if lenco.pontos_frente.size() >= lenco.pontos_por_fita:
-
-		lenco._desenhar_ponta_no_ponto(lenco.pontos_frente[lenco.pontos_por_fita - 2], lenco.pontos_frente[lenco.pontos_por_fita - 1])
+	# As pontas agora são renderizadas pelos nós PontaTras e PontaFrente.
+	# Assim a ponta traseira não aparece sobre o corpo e a dianteira acompanha sua fita.
 
 # Desenhar indicador modo
 # ---------------------
@@ -521,15 +498,15 @@ func _desenhar_origens_debug() -> void:
 # Desenhar ponta no ponto
 # ---------------------
 # Desenha ponta no ponto.
-func _desenhar_ponta_no_ponto(ponto_anterior: Vector2, ponto_final: Vector2) -> void:
+func _desenhar_ponta_no_ponto(camada: Node2D, ponto_anterior: Vector2, ponto_final: Vector2) -> void:
 
-	var pos_local = lenco.to_local(ponto_final + lenco.tremor_visual)
-	var direcao = (ponto_final - ponto_anterior).normalized()
-	var angulo = direcao.angle()
-	var rect = Rect2(-lenco.tamanho_ponta / 2.0, lenco.tamanho_ponta)
-	lenco.draw_set_transform(pos_local, angulo)
-	lenco.draw_texture_rect(lenco.textura_ponta, rect, false)
-	lenco.draw_set_transform(Vector2.ZERO, 0.0)
+	var pos_local: Vector2 = camada.to_local(ponto_final + lenco.tremor_visual)
+	var direcao: Vector2 = (ponto_final - ponto_anterior).normalized()
+	var angulo: float = direcao.angle()
+	var rect := Rect2(-lenco.tamanho_ponta / 2.0, lenco.tamanho_ponta)
+	camada.draw_set_transform(pos_local, angulo)
+	camada.draw_texture_rect(lenco.textura_ponta, rect, false)
+	camada.draw_set_transform(Vector2.ZERO, 0.0)
 
 # Centro corpo
 # ---------------------

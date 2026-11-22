@@ -70,7 +70,7 @@ func _processar_reacoes(delta: float) -> void:
 		# Chapéu/debug e teclas sem ação não tiram a personagem da espera.
 		var outra_acao: bool = corpo.tem_acao_pendente()
 
-		for acao in ["ControleSentarLevantar", "ControleAtaqueLenco", "ControleDefesaLenco", "ControleFixarLenco"]:
+		for acao in ["ControleAcaoLenco", "ControleAtaqueLenco", "ControleDefesaLenco"]:
 
 			if InputMap.has_action(acao) and corpo.entrada.pressionou(acao):
 

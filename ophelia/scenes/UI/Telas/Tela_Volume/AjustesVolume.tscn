@@ -1,27 +1,12 @@
 [gd_scene format=3 uid="uid://c64gslq67fqj4"]
 
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/MenuElemento4.png" id="1_yqr40"]
-[ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://Assets/Fonts/tt-milks-casual-pie-line.ttf" id="2_p0a7t"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/MenuLine2.png" id="3_0ef37"]
-[ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://Scenes/UI/BotaoMenu.tscn" id="4_7h046"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/GERAL.png" id="4_kidyr"]
+[ext_resource type="Texture2D" uid="uid://bkru1ahkn823g" path="res://Assets/Textures/UI/Tela_Volume/Tela Volume.svg" id="1_vs8du"]
+[ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://Scenes/UI/Botao/BotaoMenu.tscn" id="4_7h046"]
+[ext_resource type="Texture2D" uid="uid://h6vb1pndikg1" path="res://Assets/Textures/UI/Tela_Save/EsquerdaA.svg" id="4_pst0t"]
+[ext_resource type="Texture2D" uid="uid://dfbhlc1r5ublb" path="res://Assets/Textures/UI/Tela_Save/EsquerdaB.svg" id="5_0sq4x"]
 [ext_resource type="PackedScene" uid="uid://c2pwnqpdwrkcr" path="res://Scenes/UI/Telas/Tela_Volume/BarraVolume.tscn" id="5_8mt7r"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/MUSICA.png" id="6_oew7h"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/EFEITOS.png" id="7_yqr40"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/VOLTAR1.png" id="11_nbjcx"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/VOLTAR2.png" id="12_x6l72"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/UI/VOLTAR3.png" id="13_p5csb"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vvgl"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-draw_center = false
-border_width_top = 18
-border_color = Color(0.8, 0.8, 0.8, 0)
-
-[sub_resource type="LabelSettings" id="LabelSettings_xntfj"]
-font = ExtResource("2_p0a7t")
-font_size = 64
-shadow_size = 0
+[ext_resource type="PackedScene" uid="uid://bk73doqo5ffv8" path="res://Scenes/UI/Telas/HUB/FundoCor.tscn" id="fundo_padrao_volume"]
+[ext_resource type="Script" uid="uid://bl5raad7p8cvj" path="res://Scenes/UI/Telas/Tela_Volume/TelaVolume.gd" id="script_tela_volume"]
 
 [node name="Control" type="Control" unique_id=1801529178]
 layout_mode = 3
@@ -30,90 +15,54 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("script_tela_volume")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1742452997]
+[node name="FundoCorPadrao" parent="." unique_id=431903286 instance=ExtResource("fundo_padrao_volume")]
+visible = false
+layout_mode = 1
+mouse_filter = 2
+
+[node name="Fundo" type="TextureRect" parent="." unique_id=2102870774]
 layout_mode = 0
-offset_left = 545.0
-offset_right = 1375.0
-offset_bottom = 890.0
-theme_override_constants/separation = 10
-alignment = 1
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("1_vs8du")
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=2102870774]
-layout_mode = 2
-texture = ExtResource("1_yqr40")
-
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=1386590667]
-layout_mode = 2
-size_flags_stretch_ratio = 0.0
-theme_override_styles/normal = SubResource("StyleBoxFlat_8vvgl")
-text = "VOLUME"
-label_settings = SubResource("LabelSettings_xntfj")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer" unique_id=1497523850]
-layout_mode = 2
-texture = ExtResource("3_0ef37")
-
-[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer" unique_id=1273311370]
-layout_mode = 2
-theme_override_constants/separation = 20
-alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer3" unique_id=1867912477]
-layout_mode = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer3/HBoxContainer" unique_id=237631258]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("4_kidyr")
-
-[node name="ShaderBarra" parent="VBoxContainer/VBoxContainer3/HBoxContainer" unique_id=492824844 instance=ExtResource("5_8mt7r")]
-custom_minimum_size = Vector2(400, 100)
-layout_mode = 2
+[node name="ShaderBarra" parent="." unique_id=492824844 instance=ExtResource("5_8mt7r")]
+layout_mode = 0
+offset_left = 928.0
+offset_top = 503.0
+offset_right = 1292.0
+offset_bottom = 573.0
 size_flags_vertical = 4
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer3" unique_id=617141070]
-layout_mode = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer3/HBoxContainer2" unique_id=1787813784]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("6_oew7h")
-
-[node name="ShaderBarra" parent="VBoxContainer/VBoxContainer3/HBoxContainer2" unique_id=2056746500 instance=ExtResource("5_8mt7r")]
-custom_minimum_size = Vector2(400, 100)
-layout_mode = 2
+[node name="ShaderBarra2" parent="." unique_id=2056746500 instance=ExtResource("5_8mt7r")]
+layout_mode = 0
+offset_left = 926.0
+offset_top = 653.0
+offset_right = 1290.0
+offset_bottom = 723.0
 size_flags_vertical = 4
 bus_name = "Music"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer3" unique_id=1234755519]
-layout_mode = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer3/HBoxContainer3" unique_id=763700576]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("7_yqr40")
-
-[node name="ShaderBarra" parent="VBoxContainer/VBoxContainer3/HBoxContainer3" unique_id=998405076 instance=ExtResource("5_8mt7r")]
-custom_minimum_size = Vector2(400, 100)
-layout_mode = 2
+[node name="ShaderBarra3" parent="." unique_id=998405076 instance=ExtResource("5_8mt7r")]
+layout_mode = 0
+offset_left = 926.0
+offset_top = 803.0
+offset_right = 1290.0
+offset_bottom = 873.0
 size_flags_vertical = 4
 bus_name = "SFX"
 
-[node name="Voltar" parent="." unique_id=1768869475 instance=ExtResource("4_7h046")]
+[node name="Navegacao" type="Control" parent="." unique_id=281767392]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Ajustes" parent="Navegacao" unique_id=2136383047 instance=ExtResource("4_7h046")]
 layout_mode = 0
-offset_left = 820.0
-offset_top = 912.0
-offset_right = 1100.0
-offset_bottom = 976.0
-imagem_normal = ExtResource("11_nbjcx")
-imagem_hover = ExtResource("12_x6l72")
-imagem_pressed = ExtResource("13_p5csb")
+offset_top = 460.0
+offset_right = 160.0
+offset_bottom = 620.0
+imagem_normal = ExtResource("4_pst0t")
+imagem_hover = ExtResource("5_0sq4x")

@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://lxqymxn12em5"]
+
+[ext_resource type="Script" uid="uid://dserbc4gcy66c" path="res://Scenes/UI/Telas/Tela_Save/TelaSelecaoSave.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cku3t3c2vrad8" path="res://Assets/Textures/UI/Tela_Save/ElementoFundoSave.svg" id="2"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Telas/Tela_Save/SlotSave.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://Scenes/UI/Botao/BotaoMenu.tscn" id="4"]
+[ext_resource type="Texture2D" uid="uid://38g1062knuct" path="res://Assets/Textures/UI/Tela_Ajustes/EsquerdaA.svg" id="5"]
+[ext_resource type="Texture2D" uid="uid://1rm1i8yrli4d" path="res://Assets/Textures/UI/Tela_Ajustes/EsquerdaB.svg" id="6"]
+[ext_resource type="Texture2D" uid="uid://bmkijevt4jr6x" path="res://Assets/Textures/UI/Tela_Save/Save1/V00.svg" id="t0_0"]
+[ext_resource type="Texture2D" uid="uid://3dc5ria5af7h" path="res://Assets/Textures/UI/Tela_Save/Save1/V01.svg" id="t0_1"]
+[ext_resource type="Texture2D" uid="uid://bboct8tfyf4k2" path="res://Assets/Textures/UI/Tela_Save/Save1/V02.svg" id="t0_2"]
+[ext_resource type="Texture2D" uid="uid://b6rtxxsi1htkw" path="res://Assets/Textures/UI/Tela_Save/Save1/V03.svg" id="t0_3"]
+[ext_resource type="Texture2D" uid="uid://dqordcnvpgaps" path="res://Assets/Textures/UI/Tela_Save/Save1/V04.svg" id="t0_4"]
+[ext_resource type="Texture2D" uid="uid://otrscd4mh2ku" path="res://Assets/Textures/UI/Tela_Save/Save1/V05.svg" id="t0_5"]
+[ext_resource type="Texture2D" uid="uid://cfk0ghk8c1mr6" path="res://Assets/Textures/UI/Tela_Save/Save1/V06.svg" id="t0_6"]
+[ext_resource type="Texture2D" uid="uid://c0r8r4h23orau" path="res://Assets/Textures/UI/Tela_Save/Save2/V10.svg" id="t1_0"]
+[ext_resource type="Texture2D" uid="uid://qyd48afe1mrg" path="res://Assets/Textures/UI/Tela_Save/Save2/V11.svg" id="t1_1"]
+[ext_resource type="Texture2D" uid="uid://brpik67r4e2ic" path="res://Assets/Textures/UI/Tela_Save/Save2/V12.svg" id="t1_2"]
+[ext_resource type="Texture2D" uid="uid://dwh0horumx2ws" path="res://Assets/Textures/UI/Tela_Save/Save2/V13.svg" id="t1_3"]
+[ext_resource type="Texture2D" uid="uid://clhmp70cmidjv" path="res://Assets/Textures/UI/Tela_Save/Save2/V14.svg" id="t1_4"]
+[ext_resource type="Texture2D" uid="uid://2kmrvwukb27j" path="res://Assets/Textures/UI/Tela_Save/Save2/V15.svg" id="t1_5"]
+[ext_resource type="Texture2D" uid="uid://cj8hy2kx5r701" path="res://Assets/Textures/UI/Tela_Save/Save2/V16.svg" id="t1_6"]
+[ext_resource type="Texture2D" uid="uid://diw46cv81qni2" path="res://Assets/Textures/UI/Tela_Save/Save3/V20.svg" id="t2_0"]
+[ext_resource type="Texture2D" uid="uid://cyglh6r2ghkdi" path="res://Assets/Textures/UI/Tela_Save/Save3/V21.svg" id="t2_1"]
+[ext_resource type="Texture2D" uid="uid://8o83gcpuv63j" path="res://Assets/Textures/UI/Tela_Save/Save3/V22.svg" id="t2_2"]
+[ext_resource type="Texture2D" uid="uid://cem3w3gf5txuy" path="res://Assets/Textures/UI/Tela_Save/Save3/V23.svg" id="t2_3"]
+[ext_resource type="Texture2D" uid="uid://ul85x82aath8" path="res://Assets/Textures/UI/Tela_Save/Save3/V24.svg" id="t2_4"]
+[ext_resource type="Texture2D" uid="uid://buxv6svp7g146" path="res://Assets/Textures/UI/Tela_Save/Save3/V25.svg" id="t2_5"]
+[ext_resource type="Texture2D" uid="uid://dd04qhy7yvn5r" path="res://Assets/Textures/UI/Tela_Save/Save3/V26.svg" id="t2_6"]
+[ext_resource type="Texture2D" uid="uid://hbr7uc8ormfj" path="res://Assets/Textures/UI/Tela_Save/Save4/V30.svg" id="t3_0"]
+[ext_resource type="Texture2D" uid="uid://cw02escbxoj2e" path="res://Assets/Textures/UI/Tela_Save/Save4/V31.svg" id="t3_1"]
+[ext_resource type="Texture2D" uid="uid://dpqr1sh3wepy" path="res://Assets/Textures/UI/Tela_Save/Save4/V32.svg" id="t3_2"]
+[ext_resource type="Texture2D" uid="uid://m0hyq2ym8lsf" path="res://Assets/Textures/UI/Tela_Save/Save4/V33.svg" id="t3_3"]
+[ext_resource type="Texture2D" uid="uid://ca18goi2v7yvp" path="res://Assets/Textures/UI/Tela_Save/Save4/V34.svg" id="t3_4"]
+[ext_resource type="Texture2D" uid="uid://chtqgqkk53b3v" path="res://Assets/Textures/UI/Tela_Save/Save4/V35.svg" id="t3_5"]
+[ext_resource type="Texture2D" uid="uid://faki6japtos7" path="res://Assets/Textures/UI/Tela_Save/Save4/V36.svg" id="t3_6"]
+
+[node name="TelaSelecaoSave" type="Control" unique_id=374618168]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Fundo" type="TextureRect" parent="." unique_id=380422816]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1428343459]
+layout_mode = 0
+offset_left = 173.0
+offset_top = 438.0
+offset_right = 1745.0
+offset_bottom = 938.0
+theme_override_constants/separation = 124
+
+[node name="SlotSave" parent="HBoxContainer" unique_id=1278307530 instance=ExtResource("3")]
+texturas_progresso = Array[Texture2D]([ExtResource("t0_0"), ExtResource("t0_1"), ExtResource("t0_2"), ExtResource("t0_3"), ExtResource("t0_4"), ExtResource("t0_5"), ExtResource("t0_6")])
+
+[node name="SlotSave2" parent="HBoxContainer" unique_id=486336938 instance=ExtResource("3")]
+slot_index = 1
+texturas_progresso = Array[Texture2D]([ExtResource("t1_0"), ExtResource("t1_1"), ExtResource("t1_2"), ExtResource("t1_3"), ExtResource("t1_4"), ExtResource("t1_5"), ExtResource("t1_6")])
+
+[node name="SlotSave3" parent="HBoxContainer" unique_id=648278832 instance=ExtResource("3")]
+slot_index = 2
+texturas_progresso = Array[Texture2D]([ExtResource("t2_0"), ExtResource("t2_1"), ExtResource("t2_2"), ExtResource("t2_3"), ExtResource("t2_4"), ExtResource("t2_5"), ExtResource("t2_6")])
+
+[node name="SlotSave4" parent="HBoxContainer" unique_id=1201178620 instance=ExtResource("3")]
+slot_index = 3
+texturas_progresso = Array[Texture2D]([ExtResource("t3_0"), ExtResource("t3_1"), ExtResource("t3_2"), ExtResource("t3_3"), ExtResource("t3_4"), ExtResource("t3_5"), ExtResource("t3_6")])
+
+[node name="Voltar" parent="." unique_id=45133336 instance=ExtResource("4")]
+layout_mode = 0
+offset_top = 460.0
+offset_right = 160.0
+offset_bottom = 620.0
+imagem_normal = ExtResource("5")
+imagem_hover = ExtResource("6")
+
+[node name="EnfeiteEsquerda" type="Control" parent="." unique_id=1241708903]
+anchors_preset = 0
+offset_left = 284.0
+offset_top = 137.0
+offset_right = 551.0
+offset_bottom = 210.0

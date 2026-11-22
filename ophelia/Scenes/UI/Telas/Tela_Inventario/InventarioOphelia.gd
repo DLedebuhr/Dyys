@@ -1,16 +1,22 @@
+class_name InventarioOphelia
 extends Node
 
 signal alterado()
 signal coleta_recusada(mensagem: String)
 signal catalogacao_solicitada(item: DadosItemOphelia)
+signal flor_murchou(id: StringName, unidades: int)
 
 @export_range(1, 100, 1) var capacidade: int = 14
+@export_group("Validade das flores")
+@export_range(1.0, 3600.0, 1.0) var validade_flores_segundos: float = 10.0 # Teste: 10 s; produção: 600 s.
 @export var catalogo: CatalogoItensOphelia = preload("CatalogoItens.tres")
-@export_dir var pasta_icones: String = "res://Assetes/Texture/Flowers/Inventairo"
+@export_dir var pasta_icones: String = "res://Assets/Textures/UI/Tela_Inventario/Flores"
 @export_group("Teste opcional")
 @export var adicionar_itens_teste: bool = false
 
 var _espacos: Array[Dictionary] = []
+var _tempo_flores: float = 0.0
+var _prazos_flores: Dictionary = {} # id da espécie -> prazos individuais, mesmo após mover para a oficina.
 var _em_transacao: bool = false
 var _oficina: Array[Dictionary] = [{"id": &"", "quantidade": 0}, {"id": &"", "quantidade": 0}]
 var _resultado: Dictionary = {"id": &"", "quantidade": 0}
@@ -59,6 +65,29 @@ func quantidade(id: StringName) -> int:
 			total += int(espaco["quantidade"])
 
 	return total
+
+# Trocar uma cápsula vazia por outra com seiva sem perder espaço ou itens.
+# A operação usa o mesmo slot, inclusive se a cápsula estiver na oficina.
+func possui_capsula_vazia() -> bool:
+	for espaco in _espacos + _oficina + [_resultado]:
+		if espaco.get("id", &"") == &"Capsula" and int(espaco.get("quantidade", 0)) > 0:
+			return true
+	return false
+
+func encher_capsula_com_seiva() -> bool:
+	if _em_transacao or catalogo == null:
+		return false
+	if catalogo.obter(&"Capsula") == null or catalogo.obter(&"CapsulaSeiva") == null:
+		return false
+	for espaco in _espacos + _oficina + [_resultado]:
+		if espaco.get("id", &"") != &"Capsula" or int(espaco.get("quantidade", 0)) != 1:
+			continue
+		_em_transacao = true
+		espaco["id"] = &"CapsulaSeiva"
+		_em_transacao = false
+		alterado.emit()
+		return true
+	return false
 
 # Verificar espaço antes da coleta
 # ---------------------
@@ -125,6 +154,7 @@ func adicionar(id: StringName, unidades: int = 1) -> bool:
 
 			if restantes == 0:
 
+				_registrar_flores(id, unidades)
 				alterado.emit()
 				return true
 
@@ -157,6 +187,7 @@ func remover(id: StringName, unidades: int = 1) -> bool:
 
 		if restantes == 0:
 
+			_consumir_validade_flor(id, unidades)
 			alterado.emit()
 			return true
 
@@ -171,7 +202,9 @@ func remover_do_espaco(indice: int, unidades: int = 1) -> bool:
 
 		return false
 
+	var id_removido: StringName = _espacos[indice]["id"]
 	_espacos[indice]["quantidade"] -= unidades
+	_consumir_validade_flor(id_removido, unidades)
 
 	if int(_espacos[indice]["quantidade"]) == 0:
 
@@ -406,6 +439,7 @@ func receita() -> Dictionary:
 # Remove apenas a quantidade exigida e conserva o restante da pilha na oficina.
 func _consumir_entrada(indice: int, unidades: int) -> void:
 
+	_consumir_validade_flor(_oficina[indice]["id"], unidades)
 	_oficina[indice]["quantidade"] -= unidades
 
 	if int(_oficina[indice]["quantidade"]) == 0:
@@ -446,23 +480,21 @@ func fabricar(acao: StringName) -> bool:
 	alterado.emit()
 	return true
 
-# Consultar a flor pronta para catalogar
-# ---------------------
-# Exige uma única entrada ocupada por flor preservada e nenhuma saída pendente.
+# Flor encapsulada pronta para o catálogo: Resultado sempre tem prioridade.
+# Não confunde a prévia da receita (quantidade 0) com um item fabricado.
 func flor_para_catalogar() -> DadosItemOphelia:
-
-	if int(_resultado["quantidade"]) > 0:
-
+	if catalogo == null:
 		return null
-
-	for i in range(2):
-
-		var item: DadosItemOphelia = catalogo.obter(_oficina[i]["id"])
-
-		if item != null and item.tipo == DadosItemOphelia.Tipo.FLOR_ENCAPSULADA and int(_oficina[1 - i]["quantidade"]) == 0:
-
-			return item
-
+	if int(_resultado.get("quantidade", 0)) > 0:
+		var produto: DadosItemOphelia = catalogo.obter(StringName(_resultado.get("id", &"")))
+		if produto != null and produto.tipo == DadosItemOphelia.Tipo.FLOR_ENCAPSULADA:
+			return produto
+	for entrada in _oficina:
+		if int(entrada.get("quantidade", 0)) <= 0:
+			continue
+		var flor: DadosItemOphelia = catalogo.obter(StringName(entrada.get("id", &"")))
+		if flor != null and flor.tipo == DadosItemOphelia.Tipo.FLOR_ENCAPSULADA:
+			return flor
 	return null
 
 # Solicitar o registro futuro
@@ -478,3 +510,243 @@ func solicitar_catalogacao() -> bool:
 
 	catalogacao_solicitada.emit(item)
 	return true
+
+
+# Prazos individuais das flores comuns (as encapsuladas não apodrecem).
+func _registrar_flores(id: StringName, unidades: int) -> void:
+	var item: DadosItemOphelia = catalogo.obter(id)
+	if item == null or item.tipo != DadosItemOphelia.Tipo.FLOR:
+		return
+	var prazos: Array = _prazos_flores.get(id, [])
+	for i in range(unidades):
+		prazos.append(_tempo_flores + validade_flores_segundos)
+	_prazos_flores[id] = prazos
+
+# Consumir as flores mais antigas da mesma espécie, inclusive em receitas.
+func _consumir_validade_flor(id: StringName, unidades: int) -> void:
+	if not _prazos_flores.has(id):
+		return
+	var prazos: Array = _prazos_flores[id]
+	for i in range(mini(unidades, prazos.size())):
+		prazos.pop_front()
+	if prazos.is_empty():
+		_prazos_flores.erase(id)
+
+func _process(delta: float) -> void:
+	_tempo_flores += delta
+	if _em_transacao:
+		return
+	var mudou: bool = false
+	for id in _prazos_flores.keys():
+		var prazos: Array = _prazos_flores[id]
+		var vencidas: int = 0
+		while not prazos.is_empty() and float(prazos[0]) <= _tempo_flores:
+			prazos.pop_front()
+			vencidas += 1
+		if vencidas > 0:
+			var restantes: int = vencidas
+			for espaco in _espacos + _oficina:
+				if espaco["id"] != id:
+					continue
+				var retirar: int = mini(restantes, int(espaco["quantidade"]))
+				espaco["quantidade"] -= retirar
+				restantes -= retirar
+				if int(espaco["quantidade"]) == 0:
+					espaco["id"] = &""
+				if restantes == 0:
+					break
+			flor_murchou.emit(id, vencidas)
+			mudou = true
+		if prazos.is_empty():
+			_prazos_flores.erase(id)
+	if mudou:
+		alterado.emit()
+
+# Na morte: flores comuns e cápsulas vazias desaparecem; ramos/frutas caem;
+# flores encapsuladas e cápsulas cheias de seiva ficam protegidas na bolsa.
+func retirar_na_morte() -> Array[Dictionary]:
+	var perdidos: Array[Dictionary] = []
+	_em_transacao = false
+	for espaco in _espacos + _oficina + [_resultado]:
+		var id: StringName = espaco["id"]
+		var unidades: int = int(espaco["quantidade"])
+		if unidades <= 0:
+			continue
+		var item: DadosItemOphelia = catalogo.obter(id) if catalogo != null else null
+		if item == null:
+			continue
+		match item.tipo:
+			DadosItemOphelia.Tipo.FLOR, DadosItemOphelia.Tipo.CAPSULA:
+				espaco["id"] = &""
+				espaco["quantidade"] = 0
+			DadosItemOphelia.Tipo.FRUTA, DadosItemOphelia.Tipo.RAMO:
+				perdidos.append({"id": String(id), "quantidade": unidades})
+				espaco["id"] = &""
+				espaco["quantidade"] = 0
+			DadosItemOphelia.Tipo.CAPSULA_SEIVA, DadosItemOphelia.Tipo.FLOR_ENCAPSULADA:
+				pass # Esses itens permanecem protegidos.
+	_prazos_flores.clear()
+	alterado.emit()
+	return perdidos
+
+# Quantidade de flores ainda não encapsuladas em bolsa e oficina.
+func contar_flores_comuns() -> int:
+	var total: int = 0
+	for espaco in _espacos + _oficina:
+		if int(espaco["quantidade"]) <= 0 or catalogo == null:
+			continue
+		var item: DadosItemOphelia = catalogo.obter(espaco["id"])
+		if item != null and item.tipo == DadosItemOphelia.Tipo.FLOR:
+			total += int(espaco["quantidade"])
+	return total
+
+
+# Persistência exata dos espaços, da oficina e das flores que ainda estão vivas.
+func exportar_estado_save() -> Dictionary:
+	var lista_bolsa: Array = []
+	for e in _espacos:
+		lista_bolsa.append({"id": String(e["id"]), "quantidade": int(e["quantidade"])})
+	var lista_oficina: Array = []
+	for e in _oficina:
+		lista_oficina.append({"id": String(e["id"]), "quantidade": int(e["quantidade"])})
+	var prazos: Dictionary = {}
+	for id in _prazos_flores.keys():
+		var restantes: Array = []
+		for instante in _prazos_flores[id]:
+			restantes.append(maxf(0.0, float(instante) - _tempo_flores))
+		prazos[String(id)] = restantes
+	return {"bolsa": lista_bolsa, "oficina": lista_oficina,
+			"resultado": {"id": String(_resultado["id"]), "quantidade": int(_resultado["quantidade"])},
+			"prazos_flores": prazos}
+
+func importar_estado_save(dados: Dictionary) -> void:
+	_em_transacao = true
+	for e in _espacos + _oficina + [_resultado]:
+		e["id"] = &""
+		e["quantidade"] = 0
+	var bolsa: Array = dados.get("bolsa", [])
+	for i in range(mini(_espacos.size(), bolsa.size())):
+		_restaurar_espaco(_espacos[i], bolsa[i])
+	var oficina: Array = dados.get("oficina", [])
+	for i in range(mini(_oficina.size(), oficina.size())):
+		_restaurar_espaco(_oficina[i], oficina[i])
+	_restaurar_espaco(_resultado, dados.get("resultado", {}))
+	_tempo_flores = 0.0
+	_prazos_flores.clear()
+	var prazos: Dictionary = dados.get("prazos_flores", {})
+	for id_texto in prazos.keys():
+		var id: StringName = StringName(id_texto)
+		var item := catalogo.obter(id)
+		if item == null or item.tipo != DadosItemOphelia.Tipo.FLOR:
+			continue
+		var valores: Array = []
+		for restante in prazos[id_texto]:
+			valores.append(maxf(0.0, float(restante)))
+		valores.sort()
+		_prazos_flores[id] = valores
+	_em_transacao = false
+	alterado.emit()
+
+func _restaurar_espaco(destino: Dictionary, origem: Variant) -> void:
+	if not (origem is Dictionary):
+		return
+	var id: StringName = StringName(origem.get("id", ""))
+	var item := catalogo.obter(id) if catalogo != null else null
+	if item == null:
+		return
+	destino["id"] = id
+	destino["quantidade"] = clampi(int(origem.get("quantidade", 0)), 0, item.capacidade_pilha())
+	if destino["quantidade"] == 0:
+		destino["id"] = &""
+
+
+# Arrastar até a caixa de descarte elimina a pilha inteira do slot de origem.
+# Os dados são validados novamente para evitar descartar um item que já foi movido.
+func descartar(local: StringName, indice: int, id_esperado: StringName) -> bool:
+	if _em_transacao:
+		return false
+	var origem: Dictionary = _referencia(local, indice)
+	if origem.is_empty() or int(origem.get("quantidade", 0)) <= 0 or origem.get("id", &"") != id_esperado:
+		return false
+	var unidades: int = int(origem["quantidade"])
+	_consumir_validade_flor(id_esperado, unidades)
+	origem["id"] = &""
+	origem["quantidade"] = 0
+	alterado.emit()
+	return true
+
+
+func _catalogacao_debug_sem_save() -> bool:
+	if EstadoPartida.partida != null:
+		return false
+	var jogador: Node = get_parent()
+	return jogador != null and jogador.has_method("em_modo_debug") and jogador.em_modo_debug()
+
+# Chamar quando a futura tela de catálogo CONFIRMAR a espécie, não ao apertar o botão.
+func confirmar_registro_especie(especie: StringName) -> void:
+	EstadoPartida.registrar_especie(especie)
+
+func especie_ja_registrada(especie: StringName) -> bool:
+	if _catalogacao_debug_sem_save():
+		return EstadoPartida.especie_registrada(especie)
+	return EstadoPartida.especie_registrada(especie)
+
+# Registrar uma flor encapsulada depositada na oficina.
+# A espécie é salva antes de consumir a flor; um erro no disco não perde o item.
+func catalogar_flor_preservada() -> bool:
+	if _em_transacao or catalogo == null:
+		return false
+	var debug_sem_save: bool = _catalogacao_debug_sem_save()
+	if EstadoPartida.partida == null and not debug_sem_save:
+		push_warning("Catalogar: é necessário um save ou o modo debug para testar.")
+		return false
+	var item: DadosItemOphelia = flor_para_catalogar()
+	if item == null or String(item.especie).is_empty() or especie_ja_registrada(item.especie):
+		return false
+
+	# A saída da oficina conta mesmo antes de arrastar a cápsula para outro slot.
+	var origem: Dictionary = {}
+	if _resultado["id"] == item.id and int(_resultado["quantidade"]) > 0:
+		origem = _resultado
+	else:
+		for i in range(_oficina.size()):
+			if _oficina[i]["id"] == item.id and int(_oficina[i]["quantidade"]) > 0:
+				origem = _oficina[i]
+				break
+	if origem.is_empty():
+		return false
+
+	# Registrar no slot primeiro: se gravar falhar, a cápsula não será consumida.
+	if debug_sem_save:
+		if not EstadoPartida.registrar_especie_debug(item.especie):
+			return false
+	elif not EstadoPartida.registrar_especie(item.especie):
+		return false
+	_em_transacao = true
+	origem["quantidade"] = int(origem["quantidade"]) - 1
+	if int(origem["quantidade"]) == 0:
+		origem["id"] = &""
+	_em_transacao = false
+	_atualizar_catalogo_completo()
+	alterado.emit()
+	var personagem := get_parent() as Node2D
+	if personagem != null and not debug_sem_save:
+		EstadoPartida.salvar_personagem(personagem)
+	return true
+
+func _atualizar_catalogo_completo() -> void:
+	if EstadoPartida.partida == null or catalogo == null:
+		return
+	var especies: Dictionary = {}
+	for item in catalogo.itens:
+		if item != null and item.tipo == DadosItemOphelia.Tipo.FLOR_ENCAPSULADA and not String(item.especie).is_empty():
+			especies[item.especie] = true
+	var completo: bool = not especies.is_empty()
+	for especie in especies:
+		if not EstadoPartida.especie_registrada(especie):
+			completo = false
+			break
+	EstadoPartida.partida.dados_jogo["catalogo_completo"] = completo
+	var personagem := get_parent()
+	if personagem != null and personagem.has_method("definir_catalogo_completo"):
+		personagem.call("definir_catalogo_completo", completo)

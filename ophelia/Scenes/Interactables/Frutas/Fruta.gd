@@ -60,6 +60,7 @@ func _ready() -> void:
 	max_contacts_reported = 4
 	body_entered.connect(_ao_bater_no_chao)
 	add_to_group("coletaveis_ophelia")
+	add_to_group("PersistenteSave")
 	_suporte = get_parent() as Node2D
 	_transformacao_inicial = transform
 	freeze = true
@@ -476,3 +477,42 @@ func _ajustar_colisao() -> void:
 	forma.position = imagem.position + (origem + Vector2(limites.position) + Vector2(limites.size) * 0.5) * imagem.scale
 	forma.rotation = imagem.rotation + (PI * 0.5 if tamanho.x > tamanho.y else 0.0)
 	forma.shape = capsula
+
+
+func exportar_estado_save() -> Dictionary:
+	return {"estado": int(estado), "ativa": ativa, "restante": _restante,
+			"posicao": [global_position.x, global_position.y],
+			"velocidade": [linear_velocity.x, linear_velocity.y]}
+
+func importar_estado_save(dados: Dictionary) -> void:
+	if not bool(dados.get("ativa", true)):
+		desativar()
+		return
+	var novo: int = clampi(int(dados.get("estado", Estado.PRESA)), Estado.PRESA, Estado.COLETADA)
+	_restante = float(dados.get("restante", -1.0))
+	match novo:
+		Estado.COLETADA:
+			estado = Estado.COLETADA
+			hide()
+			freeze = true
+			collision_layer = 0
+			collision_mask = 0
+			set_physics_process(false)
+			set_process(_restante >= 0.0)
+		Estado.CAIDA:
+			estado = Estado.CAIDA
+			top_level = true
+			var p: Array = dados.get("posicao", [])
+			var v: Array = dados.get("velocidade", [])
+			if p.size() == 2:
+				global_position = Vector2(float(p[0]), float(p[1]))
+			freeze = false
+			collision_layer = CamadasFisica.COLETAVEIS
+			collision_mask = CamadasFisica.SOLIDOS | CamadasFisica.COLETAVEIS
+			if v.size() == 2:
+				linear_velocity = Vector2(float(v[0]), float(v[1]))
+			show()
+			set_process(true)
+			set_physics_process(true)
+		_:
+			_regenerar()

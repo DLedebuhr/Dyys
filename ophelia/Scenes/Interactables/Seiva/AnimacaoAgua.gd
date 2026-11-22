@@ -79,9 +79,10 @@ func _process(_delta: float) -> void:
 
 		var q: Node2D = par[0]
 		var b: Node2D = par[1]
-		q.bacia_pos = to_local(b.global_position)
+		q.bacia_pos = q.to_local(b.global_position)
 		q.bacia_tamanho = b.tamanho
 		q.bacia_desnivel = b.desnivel
+		q.reservatorio_ondas = b
 		b.integrada = true
 	$Queda12.inicio = $Inicio12.position
 	$Queda12.fim = $Fim12.position

@@ -10,11 +10,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 		return
 
-	if event.is_action_pressed("ControleChapeuDebug"):
-
-		corpo.definir_chapeu(not corpo.usando_chapeu)
-
-	elif event.is_action_pressed("ControleIrritadaDebug"):
+	# R agora pertence ao checkpoint do chapéu, não ao alternador de debug.
+	if event.is_action_pressed("ControleIrritadaDebug"):
 
 		corpo.tocar_reacao(corpo.REACAO_IRRITADA)
 

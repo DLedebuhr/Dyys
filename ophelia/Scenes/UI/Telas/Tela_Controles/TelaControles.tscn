@@ -1,0 +1,208 @@
+[gd_scene format=3 uid="uid://br3u0rk7yklt5"]
+
+[ext_resource type="Texture2D" uid="uid://djceyl0j466sw" path="res://Assets/Textures/UI/Tela_Controles/ElementoFundoControles.svg" id="1_64dhc"]
+[ext_resource type="Texture2D" uid="uid://rpcime5wyirv" path="res://Assets/Textures/UI/Tela_Controles/Base.svg" id="2_87q1h"]
+[ext_resource type="PackedScene" uid="uid://qy7pvwyup5qr" path="res://Scenes/UI/Botao/BotaoMenu.tscn" id="2_u8moo"]
+[ext_resource type="Texture2D" uid="uid://cjlybsxfx40d6" path="res://Assets/Textures/UI/Tela_Controles/Q.svg" id="3_bccm8"]
+[ext_resource type="Texture2D" uid="uid://h6vb1pndikg1" path="res://Assets/Textures/UI/Tela_Save/EsquerdaA.svg" id="3_juvub"]
+[ext_resource type="Texture2D" uid="uid://ds4t25ehbl0xt" path="res://Assets/Textures/UI/Tela_Controles/W.svg" id="4_es76p"]
+[ext_resource type="Texture2D" uid="uid://dfbhlc1r5ublb" path="res://Assets/Textures/UI/Tela_Save/EsquerdaB.svg" id="4_gs0k2"]
+[ext_resource type="Texture2D" uid="uid://b20omfcvyj1it" path="res://Assets/Textures/UI/Tela_Controles/E.svg" id="5_njbxn"]
+[ext_resource type="Texture2D" uid="uid://ldk6sesgiy75" path="res://Assets/Textures/UI/Tela_Controles/R.svg" id="6_ktjue"]
+[ext_resource type="Script" uid="uid://bwhc7ayn0i1dr" path="res://Scenes/UI/Telas/Tela_Controles/TelaControles.gd" id="7_controles"]
+[ext_resource type="Texture2D" uid="uid://8vaes1auh28h" path="res://Assets/Textures/UI/Tela_Controles/I.svg" id="7_ujpip"]
+[ext_resource type="Texture2D" uid="uid://b5wt4axut7tyk" path="res://Assets/Textures/UI/Tela_Controles/P.svg" id="8_r45lv"]
+[ext_resource type="Texture2D" uid="uid://cfb75cvggta57" path="res://Assets/Textures/UI/Tela_Controles/A.svg" id="9_0hvoi"]
+[ext_resource type="Texture2D" uid="uid://d221q1or0rr6s" path="res://Assets/Textures/UI/Tela_Controles/S.svg" id="10_rbv6d"]
+[ext_resource type="Texture2D" uid="uid://4vcc65g0p6ut" path="res://Assets/Textures/UI/Tela_Controles/D.svg" id="11_ts0ci"]
+[ext_resource type="Texture2D" uid="uid://lnr5h3fmv6n0" path="res://Assets/Textures/UI/Tela_Controles/F.svg" id="12_dpq13"]
+[ext_resource type="Texture2D" uid="uid://dnio1d4icgte" path="res://Assets/Textures/UI/Tela_Controles/G.svg" id="13_a8um8"]
+[ext_resource type="Texture2D" uid="uid://cfee73nwyg23h" path="res://Assets/Textures/UI/Tela_Controles/C.svg" id="14_axncs"]
+[ext_resource type="Texture2D" uid="uid://bdjvush8xdwuc" path="res://Assets/Textures/UI/Tela_Controles/TAB.svg" id="15_taraq"]
+[ext_resource type="Texture2D" uid="uid://1nrfhw0sp1fh" path="res://Assets/Textures/UI/Tela_Controles/SHIFT.svg" id="16_58ck6"]
+[ext_resource type="Texture2D" uid="uid://bgxodoyncomib" path="res://Assets/Textures/UI/Tela_Controles/ESC.svg" id="17_gkx5d"]
+[ext_resource type="Texture2D" uid="uid://d1gtld0g1cdr1" path="res://Assets/Textures/UI/Tela_Controles/Mouse Esquerdo.svg" id="18_033cw"]
+[ext_resource type="Texture2D" uid="uid://yxcj6vghtehp" path="res://Assets/Textures/UI/Tela_Controles/Mouse Direito.svg" id="19_nhvom"]
+[ext_resource type="PackedScene" uid="uid://bk73doqo5ffv8" path="res://Scenes/UI/Telas/HUB/FundoCor.tscn" id="fundo_padrao_controles"]
+
+[node name="Control" type="Control" unique_id=774371123]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_controles")
+imagens_controles = Array[Texture2D]([ExtResource("2_87q1h"), ExtResource("3_bccm8"), ExtResource("4_es76p"), ExtResource("5_njbxn"), ExtResource("6_ktjue"), ExtResource("7_ujpip"), ExtResource("8_r45lv"), ExtResource("9_0hvoi"), ExtResource("10_rbv6d"), ExtResource("11_ts0ci"), ExtResource("12_dpq13"), ExtResource("13_a8um8"), ExtResource("14_axncs"), ExtResource("15_taraq"), ExtResource("16_58ck6"), ExtResource("17_gkx5d"), ExtResource("18_033cw"), ExtResource("19_nhvom")])
+
+[node name="FundoCorPadrao" parent="." unique_id=274314848 instance=ExtResource("fundo_padrao_controles")]
+visible = false
+layout_mode = 1
+mouse_filter = 2
+
+[node name="Fundo" type="TextureRect" parent="." unique_id=972292766]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("1_64dhc")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=808881314]
+layout_mode = 0
+offset_left = 189.0
+offset_top = 938.0
+offset_right = 1732.0
+offset_bottom = 968.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Ajustes" parent="." unique_id=1842896256 instance=ExtResource("2_u8moo")]
+layout_mode = 0
+offset_top = 460.0
+offset_right = 160.0
+offset_bottom = 620.0
+imagem_normal = ExtResource("3_juvub")
+imagem_hover = ExtResource("4_gs0k2")
+
+[node name="Control" type="Control" parent="." unique_id=260649982]
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+
+[node name="Q" type="Control" parent="Control" unique_id=1947034737]
+anchors_preset = 0
+offset_left = 367.0
+offset_top = 567.0
+offset_right = 427.0
+offset_bottom = 627.0
+mouse_filter = 2
+
+[node name="W" type="Control" parent="Control" unique_id=774960103]
+anchors_preset = 0
+offset_left = 455.0
+offset_top = 567.0
+offset_right = 515.0
+offset_bottom = 627.0
+mouse_filter = 2
+
+[node name="E" type="Control" parent="Control" unique_id=627192436]
+anchors_preset = 0
+offset_left = 542.0
+offset_top = 567.0
+offset_right = 602.0
+offset_bottom = 627.0
+mouse_filter = 2
+
+[node name="R" type="Control" parent="Control" unique_id=1926166466]
+anchors_preset = 0
+offset_left = 629.0
+offset_top = 567.0
+offset_right = 689.0
+offset_bottom = 627.0
+mouse_filter = 2
+
+[node name="I" type="Control" parent="Control" unique_id=508660205]
+anchors_preset = 0
+offset_left = 982.0
+offset_top = 567.0
+offset_right = 1042.0
+offset_bottom = 627.0
+mouse_filter = 2
+
+[node name="P" type="Control" parent="Control" unique_id=293732101]
+anchors_preset = 0
+offset_left = 1157.0
+offset_top = 567.0
+offset_right = 1217.0
+offset_bottom = 627.0
+mouse_filter = 2
+
+[node name="A" type="Control" parent="Control" unique_id=83181904]
+anchors_preset = 0
+offset_left = 386.0
+offset_top = 651.0
+offset_right = 446.0
+offset_bottom = 711.0
+mouse_filter = 2
+
+[node name="S" type="Control" parent="Control" unique_id=736445069]
+anchors_preset = 0
+offset_left = 474.0
+offset_top = 651.0
+offset_right = 534.0
+offset_bottom = 711.0
+mouse_filter = 2
+
+[node name="D" type="Control" parent="Control" unique_id=1397595203]
+anchors_preset = 0
+offset_left = 563.0
+offset_top = 651.0
+offset_right = 623.0
+offset_bottom = 711.0
+mouse_filter = 2
+
+[node name="F" type="Control" parent="Control" unique_id=708784519]
+anchors_preset = 0
+offset_left = 650.0
+offset_top = 651.0
+offset_right = 710.0
+offset_bottom = 711.0
+mouse_filter = 2
+
+[node name="G" type="Control" parent="Control" unique_id=425888172]
+anchors_preset = 0
+offset_left = 738.0
+offset_top = 651.0
+offset_right = 798.0
+offset_bottom = 711.0
+mouse_filter = 2
+
+[node name="C" type="Control" parent="Control" unique_id=231342145]
+anchors_preset = 0
+offset_left = 586.0
+offset_top = 735.0
+offset_right = 646.0
+offset_bottom = 795.0
+mouse_filter = 2
+
+[node name="TAB" type="Control" parent="Control" unique_id=2000818783]
+anchors_preset = 0
+offset_left = 238.0
+offset_top = 567.0
+offset_right = 338.0
+offset_bottom = 627.0
+mouse_filter = 2
+
+[node name="SHIFT" type="Control" parent="Control" unique_id=660375163]
+anchors_preset = 0
+offset_left = 238.0
+offset_top = 736.0
+offset_right = 378.0
+offset_bottom = 796.0
+mouse_filter = 2
+
+[node name="ESC" type="Control" parent="Control" unique_id=215716841]
+anchors_preset = 0
+offset_left = 238.0
+offset_top = 412.0
+offset_right = 324.0
+offset_bottom = 458.0
+mouse_filter = 2
+
+[node name="MouseEsquerdo" type="Control" parent="Control" unique_id=999785688]
+anchors_preset = 0
+offset_left = 1623.0
+offset_top = 503.0
+offset_right = 1683.0
+offset_bottom = 585.0
+mouse_filter = 2
+
+[node name="MouseDireito" type="Control" parent="Control" unique_id=1161702656]
+anchors_preset = 0
+offset_left = 1623.0
+offset_top = 669.0
+offset_right = 1683.0
+offset_bottom = 751.0
+mouse_filter = 2

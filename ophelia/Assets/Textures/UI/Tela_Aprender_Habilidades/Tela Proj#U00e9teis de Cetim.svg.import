@@ -1,0 +1,20 @@
+[remap]
+
+importer="svg"
+type="DPITexture"
+uid="uid://bpu7ydnb4mdpx"
+path="res://.godot/imported/Tela Proj#U00e9teis de Cetim.svg-87773f6e5ab73d3416b23c052380d906.dpitex"
+
+[deps]
+
+source_file="res://Assets/Textures/UI/Tela_Aprender_Habilidades/Tela Proj#U00e9teis de Cetim.svg"
+dest_files=["res://.godot/imported/Tela Proj#U00e9teis de Cetim.svg-87773f6e5ab73d3416b23c052380d906.dpitex"]
+
+[params]
+
+base_scale=1.0
+saturation=1.0
+color_map={}
+fix_alpha_border=false
+premult_alpha=false
+compress=true

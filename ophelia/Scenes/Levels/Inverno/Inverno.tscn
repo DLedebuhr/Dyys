@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b27ucm74avlbt"]
+
+[node name="Inverno" type="Node2D" unique_id=1293042629]
+
+[node name="Label" type="Label" parent="." unique_id=1282031962]
+offset_right = 184.0
+offset_bottom = 43.0
+text = "2"

@@ -1,4 +1,5 @@
 @tool
+class_name BotaoAcaoInventario
 extends TextureButton
 
 @export var imagem_normal: Texture2D:

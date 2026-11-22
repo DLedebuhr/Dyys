@@ -12,6 +12,32 @@ var volume: Polygon2D
 var material_volume: ShaderMaterial
 var tempo: float = 0.0
 
+@export_group("Ondulacao ao tocar a agua")
+@export_range(0.0, 25.0, 0.5) var amplitude_impacto: float = 11.0
+@export_range(20.0, 250.0, 1.0) var velocidade_ondas: float = 110.0
+@export_range(10.0, 70.0, 1.0) var largura_onda: float = 29.0
+@export_range(0.4, 5.0, 0.1) var amortecimento_ondas: float = 1.9
+@export_range(0.4, 5.0, 0.1) var duracao_impacto: float = 2.1
+
+var _impactos: Array[Dictionary] = []
+
+
+# Criar uma onda bidirecional no ponto onde os pes tocaram a agua.
+func gerar_onda(x: float, forca: float = 1.0) -> void:
+	if Engine.is_editor_hint():
+		return
+	var w: float = maxf(tamanho.x, 4.0)
+	var valor: float = clampf(forca, 0.0, 1.5)
+	if valor <= 0.0:
+		return
+	_impactos.append({"x": clampf(x, 0.0, w), "t": 0.0, "f": valor})
+	if _impactos.size() > 12:
+		_impactos.pop_front()
+
+
+func ondas_ativas() -> bool:
+	return not _impactos.is_empty()
+
 
 
 # Preparar o reservatório
@@ -20,6 +46,7 @@ var tempo: float = 0.0
 func _ready() -> void:
 
 	volume = Polygon2D.new()
+	volume.antialiased = true
 	var branco := Image.create(1, 1, false, Image.FORMAT_RGBA8)
 	branco.fill(Color.WHITE)
 	volume.texture = ImageTexture.create_from_image(branco)
@@ -40,9 +67,18 @@ func altura(x: float) -> float:
 	if area_calma.x >= 0:
 
 		peso *= smoothstep(area_calma.y, area_calma.y + 20, absf(x - area_calma.x))
-	return (
-		desnivel * u + peso * ondas * (sin(x * 0.035 - tempo * 1.5) + 0.2 * sin(x * 0.08 + tempo))
-	)
+	var y: float = desnivel * u + peso * ondas * (sin(x * 0.035 - tempo * 1.5) + 0.2 * sin(x * 0.08 + tempo))
+	# Impulso que viaja para as duas laterais, diminui com o tempo
+	# e deixa as bordas estaveis (sem gotas nem particulas).
+	for impacto in _impactos:
+		var t: float = float(impacto["t"])
+		var origem: float = float(impacto["x"])
+		var caminho: float = velocidade_ondas * t
+		var a: float = (x - origem - caminho) / maxf(largura_onda, 1.0)
+		var b: float = (x - origem + caminho) / maxf(largura_onda, 1.0)
+		var perfil: float = 0.5 * (exp(-a * a * 0.5) * cos(a * 2.0) + exp(-b * b * 0.5) * cos(b * 2.0))
+		y -= perfil * amplitude_impacto * float(impacto["f"]) * exp(-t * amortecimento_ondas) * peso
+	return y
 
 
 
@@ -52,6 +88,10 @@ func altura(x: float) -> float:
 func _process(delta: float) -> void:
 
 	tempo += delta
+	for i in range(_impactos.size() - 1, -1, -1):
+		_impactos[i]["t"] = float(_impactos[i]["t"]) + delta
+		if float(_impactos[i]["t"]) >= duracao_impacto:
+			_impactos.remove_at(i)
 	if not is_instance_valid(volume):
 
 		return

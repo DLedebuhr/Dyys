@@ -135,41 +135,72 @@ func _atualizar_gancho_pendulo(origem: Vector2, delta: float) -> void:
 
 		lenco.distancia_corda = maxf(lenco.distancia_corda, lenco.alcance_gancho)
 
-	var prevista: Vector2 = lenco.jogador.global_position + lenco.jogador.velocity * delta
-	var vetor: Vector2 = prevista - lenco.ponto_ancora_gancho
-	var dist = vetor.length()
-	# Corda frouxa: não interfere, o personagem anda e pula normalmente
-
-	if dist <= lenco.distancia_corda or dist < 0.001:
-
+	# Restrição unilateral de corda: ela só puxa quando esticada.
+	# Não aplica impulso artificial em direção à âncora (origem do quique
+	# da revisão anterior). A gravidade permanece a cargo do personagem.
+	var raio: float = maxf(lenco.distancia_corda, 1.0)
+	var posicao: Vector2 = lenco.jogador.global_position
+	var radial: Vector2 = posicao - lenco.ponto_ancora_gancho
+	var distancia: float = radial.length()
+	if distancia <= 0.001:
 		lenco.corda_esticada = false
 		return
 
+	var normal: Vector2 = radial / distancia
+	var velocidade: Vector2 = lenco.jogador.velocity
+	var prevista: Vector2 = posicao + velocidade * delta
+	var prevista_distancia: float = prevista.distance_to(lenco.ponto_ancora_gancho)
+	# Com folga, o lenço não prende o movimento. Uma margem pequena evita
+	# alternar entre esticado e solto por erros de ponto flutuante.
+	if distancia < raio - lenco.tolerancia_corda and prevista_distancia < raio:
+		lenco.corda_esticada = false
+		var entrada_livre: float = Input.get_axis("ControleAndarEsquerda", "ControleAndarDireita")
+		if not lenco.jogador.is_on_floor() and not is_zero_approx(entrada_livre):
+			lenco.jogador.velocity.x += entrada_livre * lenco.forca_embalo_ar * 0.35 * delta
+		return
+
 	lenco.corda_esticada = true
-	# Corda esticada: devolve o personagem ao círculo e remove a velocidade que o afasta
-	var dir_corda = vetor / dist
-	var pos_alvo = lenco.ponto_ancora_gancho + dir_corda * lenco.distancia_corda
-	lenco.jogador.velocity += (pos_alvo - prevista) / maxf(delta, 0.001)
-	var v_radial = lenco.jogador.velocity.dot(dir_corda)
-
-	if v_radial > 0.0:
-
-		lenco.jogador.velocity -= dir_corda * v_radial
-	# Embalo no ar usando as setas/A-D
-
+	# Direção tangente à circunferência. Preservar esta componente mantém
+	# o embalo ao passar pelo ponto mais baixo.
+	var tangente: Vector2 = Vector2(-normal.y, normal.x)
+	var rapidez_tangencial: float = velocidade.dot(tangente)
+	var entrada: float = Input.get_axis("ControleAndarEsquerda", "ControleAndarDireita")
 	if not lenco.jogador.is_on_floor():
+		rapidez_tangencial += entrada * tangente.x * lenco.forca_embalo_ar * delta
+	rapidez_tangencial *= exp(-lenco.amortecimento_pendulo * delta)
+	rapidez_tangencial = clampf(rapidez_tangencial, -lenco.limite_velocidade_pendulo, lenco.limite_velocidade_pendulo)
 
-		var input_h = Input.get_axis("ControleAndarEsquerda", "ControleAndarDireita")
+	# Remover SOMENTE velocidade radial para fora. Uma velocidade para
+	# dentro é fisicamente válida: a corda pode afrouxar sem empurrar.
+	var velocidade_radial: float = minf(velocidade.dot(normal), 0.0)
+	lenco.jogador.velocity = tangente * rapidez_tangencial + normal * velocidade_radial
 
-		if input_h != 0.0:
-
-			var tang = Vector2(-dir_corda.y, dir_corda.x)
-
-			if tang.x * input_h < 0.0:
-
-				tang = -tang
-
-			lenco.jogador.velocity += tang * lenco.forca_embalo_ar * delta
+# Corrige o erro de integração depois do move_and_slide(), quando a
+# posição realmente mudou. Evita o ciclo 'passou do raio -> velocidade
+# negativa -> folga -> caiu -> passou do raio', muito visível em repouso.
+func corrigir_restricao_apos_movimento() -> void:
+	if not lenco.jogador or lenco.estado_atual != lenco.EstadoLenco.GANCHO or lenco.ancora_leve:
+		return
+	if lenco.jogador.is_on_floor():
+		return
+	if lenco.ancora_segue and is_instance_valid(lenco.alvo_gancho):
+		lenco.ponto_ancora_gancho = lenco.alvo_gancho.to_global(lenco.ancora_local)
+	var raio: float = maxf(lenco.distancia_corda, 1.0)
+	var deslocamento: Vector2 = lenco.jogador.global_position - lenco.ponto_ancora_gancho
+	var distancia: float = deslocamento.length()
+	if distancia <= raio or distancia <= 0.001:
+		return
+	var normal: Vector2 = deslocamento / distancia
+	var excesso: float = distancia - raio
+	# Não teletransportar através de paredes: se o ajuste tocar em um
+	# obstáculo, a física de colisão terá prioridade.
+	var correcao: Vector2 = -normal * excesso
+	if not lenco.jogador.test_move(lenco.jogador.global_transform, correcao):
+		lenco.jogador.global_position += correcao
+	# Mesmo que uma parede impeça o ajuste, não adicionar energia radial.
+	var saida: float = lenco.jogador.velocity.dot(normal)
+	if saida > 0.0:
+		lenco.jogador.velocity -= normal * saida
 
 # Atualizar gancho leve
 # ---------------------
@@ -293,6 +324,6 @@ func atualizar_visual_corda(origem: Vector2, delta: float) -> void:
 		var t = float(i) / float(lenco.pontos_por_fita - 1)
 		var pos_linha = origem.lerp(lenco.ponto_ancora_gancho, t)
 		# Base rápida (45) -> ponta (18): a fita sai reta da gola, sem dobra
-		var peso_fita = lenco._peso_ponto(t, 45.0, 18.0, delta)
+		var peso_fita = 1.0 if lenco.corda_esticada else lenco._peso_ponto(t, 45.0, 18.0, delta)
 		lenco.pontos_tras[i] = lenco.pontos_tras[i].lerp(pos_linha, peso_fita)
 		lenco.pontos_frente[i] = lenco.pontos_frente[i].lerp(pos_linha, peso_fita)

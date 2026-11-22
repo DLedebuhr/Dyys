@@ -5,9 +5,13 @@
 [ext_resource type="Texture2D" uid="uid://dwxqqqukxr0ei" path="res://Assets/Textures/UI/HUB/CoracaoBarraVida.svg" id="5_2nkjq"]
 [ext_resource type="PackedScene" uid="uid://4styg8rs3i4o" path="res://Scenes/UI/IndicadorInteracao/IndicadorInteracao.tscn" id="5_qgtg7"]
 [ext_resource type="PackedScene" uid="uid://baqkarry8sjnh" path="res://Scenes/UI/Telas/Tela_Inventario/TelaInventario.tscn" id="6_x8xhp"]
+[ext_resource type="Script" path="res://Scenes/UI/Telas/HUB/HUDOphelia.gd" id="hud_script"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Telas/Tela_Menu/TelaMenu.tscn" id="menu_packed"]
 
 [node name="HUD" type="CanvasLayer" unique_id=497880551]
 layer = 10
+process_mode = 3
+script = ExtResource("hud_script")
 
 [node name="TextureRect2" type="TextureRect" parent="." unique_id=1691167172]
 visible = false
@@ -101,3 +105,11 @@ texture_progress = ExtResource("5_2nkjq")
 [node name="IndicadorInteracao" parent="." unique_id=1749826466 instance=ExtResource("5_qgtg7")]
 
 [node name="TelaInventario" parent="." unique_id=942691893 instance=ExtResource("6_x8xhp")]
+
+[node name="MenuInterno" type="CanvasLayer" parent="."]
+layer = 60
+process_mode = 3
+
+[node name="TelaMenu" parent="MenuInterno" instance=ExtResource("menu_packed")]
+visible = false
+process_mode = 3

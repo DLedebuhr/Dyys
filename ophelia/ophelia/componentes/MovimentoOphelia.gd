@@ -24,7 +24,7 @@ func _em_gancho() -> bool:
 # Processa balancando.
 func _balancando() -> bool:
 
-	return corpo._em_gancho() and corpo.lenco.corda_esticada and not corpo.is_on_floor()
+	return corpo._em_gancho() and not corpo.is_on_floor()
 
 # Atualizar temporizadores
 # ---------------------
@@ -66,10 +66,6 @@ func _processar_inputs_estado() -> void:
 
 			corpo.esta_levantando = false
 
-	if corpo.acao_ativada("ControleCorrer"):
-
-		corpo.esta_correndo = not corpo.esta_correndo
-
 	var tem_teto: bool = corpo.raycast_teto != null and corpo.raycast_teto.is_colliding()
 	var quer_pular: bool = corpo.acao_ativada("ControlePular")
 
@@ -77,22 +73,6 @@ func _processar_inputs_estado() -> void:
 
 		corpo._definir_estado_sentada(false)
 		corpo.esta_levantando = false
-		return
-
-	if corpo.acao_ativada("ControleSentarLevantar") and corpo.is_on_floor() and not corpo._reacao_trava():
-
-		if corpo.esta_sentada:
-
-			if not tem_teto:
-
-				_iniciar_levantar()
-
-		elif not corpo.esta_levantando:
-
-			corpo.sentou_por_inatividade = false
-			corpo.esta_sentada = true
-			corpo._tocar("Sentar", true)
-
 		return
 
 	if corpo.sentou_por_inatividade and not tem_teto:
@@ -141,38 +121,18 @@ func _processar_planar() -> void:
 
 		return
 
-	if corpo.planando:
-
-		if corpo.is_on_floor():
-
-			corpo._encerrar_planar()  # Pousou
-
-		elif corpo._em_gancho():
-
-			corpo._encerrar_planar()  # Prendeu o gancho: cancela
-
-		elif not corpo.pode_usar(OpheliaHabilidades.PLANAR):
-
-			corpo._encerrar_planar()  # A permissão acabou (ex.: o modo debug foi desligado)
-
-		elif corpo.planar_segurando_tecla and not Input.is_action_pressed("ControlePular"):
-
-			corpo._encerrar_planar()  # Soltou a tecla: volta a cair normalmente
-
-		elif not corpo.planar_segurando_tecla and corpo.acao_ativada("ControlePular"):
-
-			corpo._encerrar_planar()  # Modo toggle: apertou de novo para cancelar
-			corpo.tempo_jump_buffer = 0.0
-
-		return
-	# Só começa fora do chão, depois do coyote time, sem gancho e se a habilidade estiver liberada
-
-	if corpo.acao_ativada("ControlePular") \
-			and not corpo.is_on_floor() \
-			and corpo.tempo_coyote <= 0.0 \
-			and not corpo._em_gancho() \
-			and corpo.pode_usar(OpheliaHabilidades.PLANAR):
-
+	# Brisa usa Espaço sustentado na queda; W continua dedicado à câmera.
+	var pode_planar: bool = not corpo.is_on_floor() \
+		and corpo.velocity.y >= 0.0 \
+		and corpo.tempo_coyote <= 0.0 \
+		and not corpo._em_gancho() \
+		and corpo.pode_usar(OpheliaHabilidades.PLANAR) \
+		and InputMap.has_action(&"ControlePular") \
+		and Input.is_action_pressed(&"ControlePular") \
+		and corpo.lenco.estado_atual != corpo.lenco.EstadoLenco.PROPULSOR
+	if corpo.planando and not pode_planar:
+		corpo._encerrar_planar()
+	elif not corpo.planando and pode_planar:
 		corpo._iniciar_planar()
 
 # Iniciar planar
@@ -181,7 +141,6 @@ func _processar_planar() -> void:
 func _iniciar_planar() -> void:
 
 	corpo.planando = true
-	corpo.tempo_jump_buffer = 0.0 # Não deixa o pulo "guardado" disparar ao pousar
 	corpo.velocity.y = maxf(corpo.velocity.y, 0.0) # Se estava subindo, começa a planar do topo
 	corpo.esta_levantando = false
 
@@ -254,7 +213,7 @@ func _processar_pulo() -> void:
 # Processar movimento horizontal
 # ---------------------
 # Processa movimento horizontal.
-func _processar_movimento_horizontal(delta: float) -> void:
+func _processar_movimento_horizontal(_delta: float) -> void:
 
 	# O comando já foi aceito, mas o corpo só se desloca após terminar Levantar.
 
@@ -272,51 +231,38 @@ func _processar_movimento_horizontal(delta: float) -> void:
 
 	if corpo._reacao_trava():
 
-		corpo.velocity.x = move_toward(corpo.velocity.x, 0.0, corpo.atrito * delta)
+		corpo.velocity.x = 0.0
 		return
 	# Sentada no chão: só desacelera
 
 	if corpo.esta_sentada and corpo.is_on_floor():
 
-		corpo.velocity.x = move_toward(corpo.velocity.x, 0.0, corpo.atrito * delta)
+		corpo.velocity.x = 0.0
 		return
 
-	var direcao = Input.get_axis("ControleAndarEsquerda", "ControleAndarDireita")
-	# Balançando na corda esticada: sem atrito nem aceleração própria,
-	# o lenço cuida do embalo. Só vira o sprite.
+	# Entrada imediata: sem alternância de caminhar/correr e sem rampas de aceleração.
+	var direcao: float = Input.get_axis("ControleAndarEsquerda", "ControleAndarDireita")
+	corpo.esta_correndo = false
 
+	# Quando está presa a uma âncora firme, o pêndulo controla a velocidade.
+	# Não sobrescreva velocity.x: isso apagaria o momento acumulado do balanço.
 	if corpo._balancando():
-
-		if direcao != 0.0:
-
-			corpo.olhando_esquerda = (direcao < 0.0)
-
+		if not is_zero_approx(direcao):
+			corpo.olhando_esquerda = direcao < 0.0
 		return
 
-	var vel_maxima = corpo.velocidade_correr if corpo.esta_correndo else corpo.velocidade_andar
-	# Depois de um impulso no ar (propulsor) o embalo horizontal se mantém: só ajuda a ir para o lado apertado
-
+	# Preserva o embalo especial produzido pelo Sopro de Cetim.
 	if corpo.tempo_embalo > 0.0 and not corpo.is_on_floor():
-
-		if direcao != 0.0:
-
-			corpo.olhando_esquerda = (direcao < 0.0)
-			var alvo_x = direcao * vel_maxima
-
+		if not is_zero_approx(direcao):
+			corpo.olhando_esquerda = direcao < 0.0
+			var alvo_x: float = direcao * corpo.velocidade_movimento
 			if absf(corpo.velocity.x) < absf(alvo_x) or signf(corpo.velocity.x) != signf(alvo_x):
-
-				corpo.velocity.x = move_toward(corpo.velocity.x, alvo_x, corpo.aceleracao * delta)
-
+				corpo.velocity.x = alvo_x
 		return
 
-	if direcao != 0.0:
-
-		corpo.velocity.x = move_toward(corpo.velocity.x, direcao * vel_maxima, corpo.aceleracao * delta)
-		corpo.olhando_esquerda = (direcao < 0.0)
-
-	else:
-
-		corpo.velocity.x = move_toward(corpo.velocity.x, 0.0, corpo.atrito * delta)
+	corpo.velocity.x = direcao * corpo.velocidade_movimento
+	if not is_zero_approx(direcao):
+		corpo.olhando_esquerda = direcao < 0.0
 
 # Aplicar impulso
 # ---------------------

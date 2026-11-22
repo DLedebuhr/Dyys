@@ -1,10 +1,7 @@
 extends CharacterBody2D
 # --- CONFIGURAÇÕES DE MOVIMENTAÇÃO ---
 @export_group("Velocidade")
-@export var velocidade_andar: float = 160.0
-@export var velocidade_correr: float = 500.0
-@export var aceleracao: float = 1800.0
-@export var atrito: float = 2000.0
+@export var velocidade_movimento: float = 500.0 # Movimento horizontal imediato, sem alternância nem aceleração
 @export_group("Pulo")
 @export var forca_pulo: float = -680.0
 @export var gravidade_multiplicador_queda: float = 1.5 # Queda mais pesada/agradável
@@ -14,7 +11,6 @@ extends CharacterBody2D
 @export_group("Planar")
 @export var planar_gravidade: float = 0.25 # Fração da gravidade normal durante a planagem
 @export var velocidade_queda_planando: float = 80.0 # Velocidade máxima de queda planando
-@export var planar_segurando_tecla: bool = true # true: planar enquanto segura | false: aperta de novo para cancelar
 @export_group("Reações")
 @export var duracao_irritada: float = 2.0          # Uma execução completa, ajustada para esta duração
 @export var duracao_agradecer: float = 2.0         # Uma execução completa, ajustada para esta duração
@@ -43,8 +39,11 @@ extends CharacterBody2D
 @onready var lenco = %Lenco
 @onready var habilidades: OpheliaHabilidades = %Habilidades
 # --- VARIÁVEIS DE ESTADO INTERNO ---
-# Correr: CapsLock ligado = corre | desligado = caminha (alterna a cada toque)
-var esta_correndo: bool = false
+# Movimento horizontal sempre usa uma única velocidade configurável.
+var esta_correndo: bool = false # Compatibilidade com estados externos; sempre falso.
+# 0 = Corte de Cetim; 1 = Projéteis de Cetim.
+# A roda do mouse alterna; o mouse direito executa o modo selecionado.
+var ataque_selecionado: int = 0
 var esta_sentada: bool = false
 var sentou_por_inatividade: bool = false
 var tempo_frontal_imovel: float = 0.0
@@ -76,6 +75,8 @@ var tempo_ocioso: float = 0.0          # Há quantos segundos ela está sem agir
 # Contadores dos assistentes de pulo
 var tempo_coyote: float = 0.0
 var tempo_jump_buffer: float = 0.0
+# Espaço: salto/impulso de gancho, ou Brisa sustentada durante a queda.
+# S: Sopro de Cetim somente no ar; no chão a câmera olha para baixo.
 # Impulso externo (propulsor do lenço)
 var tempo_embalo: float = 0.0       # Enquanto > 0 no ar, o embalo horizontal não é freado
 var pode_cortar_pulo: bool = true   # Soltar o pulo corta a subida, menos se ela subiu por um impulso
@@ -127,12 +128,13 @@ func _physics_process(delta: float) -> void:
 	_executar_pedidos()
 	_atualizar_temporizadores(delta)
 	_processar_inputs_estado()
+	_processar_pulo()
 	_processar_planar()
 	_aplicar_gravidade(delta)
-	_processar_pulo()
 	_processar_movimento_horizontal(delta)
 	lenco.atualizar_fisica(delta)
 	move_and_slide()
+	lenco.corrigir_restricao_apos_movimento()
 	lenco.atualizar_visual(delta)
 	_atualizar_animacoes()
 	_aplicar_espelho()
@@ -145,16 +147,6 @@ func _physics_process(delta: float) -> void:
 func _coletar_pedidos() -> void:
 
 	for pedido in entrada.retirar_pedidos():
-
-		var acao: StringName = pedido["acao"]
-
-		if acao == &"ControleSentarLevantar" and not is_on_floor():
-
-			continue
-
-		if acao == &"ControlePropulsor" and is_on_floor():
-
-			continue
 
 		if _pedidos.size() < limite_fila_acoes:
 
@@ -213,36 +205,56 @@ func _executar_pedidos() -> void:
 		var pedido: Dictionary = _pedidos[indice]
 		var acao: StringName = pedido["acao"]
 
-		if acao == &"ControleAtaqueLenco" and lenco.parar_projeteis_em_voo():
+		# Espaço: impulso se estiver preso; no chão/coyote inicia salto.
+		# No ar o pressionamento não ativa Sopro: segurar na queda permite Brisa.
+		if acao == &"ControlePular":
+			if movimento._em_gancho():
+				lenco.impulso_gancho_pendente = true
+				tempo_jump_buffer = 0.0
+			elif is_on_floor() or tempo_coyote > 0.0:
+				_ativadas[acao] = true
+			else:
+				# Conserva o Jump Buffer para um salto logo antes da aterrissagem.
+				_ativadas[acao] = true
 
-			_pedidos.remove_at(indice)
-			continue
+		elif acao == &"ControlePropulsor":
+			# S é apenas olhar para baixo no chão. Impulso só em voo livre,
+			# para não consumir a habilidade por acidente em plataformas.
+			if not is_on_floor() and tempo_coyote <= 0.0 and not movimento._em_gancho():
+				if lenco.pode_receber_acao() and lenco._pode_propulsionar():
+					lenco.solicitar_comando(&"ControlePropulsor", pedido["mouse"])
 
-		if acao in [&"ControleAtaqueLenco", &"ControleDefesaLenco", &"ControlePropulsor", &"ControleFixarLenco"]:
+		elif acao == &"ControleAcaoLenco":
+			# O primeiro clique nunca dispara ataque, mesmo sem âncora.
+			if lenco.pode_receber_acao():
+				lenco.solicitar_comando(&"ControleFixarLenco", pedido["mouse"])
 
-			if not lenco.pode_receber_acao():
+		elif acao == &"ControleSelecionarAtaqueAnterior" or acao == &"ControleSelecionarAtaqueProximo":
+			# Apenas alterna entre os dois modos (sem executar nenhum ataque).
+			ataque_selecionado = 1 - ataque_selecionado
+			lenco.modo_distancia = ataque_selecionado == 1
 
-				indice += 1
-				continue
+		elif acao == &"ControleAtaqueLenco":
+			if ataque_selecionado == 0:
+				if lenco.pode_receber_acao() and pode_usar(OpheliaHabilidades.ATAQUE_LENCO):
+					lenco._executar_corte(pedido["mouse"])
+			else:
+				# Mantém a regra de duas cargas: quando ambas estão em uso,
+				# novo clique com projéteis selecionados pode fixá-los no ar.
+				if lenco.projeteis.size() >= 2:
+					lenco.parar_projeteis_em_voo()
+				elif lenco.pode_receber_acao() and pode_usar(OpheliaHabilidades.ATAQUE_MODIFICADO):
+					lenco.modo_distancia = true
+					lenco.solicitar_comando(&"ControleAtaqueLenco", pedido["mouse"])
 
-			lenco.solicitar_comando(acao, pedido["mouse"])
+		elif acao == &"ControleDefesaLenco":
+			if lenco.pode_receber_acao():
+				lenco.solicitar_comando(acao, pedido["mouse"])
 
 		elif acao == &"ControleSoltarGancho":
-
 			lenco.soltar_gancho()
 
-		elif acao == &"ControleImpulsoLenco":
-
-			lenco.impulso_gancho_pendente = true
-
-		elif acao == &"ControleTrocarAtaque":
-
-			if pode_usar(OpheliaHabilidades.ATAQUE_MODIFICADO):
-
-				lenco.modo_distancia = not lenco.modo_distancia
-
 		else:
-
 			_ativadas[acao] = true
 
 		_pedidos.remove_at(indice)

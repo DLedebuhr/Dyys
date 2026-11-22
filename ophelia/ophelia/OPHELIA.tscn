@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bnxglrwcod5qw" path="res://Ophelia/Componentes/EntradaOphelia.gd" id="2_pl81g"]
 [ext_resource type="Script" uid="uid://bfj3814r0kctd" path="res://Ophelia/Componentes/HabilidadesOphelia.gd" id="3_53dpe"]
 [ext_resource type="Script" uid="uid://1pqfivmqvyin" path="res://Ophelia/Combate/VitalidadeOphelia.gd" id="4_pl81g"]
-[ext_resource type="Script" uid="uid://djdnhag7y6fs0" path="res://Ophelia/Vitalidade/CicloVida.gd" id="5_tbhi1"]
+[ext_resource type="Script" uid="uid://b8lkn6vodapgg" path="res://Ophelia/Vitalidade/CicloVida.gd" id="5_tbhi1"]
 [ext_resource type="Script" uid="uid://c23yer1glvp4e" path="res://Ophelia/Efeitos/Sombra.gd" id="6_pl81g"]
 [ext_resource type="Texture2D" uid="uid://bbdpdoobml0ab" path="res://Assets/Textures/Characters/Ophelia/SpritesParada/Frame 2.png" id="6_vg6gq"]
 [ext_resource type="Texture2D" uid="uid://cqkrpjsdpjlpp" path="res://Assets/Textures/Characters/Ophelia/SpritesAgradecer/Frame 94.png" id="7_sxabt"]
@@ -76,9 +76,11 @@
 [ext_resource type="Script" uid="uid://bf701qnujj28u" path="res://Ophelia/Combate/EscudoOphelia.gd" id="72_53dpe"]
 [ext_resource type="Script" uid="uid://b1prir8328gis" path="res://Ophelia/Efeitos/EfeitosLenco.gd" id="73_rskug"]
 [ext_resource type="Script" uid="uid://bwihjrkh5e0k4" path="res://Ophelia/Ferramentas/VooDebug.gd" id="74_pl81g"]
-[ext_resource type="Script" uid="uid://cnm3lbsrvve83" path="res://Ophelia/Ferramentas/AtalhosDebug.gd" id="75_53dpe"]
-[ext_resource type="Script" uid="uid://b7mgr4lgphf8w" path="res://Scenes/UI/Telas/Tela_Inventario/InventarioOphelia.gd" id="78_7y0e4"]
+[ext_resource type="Script" uid="uid://b810hwtvpwj0" path="res://Ophelia/Ferramentas/AtalhosDebug.gd" id="75_53dpe"]
+[ext_resource type="Script" uid="uid://bwahskf8iu2uq" path="res://Scenes/UI/Telas/Tela_Inventario/InventarioOphelia.gd" id="78_7y0e4"]
 
+[ext_resource type="Script" path="res://Ophelia/Checkpoint/CheckpointChapeu.gd" id="99_chk"]
+[ext_resource type="Script" path="res://Ophelia/PersistenciaOphelia.gd" id="99_save"]
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ktjr4"]
 resource_local_to_scene = true
 radius = 23.0
@@ -477,17 +479,15 @@ z_index = 2
 collision_layer = 2
 collision_mask = 13
 script = ExtResource("1_bu2em")
-velocidade_andar = 200.0
-velocidade_correr = 600.0
-aceleracao = null
-atrito = null
+velocidade_movimento = 500.0
+aceleracao = 2400.0
+atrito = 2000.0
 forca_pulo = -690.0
 gravidade_multiplicador_queda = null
 coyote_time_limite = null
 jump_buffer_limite = null
 planar_gravidade = 0.5
 velocidade_queda_planando = 100.0
-planar_segurando_tecla = null
 duracao_irritada = null
 duracao_agradecer = null
 tempo_parada = 10.0
@@ -532,11 +532,18 @@ script = ExtResource("5_tbhi1")
 vitalidade = NodePath("../Vitalidade")
 visuais = [NodePath("../Visual/SpritePersonagem"), NodePath("../Visual/Asas"), NodePath("../Visual/Sombra")]
 
+[node name="PersistenciaOphelia" type="Node" parent="."]
+script = ExtResource("99_save")
+
+[node name="CheckpointChapeu" type="Node2D" parent="."]
+script = ExtResource("99_chk")
+
 [node name="TesteVida" type="Node" parent="." unique_id=636109648]
 
 [node name="Visual" type="Node2D" parent="." unique_id=1741532425]
 
 [node name="Sombra" type="Sprite2D" parent="Visual" unique_id=294193294]
+z_index = -1
 script = ExtResource("6_pl81g")
 
 [node name="FitaTras" type="Line2D" parent="Visual" unique_id=289066063]
@@ -549,6 +556,10 @@ gradient = SubResource("Gradient_0878f")
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
+
+[node name="PontaTras" type="Node2D" parent="Visual"]
+unique_name_in_owner = true
+z_index = -1
 
 [node name="EfeitosTras" type="Node2D" parent="Visual" unique_id=1397652339]
 unique_name_in_owner = true
@@ -598,6 +609,10 @@ joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 
+[node name="PontaFrente" type="Node2D" parent="Visual"]
+unique_name_in_owner = true
+z_index = 2
+
 [node name="EfeitosVida" type="Node2D" parent="Visual" unique_id=809097257 node_paths=PackedStringArray("vitalidade", "sprite")]
 position = Vector2(0, 87)
 script = ExtResource("69_d4tuq")
@@ -617,6 +632,7 @@ collision_mask = 13
 [node name="SensorGancho" type="RayCast2D" parent="Sensores" unique_id=329236655]
 unique_name_in_owner = true
 target_position = Vector2(700, 0)
+# CenarioSolido | ObjetosMoveis | ApoiosLenco; igual à máscara do GanchoLenco.
 collision_mask = 261
 
 [node name="SensorInteracao" type="Area2D" parent="Sensores" unique_id=258312846]

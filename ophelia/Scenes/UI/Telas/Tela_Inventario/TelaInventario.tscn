@@ -20,9 +20,10 @@
 [ext_resource type="Texture2D" uid="uid://bci12u2wvwmsi" path="res://Assets/Textures/UI/Tela_Inventario/Elementos/DireitaA.svg" id="19_oernc"]
 [ext_resource type="FontFile" uid="uid://dfkg6q75dyn5v" path="res://Assets/Fonts/tt-milks-casual-pie-line.ttf" id="20_fonte_info"]
 [ext_resource type="Texture2D" uid="uid://m85t35hx2t4v" path="res://Assets/Textures/UI/Tela_Inventario/Elementos/DireitaB.svg" id="20_ftvsm"]
-
-[sub_resource type="Resource" id="Resource_d5yl5"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Frame 42.png"
+[ext_resource type="Script" uid="uid://bfmwgct38epuc" path="res://Scenes/UI/Telas/Tela_Inventario/CaixaDescarte.gd" id="caixa_descarte_script"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Elementos/Borda.svg" id="borda_inventario"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Elementos/Circulo.svg" id="circulo_inventario"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Telas/HUB/FundoCor.tscn" id="fundo_padrao_inventario"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_wuwyo"]
 font = ExtResource("20_fonte_info")
@@ -39,7 +40,8 @@ shadow_size = 0
 process_mode = 3
 layer = 30
 script = ExtResource("1")
-borda_slot = SubResource("Resource_d5yl5")
+borda_slot = ExtResource("borda_inventario")
+circulo_slot = ExtResource("circulo_inventario")
 fonte_informacao = ExtResource("20_fonte_info")
 painel = NodePath("Painel")
 armazenamento = NodePath("Painel/Armazenamento")
@@ -54,6 +56,14 @@ catalogar = NodePath("Painel/Oficina/HBoxContainer2/Catalogar")
 botao_catalogo = NodePath("Painel/Navegacao/Catalogo")
 botao_mapa = NodePath("Painel/Navegacao/Mapa")
 
+[node name="FundoCompartilhado" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.055, 0.055, 0.11, 0.94)
+
 [node name="Painel" type="Control" parent="." unique_id=233850509]
 visible = false
 layout_mode = 3
@@ -63,7 +73,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="FundoCorPadrao" parent="Painel" instance=ExtResource("fundo_padrao_inventario")]
+mouse_filter = 2
+
 [node name="FundoCor" type="ColorRect" parent="Painel" unique_id=372816905]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.1
@@ -324,3 +338,16 @@ texture_normal = ExtResource("19_oernc")
 texture_hover = ExtResource("20_ftvsm")
 imagem_normal = ExtResource("19_oernc")
 imagem_hover = ExtResource("20_ftvsm")
+
+[node name="CaixaDescarte" type="TextureRect" parent="Painel" unique_id=737778630 node_paths=PackedStringArray("tela_inventario")]
+layout_mode = 0
+offset_left = 1705.0
+offset_top = 845.0
+offset_right = 1845.0
+offset_bottom = 985.0
+tooltip_text = "Arraste um item aqui para descartar a pilha inteira."
+mouse_filter = 0
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("caixa_descarte_script")
+tela_inventario = NodePath("../..")

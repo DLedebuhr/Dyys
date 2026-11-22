@@ -124,10 +124,10 @@ func _executar() -> void:
 	verificar(corpo.lenco.projeteis.is_empty(), "Sem projétil visível/ativo ao iniciar")
 	await apertar(&"ControleAndarDireita")
 	await quadros(12)
-	verificar(corpo.velocity.x > 0.0, "Direita acelera a personagem")
+	verificar(corpo.velocity.x > 0.0, "Direita utiliza imediatamente a velocidade configurada")
 	await soltar(&"ControleAndarDireita")
 	await quadros(20)
-	verificar(absf(corpo.velocity.x) < 1.0, "Soltar direção aplica frenagem")
+	verificar(absf(corpo.velocity.x) < 1.0, "Soltar direção interrompe o movimento normal")
 	await apertar(&"ControlePular")
 	await quadros(2)
 	verificar(corpo.velocity.y < 0.0, "Pulo usa evento de aperto")
@@ -233,31 +233,18 @@ func _executar() -> void:
 	await quadros(150)
 	verificar(corpo.lenco.usos_propulsor == 0, "Pouso restaura o propulsor")
 	await reiniciar()
-	var tecla_s := InputEventKey.new()
-	tecla_s.physical_keycode = KEY_S
-	tecla_s.pressed = true
-	Input.parse_input_event(tecla_s)
-	await quadros(2)
-	verificar(corpo.esta_sentada and corpo.lenco.usos_propulsor == 0, "S no chão senta e não aciona o propulsor")
-	tecla_s = InputEventKey.new()
-	tecla_s.physical_keycode = KEY_S
-	tecla_s.pressed = false
-	Input.parse_input_event(tecla_s)
-	await quadros(2)
-	await apertar(&"ControleSentarLevantar")
-	await soltar(&"ControleSentarLevantar")
-	await quadros(60)
-	verificar(not corpo.esta_sentada, "Novo aperto levanta a personagem")
+	# S não senta mais manualmente; sentar é reação de inatividade.
+	verificar(not corpo.esta_sentada, "Sem comando manual, Ophelia permanece de pé até a reação de espera")
 	await apertar(&"ControlePular")
 	await soltar(&"ControlePular")
-	await quadros(12)
+	await quadros(18)
 	await apertar(&"ControlePular")
-	await quadros(3)
-	verificar(corpo.planando, "Novo aperto de W no ar inicia planagem")
+	await quadros(10)
+	verificar(corpo.planando, "Espaço mantido durante a queda permite planagem")
 	verificar(corpo.get_node("Visual/Asas").visible, "Asas acompanham o início da planagem")
 	await soltar(&"ControlePular")
 	await quadros(3)
-	verificar(not corpo.planando, "Soltar W encerra a planagem no modo segurar")
+	verificar(not corpo.planando, "Soltar Espaço encerra a planagem")
 	await reiniciar()
 	corpo.duracao_agradecer = 0.15
 	corpo.duracao_transicao_pose = 0.12
@@ -316,7 +303,6 @@ func _executar() -> void:
 
 	verificar(maior_distancia <= lenco.distancia_corda + 2.0, "Restrição do gancho mantém o corpo dentro do comprimento da corda")
 	verificar(absf(corpo.position.x - inicio_x) > 10.0, "Gancho permite balanço contínuo, sem travar o movimento")
-	print("TECLAS_NUMERICAS: ", KEY_KP_0, " SHIFT: ", KEY_SHIFT)
 	print("RESULTADO: ", acertos, " verificações passaram; ", falhas.size(), " falhas.")
 	mundo.queue_free()
 	await process_frame

@@ -1,5 +1,5 @@
 # ===== COMPONENTE "VooDebug" — nó filho do OPHELIA =====
-# Tecla V liga/desliga o voo livre como luz. Não altera jogador.gd nem ponto_origem.gd:
+# Num 8 liga/desliga o voo livre como luz. Não altera jogador.gd nem ponto_origem.gd:
 # enquanto voa, só pausa esses scripts e depois devolve tudo como estava.
 # Ferramenta de desenvolvimento: só funciona com o modo debug (666) ligado. Jogadores não têm acesso.
 extends Node
@@ -23,7 +23,7 @@ const TAM_TEXTURA: int = 128
 @export var seguir_forca: float = 5.0         # quanto maior, mais "colada" no mouse
 @export var aceleracao: float = 6.0           # suavidade ao acelerar e frear
 @export var raio_parada: float = 8.0          # perto do mouse ela para (evita tremer)
-@export var usar_teclado: bool = true         # A/D, setas e pular (sobe) assumem o controle
+@export var usar_teclado: bool = true         # WASD controla o voo (W sobe / S desce).
 @export var colidir_no_voo: bool = false      # false = atravessa tudo (voo livre)
 @export var esconder_cursor_no_voo: bool = true
 @export_group("Troca de forma")
@@ -101,16 +101,15 @@ func _exit_tree() -> void:
 	if esconder_cursor_no_voo:
 
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-# Se a ação "ControleVooDebug" não existir no Mapa de Entrada, cria uma com a tecla V
+# A ação ControleVooDebug deve existir no Input Map e ser atribuída ao Num 8.
 
 # Receber comandos disponíveis
 # ---------------------
 # Trata os comandos que a interface ainda não consumiu.
-func _unhandled_input(event: InputEvent) -> void:
+func _unhandled_input(_event: InputEvent) -> void:
 
-	if event is InputEventMouseMotion:
-
-		controle_mouse = true
+	# O mouse permanece apenas para mirar outras habilidades fora do voo.
+	pass
 # --- LOOP ---
 # O voo só existe com o modo debug (666) ligado
 
@@ -173,13 +172,7 @@ func _voar(delta: float) -> void:
 		controle_mouse = false
 		desejada = teclado * velocidade_maxima
 
-	elif controle_mouse:
-
-		var para_mouse: Vector2 = jogador.get_global_mouse_position() - jogador.to_global(centro_corpo)
-
-		if para_mouse.length() > raio_parada:
-
-			desejada = (para_mouse * seguir_forca).limit_length(velocidade_maxima)
+	# Sem arrastar a personagem até o cursor: voo é exclusivamente WASD.
 
 	velocidade = velocidade.lerp(desejada, 1.0 - exp(-aceleracao * delta))
 	_mover_corpo(velocidade * delta)
@@ -211,11 +204,7 @@ func _eixo_teclado() -> Vector2:
 	var esq: String = "ControleAndarEsquerda"
 	var dir: String = "ControleAndarDireita"
 	var h: float = Input.get_axis(esq, dir)
-	var v: float = Input.get_axis("ControleVooCima", "ControleVooBaixo")
-
-	if InputMap.has_action("ControlePular") and Input.is_action_pressed("ControlePular"):
-
-		v -= 1.0
+	var v: float = Input.get_axis("ControleVooSubir", "ControleVooDescer")
 
 	return Vector2(clampf(h, -1.0, 1.0), clampf(v, -1.0, 1.0))
 # --- BONECA -> LUZ ---

@@ -302,13 +302,22 @@ func _atualizar_animacoes() -> void:
 
 		return
 
+	# As duas novas animações são opcionais; até adicionar os quadros, permanece Parado.
+	# Não sobrescreve ataques, coleta, reações, caminhada ou salto.
+	if not corpo.esta_sentada and absf(corpo.velocity.x) <= 10.0:
+		if InputMap.has_action(&"ControleOlharCima") and Input.is_action_pressed(&"ControleOlharCima") and corpo._tem_anim(corpo._nome_anim("OlharCima")):
+			corpo._tocar("OlharCima")
+			return
+		if InputMap.has_action(&"ControleOlharBaixo") and Input.is_action_pressed(&"ControleOlharBaixo") and corpo._tem_anim(corpo._nome_anim("OlharBaixo")):
+			corpo._tocar("OlharBaixo")
+			return
 	if corpo.esta_sentada:
 
 		corpo._tocar("Sentar")
 
 	elif absf(corpo.velocity.x) > 10.0:
 
-		corpo._tocar("Correr" if corpo.esta_correndo else "Andar")
+		corpo._tocar("Andar")
 
 	else:
 

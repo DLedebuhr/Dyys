@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c5l48fhvnynkl"]
+
+[ext_resource type="Script" uid="uid://cq1x2d68ltfcf" path="res://Scenes/Interactables/Seiva/EfeitosBacia.gd" id="1"]
+
+[node name="EfeitosBacia" type="Node2D" unique_id=1639668041]
+script = ExtResource("1")

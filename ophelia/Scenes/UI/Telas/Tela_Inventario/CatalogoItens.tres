@@ -2,125 +2,144 @@
 
 [ext_resource type="Script" uid="uid://7ngrodmg01s" path="res://Scenes/UI/Telas/Tela_Inventario/CatalogoItens.gd" id="1"]
 [ext_resource type="Script" uid="uid://dngtvefhnlngk" path="res://Scenes/UI/Telas/Tela_Inventario/DadosItem.gd" id="2"]
-
-[sub_resource type="Resource" id="Resource_pwt8h"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Frutas/ItemFrutaPrimavera.svg"
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeRamo.png" id="icone_ramos_real"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Frutas/IconeFrutaD.png" id="img_catalogo_00"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Frutas/IconeFrutaA.png" id="img_catalogo_01"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Frutas/IconeFrutaB.png" id="img_catalogo_02"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Frutas/IconeFrutaC.png" id="img_catalogo_03"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/Capsula.png" id="img_catalogo_05"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/CapsulaSeiva.png" id="img_catalogo_06"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCalla.png" id="img_catalogo_07"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeCallaEncapsulada.png" id="img_catalogo_09"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeLavanda.png" id="img_catalogo_10"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeLavandaEncapsulada.png" id="img_catalogo_11"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCosmos.png" id="img_catalogo_12"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeCosmosEncapsulada.png" id="img_catalogo_13"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeLótus.png" id="img_catalogo_14"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeLótusEncapsulada.png" id="img_catalogo_15"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeLírio.png" id="img_catalogo_16"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeLírioEncapsulada.png" id="img_catalogo_17"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeViola.png" id="img_catalogo_18"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeViolaEncapsulada.png" id="img_catalogo_19"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCólquico.png" id="img_catalogo_20"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeCólquicoEncapsulada.png" id="img_catalogo_21"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconePrincesa.png" id="img_catalogo_22"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconePrincesaEncapsulada.png" id="img_catalogo_23"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeAzaleia.png" id="img_catalogo_24"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeAzaleiaEncapsulada.png" id="img_catalogo_25"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeDália.png" id="img_catalogo_26"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeDáliaEncapsulada.png" id="img_catalogo_27"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeHeléboro.png" id="img_catalogo_28"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeHeléboroEncapsulada.png" id="img_catalogo_29"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCiclame.png" id="img_catalogo_30"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeCiclameEncapsulada.png" id="img_catalogo_31"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCamélia.png" id="img_catalogo_32"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeCaméliaEncapsulada.png" id="img_catalogo_33"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconePrímula.png" id="img_catalogo_34"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconePrímulaEncapsulada.png" id="img_catalogo_35"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeFlocoNeve.png" id="img_catalogo_36"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeFlocoNeveEncapsulada.png" id="img_catalogo_37"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeTulipa.png" id="img_catalogo_38"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeTulipaEncapsulada.png" id="img_catalogo_39"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeMuguet.png" id="img_catalogo_40"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeMuguetEncapsulada.png" id="img_catalogo_41"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconenÍris.png" id="img_catalogo_42"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconenÍrisEncapsulada.png" id="img_catalogo_43"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeNarciso.png" id="img_catalogo_44"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeNarcisoEncapsulada.png" id="img_catalogo_45"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Flores/IconeSakura.png" id="img_catalogo_46"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/UI/Tela_Inventario/Capsulas/IconeSakuraEncapsulada.png" id="img_catalogo_47"]
 
 [sub_resource type="Resource" id="Item0"]
 resource_name = "Fruta de primavera"
 script = ExtResource("2")
 id = &"FrutaPrimavera"
 nome = "Fruta de primavera"
-icone = SubResource("Resource_pwt8h")
+icone = ExtResource("img_catalogo_00")
 arquivo_icone = "InventarioFrutaPrimavera"
 descricao = "Fruta da primavera. 
 
 Consuma durante a aventura para recuperar meio coração."
 estacao = &"Primavera"
 
-[sub_resource type="Resource" id="Resource_c27er"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/ItemFrutaVerao.png"
-
 [sub_resource type="Resource" id="Item1"]
 resource_name = "Fruta de verão"
 script = ExtResource("2")
 id = &"FrutaVerao"
 nome = "Fruta de verão"
-icone = SubResource("Resource_c27er")
+icone = ExtResource("img_catalogo_01")
 arquivo_icone = "InventarioFrutaVerao"
 descricao = "Fruta do verão. 
 
 Consuma durante a aventura para recuperar meio coração."
 estacao = &"Verao"
 
-[sub_resource type="Resource" id="Resource_vctn1"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/ItemFrutaOutono.png"
-
 [sub_resource type="Resource" id="Item2"]
 resource_name = "Fruta de outono"
 script = ExtResource("2")
 id = &"FrutaOutono"
 nome = "Fruta de outono"
-icone = SubResource("Resource_vctn1")
+icone = ExtResource("img_catalogo_02")
 arquivo_icone = "InventarioFrutaOutono"
 descricao = "Fruta do outono. 
 
 Consuma durante a aventura para recuperar meio coração."
 estacao = &"Outono"
 
-[sub_resource type="Resource" id="Resource_olnt7"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/ItemFrutaInverno.png"
-
 [sub_resource type="Resource" id="Item3"]
 resource_name = "Fruta de inverno"
 script = ExtResource("2")
 id = &"FrutaInverno"
 nome = "Fruta de inverno"
-icone = SubResource("Resource_olnt7")
+icone = ExtResource("img_catalogo_03")
 arquivo_icone = "InventarioFrutaInverno"
 descricao = "Fruta do inverno. 
 
 Consuma durante a aventura para recuperar meio coração."
 estacao = &"Inverno"
 
-[sub_resource type="Resource" id="Resource_roudl"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/IconeRamo.png"
-
 [sub_resource type="Resource" id="Item4"]
 resource_name = "Ramo"
 script = ExtResource("2")
 id = &"Ramo"
 nome = "Ramo"
-icone = SubResource("Resource_roudl")
+icone = ExtResource("icone_ramos_real")
 arquivo_icone = "InventarioRamo"
 descricao = "Pequeno ramo usado na oficina. 
 
 Combine duas unidades para montar uma cápsula vazia."
 tipo = 1
 
-[sub_resource type="Resource" id="Resource_77ja2"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/Capsula.png"
-
 [sub_resource type="Resource" id="Item5"]
 resource_name = "Cápsula vazia"
 script = ExtResource("2")
 id = &"Capsula"
 nome = "Cápsula vazia"
-icone = SubResource("Resource_77ja2")
+icone = ExtResource("img_catalogo_05")
 arquivo_icone = "InventarioCapsula"
 descricao = "Recipiente usado para preservar flores. 
 
 Encha-o com seiva antes de utilizá-lo na oficina."
 tipo = 2
 
-[sub_resource type="Resource" id="Resource_xf23m"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/CapsulaSeiva.png"
-
 [sub_resource type="Resource" id="Item6"]
 resource_name = "Cápsula com seiva"
 script = ExtResource("2")
 id = &"CapsulaSeiva"
 nome = "Cápsula com seiva"
-icone = SubResource("Resource_xf23m")
+icone = ExtResource("img_catalogo_06")
 arquivo_icone = "InventarioCapsulaSeiva"
 descricao = "Cápsula preenchida com seiva. 
 
 Combine-a com uma flor na oficina para preservar a espécie."
 tipo = 3
 
-[sub_resource type="Resource" id="Resource_jlwit"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCalla.png"
-
-[sub_resource type="Resource" id="Resource_pyxuu"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Frame 56.png"
-
 [sub_resource type="Resource" id="Item7"]
 resource_name = "Calla"
 script = ExtResource("2")
 id = &"FlorCalla"
 nome = "Calla"
-icone = SubResource("Resource_jlwit")
-imagem_informacao = SubResource("Resource_pyxuu")
+icone = ExtResource("img_catalogo_07")
 arquivo_icone = "InventarioCalla"
 subtitulo = "Elegância • Pureza • Renovação"
 descricao = "Flor do verão. 
@@ -130,15 +149,12 @@ tipo = 4
 estacao = &"Verao"
 especie = &"Calla"
 
-[sub_resource type="Resource" id="Resource_5v0k6"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCallaEncapsulada.png"
-
 [sub_resource type="Resource" id="Item8"]
 resource_name = "Calla encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaCalla"
 nome = "Calla encapsulada"
-icone = SubResource("Resource_5v0k6")
+icone = ExtResource("img_catalogo_09")
 arquivo_icone = "InventarioCapsulaCalla"
 subtitulo = "Elegância • Pureza • Renovação"
 descricao = "Flor preservada em cápsula. 
@@ -148,15 +164,12 @@ tipo = 5
 estacao = &"Verao"
 especie = &"Calla"
 
-[sub_resource type="Resource" id="Resource_4wv48"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeLavanda.png"
-
 [sub_resource type="Resource" id="Item9"]
 resource_name = "Lavanda"
 script = ExtResource("2")
 id = &"FlorLavanda"
 nome = "Lavanda"
-icone = SubResource("Resource_4wv48")
+icone = ExtResource("img_catalogo_10")
 arquivo_icone = "InventarioLavanda"
 subtitulo = "Tranquilidade • Serenidade • Proteção"
 descricao = "Flor do verão. 
@@ -166,15 +179,12 @@ tipo = 4
 estacao = &"Verao"
 especie = &"Lavanda"
 
-[sub_resource type="Resource" id="Resource_nvhqh"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeLavandaEncapsulada.png"
-
 [sub_resource type="Resource" id="Item10"]
 resource_name = "Lavanda encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaLavanda"
 nome = "Lavanda encapsulada"
-icone = SubResource("Resource_nvhqh")
+icone = ExtResource("img_catalogo_11")
 arquivo_icone = "InventarioCapsulaLavanda"
 subtitulo = "Tranquilidade • Serenidade • Proteção"
 descricao = "Flor preservada em cápsula. 
@@ -184,15 +194,12 @@ tipo = 5
 estacao = &"Verao"
 especie = &"Lavanda"
 
-[sub_resource type="Resource" id="Resource_ijjem"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCosmos.png"
-
 [sub_resource type="Resource" id="Item11"]
 resource_name = "Cosmos"
 script = ExtResource("2")
 id = &"FlorCosmos"
 nome = "Cosmos"
-icone = SubResource("Resource_ijjem")
+icone = ExtResource("img_catalogo_12")
 arquivo_icone = "InventarioCosmos"
 subtitulo = "Harmonia • Equilíbrio • Delicadeza"
 descricao = "Flor do verão. 
@@ -202,15 +209,12 @@ tipo = 4
 estacao = &"Verao"
 especie = &"Cosmos"
 
-[sub_resource type="Resource" id="Resource_du5jg"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCosmosEncapsulada.png"
-
 [sub_resource type="Resource" id="Item12"]
 resource_name = "Cosmos encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaCosmos"
 nome = "Cosmos encapsulada"
-icone = SubResource("Resource_du5jg")
+icone = ExtResource("img_catalogo_13")
 arquivo_icone = "InventarioCapsulaCosmos"
 subtitulo = "Harmonia • Equilíbrio • Delicadeza"
 descricao = "Flor preservada em cápsula. 
@@ -220,15 +224,12 @@ tipo = 5
 estacao = &"Verao"
 especie = &"Cosmos"
 
-[sub_resource type="Resource" id="Resource_rppdr"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeLótus.png"
-
 [sub_resource type="Resource" id="Item13"]
 resource_name = "Lótus"
 script = ExtResource("2")
 id = &"FlorLotus"
 nome = "Lótus"
-icone = SubResource("Resource_rppdr")
+icone = ExtResource("img_catalogo_14")
 arquivo_icone = "InventarioLotus"
 subtitulo = "Renascimento • Pureza • Superação"
 descricao = "Flor do verão. 
@@ -238,15 +239,12 @@ tipo = 4
 estacao = &"Verao"
 especie = &"Lotus"
 
-[sub_resource type="Resource" id="Resource_1f485"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeLótusEncapsulada.png"
-
 [sub_resource type="Resource" id="Item14"]
 resource_name = "Lótus encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaLotus"
 nome = "Lótus encapsulada"
-icone = SubResource("Resource_1f485")
+icone = ExtResource("img_catalogo_15")
 arquivo_icone = "InventarioCapsulaLotus"
 subtitulo = "Renascimento • Pureza • Superação"
 descricao = "Flor preservada em cápsula. 
@@ -256,15 +254,12 @@ tipo = 5
 estacao = &"Verao"
 especie = &"Lotus"
 
-[sub_resource type="Resource" id="Resource_wnwwj"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeLírio.png"
-
 [sub_resource type="Resource" id="Item15"]
 resource_name = "Lírio"
 script = ExtResource("2")
 id = &"FlorLirio"
 nome = "Lírio"
-icone = SubResource("Resource_wnwwj")
+icone = ExtResource("img_catalogo_16")
 arquivo_icone = "InventarioLirio"
 subtitulo = "Pureza • Nobreza • Esperança"
 descricao = "Flor do verão.
@@ -274,15 +269,12 @@ tipo = 4
 estacao = &"Verao"
 especie = &"Lirio"
 
-[sub_resource type="Resource" id="Resource_l1uti"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeLírioEncapsulada.png"
-
 [sub_resource type="Resource" id="Item16"]
 resource_name = "Lírio encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaLirio"
 nome = "Lírio encapsulada"
-icone = SubResource("Resource_l1uti")
+icone = ExtResource("img_catalogo_17")
 arquivo_icone = "InventarioCapsulaLirio"
 subtitulo = "Pureza • Nobreza • Esperança"
 descricao = "Flor preservada em cápsula. 
@@ -292,15 +284,12 @@ tipo = 5
 estacao = &"Verao"
 especie = &"Lirio"
 
-[sub_resource type="Resource" id="Resource_q5r52"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeViola.png"
-
 [sub_resource type="Resource" id="Item17"]
 resource_name = "Viola"
 script = ExtResource("2")
 id = &"FlorViola"
 nome = "Viola"
-icone = SubResource("Resource_q5r52")
+icone = ExtResource("img_catalogo_18")
 arquivo_icone = "InventarioViola"
 subtitulo = "Afeto • Lealdade • Sensibilidade"
 descricao = "Flor do outono. 
@@ -310,15 +299,12 @@ tipo = 4
 estacao = &"Outono"
 especie = &"Viola"
 
-[sub_resource type="Resource" id="Resource_o4c2w"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeViolaEncapsulada.png"
-
 [sub_resource type="Resource" id="Item18"]
 resource_name = "Viola encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaViola"
 nome = "Viola encapsulada"
-icone = SubResource("Resource_o4c2w")
+icone = ExtResource("img_catalogo_19")
 arquivo_icone = "InventarioCapsulaViola"
 subtitulo = "Afeto • Lealdade • Sensibilidade"
 descricao = "Flor preservada em cápsula. 
@@ -328,15 +314,12 @@ tipo = 5
 estacao = &"Outono"
 especie = &"Viola"
 
-[sub_resource type="Resource" id="Resource_e6mpp"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCólquico.png"
-
 [sub_resource type="Resource" id="Item19"]
 resource_name = "Cólquico"
 script = ExtResource("2")
 id = &"FlorColquico"
 nome = "Cólquico"
-icone = SubResource("Resource_e6mpp")
+icone = ExtResource("img_catalogo_20")
 arquivo_icone = "InventarioColquico"
 subtitulo = "Mistério • Resistência • Renovação"
 descricao = "Flor do outono. 
@@ -346,15 +329,12 @@ tipo = 4
 estacao = &"Outono"
 especie = &"Colquico"
 
-[sub_resource type="Resource" id="Resource_5btfk"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCólquicoEncapsulada.png"
-
 [sub_resource type="Resource" id="Item20"]
 resource_name = "Cólquico encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaColquico"
 nome = "Cólquico encapsulada"
-icone = SubResource("Resource_5btfk")
+icone = ExtResource("img_catalogo_21")
 arquivo_icone = "InventarioCapsulaColquico"
 subtitulo = "Mistério • Resistência • Renovação"
 descricao = "Flor preservada em cápsula. 
@@ -364,15 +344,12 @@ tipo = 5
 estacao = &"Outono"
 especie = &"Colquico"
 
-[sub_resource type="Resource" id="Resource_au5h1"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconePrincesa.png"
-
 [sub_resource type="Resource" id="Item21"]
 resource_name = "Princesa"
 script = ExtResource("2")
 id = &"FlorPrincesa"
 nome = "Princesa"
-icone = SubResource("Resource_au5h1")
+icone = ExtResource("img_catalogo_22")
 arquivo_icone = "InventarioPrincesa"
 subtitulo = "Encanto • Delicadeza • Nobreza"
 descricao = "Flor do outono. 
@@ -382,15 +359,12 @@ tipo = 4
 estacao = &"Outono"
 especie = &"Princesa"
 
-[sub_resource type="Resource" id="Resource_4yqo1"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconePrincesaEncapsulada.png"
-
 [sub_resource type="Resource" id="Item22"]
 resource_name = "Princesa encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaPrincesa"
 nome = "Princesa encapsulada"
-icone = SubResource("Resource_4yqo1")
+icone = ExtResource("img_catalogo_23")
 arquivo_icone = "InventarioCapsulaPrincesa"
 subtitulo = "Encanto • Delicadeza • Nobreza"
 descricao = "Flor preservada em cápsula. 
@@ -400,15 +374,12 @@ tipo = 5
 estacao = &"Outono"
 especie = &"Princesa"
 
-[sub_resource type="Resource" id="Resource_u8pww"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeAzaleia.png"
-
 [sub_resource type="Resource" id="Item23"]
 resource_name = "Azaleia"
 script = ExtResource("2")
 id = &"FlorAzaleia"
 nome = "Azaleia"
-icone = SubResource("Resource_u8pww")
+icone = ExtResource("img_catalogo_24")
 arquivo_icone = "InventarioAzaleia"
 subtitulo = "Alegria • Cuidado • Harmonia"
 descricao = "Flor do outono. 
@@ -418,15 +389,12 @@ tipo = 4
 estacao = &"Outono"
 especie = &"Azaleia"
 
-[sub_resource type="Resource" id="Resource_6gtch"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeAzaleiaEncapsulada.png"
-
 [sub_resource type="Resource" id="Item24"]
 resource_name = "Azaleia encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaAzaleia"
 nome = "Azaleia encapsulada"
-icone = SubResource("Resource_6gtch")
+icone = ExtResource("img_catalogo_25")
 arquivo_icone = "InventarioCapsulaAzaleia"
 subtitulo = "Alegria • Cuidado • Harmonia"
 descricao = "Flor preservada em cápsula.
@@ -436,15 +404,12 @@ tipo = 5
 estacao = &"Outono"
 especie = &"Azaleia"
 
-[sub_resource type="Resource" id="Resource_lnjqj"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeDália.png"
-
 [sub_resource type="Resource" id="Item25"]
 resource_name = "Dália"
 script = ExtResource("2")
 id = &"FlorDalia"
 nome = "Dália"
-icone = SubResource("Resource_lnjqj")
+icone = ExtResource("img_catalogo_26")
 arquivo_icone = "InventarioDalia"
 subtitulo = "Força • Elegância • Gratidão"
 descricao = "Flor do outono. 
@@ -454,15 +419,12 @@ tipo = 4
 estacao = &"Outono"
 especie = &"Dalia"
 
-[sub_resource type="Resource" id="Resource_f874c"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeDáliaEncapsulada.png"
-
 [sub_resource type="Resource" id="Item26"]
 resource_name = "Dália encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaDalia"
 nome = "Dália encapsulada"
-icone = SubResource("Resource_f874c")
+icone = ExtResource("img_catalogo_27")
 arquivo_icone = "InventarioCapsulaDalia"
 subtitulo = "Força • Elegância • Gratidão"
 descricao = "Flor preservada em cápsula. 
@@ -472,15 +434,12 @@ tipo = 5
 estacao = &"Outono"
 especie = &"Dalia"
 
-[sub_resource type="Resource" id="Resource_yhpov"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeHeléboro.png"
-
 [sub_resource type="Resource" id="Item27"]
 resource_name = "Heléboro"
 script = ExtResource("2")
 id = &"FlorHeleboro"
 nome = "Heléboro"
-icone = SubResource("Resource_yhpov")
+icone = ExtResource("img_catalogo_28")
 arquivo_icone = "InventarioHeleboro"
 subtitulo = "Resistência • Esperança • Proteção"
 descricao = "Flor do inverno. 
@@ -490,15 +449,12 @@ tipo = 4
 estacao = &"Inverno"
 especie = &"Heleboro"
 
-[sub_resource type="Resource" id="Resource_himkv"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeHeléboroEncapsulada.png"
-
 [sub_resource type="Resource" id="Item28"]
 resource_name = "Heléboro encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaHeleboro"
 nome = "Heléboro encapsulada"
-icone = SubResource("Resource_himkv")
+icone = ExtResource("img_catalogo_29")
 arquivo_icone = "InventarioCapsulaHeleboro"
 subtitulo = "Resistência • Esperança • Proteção"
 descricao = "Flor preservada em cápsula. 
@@ -508,15 +464,12 @@ tipo = 5
 estacao = &"Inverno"
 especie = &"Heleboro"
 
-[sub_resource type="Resource" id="Resource_yxfmn"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCiclame.png"
-
 [sub_resource type="Resource" id="Item29"]
 resource_name = "Ciclame"
 script = ExtResource("2")
 id = &"FlorCiclame"
 nome = "Ciclame"
-icone = SubResource("Resource_yxfmn")
+icone = ExtResource("img_catalogo_30")
 arquivo_icone = "InventarioCiclame"
 subtitulo = "Renovação • Afeto • Persistência"
 descricao = "Flor do inverno. 
@@ -526,15 +479,12 @@ tipo = 4
 estacao = &"Inverno"
 especie = &"Ciclame"
 
-[sub_resource type="Resource" id="Resource_vwyo4"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCiclameEncapsulada.png"
-
 [sub_resource type="Resource" id="Item30"]
 resource_name = "Ciclame encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaCiclame"
 nome = "Ciclame encapsulada"
-icone = SubResource("Resource_vwyo4")
+icone = ExtResource("img_catalogo_31")
 arquivo_icone = "InventarioCapsulaCiclame"
 subtitulo = "Renovação • Afeto • Persistência"
 descricao = "Flor preservada em cápsula. 
@@ -544,15 +494,12 @@ tipo = 5
 estacao = &"Inverno"
 especie = &"Ciclame"
 
-[sub_resource type="Resource" id="Resource_vw0lm"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCamélia.png"
-
 [sub_resource type="Resource" id="Item31"]
 resource_name = "Camélia"
 script = ExtResource("2")
 id = &"FlorCamelia"
 nome = "Camélia"
-icone = SubResource("Resource_vw0lm")
+icone = ExtResource("img_catalogo_32")
 arquivo_icone = "InventarioCamelia"
 subtitulo = "Admiração • Beleza • Dedicação"
 descricao = "Flor do inverno. 
@@ -562,15 +509,12 @@ tipo = 4
 estacao = &"Inverno"
 especie = &"Camelia"
 
-[sub_resource type="Resource" id="Resource_nv21b"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeCaméliaEncapsulada.png"
-
 [sub_resource type="Resource" id="Item32"]
 resource_name = "Camélia encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaCamelia"
 nome = "Camélia encapsulada"
-icone = SubResource("Resource_nv21b")
+icone = ExtResource("img_catalogo_33")
 arquivo_icone = "InventarioCapsulaCamelia"
 subtitulo = "Admiração • Beleza • Dedicação"
 descricao = "Flor preservada em cápsula. 
@@ -580,15 +524,12 @@ tipo = 5
 estacao = &"Inverno"
 especie = &"Camelia"
 
-[sub_resource type="Resource" id="Resource_bmyir"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconePrímula.png"
-
 [sub_resource type="Resource" id="Item33"]
 resource_name = "Prímula"
 script = ExtResource("2")
 id = &"FlorPrimula"
 nome = "Prímula"
-icone = SubResource("Resource_bmyir")
+icone = ExtResource("img_catalogo_34")
 arquivo_icone = "InventarioPrimula"
 subtitulo = "Começo • Juventude • Esperança"
 descricao = "Flor do inverno. 
@@ -598,15 +539,12 @@ tipo = 4
 estacao = &"Inverno"
 especie = &"Primula"
 
-[sub_resource type="Resource" id="Resource_8vsjx"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconePrímulaEncapsulada.png"
-
 [sub_resource type="Resource" id="Item34"]
 resource_name = "Prímula encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaPrimula"
 nome = "Prímula encapsulada"
-icone = SubResource("Resource_8vsjx")
+icone = ExtResource("img_catalogo_35")
 arquivo_icone = "InventarioCapsulaPrimula"
 subtitulo = "Começo • Juventude • Esperança"
 descricao = "Flor preservada em cápsula. 
@@ -616,15 +554,12 @@ tipo = 5
 estacao = &"Inverno"
 especie = &"Primula"
 
-[sub_resource type="Resource" id="Resource_7kuwl"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeFlocoNeve.png"
-
 [sub_resource type="Resource" id="Item35"]
 resource_name = "FlocoNeve"
 script = ExtResource("2")
 id = &"FlorFlocoNeve"
 nome = "FlocoNeve"
-icone = SubResource("Resource_7kuwl")
+icone = ExtResource("img_catalogo_36")
 arquivo_icone = "InventarioFlocoNeve"
 subtitulo = "Coragem • Renovação • Esperança"
 descricao = "Flor do inverno. 
@@ -634,15 +569,12 @@ tipo = 4
 estacao = &"Inverno"
 especie = &"FlocoNeve"
 
-[sub_resource type="Resource" id="Resource_3jr0k"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeFlocoNeveEncapsulada.png"
-
 [sub_resource type="Resource" id="Item36"]
 resource_name = "FlocoNeve encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaFlocoNeve"
 nome = "FlocoNeve encapsulada"
-icone = SubResource("Resource_3jr0k")
+icone = ExtResource("img_catalogo_37")
 arquivo_icone = "InventarioCapsulaFlocoNeve"
 subtitulo = "Coragem • Renovação • Esperança"
 descricao = "Flor preservada em cápsula. 
@@ -652,15 +584,12 @@ tipo = 5
 estacao = &"Inverno"
 especie = &"FlocoNeve"
 
-[sub_resource type="Resource" id="Resource_xabgw"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeTulipa.png"
-
 [sub_resource type="Resource" id="Item37"]
 resource_name = "Tulipa"
 script = ExtResource("2")
 id = &"FlorTulipa"
 nome = "Tulipa"
-icone = SubResource("Resource_xabgw")
+icone = ExtResource("img_catalogo_38")
 arquivo_icone = "InventarioTulipa"
 subtitulo = "Amor • Beleza • Renovação"
 descricao = "Flor da primavera. 
@@ -670,15 +599,12 @@ tipo = 4
 estacao = &"Primavera"
 especie = &"Tulipa"
 
-[sub_resource type="Resource" id="Resource_tt7il"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeTulipaEncapsulada.png"
-
 [sub_resource type="Resource" id="Item38"]
 resource_name = "Tulipa encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaTulipa"
 nome = "Tulipa encapsulada"
-icone = SubResource("Resource_tt7il")
+icone = ExtResource("img_catalogo_39")
 arquivo_icone = "InventarioCapsulaTulipa"
 subtitulo = "Amor • Beleza • Renovação"
 descricao = "Flor preservada em cápsula. 
@@ -688,15 +614,12 @@ tipo = 5
 estacao = &"Primavera"
 especie = &"Tulipa"
 
-[sub_resource type="Resource" id="Resource_y8d3e"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeMuguet.png"
-
 [sub_resource type="Resource" id="Item39"]
 resource_name = "Muguet"
 script = ExtResource("2")
 id = &"FlorMuguet"
 nome = "Muguet"
-icone = SubResource("Resource_y8d3e")
+icone = ExtResource("img_catalogo_40")
 arquivo_icone = "InventarioMuguet"
 subtitulo = "Felicidade • Sorte • Delicadeza"
 descricao = "Flor da primavera. 
@@ -706,15 +629,12 @@ tipo = 4
 estacao = &"Primavera"
 especie = &"Muguet"
 
-[sub_resource type="Resource" id="Resource_bnnkh"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeMuguetEncapsulada.png"
-
 [sub_resource type="Resource" id="Item40"]
 resource_name = "Muguet encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaMuguet"
 nome = "Muguet encapsulada"
-icone = SubResource("Resource_bnnkh")
+icone = ExtResource("img_catalogo_41")
 arquivo_icone = "InventarioCapsulaMuguet"
 subtitulo = "Felicidade • Sorte • Delicadeza"
 descricao = "Flor preservada em cápsula.
@@ -724,15 +644,12 @@ tipo = 5
 estacao = &"Primavera"
 especie = &"Muguet"
 
-[sub_resource type="Resource" id="Resource_4xjey"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconenÍris.png"
-
 [sub_resource type="Resource" id="Item41"]
 resource_name = "Íris"
 script = ExtResource("2")
 id = &"FlorIris"
 nome = "Íris"
-icone = SubResource("Resource_4xjey")
+icone = ExtResource("img_catalogo_42")
 arquivo_icone = "InventarioIris"
 subtitulo = "Sabedoria • Coragem • Esperança"
 descricao = "Flor da primavera. 
@@ -742,15 +659,12 @@ tipo = 4
 estacao = &"Primavera"
 especie = &"Iris"
 
-[sub_resource type="Resource" id="Resource_5c0u7"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconenÍrisEncapsulada.png"
-
 [sub_resource type="Resource" id="Item42"]
 resource_name = "Íris encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaIris"
 nome = "Íris encapsulada"
-icone = SubResource("Resource_5c0u7")
+icone = ExtResource("img_catalogo_43")
 arquivo_icone = "InventarioCapsulaIris"
 subtitulo = "Sabedoria • Coragem • Esperança"
 descricao = "Flor preservada em cápsula. 
@@ -760,15 +674,12 @@ tipo = 5
 estacao = &"Primavera"
 especie = &"Iris"
 
-[sub_resource type="Resource" id="Resource_eb170"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeNarciso.png"
-
 [sub_resource type="Resource" id="Item43"]
 resource_name = "Narciso"
 script = ExtResource("2")
 id = &"FlorNarciso"
 nome = "Narciso"
-icone = SubResource("Resource_eb170")
+icone = ExtResource("img_catalogo_44")
 arquivo_icone = "InventarioNarciso"
 subtitulo = "Renovação • Confiança • Vitalidade"
 descricao = "Flor da primavera. 
@@ -778,15 +689,12 @@ tipo = 4
 estacao = &"Primavera"
 especie = &"Narciso"
 
-[sub_resource type="Resource" id="Resource_o2se5"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeNarcisoEncapsulada.png"
-
 [sub_resource type="Resource" id="Item44"]
 resource_name = "Narciso encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaNarciso"
 nome = "Narciso encapsulada"
-icone = SubResource("Resource_o2se5")
+icone = ExtResource("img_catalogo_45")
 arquivo_icone = "InventarioCapsulaNarciso"
 subtitulo = "Renovação • Confiança • Vitalidade"
 descricao = "Flor preservada em cápsula. 
@@ -796,15 +704,12 @@ tipo = 5
 estacao = &"Primavera"
 especie = &"Narciso"
 
-[sub_resource type="Resource" id="Resource_qwg50"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeSakura.png"
-
 [sub_resource type="Resource" id="Item45"]
 resource_name = "Sakura"
 script = ExtResource("2")
 id = &"FlorSakura"
 nome = "Sakura"
-icone = SubResource("Resource_qwg50")
+icone = ExtResource("img_catalogo_46")
 arquivo_icone = "InventarioSakura"
 subtitulo = "Beleza • Renovação • Transitoriedade"
 descricao = "Flor da primavera. 
@@ -814,15 +719,12 @@ tipo = 4
 estacao = &"Primavera"
 especie = &"Sakura"
 
-[sub_resource type="Resource" id="Resource_h5cij"]
-metadata/__load_path__ = "res://Assets/Textures/UI/Tela_Inventario/Flores/IconeSakuraEncapsulada.png"
-
 [sub_resource type="Resource" id="Item46"]
 resource_name = "Sakura encapsulada"
 script = ExtResource("2")
 id = &"EncapsuladaSakura"
 nome = "Sakura encapsulada"
-icone = SubResource("Resource_h5cij")
+icone = ExtResource("img_catalogo_47")
 arquivo_icone = "InventarioCapsulaSakura"
 subtitulo = "Beleza • Renovação • Transitoriedade"
 descricao = "Flor preservada em cápsula.

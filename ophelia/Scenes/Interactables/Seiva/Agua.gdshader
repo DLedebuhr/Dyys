@@ -47,9 +47,11 @@ void fragment(){
  cor=mix(cor,vec3(0.96,1.0,1.0),reflexo*0.12*surgimento);
  float luz_final=(1.0-smoothstep(0.0,max(extensao_clara,1.0),comprimento-distancia_real))*clareza_final;
  cor=mix(cor,vec3(0.91,1.0,0.94),luz_final);
- float borda=smoothstep(0.0,0.025,x)*smoothstep(0.0,0.025,1.0-x);
+ float aa=max(fwidth(x),0.0001);
+ float borda=smoothstep(-aa,aa,x)*(1.0-smoothstep(1.0-aa,1.0+aa,x));
  float progresso_queda=clamp((distancia_real-distancia_borda)/max(comprimento-distancia_borda,0.01),0.0,1.0);
  float transicao=smoothstep(min(inicio_opacidade_final,0.999),1.0,progresso_queda);
  float alfa=mix(clamp(opacidade+faixa1*0.13,0.0,1.0),opacidade_final,transicao);
- COLOR=vec4(cor,borda*alfa);
+ float chegada_suave=smoothstep(0.0,10.0,comprimento-distancia_real);
+ COLOR=vec4(cor,borda*alfa*chegada_suave);
 }

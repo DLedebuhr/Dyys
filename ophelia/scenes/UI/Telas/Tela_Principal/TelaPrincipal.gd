@@ -1,40 +1,28 @@
 extends Control
-const CENA_AJUSTES := "res://Scenes/UI/Telas/Tela_Ajustes/TelaAjustes.tscn" # Confirme o seu caminho
-@onready var botao_ajustes: TextureButton = $HBoxContainer/Ajustes # Confirme a hierarquia
+const CENA_SAVE: String = "res://Scenes/UI/Telas/Tela_Save/TelaSelecaoSave.tscn"
+const CENA_AJUSTES: String = "res://Scenes/UI/Telas/Tela_Ajustes/TelaAjustes.tscn"
+@onready var botao_iniciar: BaseButton = $HBoxContainer/Iniciar
+@onready var botao_ajustes: BaseButton = $HBoxContainer/Ajustes
+@onready var botao_sair: BaseButton = $HBoxContainer/Sair
+var _mudando: bool = false
 
-
-# Preparar o nó
-# ---------------------
-# Configura referências, sinais e estado inicial.
 func _ready() -> void:
-	
+	get_tree().paused = false
 	FundoParticulas.ativar()
-	
-	# Efeito de Entrada (Fade In): começa invisível e surge suavemente
 	modulate.a = 0.0
-	var fade_in = create_tween()
-	fade_in.tween_property(self, "modulate:a", 1.0, 0.5)\
-		.set_trans(Tween.TRANS_SINE)\
-		.set_ease(Tween.EASE_OUT)
+	var entrada: Tween = create_tween()
+	entrada.tween_property(self, "modulate:a", 1.0, 0.45)
+	botao_iniciar.pressed.connect(_iniciar)
+	botao_ajustes.pressed.connect(func(): _trocar_cena(CENA_AJUSTES))
+	botao_sair.pressed.connect(func(): get_tree().quit())
 
-	if botao_ajustes:
+func _iniciar() -> void:
+	_trocar_cena(CENA_SAVE)
 
-		botao_ajustes.pressed.connect(_on_botao_ajustes_pressed)
-
-# Abrir os ajustes
-# ---------------------
-# Faz a transição de saída e abre a tela de ajustes.
-func _on_botao_ajustes_pressed() -> void:
-
-	# Efeito de Saída (Fade Out): os elementos somem antes de trocar a tela
-	var fade_out = create_tween()
-	fade_out.tween_property(self, "modulate:a", 0.0, 0.5)\
-		.set_trans(Tween.TRANS_SINE)\
-		.set_ease(Tween.EASE_IN)
-
-	# Aguarda a animação de desaparecimento terminar para carregar a próxima cena
-
-	fade_out.finished.connect(func():
-
-		get_tree().change_scene_to_file(CENA_AJUSTES)
-	)
+func _trocar_cena(caminho: String) -> void:
+	if _mudando:
+		return
+	_mudando = true
+	var t: Tween = create_tween()
+	t.tween_property(self, "modulate:a", 0.0, 0.30)
+	t.finished.connect(func(): get_tree().change_scene_to_file(caminho))

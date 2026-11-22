@@ -17,11 +17,19 @@ extends Node2D
 @export_range(0, 1) var inicio_opacidade_final: float = 0.78
 @export_range(0, 1) var opacidade_final: float = 0.65
 @export var integrar_bacia: bool = true
+@export_group("Camadas da água")
+## Usado na Seiva: água dentro da bacia à frente; queda permanece atrás.
+## Inativo por padrão para não alterar as outras cenas que usam este script.
+@export var separar_camada_bacia: bool = false
+@export_range(-100, 100, 1) var z_bacia: int = 8
 var bacia_pos: Vector2 = Vector2.ZERO
 var bacia_tamanho: Vector2 = Vector2(125, 20)
 var bacia_desnivel: float = 0.0
+var reservatorio_ondas: Node2D
+var _havia_ondas: bool = false
 var tempo: float = 0.0
 var malha: MeshInstance2D
+var malha_bacia: MeshInstance2D
 var material_fluxo: ShaderMaterial
 var assinatura: Array = []
 
@@ -37,6 +45,13 @@ func _ready() -> void:
 	material_fluxo.shader = preload("Agua.gdshader")
 	malha.material = material_fluxo
 	add_child(malha)
+	# Superfície anterior: mesmos vértices e shader, mas em Z absoluto.
+	malha_bacia = MeshInstance2D.new()
+	malha_bacia.name = "MalhaBaciaFrontal"
+	malha_bacia.material = material_fluxo
+	malha_bacia.z_as_relative = false
+	malha_bacia.z_index = z_bacia
+	add_child(malha_bacia)
 
 
 
@@ -68,16 +83,20 @@ func _process(delta: float) -> void:
 		espessura_final,
 		curva,
 		integrar_bacia,
+		separar_camada_bacia,
 		bacia_pos,
 		bacia_tamanho,
 		bacia_desnivel,
 		velocidade_bacia,
 		velocidade_queda
 	]
-	if nova != assinatura:
+	var ondas_agora: bool = is_instance_valid(reservatorio_ondas) and bool(reservatorio_ondas.call("ondas_ativas"))
+	if nova != assinatura or ondas_agora or _havia_ondas:
 
 		assinatura = nova
 		_montar()
+	_havia_ondas = ondas_agora
+	malha_bacia.z_index = z_bacia
 	material_fluxo.set_shader_parameter("relogio", tempo)
 	material_fluxo.set_shader_parameter("inicio_opacidade_final", inicio_opacidade_final)
 	material_fluxo.set_shader_parameter("opacidade_final", opacidade_final)
@@ -111,7 +130,13 @@ func _montar() -> void:
 		for k in range(49):
 
 			var u: float = float(k) / 48.0
-			centros.append(longe.lerp(uniao, u))
+			var posicao: Vector2 = longe.lerp(uniao, u)
+			if is_instance_valid(reservatorio_ondas) and reservatorio_ondas.call("ondas_ativas"):
+				var x: float = clampf(posicao.x - bacia_pos.x, 0.0, maxf(bacia_tamanho.x, 1.0))
+				var normal: float = bacia_desnivel * x / maxf(bacia_tamanho.x, 1.0)
+				var deslocamento: float = float(reservatorio_ondas.call("altura", x)) - normal
+				posicao.y += deslocamento * (1.0 - smoothstep(0.60, 1.0, u))
+			centros.append(posicao)
 			grossuras.append(lerpf(profundidade, espessura_inicio, smoothstep(0.68, 1.0, u)))
 	for k in range(1 if integrar_bacia else 0, 129):
 
@@ -152,6 +177,7 @@ func _montar() -> void:
 	var vertices := PackedVector3Array()
 	var uvs := PackedVector2Array()
 	var indices := PackedInt32Array()
+	var indices_bacia := PackedInt32Array()
 	for k in range(centros.size()):
 
 		var tang: Vector2 = (
@@ -167,14 +193,22 @@ func _montar() -> void:
 
 				var u: float = float(k - (48 if integrar_bacia else 0)) / 128.0
 				ancora = espessura_inicio * 0.5 * (1.0 - smoothstep(0.0, 1.0, u))
-			var q: Vector2 = centros[k] + normal * (grossuras[k] * (float(lado) - 0.5) + ancora)
+			var margem: float = 2.0
+			var q: Vector2 = centros[k] + normal * ((grossuras[k] + margem * 2.0) * (float(lado) - 0.5) + ancora)
 			vertices.append(Vector3(q.x, q.y, 0))
-			uvs.append(Vector2(float(lado), viagem[k] / total_viagem))
+			var lateral: float = -margem / grossuras[k] if lado == 0 else 1.0 + margem / grossuras[k]
+			uvs.append(Vector2(lateral, viagem[k] / total_viagem))
 			cores.append(Color(distancias[k] / total, 1, 1, 1))
 		if k < centros.size() - 1:
 
 			var j: int = k * 2
-			indices.append_array(PackedInt32Array([j, j + 1, j + 2, j + 1, j + 3, j + 2]))
+			var triangulos := PackedInt32Array([j, j + 1, j + 2, j + 1, j + 3, j + 2])
+			if integrar_bacia and separar_camada_bacia and k < indice_borda:
+
+				indices_bacia.append_array(triangulos)
+			else:
+
+				indices.append_array(triangulos)
 	var arrays: Array = []
 	arrays.resize(Mesh.ARRAY_MAX)
 	arrays[Mesh.ARRAY_VERTEX] = vertices
@@ -184,6 +218,17 @@ func _montar() -> void:
 	var mesh := ArrayMesh.new()
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 	malha.mesh = mesh
+	# Somente os primeiros segmentos da malha passam à camada frontal.
+	# As coordenadas UV e as distâncias não são recalculadas: a animação segue contínua.
+	if not indices_bacia.is_empty():
+
+		arrays[Mesh.ARRAY_INDEX] = indices_bacia
+		var mesh_bacia := ArrayMesh.new()
+		mesh_bacia.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+		malha_bacia.mesh = mesh_bacia
+	else:
+
+		malha_bacia.mesh = null
 	material_fluxo.set_shader_parameter("comprimento", total)
 	material_fluxo.set_shader_parameter("tempo_caminho", total_viagem)
 	queue_redraw()

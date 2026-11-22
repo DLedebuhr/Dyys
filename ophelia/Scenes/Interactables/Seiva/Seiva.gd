@@ -18,19 +18,13 @@ signal capsula_preenchida(jogador: CharacterBody2D)
 var _avisou_integracao: bool = false
 
 
-# Preparar a fonte
-# ---------------------
-# Mantém a água independente da interação e prepara os pontos das três bacias.
+# Preparar a fonte e acompanhar os pontos de coleta.
+# A profundidade visual da personagem não é controlada pela Seiva.
 func _ready() -> void:
-
 	_atualizar_pontos()
 
 
-# Acompanhar os ajustes da água
-# ---------------------
-# Faz os pontos de interação seguirem as bacias editadas na cena de água.
 func _process(_delta: float) -> void:
-
 	_atualizar_pontos()
 
 
@@ -78,7 +72,7 @@ func possui_capsula(jogador: CharacterBody2D) -> bool:
 
 	var inventario: Node = _obter_inventario(jogador)
 
-	return inventario != null and inventario.has_method("quantidade") and int(inventario.call("quantidade", &"Capsula")) > 0
+	return inventario != null and inventario.has_method("possui_capsula_vazia") and bool(inventario.call("possui_capsula_vazia"))
 
 
 # Escolher a mensagem da fonte

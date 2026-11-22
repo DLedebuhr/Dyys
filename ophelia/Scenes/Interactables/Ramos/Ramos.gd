@@ -111,6 +111,7 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 
 		add_to_group("coletaveis_ophelia")
+		add_to_group("PersistenteSave")
 
 
 # Atualizar a configuração no editor
@@ -350,3 +351,18 @@ func _tocar_som() -> void:
 	audio.bus = barramento_som if AudioServer.get_bus_index(barramento_som) >= 0 else &"Master"
 	audio.volume_db = volume_coleta_db
 	audio.play()
+
+
+func exportar_estado_save() -> Dictionary:
+	return {"quantidade": _quantidade, "restante": maxf(0.0, _restante)}
+
+func importar_estado_save(dados: Dictionary) -> void:
+	if _imagens.is_empty():
+		return
+	_quantidade = clampi(int(dados.get("quantidade", _ativos.size())), 0, _ativos.size())
+	_restante = maxf(0.0, float(dados.get("restante", 0.0)))
+	for i in range(_imagens.size()):
+		if _animacoes[i] != null and _animacoes[i].is_valid():
+			_animacoes[i].kill()
+		_imagens[i].visible = _ativos.has(i) and _ativos.find(i) < _quantidade
+		_imagens[i].modulate = Color.WHITE

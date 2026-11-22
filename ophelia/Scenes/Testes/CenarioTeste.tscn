@@ -32,7 +32,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/Interactables/Flowers/Primula/Primula.tscn" id="36_72wyr"]
 [ext_resource type="PackedScene" uid="uid://m5bs3gno514x" path="res://Scenes/Interactables/Flowers/Tulipa/Tulipa.tscn" id="37_fos07"]
 [ext_resource type="PackedScene" path="res://Scenes/Interactables/Ramos/Ramos.tscn" id="38_7cbs8"]
-[ext_resource type="PackedScene" uid="uid://cj21pju5s342b" path="res://Scenes/Interactables/Seiva/Seiva.tscn" id="39_6s8hn"]
+[ext_resource type="PackedScene" uid="uid://tbteugjkacvq" path="res://Scenes/Interactables/Seiva/Seiva.tscn" id="39_6s8hn"]
 [ext_resource type="PackedScene" uid="uid://b6csr14kv0ww8" path="res://Scenes/Interactables/Flowers/Colquico/Colquico.tscn" id="39_tegcm"]
 [ext_resource type="PackedScene" uid="uid://3hvxmelx2uk8" path="res://Scenes/Interactables/Flowers/Lirio/Lirio.tscn" id="40_6s8hn"]
 [ext_resource type="PackedScene" uid="uid://6dubcbumnifa" path="res://Scenes/Interactables/Flowers/Camelia/Camelia.tscn" id="41_84tid"]

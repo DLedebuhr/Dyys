@@ -13,26 +13,6 @@ func _ready() -> void:
 	personagem.imprimir_reacoes = false
 	queue_redraw()
 
-# Receber comandos disponíveis
-# ---------------------
-# Trata os comandos que a interface ainda não consumiu.
-func _unhandled_input(event: InputEvent) -> void:
-
-	if event is InputEventKey and event.echo:
-
-		return
-
-	if event.is_action_pressed("ControleTesteHostil"):
-
-		var hostil = preload("res://Scenes/Testes/ProjetilHostilTeste.gd").new()
-		hostil.position = personagem.global_position + Vector2(300, 25)
-		add_child(hostil)
-
-	elif event.is_action_pressed("ControleTesteRestaurar"):
-
-		personagem.vitalidade.restaurar()
-		alvo.vida = 100
-
 # Atualizar a cada quadro
 # ---------------------
 # Atualiza os temporizadores, a interface ou os efeitos deste nó.

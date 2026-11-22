@@ -3,7 +3,7 @@ extends TextureButton
 
 @export_enum("bolsa", "oficina", "resultado") var local: String = "bolsa"
 @export var indice: int = 0
-var tela: CanvasLayer
+var tela
 var _hover: bool = false
 var _selecionado: bool = false
 

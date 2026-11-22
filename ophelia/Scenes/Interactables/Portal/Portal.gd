@@ -71,6 +71,7 @@ var aberto := false
 var _completo := false     # true quando a animação de abrir/fechar terminou
 var _entrando := false
 var _na_entrada: Node2D = null
+var _jogador_entrando: Node2D = null
 var _esq_x0 := 0.0
 var _dir_x0 := 0.0
 var _tween_portas: Tween
@@ -348,6 +349,7 @@ func entrar(quem: Node2D) -> void:
 		return
 
 	_entrando = true
+	_jogador_entrando = quem
 
 	if travar_jogador or andar_sozinho:   # andar sozinho exige travar, senão o seu script briga com o movimento
 		_travar(quem, true)
@@ -569,7 +571,11 @@ func _trocar_cena() -> void:
 	tw.tween_property(cheio, "color:a", 1.0, duracao_encher)
 	# 3) Segura a tela toda branca e SÓ ENTÃO troca a cena
 	tw.tween_interval(segurar_branco)
-	tw.tween_callback(arvore.change_scene_to_file.bind(cena_destino))
+	tw.tween_callback(func():
+		if is_instance_valid(_jogador_entrando):
+			EstadoPartida.entrar_nivel(cena_destino, _jogador_entrando)
+		arvore.change_scene_to_file(cena_destino)
+	)
 	tw.tween_interval(0.15)
 	# 4) A cena nova aparece de dentro da luz
 	tw.tween_property(cheio, "color:a", 0.0, duracao_clarao_descida)\

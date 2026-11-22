@@ -105,13 +105,15 @@ func _ready() -> void:
 
 	for i in 2:
 
-		_halos.append(_nova_linha(largura_do_rastro))
-		_nucleos.append(_nova_linha(largura_do_rastro * 0.35))
+		# Índice 0: fita da frente; índice 1: fita de trás.
+		var camada: Node2D = self if i == 0 else _camada_tras
+		_halos.append(_nova_linha(largura_do_rastro, camada))
+		_nucleos.append(_nova_linha(largura_do_rastro * 0.35, camada))
 		var emissor := _novo_emissor()
-		add_child(emissor)
+		camada.add_child(emissor)
 		_faiscas.append(emissor)
 		var emissor_redoma := _novo_emissor_ponta_redoma()
-		add_child(emissor_redoma)
+		camada.add_child(emissor_redoma)
 		_faiscas_redoma.append(emissor_redoma)
 
 	_faiscas_borda = _novo_emissor_borda()
@@ -360,7 +362,7 @@ func _atualizar_linhas() -> void:
 
 		for p in h:
 
-			pontos.append(to_local(p))
+			pontos.append(_halos[i].to_local(p))
 
 		var mostrar := rastro_ativo and pontos.size() >= 2
 		_halos[i].points = pontos
@@ -874,7 +876,7 @@ func _contorno_fechado(pts: PackedVector2Array, sub: int) -> PackedVector2Array:
 # Nova linha
 # ---------------------
 # Processa nova linha.
-func _nova_linha(largura: float) -> Line2D:
+func _nova_linha(largura: float, camada: Node2D) -> Line2D:
 
 	var linha := Line2D.new()
 	linha.width = largura
@@ -884,7 +886,7 @@ func _nova_linha(largura: float) -> Line2D:
 	linha.joint_mode = Line2D.LINE_JOINT_ROUND
 	linha.material = _mat
 	linha.visible = false
-	add_child(linha)
+	camada.add_child(linha)
 	return linha
 
 # Novo emissor
